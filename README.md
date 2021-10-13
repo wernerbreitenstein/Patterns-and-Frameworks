@@ -8,15 +8,17 @@ TBD
 ## Running the server
 TBD
 
-## Runnint the database
+## Running the database
+TBD
 
 ## Running the tests
 TBD
-# Architectural decisions 
 
-## Database
-We are using PostgreSQL as our relational database.
+# Architectural decisions 
+TBD
+
+## Database System
+PostgreSQL: https://www.postgresql.org
 
 ## Frameworks
-
-* Hibernate (https://hibernate.org/orm/) as ORM framework
+* Hibernate ORM: https://hibernate.org/orm/
