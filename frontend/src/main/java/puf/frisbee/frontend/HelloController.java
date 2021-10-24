@@ -1,4 +1,4 @@
-package patternsandframeworks.frontend;
+package puf.frisbee.frontend;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

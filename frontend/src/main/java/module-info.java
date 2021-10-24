@@ -1,8 +1,8 @@
-module patternsandframeworks.frontend {
+module puf.frisbee.frontend {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens patternsandframeworks.frontend to javafx.fxml;
-    exports patternsandframeworks.frontend;
+    opens puf.frisbee.frontend to javafx.fxml;
+    exports puf.frisbee.frontend;
 }
