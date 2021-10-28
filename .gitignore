@@ -22,8 +22,19 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# IDE files
+# IDE files Visual Studio Code
 .vscode/*
+
+# IDE files IntelliJ
+.idea/*
+
+# IDE files Eclipse
+.classpath
+.project
+.settings/*
+
+# Maven output files
+target/
 
 # Apple Desktop Services Store
 .DS_Store
