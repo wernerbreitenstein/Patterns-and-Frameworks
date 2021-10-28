@@ -24,6 +24,3 @@ hs_err_pid*
 
 # IDE files
 .vscode/*
-
-# Apple Desktop Services Store
-.DS_Store
