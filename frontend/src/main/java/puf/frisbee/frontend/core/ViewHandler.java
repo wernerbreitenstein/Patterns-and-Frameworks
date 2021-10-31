@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import puf.frisbee.frontend.view.LevelView;
+import puf.frisbee.frontend.view.WaitingView;
 
 public class ViewHandler {
     private Stage stage;
@@ -19,7 +20,8 @@ public class ViewHandler {
     public void start()
     {
         // Here we can change later to the waitScreen as first view
-        openLevelView();
+        openWaitingView();
+//        openLevelView();
         this.stage.show();
     }
 
@@ -33,6 +35,22 @@ public class ViewHandler {
             this.stage.setTitle("Frisbee");
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/level.css").toExternalForm());
+            this.stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void openWaitingView() {
+        FXMLLoader waitingLoader = new FXMLLoader();
+        waitingLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/WaitingView.fxml"));
+        try {
+            Parent root = waitingLoader.load();
+            WaitingView waitingView = waitingLoader.getController();
+            waitingView.init(viewModelFactory.getWaitingViewModel());
+            this.stage.setTitle("Frisbee");
+            Scene scene = new Scene(root, 1280, 720);
+            scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/waiting.css").toExternalForm());
             this.stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
