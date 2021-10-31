@@ -3,7 +3,7 @@ Semesterprojekt zur Entwicklung eines auf Java/JavaFX basierenden Computerspiels
 
 # Development
 ## Running the client
-TBD
+Der Client kann über die Main-Class `StartApplication` gestartet werden.
 
 ## Running the server
 TBD
