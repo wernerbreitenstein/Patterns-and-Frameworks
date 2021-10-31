@@ -12,7 +12,7 @@ sollte der Wert des xmlns-Attributs stets geprüft und ggf. manuell
 von "http://javafx.com/javafx/17" auf "http://javafx.com/javafx/15.0.1" 
 angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/level.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.viewmodel.LevelViewModel">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/level.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#adbf93" height="120.0" layoutY="600.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
       <Group layoutX="161.0" layoutY="443.0">
@@ -37,5 +37,6 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
             <Label fx:id="labelCharacterRight" layoutX="696.0" layoutY="100.0" />
          </children>
       </Group>
+      <Label fx:id="labelCountdown" alignment="TOP_CENTER" layoutX="625.0" layoutY="55.0" />
    </children>
 </AnchorPane>
