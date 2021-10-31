@@ -27,6 +27,7 @@ hs_err_pid*
 
 # IDE files IntelliJ
 .idea/*
+frontend.iml
 
 # IDE files Eclipse
 .classpath
