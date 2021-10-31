@@ -4,10 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import puf.frisbee.frontend.FrisbeeApp;
 import puf.frisbee.frontend.view.LevelView;
-
-import java.net.URL;
 
 public class ViewHandler {
     private Stage stage;

@@ -25,6 +25,7 @@ public class LevelView {
         // also later we will have the ViewHandler as dependency, so we can load different views when clicking a button
         // (e.g. after confirming game over)
         this.levelViewModel = levelViewModel;
+        this.labelCountdown.textProperty().bind(levelViewModel.countdownProperty());
     }
 
     @FXML
