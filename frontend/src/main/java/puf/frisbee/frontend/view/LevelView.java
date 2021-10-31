@@ -21,11 +21,10 @@ public class LevelView {
     private LevelViewModel levelViewModel;
 
     public void init(LevelViewModel levelViewModel) {
-        // TODO: use dependency injection later on
         // also later we will have the ViewHandler as dependency, so we can load different views when clicking a button
         // (e.g. after confirming game over)
         this.levelViewModel = levelViewModel;
-        this.labelCountdown.textProperty().bind(levelViewModel.countdownProperty());
+        this.labelCountdown.textProperty().bind(levelViewModel.getCountdownProperty());
     }
 
     @FXML

@@ -12,7 +12,6 @@ public class ViewHandler {
 
     public ViewHandler(ViewModelFactory viewModelFactory) {
         this.stage = new Stage();
-        // TODO: use dependency injection later on
         this.viewModelFactory = viewModelFactory;
     }
 

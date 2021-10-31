@@ -34,7 +34,7 @@ public class LevelViewModel {
 				if (second < 0) {
 					timeline.stop();
 					countdown.setValue("Time over");
-					// TODO: set flag for modal if countdown is 0
+					// TODO: set flag for pop up if countdown is 0
 				}
 			}
 		}));
@@ -42,7 +42,7 @@ public class LevelViewModel {
 		timeline.play();
 	}
 
-	public StringProperty countdownProperty() {
+	public StringProperty getCountdownProperty() {
 		return this.countdown;
 	}
 }
