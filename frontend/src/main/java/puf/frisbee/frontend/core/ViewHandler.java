@@ -18,13 +18,23 @@ public class ViewHandler {
     public void start()
     {
         // Here we can change later to the waitScreen as first view
-        openLevelView();
+        openLevelView(1);
         this.stage.show();
     }
 
-    private void openLevelView() {
+    /**
+     * Loads the view for a level.
+     * @param level that should be loaded
+     */
+    private void openLevelView(int level) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/LevelView.fxml"));
+
+        switch(level) {
+            case 1:
+            default:
+                loader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/LevelView.fxml"));
+        }
+
         try {
             Parent root = loader.load();
             LevelView levelView = loader.getController();
