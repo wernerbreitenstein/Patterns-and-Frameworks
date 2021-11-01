@@ -3,6 +3,8 @@ Semesterprojekt zur Entwicklung eines auf Java/JavaFX basierenden Computerspiels
 
 # Development
 ## Running the client
+Der Client kann über die Main-Class `StartApplication` gestartet werden.
+
 ### Intellij
 Die `frontend.iml` kann man bauen lassen, indem man auf File -> Project Structure geht und 
 ein neues Modul importiert (auf das + klicken). Hier `frontend` in der Ordnerstruktur auswählen
