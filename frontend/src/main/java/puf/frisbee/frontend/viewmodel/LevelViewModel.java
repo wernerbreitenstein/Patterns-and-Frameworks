@@ -66,7 +66,8 @@ public class LevelViewModel {
 		return this.labelLevelSuccess;
 	}
 	public StringProperty getButtonLevelContinueTextProperty() {
-		this.buttonLevelContinueText.setValue("Weiter zu Level " + this.levelModel.getCurrentLevel());
+		int nextLevel = this.levelModel.getCurrentLevel() + 1;
+		this.buttonLevelContinueText.setValue("Weiter zu Level " + nextLevel);
 		return this.buttonLevelContinueText;
 	}
 
