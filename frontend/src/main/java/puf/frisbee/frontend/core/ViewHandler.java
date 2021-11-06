@@ -26,7 +26,7 @@ public class ViewHandler {
      * Loads the view for a level.
      * @param level that should be loaded
      */
-    private void openLevelView(int level) {
+    public void openLevelView(int level) {
         FXMLLoader loader = new FXMLLoader();
 
         switch(level) {
@@ -38,8 +38,8 @@ public class ViewHandler {
         try {
             Parent root = loader.load();
             LevelView levelView = loader.getController();
-            levelView.init(viewModelFactory.getLevelViewModel());
-            this.stage.setTitle("Frisbee");
+            levelView.init(viewModelFactory.getLevelViewModel(), this);
+            this.stage.setTitle("Frisbee Level " + level);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/level.css").toExternalForm());
             this.stage.setScene(scene);

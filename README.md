@@ -1,8 +1,8 @@
-# Description Patterns-and-Frameworks
+# Beschreibung Patterns-and-Frameworks
 Semesterprojekt zur Entwicklung eines auf Java/JavaFX basierenden Computerspiels.
 
 # Development
-## Running the client
+## Client starten
 Der Client kann über die Main-Class `StartApplication` gestartet werden.
 
 ### Intellij
@@ -12,20 +12,21 @@ und bei "Import module from existing model" maven auswählen.
 Bei der Run Configuration kann dann `frontend` als Modul gewählt werden, der Pfad zur Main Application
 ist `puf.frisbee.frontend.StartApplication`.
 
-## Running the server
+## Server starten
 TBD
 
-## Running the database
+## Datenbank starten
 TBD
 
-## Running the tests
+## Tests starten
 TBD
 
-# Architectural decisions 
-TBD
+# Architekturentscheidungen
+Wir benutzen das MVVM-Pattern ohne Framework.
 
-## Database System
+## Datenbank
 PostgreSQL: https://www.postgresql.org
 
-## Frameworks
+## Frameworks und libraries
 * Hibernate ORM: https://hibernate.org/orm/
+* Material Design Library: http://www.jfoenix.com/

@@ -2,10 +2,14 @@ module puf.frisbee.frontend {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires com.jfoenix;
 
 
     opens puf.frisbee.frontend to javafx.fxml;
     exports puf.frisbee.frontend;
+
+    opens puf.frisbee.frontend.core to javafx.fxml;
+    exports puf.frisbee.frontend.core;
 
     opens puf.frisbee.frontend.model to javafx.fxml;
     exports puf.frisbee.frontend.model;
