@@ -57,7 +57,7 @@ public class ViewHandler {
         try {
             Parent root = waitingLoader.load();
             WaitingView waitingView = waitingLoader.getController();
-            waitingView.init(viewModelFactory.getWaitingViewModel());
+            waitingView.init(viewModelFactory.getWaitingViewModel(), this);
             this.stage.setTitle("Frisbee");
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/waiting.css").toExternalForm());

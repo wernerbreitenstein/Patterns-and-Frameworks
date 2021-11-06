@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/waiting.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.WaitingView">
    <children>
-      <Button fx:id="startButton" layoutX="615.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#handleStartButtonClicked" text="Start" />
-      <Label fx:id="startLabel" alignment="CENTER" layoutX="455.0" layoutY="382.0" />
+      <JFXButton fx:id="startButton" layoutX="625.0" layoutY="348.0" onMouseClicked="#handleStartButtonClicked" text="Start" />
+      <Text fx:id="startText" layoutX="469.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warte auf zweites Monster, um das Spiel zu beginnen..." />
+      <ImageView fx:id="frisbee" fitHeight="62.0" fitWidth="138.0" layoutX="698.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/frisbee.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

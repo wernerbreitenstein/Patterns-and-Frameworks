@@ -18,5 +18,5 @@ public class ViewModelFactory {
         return new LevelViewModel(modelFactory.getLevelModel());
     }
 
-    public WaitingViewModel getWaitingViewModel() { return new WaitingViewModel(); }
+    public WaitingViewModel getWaitingViewModel() { return new WaitingViewModel(modelFactory.getLevelModel()); }
 }
