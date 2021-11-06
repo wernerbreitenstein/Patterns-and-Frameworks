@@ -1,11 +1,22 @@
 package puf.frisbee.frontend.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import javafx.scene.layout.StackPane;
+import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class LevelView {
+    @FXML
+    private StackPane modalRoot;
+
+    @FXML
+    private JFXDialog levelSuccessDialog;
+
     @FXML
     private Label labelCharacterLeft;
 
@@ -18,14 +29,27 @@ public class LevelView {
     @FXML
     private Label labelCountdown;
 
-    private LevelViewModel levelViewModel;
+    @FXML
+    private Label labelLevelSuccess;
 
-    public void init(LevelViewModel levelViewModel) {
-        // TODO: use dependency injection later on
-        // also later we will have the ViewHandler as dependency, so we can load different views when clicking a button
-        // (e.g. after confirming game over)
+    @FXML
+    private JFXButton buttonLevelContinue;
+
+
+    private LevelViewModel levelViewModel;
+    private ViewHandler viewHandler;
+
+    public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
         this.levelViewModel = levelViewModel;
-        this.labelCountdown.textProperty().bind(levelViewModel.countdownProperty());
+        this.viewHandler = viewHandler;
+
+        this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
+        this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
+        this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
+
+        this.levelSuccessDialog.setTransitionType(JFXDialog.DialogTransition.TOP);
+        this.levelSuccessDialog.setDialogContainer(this.modalRoot);
+        this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
     }
 
     @FXML
@@ -41,5 +65,11 @@ public class LevelView {
     @FXML
     private void handleFrisbeeClicked(MouseEvent event) {
         labelFrisbee.setText("Los geht's!");
+    }
+
+    @FXML
+    private void handleLevelContinueClicked(ActionEvent event) {
+        levelViewModel.continueLevel();
+        this.viewHandler.openLevelView(this.levelViewModel.getLevel());
     }
 }

@@ -1,16 +1,19 @@
 package puf.frisbee.frontend.model;
 
-// TODO: add interface for class
-public class LevelModel {
-    private int countdownSeconds;
-
-    public void setCountdown(int countdownSeconds)
-    {
-        this.countdownSeconds = countdownSeconds;
-    }
+public class LevelModel implements Level {
+    // TODO: get this from the server
+    private int countdownInSeconds = 10;
+    private int currentLevel = 1;
 
     public int getCountdown() {
-        return this.countdownSeconds;
+        return this.countdownInSeconds;
     }
 
+    public int getCurrentLevel() {
+        return this.currentLevel;
+    }
+
+    public void updateCurrentLevel() {
+        currentLevel++;
+    }
 }

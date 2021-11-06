@@ -38,6 +38,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>9.0.10</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -60,7 +65,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>puf.frisbee.frontend/puf.frisbee.frontend.StartApplication</mainClass>
+                            <mainClass>puf.frisbee.frontend/puf.frisbee.frontend.StartFrisbeeApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 
 <!-- Da der SceneBuilder mit einer eigenen JRE-Version 17 arbeitet, 
@@ -12,7 +16,7 @@ sollte der Wert des xmlns-Attributs stets geprüft und ggf. manuell
 von "http://javafx.com/javafx/17" auf "http://javafx.com/javafx/15.0.1" 
 angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/level.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/level.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#adbf93" height="120.0" layoutY="600.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
       <Group layoutX="161.0" layoutY="443.0">
@@ -38,5 +42,19 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
          </children>
       </Group>
       <Label fx:id="labelCountdown" alignment="TOP_CENTER" layoutX="625.0" layoutY="55.0" />
+      <StackPane fx:id="modalRoot" layoutY="-1.0" prefHeight="722.0" prefWidth="1281.0">
+         <children>
+            <JFXDialog fx:id="levelSuccessDialog" prefHeight="313.0" prefWidth="433.0">
+               <JFXDialogLayout>
+                  <heading>
+                     <Label fx:id="labelLevelSuccess" />
+                  </heading>
+                  <actions>
+                     <JFXButton fx:id="buttonLevelContinue" onAction="#handleLevelContinueClicked" />
+                  </actions>
+               </JFXDialogLayout>
+            </JFXDialog>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>

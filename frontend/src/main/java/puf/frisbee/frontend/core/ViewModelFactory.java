@@ -7,7 +7,6 @@ public class ViewModelFactory {
     private ModelFactory modelFactory;
 
     public ViewModelFactory(ModelFactory modelFactory) {
-        // TODO: use dependency injection later on
         this.modelFactory = modelFactory;
     }
 
