@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/waiting.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.WaitingView">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/waiting.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.WaitingView">
    <children>
       <JFXButton fx:id="startButton" layoutX="625.0" layoutY="348.0" onMouseClicked="#handleStartButtonClicked" text="Start" />
       <Text fx:id="startText" layoutX="469.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warte auf zweites Monster, um das Spiel zu beginnen..." />

@@ -1,16 +1,12 @@
 package puf.frisbee.frontend.view;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import puf.frisbee.frontend.core.ViewHandler;
-import puf.frisbee.frontend.viewmodel.WaitingViewModel;
+import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class WaitingView {
 
@@ -23,15 +19,12 @@ public class WaitingView {
     @FXML
     private ImageView frisbee;
 
-    private WaitingViewModel waitingViewModel;
+    private LevelViewModel levelViewModel;
     private ViewHandler viewHandler;
 
-    public void init(WaitingViewModel waitingViewModel, ViewHandler viewHandler) {
-        // TODO: use dependency injection later on
-        // also later we will have the ViewHandler as dependency, so we can load different views when clicking a button
-        // (e.g. after confirming game over)
+    public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
-        this.waitingViewModel = waitingViewModel;
+        this.levelViewModel = levelViewModel;
     }
 
     @FXML
@@ -40,6 +33,6 @@ public class WaitingView {
 //        TranslateTransition tt = new TranslateTransition(Duration.seconds(2), frisbee);
 //        tt.setByX(200);
 //        tt.play();
-        this.viewHandler.openLevelView(this.waitingViewModel.getLevel());
+        this.viewHandler.openLevelView(this.levelViewModel.getLevel());
     }
 }

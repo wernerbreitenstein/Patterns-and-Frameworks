@@ -1,7 +1,6 @@
 package puf.frisbee.frontend.core;
 
 import puf.frisbee.frontend.viewmodel.LevelViewModel;
-import puf.frisbee.frontend.viewmodel.WaitingViewModel;
 
 public class ViewModelFactory {
     private ModelFactory modelFactory;
@@ -17,6 +16,4 @@ public class ViewModelFactory {
     public LevelViewModel getLevelViewModel() {
         return new LevelViewModel(modelFactory.getLevelModel());
     }
-
-    public WaitingViewModel getWaitingViewModel() { return new WaitingViewModel(modelFactory.getLevelModel()); }
 }
