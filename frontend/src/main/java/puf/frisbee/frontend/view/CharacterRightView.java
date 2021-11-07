@@ -10,6 +10,6 @@ public class CharacterRightView {
 
     @FXML
     private void handleCharacterRightClicked(MouseEvent event) {
-        labelCharacterRight.setText("Hey, ich bin Bonnie!");
+        labelCharacterRight.setText("Hey, ich bin Clyde!");
     }
 }
