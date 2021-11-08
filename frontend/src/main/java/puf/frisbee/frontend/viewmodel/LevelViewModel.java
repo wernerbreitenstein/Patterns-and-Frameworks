@@ -2,15 +2,10 @@ package puf.frisbee.frontend.viewmodel;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.util.Duration;
 import puf.frisbee.frontend.model.LevelModel;
 
@@ -21,7 +16,6 @@ public class LevelViewModel {
 	private StringProperty buttonLevelContinueText;
 	private int second;
 	private BooleanProperty showLevelSuccessDialog;
-
 
 	public LevelViewModel(LevelModel levelModel) {
 		this.levelModel = levelModel;
@@ -61,10 +55,12 @@ public class LevelViewModel {
 	public StringProperty getLabelCountdownProperty() {
 		return this.labelCountdown;
 	}
+
 	public StringProperty getLabelLevelSuccessProperty() {
 		this.labelLevelSuccess.setValue("Level " + this.levelModel.getCurrentLevel() + " geschafft!");
 		return this.labelLevelSuccess;
 	}
+
 	public StringProperty getButtonLevelContinueTextProperty() {
 		int nextLevel = this.levelModel.getCurrentLevel() + 1;
 		this.buttonLevelContinueText.setValue("Weiter zu Level " + nextLevel);

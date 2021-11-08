@@ -11,65 +11,64 @@ import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class LevelView {
-    @FXML
-    private StackPane modalRoot;
+	@FXML
+	private StackPane modalRoot;
 
-    @FXML
-    private JFXDialog levelSuccessDialog;
+	@FXML
+	private JFXDialog levelSuccessDialog;
 
-    @FXML
-    private Label labelCharacterLeft;
+	@FXML
+	private Label labelCharacterLeft;
 
-    @FXML
-    private Label labelCharacterRight;
+	@FXML
+	private Label labelCharacterRight;
 
-    @FXML
-    private Label labelFrisbee;
+	@FXML
+	private Label labelFrisbee;
 
-    @FXML
-    private Label labelCountdown;
+	@FXML
+	private Label labelCountdown;
 
-    @FXML
-    private Label labelLevelSuccess;
+	@FXML
+	private Label labelLevelSuccess;
 
-    @FXML
-    private JFXButton buttonLevelContinue;
+	@FXML
+	private JFXButton buttonLevelContinue;
 
+	private LevelViewModel levelViewModel;
+	private ViewHandler viewHandler;
 
-    private LevelViewModel levelViewModel;
-    private ViewHandler viewHandler;
+	public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
+		this.levelViewModel = levelViewModel;
+		this.viewHandler = viewHandler;
 
-    public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
-        this.levelViewModel = levelViewModel;
-        this.viewHandler = viewHandler;
+		this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
+		this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
+		this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
 
-        this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
-        this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
-        this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
+		this.levelSuccessDialog.setTransitionType(JFXDialog.DialogTransition.TOP);
+		this.levelSuccessDialog.setDialogContainer(this.modalRoot);
+		this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
+	}
 
-        this.levelSuccessDialog.setTransitionType(JFXDialog.DialogTransition.TOP);
-        this.levelSuccessDialog.setDialogContainer(this.modalRoot);
-        this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
-    }
+	@FXML
+	private void handleCharacterLeftClicked(MouseEvent event) {
+		labelCharacterLeft.setText("Hey, ich bin Bonnie!");
+	}
 
-    @FXML
-    private void handleCharacterLeftClicked(MouseEvent event) {
-        labelCharacterLeft.setText("Hey, ich bin Bonnie!");
-    }
+	@FXML
+	private void handleCharacterRightClicked(MouseEvent event) {
+		labelCharacterRight.setText("Hey, ich bin Clyde!");
+	}
 
-    @FXML
-    private void handleCharacterRightClicked(MouseEvent event) {
-        labelCharacterRight.setText("Hey, ich bin Clyde!");
-    }
+	@FXML
+	private void handleFrisbeeClicked(MouseEvent event) {
+		labelFrisbee.setText("Los geht's!");
+	}
 
-    @FXML
-    private void handleFrisbeeClicked(MouseEvent event) {
-        labelFrisbee.setText("Los geht's!");
-    }
-
-    @FXML
-    private void handleLevelContinueClicked(ActionEvent event) {
-        levelViewModel.continueLevel();
-        this.viewHandler.openLevelView(this.levelViewModel.getLevel());
-    }
+	@FXML
+	private void handleLevelContinueClicked(ActionEvent event) {
+		levelViewModel.continueLevel();
+		this.viewHandler.openLevelView(this.levelViewModel.getLevel());
+	}
 }

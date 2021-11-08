@@ -3,22 +3,34 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDialog?>
 <?import com.jfoenix.controls.JFXDialogLayout?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <!-- Da der SceneBuilder mit einer eigenen JRE-Version 17 arbeitet, 
 sollte der Wert des xmlns-Attributs stets geprüft und ggf. manuell 
 von "http://javafx.com/javafx/17" auf "http://javafx.com/javafx/15.0.1" 
 angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/level.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
    <children>
-      <StackPane fx:id="modalRoot" layoutY="-1.0" prefHeight="722.0" prefWidth="1281.0">
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/landscape_autumn.png" />
+         </image>
+      </ImageView>
+	<StackPane fx:id="modalRoot" prefHeight="720.0" prefWidth="1280.0">
          <children>
             <JFXDialog fx:id="levelSuccessDialog" prefHeight="313.0" prefWidth="433.0">
                <JFXDialogLayout>
@@ -32,15 +44,14 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
             </JFXDialog>
          </children>
       </StackPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#adbf93" height="120.0" layoutY="600.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-      <Group layoutX="161.0" layoutY="443.0">
+      <Group layoutX="161.0" layoutY="410.0">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#handleCharacterLeftClicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
+            <ImageView fitHeight="257.0" fitWidth="150.0" onMouseClicked="#handleCharacterLeftClicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
                <image>
                   <Image url="@../images/Character_01.gif" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="808.0" layoutY="6.0" onMouseClicked="#handleCharacterRightClicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="808.0" onMouseClicked="#handleCharacterRightClicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
                <image>
                   <Image url="@../images/Character_02.gif" />
                </image>
@@ -55,6 +66,147 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
             <Label fx:id="labelCharacterRight" layoutX="696.0" layoutY="100.0" />
          </children>
       </Group>
-      <Label fx:id="labelCountdown" alignment="TOP_CENTER" layoutX="625.0" layoutY="55.0" />
+      <Group>
+         <children>
+            <Rectangle height="80.0" opacity="0.7" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
+            <GridPane hgap="20.0" prefHeight="80.0" prefWidth="1280.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="975.5" minWidth="10.0" prefWidth="947.5" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="377.0" minWidth="10.0" prefWidth="312.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="40.0">
+                     <children>
+                        <VBox alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="TEAM" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="10.0" text="Bonnie &amp; Clyde" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="215.0" layoutY="10.0">
+                           <children>
+                              <Label text="LEVEL" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelCountdown2" alignment="TOP_CENTER" text="1" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="20.0">
+                           <children>
+                              <Label text="TIME REMAINING" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelCountdown" alignment="TOP_CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="215.0" layoutY="20.0">
+                           <children>
+                              <Label text="CURRENT SCORE" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelCountdown1" alignment="TOP_CENTER" text="123" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="361.0" layoutY="20.0">
+                           <children>
+                              <Label text="HIGHEST SCORE" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelCountdown11" alignment="TOP_CENTER" text="1001" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="758.0" spacing="10.0" GridPane.columnIndex="1">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Frisbee_2.gif" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="20.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Frisbee_2.gif" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="90.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Frisbee_2.gif" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="160.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Frisbee_2.gif" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="200.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Frisbee_2.gif" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </GridPane>
+         </children>
+      </Group>
+      <Group>
+         <children>
+            <Rectangle height="40.0" layoutY="680.0" opacity="0.7" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
+            <HBox alignment="CENTER_LEFT" layoutY="680.0" prefHeight="40.0" prefWidth="1280.0">
+               <children>
+                  <Label text="Use up and down arrow keys to jump." textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </Group>
    </children>
 </AnchorPane>
