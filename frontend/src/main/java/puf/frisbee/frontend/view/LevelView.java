@@ -2,20 +2,26 @@ package puf.frisbee.frontend.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class LevelView {
 	@FXML
-	private StackPane modalRoot;
+	private VBox modalRoot;
 
 	@FXML
-	private JFXDialog levelSuccessDialog;
+	private GridPane levelSuccessDialog;
+	
+	@FXML
+	private Label labelPlayerLeft;
+
+	@FXML
+	private Label labelPlayerRight;
 
 	@FXML
 	private Label labelCharacterLeft;
@@ -28,12 +34,18 @@ public class LevelView {
 
 	@FXML
 	private Label labelCountdown;
+	
+	@FXML
+	private Label labelLevel;
+	
+	@FXML
+	private Label labelScore;
 
 	@FXML
 	private Label labelLevelSuccess;
 
 	@FXML
-	private JFXButton buttonLevelContinue;
+	private Button buttonLevelContinue;
 
 	private LevelViewModel levelViewModel;
 	private ViewHandler viewHandler;
@@ -46,8 +58,6 @@ public class LevelView {
 		this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
 
-		this.levelSuccessDialog.setTransitionType(JFXDialog.DialogTransition.TOP);
-		this.levelSuccessDialog.setDialogContainer(this.modalRoot);
 		this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
 	}
 

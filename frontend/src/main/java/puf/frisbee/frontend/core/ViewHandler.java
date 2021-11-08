@@ -60,8 +60,7 @@ public class ViewHandler {
 			waitingView.init(viewModelFactory.getLevelViewModel(), this);
 			this.stage.setTitle("Frisbee");
 			Scene scene = new Scene(root, sceneWidth, sceneHeight);
-			scene.getStylesheets()
-					.add(getClass().getResource("/puf/frisbee/frontend/css/waiting.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/waiting.css").toExternalForm());
 			this.stage.setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
