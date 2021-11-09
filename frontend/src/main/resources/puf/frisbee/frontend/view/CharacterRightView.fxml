@@ -7,11 +7,11 @@
 
 <Pane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.CharacterRightView">
  <children>
-     <Label fx:id="labelCharacterRight" layoutX="808.0" />
-      <ImageView fitHeight="225.0" fitWidth="300.0" layoutX="808.0" layoutY="5.0" onMouseClicked="#handleCharacterRightClicked" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@../images/Character_02.gif" />
-          </image>
-      </ImageView>
+     <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="808.0" onMouseClicked="#handleCharacterRightClicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
+         <image>
+             <Image url="@../images/Character_02.gif" />
+         </image>
+     </ImageView>
+     <Label fx:id="labelCharacterRight" layoutX="696.0" layoutY="100.0" />
  </children>
 </Pane>

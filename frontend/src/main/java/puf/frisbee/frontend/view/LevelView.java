@@ -2,74 +2,83 @@ package puf.frisbee.frontend.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class LevelView {
-    @FXML
-    private StackPane modalRoot;
+	@FXML
+	private VBox modalRoot;
 
-    @FXML
-    private JFXDialog levelSuccessDialog;
+	@FXML
+	private GridPane levelSuccessDialog;
+	
+	@FXML
+	private Label labelPlayerLeft;
 
-    @FXML
-    private Label labelCharacterLeft;
+	@FXML
+	private Label labelPlayerRight;
 
-    @FXML
-    private Label labelCharacterRight;
+	@FXML
+	private Label labelCharacterLeft;
 
-    @FXML
-    private Label labelFrisbee;
+	@FXML
+	private Label labelCharacterRight;
 
-    @FXML
-    private Label labelCountdown;
+	@FXML
+	private Label labelFrisbee;
 
-    @FXML
-    private Label labelLevelSuccess;
+	@FXML
+	private Label labelCountdown;
+	
+	@FXML
+	private Label labelLevel;
+	
+	@FXML
+	private Label labelScore;
 
-    @FXML
-    private JFXButton buttonLevelContinue;
+	@FXML
+	private Label labelLevelSuccess;
 
+	@FXML
+	private Button buttonLevelContinue;
 
-    private LevelViewModel levelViewModel;
-    private ViewHandler viewHandler;
+	private LevelViewModel levelViewModel;
+	private ViewHandler viewHandler;
 
-    public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
-        this.levelViewModel = levelViewModel;
-        this.viewHandler = viewHandler;
+	public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
+		this.levelViewModel = levelViewModel;
+		this.viewHandler = viewHandler;
 
-        this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
-        this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
-        this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
+		this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
+		this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
+		this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
 
-        this.levelSuccessDialog.setTransitionType(JFXDialog.DialogTransition.TOP);
-        this.levelSuccessDialog.setDialogContainer(this.modalRoot);
-        this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
-    }
+		this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
+	}
 
-    @FXML
-    private void handleCharacterLeftClicked(MouseEvent event) {
-        labelCharacterLeft.setText("Hey, ich bin Bonnie!");
-    }
+	@FXML
+	private void handleCharacterLeftClicked(MouseEvent event) {
+		labelCharacterLeft.setText("Hey, ich bin Bonnie!");
+	}
 
-    @FXML
-    private void handleCharacterRightClicked(MouseEvent event) {
-        labelCharacterRight.setText("Hey, ich bin Clyde!");
-    }
+	@FXML
+	private void handleCharacterRightClicked(MouseEvent event) {
+		labelCharacterRight.setText("Hey, ich bin Clyde!");
+	}
 
-    @FXML
-    private void handleFrisbeeClicked(MouseEvent event) {
-        labelFrisbee.setText("Los geht's!");
-    }
+	@FXML
+	private void handleFrisbeeClicked(MouseEvent event) {
+		labelFrisbee.setText("Los geht's!");
+	}
 
-    @FXML
-    private void handleLevelContinueClicked(ActionEvent event) {
-        levelViewModel.continueLevel();
-        this.viewHandler.openLevelView(this.levelViewModel.getLevel());
-    }
+	@FXML
+	private void handleLevelContinueClicked(ActionEvent event) {
+		levelViewModel.continueLevel();
+		this.viewHandler.openLevelView(this.levelViewModel.getLevel());
+	}
 }

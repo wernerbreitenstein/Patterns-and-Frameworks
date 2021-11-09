@@ -5,46 +5,65 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import puf.frisbee.frontend.view.LevelView;
+import puf.frisbee.frontend.view.WaitingView;
 
 public class ViewHandler {
-    private Stage stage;
-    private ViewModelFactory viewModelFactory;
+	private Stage stage;
+	private ViewModelFactory viewModelFactory;
+	private final int sceneWidth = 1280;
+	private final int sceneHeight = 720;
 
-    public ViewHandler(ViewModelFactory viewModelFactory) {
-        this.stage = new Stage();
-        this.viewModelFactory = viewModelFactory;
-    }
+	public ViewHandler(ViewModelFactory viewModelFactory) {
+		this.stage = new Stage();
+		// TODO: use dependency injection later on
+		this.viewModelFactory = viewModelFactory;
+	}
 
-    public void start()
-    {
-        // Here we can change later to the waitScreen as first view
-        openLevelView(1);
-        this.stage.show();
-    }
+	public void start() {
+		openWaitingView();
+		this.stage.show();
+	}
 
-    /**
-     * Loads the view for a level.
-     * @param level that should be loaded
-     */
-    public void openLevelView(int level) {
-        FXMLLoader loader = new FXMLLoader();
+	/**
+	 * Loads the view for a level.
+	 * 
+	 * @param level that should be loaded
+	 */
+	public void openLevelView(int level) {
+		FXMLLoader loader = new FXMLLoader();
 
-        switch(level) {
-            case 1:
-            default:
-                loader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/LevelView.fxml"));
-        }
+		switch (level) {
+		case 1:
+		default:
+			loader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/LevelView.fxml"));
+		}
 
-        try {
-            Parent root = loader.load();
-            LevelView levelView = loader.getController();
-            levelView.init(viewModelFactory.getLevelViewModel(), this);
-            this.stage.setTitle("Frisbee Level " + level);
-            Scene scene = new Scene(root, 1280, 720);
-            scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/level.css").toExternalForm());
-            this.stage.setScene(scene);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		try {
+			Parent root = loader.load();
+			LevelView levelView = loader.getController();
+			levelView.init(viewModelFactory.getLevelViewModel(), this);
+			this.stage.setTitle("Frisbee Level " + level);
+			Scene scene = new Scene(root, sceneWidth, sceneHeight);
+			scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/level.css").toExternalForm());
+			this.stage.setScene(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void openWaitingView() {
+		FXMLLoader waitingLoader = new FXMLLoader();
+		waitingLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/WaitingView.fxml"));
+		try {
+			Parent root = waitingLoader.load();
+			WaitingView waitingView = waitingLoader.getController();
+			waitingView.init(viewModelFactory.getLevelViewModel(), this);
+			this.stage.setTitle("Frisbee");
+			Scene scene = new Scene(root, sceneWidth, sceneHeight);
+			scene.getStylesheets().add(getClass().getResource("/puf/frisbee/frontend/css/waiting.css").toExternalForm());
+			this.stage.setScene(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
