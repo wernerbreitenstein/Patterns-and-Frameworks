@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import puf.frisbee.frontend.core.ViewHandler;
@@ -12,31 +13,14 @@ import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class LevelView {
 	@FXML
-	private VBox modalRoot;
-
-	@FXML
 	private GridPane levelSuccessDialog;
-	
-	@FXML
-	private Label labelPlayerLeft;
-
-	@FXML
-	private Label labelPlayerRight;
-
-	@FXML
-	private Label labelCharacterLeft;
-
-	@FXML
-	private Label labelCharacterRight;
 
 	@FXML
 	private Label labelFrisbee;
 
 	@FXML
 	private Label labelCountdown;
-	
-	@FXML
-	private Label labelLevel;
+
 	
 	@FXML
 	private Label labelScore;
@@ -59,16 +43,6 @@ public class LevelView {
 		this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
 
 		this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
-	}
-
-	@FXML
-	private void handleCharacterLeftClicked(MouseEvent event) {
-		labelCharacterLeft.setText("Hey, ich bin Bonnie!");
-	}
-
-	@FXML
-	private void handleCharacterRightClicked(MouseEvent event) {
-		labelCharacterRight.setText("Hey, ich bin Clyde!");
 	}
 
 	@FXML
