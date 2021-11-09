@@ -1,6 +1,5 @@
 package puf.frisbee.frontend;
 
-
 import javafx.application.Application;
 
 public class StartFrisbeeApp {

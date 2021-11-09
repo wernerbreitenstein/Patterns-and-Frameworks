@@ -10,29 +10,29 @@ import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class WaitingView {
 
-    @FXML
-    private JFXButton startButton;
+	@FXML
+	private JFXButton startButton;
 
-    @FXML
-    private Text startText;
+	@FXML
+	private Text startText;
 
-    @FXML
-    private ImageView frisbee;
+	@FXML
+	private ImageView frisbee;
 
-    private LevelViewModel levelViewModel;
-    private ViewHandler viewHandler;
+	private LevelViewModel levelViewModel;
+	private ViewHandler viewHandler;
 
-    public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
-        this.viewHandler = viewHandler;
-        this.levelViewModel = levelViewModel;
-    }
+	public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
+		this.viewHandler = viewHandler;
+		this.levelViewModel = levelViewModel;
+	}
 
-    @FXML
-    private void handleStartButtonClicked(MouseEvent event) {
+	@FXML
+	private void handleStartButtonClicked(MouseEvent event) {
 //        TODO: Animate frisbee
 //        TranslateTransition tt = new TranslateTransition(Duration.seconds(2), frisbee);
 //        tt.setByX(200);
 //        tt.play();
-        this.viewHandler.openLevelView(this.levelViewModel.getLevel());
-    }
+		this.viewHandler.openLevelView(this.levelViewModel.getLevel());
+	}
 }
