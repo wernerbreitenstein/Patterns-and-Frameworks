@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
@@ -21,6 +19,8 @@ public class LevelView {
 	@FXML
 	private Label labelCountdown;
 
+	@FXML
+	private Label labelLevel;
 	
 	@FXML
 	private Label labelScore;
