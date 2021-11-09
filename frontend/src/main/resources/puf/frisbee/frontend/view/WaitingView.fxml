@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/waiting.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.WaitingView">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.WaitingView">
    <children>
       <Button fx:id="startButton" layoutX="605.0" layoutY="420.0" mnemonicParsing="false" onMouseClicked="#handleStartButtonClicked" text="Los geht's!" />
       <Text fx:id="startText" layoutX="469.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warte auf das zweite Monster, um das Spiel zu beginnen..." />
@@ -16,4 +17,8 @@
          </image>
       </ImageView>
    </children>
+   <stylesheets>
+      <URL value="@../css/main.css" />
+      <URL value="@../css/waiting.css" />
+   </stylesheets>
 </AnchorPane>
