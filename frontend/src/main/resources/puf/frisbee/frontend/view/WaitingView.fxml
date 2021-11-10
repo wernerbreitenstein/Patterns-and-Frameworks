@@ -23,7 +23,7 @@
             <Button fx:id="startButton" mnemonicParsing="false" onMouseClicked="#handleStartButtonClicked" stylesheets="@../css/main.css" text="Los geht's!" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1280.0">
+      <VBox alignment="CENTER" layoutY="310.0" prefHeight="90.0" prefWidth="1280.0">
          <children>
             <ImageView fx:id="frisbee" fitHeight="97.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                <image>
