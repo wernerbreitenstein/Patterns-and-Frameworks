@@ -72,7 +72,7 @@ public class ViewHandler {
 		try {
 			Parent root = highscoreViewLoader.load();
 			HighscoreView highscoreView = highscoreViewLoader.getController();
-			highscoreView.init(this);
+			highscoreView.init(viewModelFactory.getHighscoreViewModel(),this);
 			this.stage.setTitle("Frisbee");
 			Scene scene = new Scene(root, sceneWidth, sceneHeight);
 			this.stage.setScene(scene);
