@@ -37,7 +37,7 @@
                           <PropertyValueFactory property="level" />
                       </cellValueFactory>
                   </TableColumn>
-                <TableColumn prefWidth="170.07550048828125" text="Punkte">
+                <TableColumn fx:id="highscoreScore" prefWidth="170.07550048828125" text="Punkte">
                     <cellValueFactory>
                         <PropertyValueFactory property="score" />
                     </cellValueFactory>

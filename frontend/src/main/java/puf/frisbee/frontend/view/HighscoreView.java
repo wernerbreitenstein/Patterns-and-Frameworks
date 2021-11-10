@@ -1,6 +1,5 @@
 package puf.frisbee.frontend.view;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -13,13 +12,20 @@ public class HighscoreView {
     @FXML
     TableView<Team> highscoreTable;
 
+    @FXML
+    TableColumn<Team, Integer> highscoreScore;
+
     private HighscoreViewModel highscoreViewModel;
     private ViewHandler viewHandler;
 
     public void init(HighscoreViewModel highscoreViewModel, ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
         this.highscoreViewModel = highscoreViewModel;
+
         this.highscoreTable.setItems(highscoreViewModel.getHighscoreTableItems());
+        this.highscoreScore.setSortType(TableColumn.SortType.DESCENDING);
+        this.highscoreTable.getSortOrder().add(highscoreScore);
+        this.highscoreTable.sort();
     }
 
 
@@ -31,5 +37,6 @@ public class HighscoreView {
     @FXML
     private void handleRefreshButtonClicked(MouseEvent event) {
         this.highscoreViewModel.refreshData();
+        this.highscoreTable.sort();
     }
 }
