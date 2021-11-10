@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class HighscoreModel {
     // TODO: get all data from backend
-    private ArrayList<Team> teams = new ArrayList<>();
-
     public ArrayList<Team> getTeams() {
+        ArrayList<Team> teams = new ArrayList<>();
+
         Random random = new Random();
 
         for (int i = 0; i < 10; i++) {

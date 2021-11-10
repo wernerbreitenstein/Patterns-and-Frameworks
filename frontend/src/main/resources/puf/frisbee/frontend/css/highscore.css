@@ -3,16 +3,32 @@
 	-fx-background-size: contain;
 }
 
-.highscore-table,
-.highscore-table .table-column {
-	-fx-background-color: rgba(0, 0, 0, 0.4);
-	-fx-text-fill: rgb(255, 255, 255);
+.highscore-table {
+	-fx-base: rgba(0, 0, 0, 0.2);
+	-fx-background-color: rgba(0, 0, 0, 0.2);
 }
+
+.highscore-table .column-header {
+	-fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
 .highscore-table .column-header .label {
 	-fx-text-fill: rgb(255, 255, 255);
 	-fx-font-weight: bold;
 }
 
 .highscore-table .table-row-cell:even .label {
-	-fx-background-color: rgba(255, 255, 255, 0.1);
+	-fx-background-color: rgba(255, 255, 255, 0.2);
+	-fx-text-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.highscore-table .table-row-cell:selected {
+	-fx-background-color:rgba(255, 255, 255, 0.2);
+}
+
+.highscore-table .cell {
+	-fx-cell-size: 40;
+	-fx-alignment: center-left;
+	-fx-text-fill: rgb(255, 255, 255);
+	-fx-padding: 5 5 5 5;
 }

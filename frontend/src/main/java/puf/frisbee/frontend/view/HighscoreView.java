@@ -27,4 +27,9 @@ public class HighscoreView {
     private void handleStartButtonClicked(MouseEvent event) {
         this.viewHandler.openWaitingView();
     }
+
+    @FXML
+    private void handleRefreshButtonClicked(MouseEvent event) {
+        this.highscoreViewModel.refreshData();
+    }
 }

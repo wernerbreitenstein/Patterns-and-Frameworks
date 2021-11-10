@@ -20,7 +20,11 @@ public class HighscoreViewModel {
      * @return an obersable list of teams with name, level and score
      */
     public ObservableList<Team> getHighscoreTableItems() {
-        this.highscoreTableProperty.setAll(highscoreModel.getTeams());
+        this.refreshData();
         return this.highscoreTableProperty;
+    }
+
+    public void refreshData() {
+        this.highscoreTableProperty.setAll(highscoreModel.getTeams());
     }
 }
