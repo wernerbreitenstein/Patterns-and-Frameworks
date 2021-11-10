@@ -3,27 +3,3 @@
 	-fx-background-size: contain;
 }
 
-.modal-background {
-	-fx-background-color: rgba(0, 0, 0, 0.4);
-}
-
-.dialog-background {
-	-fx-background-color: rgba(0, 0, 0, 0.8);
-}
-
-.dialog-text {
-	-fx-font-family: "sans-serif";
-	-fx-font-size: 14px;
-	-fx-padding: 10px 20px;
-	-fx-text-fill: rgba(255, 255, 255, 1);
-}
-
-.dialog-h1 {
-	-fx-font-size: 20px;
-	-fx-font-weight: bold;
-}
-
-.button {
-	-fx-background-color: rgba(255, 255, 255, 1);
-	-fx-text-fill: rgba(0, 0, 0, 0.8);
-}
