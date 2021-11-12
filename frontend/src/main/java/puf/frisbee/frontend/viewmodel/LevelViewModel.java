@@ -55,7 +55,7 @@ public class LevelViewModel {
 	}
 	
 	public StringProperty getLevelProperty() {
-		this.level.setValue("" + this.levelModel.getCurrentLevel());
+		this.level.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
 		return this.level;
 	}
 
