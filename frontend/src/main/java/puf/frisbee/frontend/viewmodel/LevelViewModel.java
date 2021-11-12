@@ -11,6 +11,7 @@ import puf.frisbee.frontend.model.LevelModel;
 
 public class LevelViewModel {
 	private LevelModel levelModel;
+	private StringProperty level;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevelSuccess;
 	private StringProperty buttonLevelContinueText;
@@ -19,6 +20,7 @@ public class LevelViewModel {
 
 	public LevelViewModel(LevelModel levelModel) {
 		this.levelModel = levelModel;
+		this.level = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
@@ -50,6 +52,11 @@ public class LevelViewModel {
 
 	public int getLevel() {
 		return this.levelModel.getCurrentLevel();
+	}
+	
+	public StringProperty getLevelProperty() {
+		this.level.setValue("" + this.levelModel.getCurrentLevel());
+		return this.level;
 	}
 
 	public StringProperty getLabelCountdownProperty() {
