@@ -38,6 +38,7 @@ public class LevelView {
 		this.levelViewModel = levelViewModel;
 		this.viewHandler = viewHandler;
 
+		this.labelLevel.textProperty().bind(this.levelViewModel.getLevelProperty());	
 		this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
 		this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
