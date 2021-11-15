@@ -29,7 +29,7 @@
               <columns>
                 <TableColumn prefWidth="564.8964691162109" text="Team">
                     <cellValueFactory>
-                        <PropertyValueFactory property="name" />
+                        <PropertyValueFactory property="team" />
                     </cellValueFactory>
                 </TableColumn>
                   <TableColumn minWidth="0.0" prefWidth="144.603515625" text="Level">
@@ -37,7 +37,7 @@
                           <PropertyValueFactory property="level" />
                       </cellValueFactory>
                   </TableColumn>
-                <TableColumn fx:id="highscoreScore" prefWidth="170.07550048828125" text="Punkte">
+                <TableColumn fx:id="highscoreScore" prefWidth="170.07550048828125" text="Score">
                     <cellValueFactory>
                         <PropertyValueFactory property="score" />
                     </cellValueFactory>

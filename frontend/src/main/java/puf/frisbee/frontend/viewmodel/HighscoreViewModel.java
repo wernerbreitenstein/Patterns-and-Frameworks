@@ -3,12 +3,12 @@ package puf.frisbee.frontend.viewmodel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import puf.frisbee.frontend.model.HighscoreModel;
-import puf.frisbee.frontend.model.Team;
+import puf.frisbee.frontend.model.TeamModel;
 
 
 public class HighscoreViewModel {
     private HighscoreModel highscoreModel;
-    private ObservableList<Team> highscoreTableProperty;
+    private ObservableList<TeamModel> highscoreTableProperty;
 
     public HighscoreViewModel(HighscoreModel highscoreModel) {
         this.highscoreModel = highscoreModel;
@@ -19,7 +19,7 @@ public class HighscoreViewModel {
      * Returns the available highscore data of all teams
      * @return an obersable list of teams with name, level and score
      */
-    public ObservableList<Team> getHighscoreTableItems() {
+    public ObservableList<TeamModel> getHighscoreTableItems() {
         this.refreshData();
         return this.highscoreTableProperty;
     }

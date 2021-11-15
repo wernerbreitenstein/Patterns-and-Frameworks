@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.util.Duration;
 import puf.frisbee.frontend.model.LevelModel;
+import puf.frisbee.frontend.model.TeamModel;
 
 public class LevelViewModel {
 	private LevelModel levelModel;
@@ -17,6 +18,8 @@ public class LevelViewModel {
 	private StringProperty buttonLevelContinueText;
 	private int second;
 	private BooleanProperty showLevelSuccessDialog;
+	private TeamModel teamModel;
+	private StringProperty labelTeam;
 
 	public LevelViewModel(LevelModel levelModel) {
 		this.levelModel = levelModel;
@@ -25,6 +28,8 @@ public class LevelViewModel {
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
+		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
+		this.labelTeam = new SimpleStringProperty();
 		this.startCountdown();
 	}
 
@@ -52,6 +57,11 @@ public class LevelViewModel {
 
 	public int getLevel() {
 		return this.levelModel.getCurrentLevel();
+	}
+	
+	public StringProperty getTeamProperty() {
+		this.labelTeam.setValue(this.teamModel.getTeam());
+		return this.labelTeam;
 	}
 	
 	public StringProperty getLevelProperty() {
