@@ -32,7 +32,7 @@ public class LevelView {
 	private Button buttonLevelContinue;
 	
 	@FXML
-	private Label labelTeam;
+	private Label labelTeamName;
 
 	private LevelViewModel levelViewModel;
 	private ViewHandler viewHandler;
@@ -41,7 +41,7 @@ public class LevelView {
 		this.levelViewModel = levelViewModel;
 		this.viewHandler = viewHandler;
 
-		this.labelTeam.textProperty().bind(this.levelViewModel.getTeamProperty());
+		this.labelTeamName.textProperty().bind(this.levelViewModel.getTeamProperty());
 		this.labelLevel.textProperty().bind(this.levelViewModel.getLevelProperty());	
 		this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
 		this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());

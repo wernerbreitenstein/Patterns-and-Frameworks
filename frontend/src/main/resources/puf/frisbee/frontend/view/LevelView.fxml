@@ -57,7 +57,7 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelTeam" textFill="WHITE">
+                              <Label fx:id="labelTeamName" textFill="WHITE">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

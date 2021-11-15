@@ -19,7 +19,7 @@ public class LevelViewModel {
 	private int second;
 	private BooleanProperty showLevelSuccessDialog;
 	private TeamModel teamModel;
-	private StringProperty labelTeam;
+	private StringProperty labelTeamName;
 
 	public LevelViewModel(LevelModel levelModel) {
 		this.levelModel = levelModel;
@@ -29,7 +29,7 @@ public class LevelViewModel {
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
 		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
-		this.labelTeam = new SimpleStringProperty();
+		this.labelTeamName = new SimpleStringProperty();
 		this.startCountdown();
 	}
 
@@ -60,8 +60,8 @@ public class LevelViewModel {
 	}
 	
 	public StringProperty getTeamProperty() {
-		this.labelTeam.setValue(this.teamModel.getTeam());
-		return this.labelTeam;
+		this.labelTeamName.setValue(this.teamModel.getTeamName());
+		return this.labelTeamName;
 	}
 	
 	public StringProperty getLevelProperty() {

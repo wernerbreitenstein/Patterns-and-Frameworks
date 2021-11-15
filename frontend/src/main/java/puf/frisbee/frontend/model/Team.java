@@ -6,19 +6,19 @@ public interface Team {
 	 * 
 	 * @return current team name as string
 	 */
-	String getTeam();
+	String getTeamName();
 	
 	/**
 	 * Returns the current level the team has achieved.
 	 * 
 	 * @return current level as integer
 	 */
-	int getLevel();
+	int getTeamLevel();
 
 	/**
 	 * Returns the current score the team has achieved.
 	 * 
 	 * @return current score as integer
 	 */
-	int getScore();
+	int getTeamScore();
 }
