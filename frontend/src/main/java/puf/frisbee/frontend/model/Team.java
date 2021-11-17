@@ -1,26 +1,24 @@
 package puf.frisbee.frontend.model;
 
-public class Team {
-    private String name;
-    private int level;
-    private int score;
+public interface Team {
+	/**
+	 * Returns the current team name that a team identifies.
+	 * 
+	 * @return current team name as string
+	 */
+	String getTeamName();
+	
+	/**
+	 * Returns the current level the team has achieved.
+	 * 
+	 * @return current level as integer
+	 */
+	int getTeamLevel();
 
-    public Team(String name, int level, int score) {
-        this.name = name;
-        this.level = level;
-        this.score = score;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getScore() {
-        return score;
-    }
+	/**
+	 * Returns the current score the team has achieved.
+	 * 
+	 * @return current score as integer
+	 */
+	int getTeamScore();
 }

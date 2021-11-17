@@ -22,7 +22,7 @@ sollte der Wert des xmlns-Attributs stets geprüft und ggf. manuell
 von "http://javafx.com/javafx/17" auf "http://javafx.com/javafx/15.0.1" 
 angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
    <children>
       <Group layoutX="161.0" layoutY="410.0">
          <children>
@@ -57,25 +57,11 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <HBox alignment="CENTER_LEFT">
-                                 <children>
-                                    <Label fx:id="labelPlayerLeft" text="Bonnie" textFill="WHITE">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="10.0" layoutY="10.0" text=" &amp; " textFill="WHITE">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="labelPlayerRight" layoutX="165.0" layoutY="10.0" text="Clyde" textFill="WHITE">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
+                              <Label fx:id="labelTeamName" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </VBox>
                         <VBox alignment="CENTER_LEFT">
@@ -85,7 +71,7 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelLevel" alignment="TOP_CENTER" text="1" textFill="WHITE">
+                              <Label fx:id="labelLevel" alignment="TOP_CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
