@@ -2,10 +2,7 @@ package puf.frisbee.frontend.viewmodel;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.model.LevelModel;
 import puf.frisbee.frontend.model.TeamModel;
@@ -20,6 +17,7 @@ public class LevelViewModel {
 	private BooleanProperty showLevelSuccessDialog;
 	private TeamModel teamModel;
 	private StringProperty labelTeamName;
+	private DoubleProperty characterLeftXPosition;
 
 	public LevelViewModel(LevelModel levelModel) {
 		this.levelModel = levelModel;
@@ -30,6 +28,7 @@ public class LevelViewModel {
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
 		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
 		this.labelTeamName = new SimpleStringProperty();
+		this.characterLeftXPosition = new SimpleDoubleProperty();
 		this.startCountdown();
 	}
 
@@ -53,6 +52,10 @@ public class LevelViewModel {
 	public void continueLevel() {
 		this.levelModel.updateCurrentLevel();
 		this.showLevelSuccessDialog.setValue(false);
+	}
+
+	public void setCharacterLeftXPosition(double position) {
+		this.characterLeftXPosition.setValue(position);
 	}
 
 	public int getLevel() {
@@ -82,6 +85,10 @@ public class LevelViewModel {
 		int nextLevel = this.levelModel.getCurrentLevel() + 1;
 		this.buttonLevelContinueText.setValue("Weiter zu Level " + nextLevel);
 		return this.buttonLevelContinueText;
+	}
+
+	public DoubleProperty getCharacterLeftXPositionProperty() {
+		return this.characterLeftXPosition;
 	}
 
 	public BooleanProperty getLevelSuccessDialogOpenProperty() {

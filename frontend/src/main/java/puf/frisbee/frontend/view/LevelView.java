@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import puf.frisbee.frontend.core.ViewHandler;
@@ -34,12 +35,17 @@ public class LevelView {
 	@FXML
 	private Label labelTeamName;
 
+	@FXML
+	private CharacterLeftView characterLeftController;
+
 	private LevelViewModel levelViewModel;
 	private ViewHandler viewHandler;
 
 	public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
 		this.levelViewModel = levelViewModel;
 		this.viewHandler = viewHandler;
+
+		this.characterLeftController.init(levelViewModel);
 
 		this.labelTeamName.textProperty().bind(this.levelViewModel.getTeamProperty());
 		this.labelLevel.textProperty().bind(this.levelViewModel.getLevelProperty());	
@@ -59,5 +65,22 @@ public class LevelView {
 	private void handleLevelContinueClicked(ActionEvent event) {
 		levelViewModel.continueLevel();
 		this.viewHandler.openLevelView(this.levelViewModel.getLevel());
+	}
+
+	@FXML
+	private void handleKeyPressed(KeyEvent event) {
+		switch(event.getCode()) {
+			case LEFT:
+			case RIGHT:
+				// TODO: implement
+				// TODO: implement
+				break;
+			case A:
+				this.levelViewModel.setCharacterLeftXPosition(-20);
+				break;
+			case D:
+				this.levelViewModel.setCharacterLeftXPosition(20);
+				break;
+		}
 	}
 }
