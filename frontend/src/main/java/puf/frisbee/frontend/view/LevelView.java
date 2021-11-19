@@ -2,14 +2,20 @@ package puf.frisbee.frontend.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class LevelView {
+	@FXML
+	private AnchorPane levelRoot;
+
 	@FXML
 	private GridPane levelSuccessDialog;
 
@@ -21,7 +27,7 @@ public class LevelView {
 
 	@FXML
 	private Label labelLevel;
-	
+
 	@FXML
 	private Label labelScore;
 
@@ -30,7 +36,10 @@ public class LevelView {
 
 	@FXML
 	private Button buttonLevelContinue;
-	
+
+	@FXML
+	private Button buttonGameOver;
+
 	@FXML
 	private Label labelTeamName;
 
@@ -42,7 +51,7 @@ public class LevelView {
 		this.viewHandler = viewHandler;
 
 		this.labelTeamName.textProperty().bind(this.levelViewModel.getTeamProperty());
-		this.labelLevel.textProperty().bind(this.levelViewModel.getLevelProperty());	
+		this.labelLevel.textProperty().bind(this.levelViewModel.getLevelProperty());
 		this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
 		this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
@@ -59,5 +68,15 @@ public class LevelView {
 	private void handleLevelContinueClicked(ActionEvent event) {
 		levelViewModel.continueLevel();
 		this.viewHandler.openLevelView(this.levelViewModel.getLevel());
+	}
+
+	@FXML
+	private void handleGameOverButtonClicked(ActionEvent event) {
+		try {
+			StackPane gameOverDialog = FXMLLoader.load(getClass().getResource("/puf/frisbee/frontend/view/GameOverView.fxml"));
+			levelRoot.getChildren().add(gameOverDialog);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

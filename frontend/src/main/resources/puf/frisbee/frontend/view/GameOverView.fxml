@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<!-- Da der SceneBuilder mit einer eigenen JRE-Version 17 arbeitet, 
+sollte der Wert des xmlns-Attributs stets geprüft und ggf. manuell 
+von "http://javafx.com/javafx/17" auf "http://javafx.com/javafx/15.0.1" 
+angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
+
+<StackPane fx:id="gameOverView" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.GameOverView">
+   <children>
+      <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="1280.0">
+         <children>
+            <Label stylesheets="@../css/main.css" text="GAME OVER" wrapText="true">
+               <styleClass>
+                  <String fx:value="dialog-text" />
+                  <String fx:value="dialog-game-over" />
+               </styleClass>
+               <VBox.margin>
+                  <Insets bottom="40.0" />
+               </VBox.margin>
+            </Label>
+            <Label stylesheets="@../css/main.css" text="Play it again?" wrapText="true">
+               <styleClass>
+                  <String fx:value="dialog-text" />
+                  <String fx:value="dialog-h1" />
+               </styleClass>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
+               <children>
+                  <Button fx:id="buttonYes" mnemonicParsing="false" onAction="#handleButtonYesClicked" stylesheets="@../css/main.css" text="Yes, please!" />
+                  <Button fx:id="buttonNo" mnemonicParsing="false" onAction="#handleButtonNoClicked" stylesheets="@../css/main.css" text="No, thanks!" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="40.0" top="80.0" />
+   </padding>
+</StackPane>

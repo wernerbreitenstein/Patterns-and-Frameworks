@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
@@ -22,8 +21,8 @@ sollte der Wert des xmlns-Attributs stets geprüft und ggf. manuell
 von "http://javafx.com/javafx/17" auf "http://javafx.com/javafx/15.0.1" 
 angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
-   <children>
+<AnchorPane fx:id="levelRoot" prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@../css/level.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.LevelView">
+	<children>
       <Group layoutX="161.0" layoutY="410.0">
          <children>
             <fx:include source="CharacterRightView.fxml" />
@@ -166,7 +165,7 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
       </Group>
       <Group layoutX="480.0" layoutY="270.0">
          <children>
-            <GridPane fx:id="levelSuccessDialog" maxHeight="270.0" maxWidth="480.0" minHeight="90.0" minWidth="160.0" prefHeight="180.0" prefWidth="320.0" styleClass="dialog-background" stylesheets="@../css/level.css">
+            <GridPane fx:id="levelSuccessDialog" maxHeight="270.0" maxWidth="480.0" minHeight="90.0" minWidth="160.0" prefHeight="180.0" prefWidth="320.0" styleClass="dialog-background" stylesheets="@../css/main.css">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" />
                   <ColumnConstraints />
@@ -177,14 +176,14 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
                   <RowConstraints vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="labelLevelSuccess" stylesheets="@../css/level.css" wrapText="true" GridPane.columnSpan="2147483647">
+                  <Label fx:id="labelLevelSuccess" stylesheets="@../css/main.css" wrapText="true" GridPane.columnSpan="2147483647">
                      <styleClass>
                         <String fx:value="dialog-text" />
                         <String fx:value="dialog-h1" />
                      </styleClass>
                   </Label>
-                  <Label styleClass="dialog-text" stylesheets="@../css/level.css" wrapText="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-                  <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleLevelContinueClicked" stylesheets="@../css/level.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label styleClass="dialog-text" stylesheets="@../css/main.css" wrapText="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                  <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleLevelContinueClicked" stylesheets="@../css/main.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                      </GridPane.margin>
@@ -193,9 +192,6 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
             </GridPane>
          </children>
       </Group>
+      <Button fx:id="buttonGameOver" layoutX="1187.0" layoutY="630.0" mnemonicParsing="false" onAction="#handleGameOverButtonClicked" stylesheets="@../css/main.css" text="Game Over" />
    </children>
-   <stylesheets>
-      <URL value="@../css/main.css" />
-      <URL value="@../css/level.css" />
-   </stylesheets>
 </AnchorPane>
