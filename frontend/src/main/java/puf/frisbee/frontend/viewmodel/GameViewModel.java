@@ -10,15 +10,17 @@ public class GameViewModel {
 	private Level levelModel;
 	private Game gameModel;
 
-	private StringProperty labelLevel;
-	private StringProperty labelCountdown;
-	private StringProperty labelLevelSuccess;
-	private StringProperty buttonLevelContinueText;
 	private BooleanProperty showLevelSuccessDialog;
-	private TeamModel teamModel;
-	private StringProperty labelTeamName;
 	private DoubleProperty characterLeftXPosition;
+	private StringProperty buttonLevelContinueText;
+	private StringProperty labelCountdown;
+	private StringProperty labelLevel;
+	private StringProperty labelLevelSuccess;
+	private StringProperty labelTeamName;
+	private IntegerProperty labelScore;
 
+	private TeamModel teamModel;
+	private int score;
 	private int second;
 
 	public GameViewModel(Game gameModel, Level levelModel) {
@@ -30,9 +32,13 @@ public class GameViewModel {
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
-		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
 		this.labelTeamName = new SimpleStringProperty();
 		this.characterLeftXPosition = new SimpleDoubleProperty();
+		this.labelScore = new SimpleIntegerProperty();
+
+		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
+		// start with latest saved score for team
+		this.labelScore.setValue(teamModel.getTeamScore());
 
 		this.startCountdown();
 	}
@@ -63,16 +69,20 @@ public class GameViewModel {
 		this.characterLeftXPosition.setValue(position);
 	}
 
+	public void addScore(int score) {
+		this.labelScore.setValue(this.labelScore.getValue() + score);
+	}
+
 	public int getLevel() {
 		return this.levelModel.getCurrentLevel();
 	}
 	
-	public StringProperty getTeamProperty() {
+	public StringProperty getLabelTeamProperty() {
 		this.labelTeamName.setValue(this.teamModel.getTeamName());
 		return this.labelTeamName;
 	}
 	
-	public StringProperty getLevelProperty() {
+	public StringProperty getLabelLevelProperty() {
 		this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
 		return this.labelLevel;
 	}
@@ -90,6 +100,10 @@ public class GameViewModel {
 		int nextLevel = this.levelModel.getCurrentLevel() + 1;
 		this.buttonLevelContinueText.setValue("Weiter zu Level " + nextLevel);
 		return this.buttonLevelContinueText;
+	}
+
+	public IntegerProperty getLabelScoreProperty() {
+		return this.labelScore;
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
