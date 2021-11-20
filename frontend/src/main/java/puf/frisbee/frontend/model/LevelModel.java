@@ -21,17 +21,17 @@ public class LevelModel implements Level {
 	}
 
 	@Override
-	public double getCharacterYPosition() {
+	public double getInitialCharacterYPosition() {
 		return Constants.SCENE_HEIGHT - this.levelGroundHeight - Constants.CHARACTER_HEIGHT;
 	}
 
 	@Override
-	public double getCharacterLeftXPosition() {
+	public double getInitialCharacterLeftXPosition() {
 		return this.levelBoundaryLeft;
 	}
 
 	@Override
-	public double getCharacterRightXPosition() {
+	public double getInitialCharacterRightXPosition() {
 		return Constants.SCENE_WIDTH - this.levelBoundaryRight - Constants.CHARACTER_WIDTH;
 	}
 }

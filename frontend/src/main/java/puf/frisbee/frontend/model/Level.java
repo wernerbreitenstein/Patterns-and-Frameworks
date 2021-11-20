@@ -21,19 +21,19 @@ public interface Level {
 	 *
 	 * @return position
 	 */
-	double getCharacterYPosition();
+	double getInitialCharacterYPosition();
 
 	/**
 	 * Returns the inital character x position for the left character in the level.
 	 *
 	 * @return position
 	 */
-	double getCharacterLeftXPosition();
+	double getInitialCharacterLeftXPosition();
 
 	/**
 	 * Returns the inital character x position for the right character in the level.
 	 *
 	 * @return position
 	 */
-	double getCharacterRightXPosition();
+	double getInitialCharacterRightXPosition();
 }

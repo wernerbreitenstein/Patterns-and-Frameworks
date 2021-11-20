@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.viewmodel;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.*;
@@ -14,6 +15,11 @@ public class GameViewModel {
 	private DoubleProperty characterLeftYPosition;
 	private DoubleProperty characterRightXPosition;
 	private DoubleProperty characterRightYPosition;
+	// TODO: only flags for one character will be needed once two characters can not play on one computer anymore
+	private boolean isCharacterLeftMovingLeft;
+	private boolean isCharacterLeftMovingRight;
+	private boolean isCharacterRightMovingLeft;
+	private boolean isCharacterRightMovingRight;
 
 	private BooleanProperty showLevelSuccessDialog;
 	private StringProperty buttonLevelContinueText;
@@ -48,12 +54,17 @@ public class GameViewModel {
 		this.labelScore.setValue(teamModel.getTeamScore());
 
 		// set initial character positions
-		this.characterLeftYPosition.setValue(levelModel.getCharacterYPosition());
-		this.characterRightYPosition.setValue(levelModel.getCharacterYPosition());
-		this.characterLeftXPosition.setValue(levelModel.getCharacterLeftXPosition());
-		this.characterRightXPosition.setValue(levelModel.getCharacterRightXPosition());
+		this.characterLeftYPosition.setValue(levelModel.getInitialCharacterYPosition());
+		this.characterRightYPosition.setValue(levelModel.getInitialCharacterYPosition());
+		this.characterLeftXPosition.setValue(levelModel.getInitialCharacterLeftXPosition());
+		this.characterRightXPosition.setValue(levelModel.getInitialCharacterRightXPosition());
+		this.isCharacterLeftMovingLeft = false;
+		this.isCharacterLeftMovingRight = false;
+		this.isCharacterRightMovingLeft = false;
+		this.isCharacterRightMovingRight = false;
 
 		this.startCountdown();
+		this.startCharacterAnimation();
 	}
 
 	private void startCountdown() {
@@ -73,13 +84,62 @@ public class GameViewModel {
 		timeline.play();
 	}
 
+	private void startCharacterAnimation() {
+		AnimationTimer timer = new AnimationTimer() {
+			@Override
+			public void handle(long l) {
+				// moving is not possible once the level is over
+				if (showLevelSuccessDialog.getValue()) return;
+
+				if (isCharacterLeftMovingLeft) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - 1);
+				if (isCharacterLeftMovingRight) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + 1);
+				if (isCharacterRightMovingLeft) characterRightXPosition.setValue(characterRightXPosition.getValue() - 1);
+				if (isCharacterRightMovingRight) characterRightXPosition.setValue(characterRightXPosition.getValue() + 1);
+			}
+		};
+
+		timer.start();
+	}
+
 	public void continueLevel() {
 		this.levelModel.updateCurrentLevel();
 		this.showLevelSuccessDialog.setValue(false);
 	}
 
-	public void setCharacterLeftXPosition(double position) {
-		this.characterLeftXPosition.setValue(position);
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void moveCharacterLeft(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingLeft = true;
+		} else {
+			this.isCharacterRightMovingLeft = true;
+		}
+	}
+
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void moveCharacterRight(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingRight = true;
+		} else {
+			this.isCharacterRightMovingRight = true;
+		}
+	}
+
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void stopCharacterMoveLeft(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingLeft = false;
+		} else {
+			this.isCharacterRightMovingLeft = false;
+		}
+	}
+
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void stopCharacterMoveRight(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingRight = false;
+		} else {
+			this.isCharacterRightMovingRight = false;
+		}
 	}
 
 	public void addScore(int score) {
@@ -119,6 +179,10 @@ public class GameViewModel {
 		return this.labelScore;
 	}
 
+	public BooleanProperty getLevelSuccessDialogOpenProperty() {
+		return this.showLevelSuccessDialog;
+	}
+
 	public DoubleProperty getCharacterLeftXPositionProperty() {
 		return this.characterLeftXPosition;
 	}
@@ -130,9 +194,5 @@ public class GameViewModel {
 	}
 	public DoubleProperty getCharacterRightYPositionProperty() {
 		return this.characterRightYPosition;
-	}
-
-	public BooleanProperty getLevelSuccessDialogOpenProperty() {
-		return this.showLevelSuccessDialog;
 	}
 }
