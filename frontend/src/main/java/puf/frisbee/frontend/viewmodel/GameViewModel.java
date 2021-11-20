@@ -4,23 +4,27 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.util.Duration;
-import puf.frisbee.frontend.model.LevelModel;
-import puf.frisbee.frontend.model.TeamModel;
+import puf.frisbee.frontend.model.*;
 
-public class LevelViewModel {
-	private LevelModel levelModel;
+public class GameViewModel {
+	private Level levelModel;
+	private Game gameModel;
+
 	private StringProperty labelLevel;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevelSuccess;
 	private StringProperty buttonLevelContinueText;
-	private int second;
 	private BooleanProperty showLevelSuccessDialog;
 	private TeamModel teamModel;
 	private StringProperty labelTeamName;
 	private DoubleProperty characterLeftXPosition;
 
-	public LevelViewModel(LevelModel levelModel) {
+	private int second;
+
+	public GameViewModel(Game gameModel, Level levelModel) {
+		this.gameModel = gameModel;
 		this.levelModel = levelModel;
+
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
 		this.labelLevelSuccess = new SimpleStringProperty();
@@ -29,11 +33,12 @@ public class LevelViewModel {
 		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
 		this.labelTeamName = new SimpleStringProperty();
 		this.characterLeftXPosition = new SimpleDoubleProperty();
+
 		this.startCountdown();
 	}
 
 	private void startCountdown() {
-		this.second = levelModel.getCountdown();
+		this.second = gameModel.getCountdown();
 		Timeline timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), actionEvent -> {
 			labelCountdown.setValue(Integer.toString(second));

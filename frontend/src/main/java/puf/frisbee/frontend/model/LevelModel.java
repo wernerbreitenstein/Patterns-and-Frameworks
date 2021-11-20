@@ -2,17 +2,14 @@ package puf.frisbee.frontend.model;
 
 public class LevelModel implements Level {
 	// TODO: get this from the server
-	private int countdownInSeconds = 30;
 	private int currentLevel = 1;
 
-	public int getCountdown() {
-		return this.countdownInSeconds;
-	}
-
+	@Override
 	public int getCurrentLevel() {
 		return this.currentLevel;
 	}
 
+	@Override
 	public void updateCurrentLevel() {
 		currentLevel++;
 	}

@@ -5,15 +5,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import puf.frisbee.frontend.core.ViewHandler;
-import puf.frisbee.frontend.model.TeamModel;
+import puf.frisbee.frontend.model.Team;
 import puf.frisbee.frontend.viewmodel.HighscoreViewModel;
 
 public class HighscoreView {
     @FXML
-    TableView<TeamModel> highscoreTable;
+    TableView<Team> highscoreTable;
 
     @FXML
-    TableColumn<TeamModel, Integer> highscoreScore;
+    TableColumn<Team, Integer> highscoreScore;
 
     private HighscoreViewModel highscoreViewModel;
     private ViewHandler viewHandler;

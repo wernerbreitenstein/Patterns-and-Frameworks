@@ -1,5 +1,8 @@
 package puf.frisbee.frontend.model;
 
+/**
+ * Contains all team data.
+ */
 public interface Team {
 	/**
 	 * Returns the current team name that a team identifies.
