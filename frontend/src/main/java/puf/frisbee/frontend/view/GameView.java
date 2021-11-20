@@ -18,22 +18,13 @@ public class GameView {
 	private Label labelFrisbee;
 
 	@FXML
-	private Label labelCountdown;
-
-	@FXML
-	private Label labelLevel;
-	
-	@FXML
-	private Label labelScore;
-
-	@FXML
 	private Label labelLevelSuccess;
 
 	@FXML
 	private Button buttonLevelContinue;
-	
+
 	@FXML
-	private Label labelTeamName;
+	private TopPanelView topPanelController;
 
 	@FXML
 	private CharacterLeftView characterLeftController;
@@ -45,19 +36,17 @@ public class GameView {
 		this.gameViewModel = gameViewModel;
 		this.viewHandler = viewHandler;
 
+		this.topPanelController.init(gameViewModel);
 		this.characterLeftController.init(gameViewModel);
 
-		this.labelTeamName.textProperty().bind(this.gameViewModel.getTeamProperty());
-		this.labelLevel.textProperty().bind(this.gameViewModel.getLevelProperty());
-		this.labelCountdown.textProperty().bind(this.gameViewModel.getLabelCountdownProperty());
 		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
-
 		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogOpenProperty());
 	}
 
 	@FXML
 	private void handleFrisbeeClicked(MouseEvent event) {
+		this.gameViewModel.addScore(1);
 		labelFrisbee.setText("Los geht's!");
 	}
 
