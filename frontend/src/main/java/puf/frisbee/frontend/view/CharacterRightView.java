@@ -11,7 +11,6 @@ public class CharacterRightView {
     private GameViewModel gameViewModel;
 
     public void init(GameViewModel gameViewModel) {
-        System.out.println("test");
         this.gameViewModel = gameViewModel;
         this.character.layoutXProperty().bind(gameViewModel.getCharacterRightXPositionProperty());
         this.character.layoutYProperty().bind(gameViewModel.getCharacterRightYPositionProperty());
