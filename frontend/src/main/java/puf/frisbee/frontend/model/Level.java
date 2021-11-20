@@ -36,4 +36,18 @@ public interface Level {
 	 * @return position
 	 */
 	double getInitialCharacterRightXPosition();
+
+	/**
+	 * Returns the left scene boundary of a level.
+	 *
+	 * @return position
+	 */
+	double getSceneBoundaryLeft();
+
+	/**
+	 * Returns the right scene boundary of a level.
+	 *
+	 * @return position
+	 */
+	double getSceneBoundaryRight();
 }
