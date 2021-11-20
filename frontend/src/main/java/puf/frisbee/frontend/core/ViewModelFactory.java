@@ -1,7 +1,7 @@
 package puf.frisbee.frontend.core;
 
+import puf.frisbee.frontend.viewmodel.GameViewModel;
 import puf.frisbee.frontend.viewmodel.HighscoreViewModel;
-import puf.frisbee.frontend.viewmodel.LevelViewModel;
 
 public class ViewModelFactory {
 	private ModelFactory modelFactory;
@@ -11,12 +11,12 @@ public class ViewModelFactory {
 	}
 
 	/**
-	 * Creates and returns an instance of LevelViewModel.
+	 * Creates and returns an instance of GameViewModel.
 	 * 
-	 * @return a new instance of LevelViewModel
+	 * @return a new instance of GameViewModel
 	 */
-	public LevelViewModel getLevelViewModel() {
-		return new LevelViewModel(modelFactory.getLevelModel());
+	public GameViewModel getGameViewModel() {
+		return new GameViewModel(modelFactory.getGameModel(), modelFactory.getLevelModel());
 	}
 
 	/**

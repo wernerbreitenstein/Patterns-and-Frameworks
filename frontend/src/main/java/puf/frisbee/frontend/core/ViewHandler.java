@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import puf.frisbee.frontend.view.HighscoreView;
-import puf.frisbee.frontend.view.LevelView;
+import puf.frisbee.frontend.view.GameView;
 import puf.frisbee.frontend.view.WaitingView;
 
 public class ViewHandler {
@@ -26,23 +26,20 @@ public class ViewHandler {
 	}
 
 	/**
-	 * Loads the view for a level.
+	 * Loads the view for the game.
 	 * 
-	 * @param level that should be loaded
+	 * @param level that should be loaded via css
 	 */
-	public void openLevelView(int level) {
-		FXMLLoader levelViewLoader = new FXMLLoader();
+	public void openGameView(int level) {
+		FXMLLoader gameViewLoader = new FXMLLoader();
+		gameViewLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/GameView.fxml"));
 
-		switch (level) {
-		case 1:
-		default:
-			levelViewLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/LevelView.fxml"));
-		}
+		// TODO: load additional background css depending on level
 
 		try {
-			Parent root = levelViewLoader.load();
-			LevelView levelView = levelViewLoader.getController();
-			levelView.init(viewModelFactory.getLevelViewModel(), this);
+			Parent root = gameViewLoader.load();
+			GameView gameView = gameViewLoader.getController();
+			gameView.init(viewModelFactory.getGameViewModel(), this);
 			this.stage.setTitle("Frisbee Level " + level);
 			Scene scene = new Scene(root, sceneWidth, sceneHeight);
 			this.stage.setScene(scene);
@@ -58,7 +55,7 @@ public class ViewHandler {
 		try {
 			Parent root = waitingViewLoader.load();
 			WaitingView waitingView = waitingViewLoader.getController();
-			waitingView.init(viewModelFactory.getLevelViewModel(), this);
+			waitingView.init(viewModelFactory.getGameViewModel(), this);
 			this.stage.setTitle("Frisbee - waiting...");
 			Scene scene = new Scene(root, sceneWidth, sceneHeight);
 			this.stage.setScene(scene);

@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.ViewHandler;
-import puf.frisbee.frontend.viewmodel.LevelViewModel;
+import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class WaitingView {
 
@@ -20,12 +20,12 @@ public class WaitingView {
     @FXML
     private ImageView frisbee;
 
-    private LevelViewModel levelViewModel;
+    private GameViewModel gameViewModel;
     private ViewHandler viewHandler;
 
-    public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
+    public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
-        this.levelViewModel = levelViewModel;
+        this.gameViewModel = gameViewModel;
         this.startFrisbeeTransition();
     }
 
@@ -52,6 +52,6 @@ public class WaitingView {
 
     @FXML
     private void handleStartButtonClicked(MouseEvent event) {
-        this.viewHandler.openLevelView(this.levelViewModel.getLevel());
+        this.viewHandler.openGameView(this.gameViewModel.getLevel());
     }
 }

@@ -1,18 +1,31 @@
 package puf.frisbee.frontend.core;
 
-import puf.frisbee.frontend.model.HighscoreModel;
-import puf.frisbee.frontend.model.LevelModel;
+import puf.frisbee.frontend.model.*;
 
 public class ModelFactory {
-	private LevelModel levelModel;
-	private HighscoreModel highscoreModel;
+	private Level levelModel;
+	private Highscore highscoreModel;
+	private Game gameModel;
+
+	/**
+	 * Creates a GameModel instance if it does not exist yet and returns it.
+	 *
+	 * @return instance of GameModel
+	 */
+	public Game getGameModel() {
+		if (gameModel == null) {
+			gameModel = new GameModel();
+		}
+
+		return gameModel;
+	}
 
 	/**
 	 * Creates a LevelModel instance if it does not exist yet and returns it.
 	 * 
 	 * @return instance of LevelModel
 	 */
-	public LevelModel getLevelModel() {
+	public Level getLevelModel() {
 		if (levelModel == null) {
 			levelModel = new LevelModel();
 		}
@@ -25,7 +38,7 @@ public class ModelFactory {
 	 *
 	 * @return instance of HighscoreModel
 	 */
-	public HighscoreModel getHighscoreModel() {
+	public Highscore getHighscoreModel() {
 		if (highscoreModel == null) {
 			highscoreModel = new HighscoreModel();
 		}

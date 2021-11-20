@@ -1,19 +1,17 @@
 package puf.frisbee.frontend.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import puf.frisbee.frontend.viewmodel.LevelViewModel;
+import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class CharacterLeftView {
     @FXML
     private ImageView character;
 
-    private LevelViewModel levelViewModel;
+    private GameViewModel gameViewModel;
 
-    public void init(LevelViewModel levelViewModel) {
-        this.levelViewModel = levelViewModel;
-        this.character.layoutXProperty().bind(levelViewModel.getCharacterLeftXPositionProperty());
+    public void init(GameViewModel gameViewModel) {
+        this.gameViewModel = gameViewModel;
+        this.character.layoutXProperty().bind(gameViewModel.getCharacterLeftXPositionProperty());
     }
 }

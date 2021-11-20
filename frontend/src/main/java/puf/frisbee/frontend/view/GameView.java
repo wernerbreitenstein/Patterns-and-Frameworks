@@ -8,9 +8,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import puf.frisbee.frontend.core.ViewHandler;
-import puf.frisbee.frontend.viewmodel.LevelViewModel;
+import puf.frisbee.frontend.viewmodel.GameViewModel;
 
-public class LevelView {
+public class GameView {
 	@FXML
 	private GridPane levelSuccessDialog;
 
@@ -38,22 +38,22 @@ public class LevelView {
 	@FXML
 	private CharacterLeftView characterLeftController;
 
-	private LevelViewModel levelViewModel;
+	private GameViewModel gameViewModel;
 	private ViewHandler viewHandler;
 
-	public void init(LevelViewModel levelViewModel, ViewHandler viewHandler) {
-		this.levelViewModel = levelViewModel;
+	public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
+		this.gameViewModel = gameViewModel;
 		this.viewHandler = viewHandler;
 
-		this.characterLeftController.init(levelViewModel);
+		this.characterLeftController.init(gameViewModel);
 
-		this.labelTeamName.textProperty().bind(this.levelViewModel.getTeamProperty());
-		this.labelLevel.textProperty().bind(this.levelViewModel.getLevelProperty());	
-		this.labelCountdown.textProperty().bind(this.levelViewModel.getLabelCountdownProperty());
-		this.labelLevelSuccess.textProperty().bind(this.levelViewModel.getLabelLevelSuccessProperty());
-		this.buttonLevelContinue.textProperty().bind(this.levelViewModel.getButtonLevelContinueTextProperty());
+		this.labelTeamName.textProperty().bind(this.gameViewModel.getTeamProperty());
+		this.labelLevel.textProperty().bind(this.gameViewModel.getLevelProperty());
+		this.labelCountdown.textProperty().bind(this.gameViewModel.getLabelCountdownProperty());
+		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
+		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
 
-		this.levelSuccessDialog.visibleProperty().bind(this.levelViewModel.getLevelSuccessDialogOpenProperty());
+		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogOpenProperty());
 	}
 
 	@FXML
@@ -63,8 +63,8 @@ public class LevelView {
 
 	@FXML
 	private void handleLevelContinueClicked(ActionEvent event) {
-		levelViewModel.continueLevel();
-		this.viewHandler.openLevelView(this.levelViewModel.getLevel());
+		gameViewModel.continueLevel();
+		this.viewHandler.openGameView(this.gameViewModel.getLevel());
 	}
 
 	@FXML
@@ -76,10 +76,10 @@ public class LevelView {
 				// TODO: implement
 				break;
 			case A:
-				this.levelViewModel.setCharacterLeftXPosition(-20);
+				this.gameViewModel.setCharacterLeftXPosition(-20);
 				break;
 			case D:
-				this.levelViewModel.setCharacterLeftXPosition(20);
+				this.gameViewModel.setCharacterLeftXPosition(20);
 				break;
 		}
 	}
