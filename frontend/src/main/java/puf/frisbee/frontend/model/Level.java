@@ -15,4 +15,25 @@ public interface Level {
 	 * Updates the current level to the next level.
 	 */
 	void updateCurrentLevel();
+
+	/**
+	 * Returns the inital character y position for the level.
+	 *
+	 * @return position
+	 */
+	double getCharacterYPosition();
+
+	/**
+	 * Returns the inital character x position for the left character in the level.
+	 *
+	 * @return position
+	 */
+	double getCharacterLeftXPosition();
+
+	/**
+	 * Returns the inital character x position for the right character in the level.
+	 *
+	 * @return position
+	 */
+	double getCharacterRightXPosition();
 }

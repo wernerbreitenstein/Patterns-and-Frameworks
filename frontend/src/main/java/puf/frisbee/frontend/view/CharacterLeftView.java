@@ -13,5 +13,6 @@ public class CharacterLeftView {
     public void init(GameViewModel gameViewModel) {
         this.gameViewModel = gameViewModel;
         this.character.layoutXProperty().bind(gameViewModel.getCharacterLeftXPositionProperty());
+        this.character.layoutYProperty().bind(gameViewModel.getCharacterLeftYPositionProperty());
     }
 }

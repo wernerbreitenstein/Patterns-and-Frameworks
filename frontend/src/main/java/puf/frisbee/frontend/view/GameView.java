@@ -29,6 +29,9 @@ public class GameView {
 	@FXML
 	private CharacterLeftView characterLeftController;
 
+	@FXML
+	private CharacterRightView characterRightController;
+
 	private GameViewModel gameViewModel;
 	private ViewHandler viewHandler;
 
@@ -38,6 +41,7 @@ public class GameView {
 
 		this.topPanelController.init(gameViewModel);
 		this.characterLeftController.init(gameViewModel);
+		this.characterRightController.init(gameViewModel);
 
 		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.CharacterRightView">
  <children>
-     <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="808.0" onMouseClicked="#handleCharacterRightClicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
+     <ImageView fx:id="character" fitHeight="262" fitWidth="225" pickOnBounds="true" preserveRatio="true">
          <image>
              <Image url="@../images/Character_02.gif" />
          </image>
      </ImageView>
-     <Label fx:id="labelCharacterRight" layoutX="696.0" layoutY="100.0" />
  </children>
 </Pane>

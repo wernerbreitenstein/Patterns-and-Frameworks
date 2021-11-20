@@ -1,15 +1,19 @@
 package puf.frisbee.frontend.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView;
+import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class CharacterRightView {
     @FXML
-    private Label labelCharacterRight;
+    private ImageView character;
 
-    @FXML
-    private void handleCharacterRightClicked(MouseEvent event) {
-        labelCharacterRight.setText("Hey, ich bin Clyde!");
+    private GameViewModel gameViewModel;
+
+    public void init(GameViewModel gameViewModel) {
+        System.out.println("test");
+        this.gameViewModel = gameViewModel;
+        this.character.layoutXProperty().bind(gameViewModel.getCharacterRightXPositionProperty());
+        this.character.layoutYProperty().bind(gameViewModel.getCharacterRightYPositionProperty());
     }
 }

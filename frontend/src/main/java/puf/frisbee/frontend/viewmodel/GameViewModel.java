@@ -10,8 +10,12 @@ public class GameViewModel {
 	private Level levelModel;
 	private Game gameModel;
 
-	private BooleanProperty showLevelSuccessDialog;
 	private DoubleProperty characterLeftXPosition;
+	private DoubleProperty characterLeftYPosition;
+	private DoubleProperty characterRightXPosition;
+	private DoubleProperty characterRightYPosition;
+
+	private BooleanProperty showLevelSuccessDialog;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
@@ -26,18 +30,28 @@ public class GameViewModel {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 
+		this.characterLeftXPosition = new SimpleDoubleProperty();
+		this.characterLeftYPosition = new SimpleDoubleProperty();
+		this.characterRightXPosition = new SimpleDoubleProperty();
+		this.characterRightYPosition = new SimpleDoubleProperty();
+
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
-		this.characterLeftXPosition = new SimpleDoubleProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
 		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
 		// start with latest saved score for team
 		this.labelScore.setValue(teamModel.getTeamScore());
+
+		// set initial character positions
+		this.characterLeftYPosition.setValue(levelModel.getCharacterYPosition());
+		this.characterRightYPosition.setValue(levelModel.getCharacterYPosition());
+		this.characterLeftXPosition.setValue(levelModel.getCharacterLeftXPosition());
+		this.characterRightXPosition.setValue(levelModel.getCharacterRightXPosition());
 
 		this.startCountdown();
 	}
@@ -107,6 +121,15 @@ public class GameViewModel {
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
 		return this.characterLeftXPosition;
+	}
+	public DoubleProperty getCharacterLeftYPositionProperty() {
+		return this.characterLeftYPosition;
+	}
+	public DoubleProperty getCharacterRightXPositionProperty() {
+		return this.characterRightXPosition;
+	}
+	public DoubleProperty getCharacterRightYPositionProperty() {
+		return this.characterRightYPosition;
 	}
 
 	public BooleanProperty getLevelSuccessDialogOpenProperty() {
