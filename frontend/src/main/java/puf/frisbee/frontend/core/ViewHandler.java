@@ -46,6 +46,7 @@ public class ViewHandler {
 			this.stage.setTitle("Frisbee Level " + level);
 			Scene scene = new Scene(root, sceneWidth, sceneHeight);
 			this.stage.setScene(scene);
+			root.requestFocus();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
