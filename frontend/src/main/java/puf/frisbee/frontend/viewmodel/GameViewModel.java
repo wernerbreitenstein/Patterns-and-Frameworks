@@ -20,7 +20,6 @@ public class GameViewModel {
 	private IntegerProperty labelScore;
 
 	private TeamModel teamModel;
-	private int score;
 	private int second;
 
 	public GameViewModel(Game gameModel, Level levelModel) {
