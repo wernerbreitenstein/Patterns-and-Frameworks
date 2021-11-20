@@ -18,8 +18,7 @@ public class ViewHandler {
 	}
 
 	public void start() {
-		//openHighscoreView();
-		openGameView(1);
+		openHighscoreView();
 		this.stage.show();
 	}
 

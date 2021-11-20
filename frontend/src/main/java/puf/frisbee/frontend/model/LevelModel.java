@@ -6,9 +6,9 @@ public class LevelModel implements Level {
 	// TODO: get this from the server
 	private int currentLevel = 1;
 
-	private double levelBoundaryLeft = 20;
-	private double levelBoundaryRight = 20;
-	private double levelGroundHeight = 100;
+	private double levelBoundaryLeft = 80;
+	private double levelBoundaryRight = 80;
+	private double levelGroundHeight = 150;
 
 	@Override
 	public int getCurrentLevel() {
