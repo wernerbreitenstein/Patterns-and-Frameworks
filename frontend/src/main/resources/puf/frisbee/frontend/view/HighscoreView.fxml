@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.HighscoreView">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.HighscoreView">
    <children>
       <VBox alignment="TOP_CENTER" layoutY="81.0" prefHeight="585.0" prefWidth="1280.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="81.0">
          <children>
@@ -54,6 +54,7 @@
                </effect>
             </TableView>
             <Button mnemonicParsing="false" onMouseClicked="#handleRefreshButtonClicked" stylesheets="@../css/main.css" text="Refresh" />
+            <Button mnemonicParsing="false" onAction="#handleButtonQuitGameClicked" stylesheets="@../css/main.css" text="Quit Game" />
          </children>
       </VBox>
    </children>

@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.view;
 import javafx.animation.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -53,5 +54,10 @@ public class WaitingView {
     @FXML
     private void handleStartButtonClicked(MouseEvent event) {
         this.viewHandler.openGameView(this.gameViewModel.getLevel());
+    }
+    
+    @FXML
+    private void handleButtonQuitGameClicked(ActionEvent event) {
+        this.viewHandler.end();
     }
 }
