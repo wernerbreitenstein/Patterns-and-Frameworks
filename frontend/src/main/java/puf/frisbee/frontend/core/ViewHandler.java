@@ -21,6 +21,10 @@ public class ViewHandler {
 		openHighscoreView();
 		this.stage.show();
 	}
+	
+	public void end() {
+		this.stage.close();
+	}
 
 	/**
 	 * Loads the view for the game.
@@ -61,7 +65,7 @@ public class ViewHandler {
 		}
 	}
 
-	private void openHighscoreView() {
+	public void openHighscoreView() {
 		FXMLLoader highscoreViewLoader = new FXMLLoader();
 		highscoreViewLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/HighscoreView.fxml"));
 		try {
