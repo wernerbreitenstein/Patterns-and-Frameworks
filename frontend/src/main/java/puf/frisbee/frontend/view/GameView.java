@@ -65,10 +65,12 @@ public class GameView {
 		switch (event.getCode()) {
 			case LEFT -> this.gameViewModel.moveCharacterLeft("right");
 			case RIGHT -> this.gameViewModel.moveCharacterRight("right");
+			case UP -> this.gameViewModel.jumpCharacter("right");
 
 			// TODO: this will be removed in the future, the second character position will probably come via websocket
 			case A -> this.gameViewModel.moveCharacterLeft("left");
 			case D -> this.gameViewModel.moveCharacterRight("left");
+			case W -> this.gameViewModel.jumpCharacter("left");
 		}
 	}
 

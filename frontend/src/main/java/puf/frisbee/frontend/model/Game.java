@@ -10,4 +10,18 @@ public interface Game {
      * @return countdown in seconds
      */
     int getCountdown();
+
+    /**
+     * Returns the game gravity.
+     *
+     * @return gravity
+     */
+    int getGravity();
+
+    /**
+     * Returns the character movement speed.
+     *
+     * @return speed
+     */
+    int getCharacterSpeed();
 }

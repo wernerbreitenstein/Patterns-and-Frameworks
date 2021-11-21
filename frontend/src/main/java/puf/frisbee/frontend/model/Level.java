@@ -50,4 +50,11 @@ public interface Level {
 	 * @return position
 	 */
 	double getSceneBoundaryRight();
+
+	/**
+	 * Returns the jump height possible for a character in a level.
+	 *
+	 * @return jump height
+	 */
+	double getJumpHeight();
 }

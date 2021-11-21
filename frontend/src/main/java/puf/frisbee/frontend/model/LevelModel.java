@@ -9,6 +9,7 @@ public class LevelModel implements Level {
 	private final double sceneBoundaryLeft = 80;
 	private final double sceneBoundaryRight = 80;
 	private final double groundHeight = 150;
+	private final double jumpHeight = 100;
 
 	@Override
 	public int getCurrentLevel() {
@@ -44,4 +45,9 @@ public class LevelModel implements Level {
 	public double getSceneBoundaryRight() {
 		return Constants.SCENE_WIDTH - this.sceneBoundaryRight - Constants.CHARACTER_WIDTH;
 	};
+
+	@Override
+	public double getJumpHeight() {
+		return this.jumpHeight;
+	}
 }
