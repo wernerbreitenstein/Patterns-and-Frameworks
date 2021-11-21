@@ -21,6 +21,10 @@ public class ViewHandler {
 		openHighscoreView();
 		this.stage.show();
 	}
+	
+	public void end() {
+		this.stage.close();
+	}
 
 	/**
 	 * Loads the view for the game.

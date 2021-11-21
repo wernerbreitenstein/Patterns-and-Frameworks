@@ -7,10 +7,20 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class GameView {
+	@FXML
+	private Button buttonYes_ReturnToWaitingView;
+	
+	@FXML
+	private Button buttonNo_QuitGame;
+	
+	@FXML
+	private StackPane gameOverDialog;
+	
 	@FXML
 	private GridPane levelSuccessDialog;
 
@@ -46,6 +56,7 @@ public class GameView {
 		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
 		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogOpenProperty());
+		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogOpenProperty());
 	}
 
 	@FXML
@@ -82,5 +93,15 @@ public class GameView {
 			case A -> this.gameViewModel.stopCharacterMoveLeft("left");
 			case D -> this.gameViewModel.stopCharacterMoveRight("left");
 		}
+	}
+	
+	@FXML
+	private void handleButtonYesClicked(ActionEvent event) {
+		this.viewHandler.openWaitingView();
+	}
+	
+	@FXML
+	private void handleButtonNoClicked(ActionEvent event) {
+		this.viewHandler.end();
 	}
 }

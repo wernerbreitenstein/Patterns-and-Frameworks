@@ -22,6 +22,7 @@ public class GameViewModel {
 	private boolean isCharacterRightMovingRight;
 
 	private BooleanProperty showLevelSuccessDialog;
+	private BooleanProperty showGameOverDialog;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
@@ -46,6 +47,7 @@ public class GameViewModel {
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
+		this.showGameOverDialog = new SimpleBooleanProperty(true);
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
@@ -199,6 +201,10 @@ public class GameViewModel {
 
 	public BooleanProperty getLevelSuccessDialogOpenProperty() {
 		return this.showLevelSuccessDialog;
+	}
+	
+	public BooleanProperty getGameOverDialogOpenProperty() {
+		return this.showGameOverDialog;
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
