@@ -6,7 +6,7 @@
 
 <Pane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.CharacterLeftView">
  <children>
-     <ImageView fx:id="character" fitHeight="257.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
+     <ImageView fx:id="character" fitHeight="200" fitWidth="172" pickOnBounds="true" preserveRatio="true">
          <image>
              <Image url="@../images/Character_01.gif" />
          </image>

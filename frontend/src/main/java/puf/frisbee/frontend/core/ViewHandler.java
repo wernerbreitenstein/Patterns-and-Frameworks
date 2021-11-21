@@ -11,12 +11,9 @@ import puf.frisbee.frontend.view.WaitingView;
 public class ViewHandler {
 	private Stage stage;
 	private ViewModelFactory viewModelFactory;
-	private final int sceneWidth = 1280;
-	private final int sceneHeight = 720;
 
 	public ViewHandler(ViewModelFactory viewModelFactory) {
 		this.stage = new Stage();
-		// TODO: use dependency injection later on
 		this.viewModelFactory = viewModelFactory;
 	}
 
@@ -41,7 +38,7 @@ public class ViewHandler {
 			GameView gameView = gameViewLoader.getController();
 			gameView.init(viewModelFactory.getGameViewModel(), this);
 			this.stage.setTitle("Frisbee Level " + level);
-			Scene scene = new Scene(root, sceneWidth, sceneHeight);
+			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 			root.requestFocus();
 		} catch (Exception e) {
@@ -57,7 +54,7 @@ public class ViewHandler {
 			WaitingView waitingView = waitingViewLoader.getController();
 			waitingView.init(viewModelFactory.getGameViewModel(), this);
 			this.stage.setTitle("Frisbee - waiting...");
-			Scene scene = new Scene(root, sceneWidth, sceneHeight);
+			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,7 +69,7 @@ public class ViewHandler {
 			HighscoreView highscoreView = highscoreViewLoader.getController();
 			highscoreView.init(viewModelFactory.getHighscoreViewModel(),this);
 			this.stage.setTitle("Frisbee");
-			Scene scene = new Scene(root, sceneWidth, sceneHeight);
+			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();

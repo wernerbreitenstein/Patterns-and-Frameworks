@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.viewmodel;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.*;
@@ -10,8 +11,17 @@ public class GameViewModel {
 	private Level levelModel;
 	private Game gameModel;
 
-	private BooleanProperty showLevelSuccessDialog;
 	private DoubleProperty characterLeftXPosition;
+	private DoubleProperty characterLeftYPosition;
+	private DoubleProperty characterRightXPosition;
+	private DoubleProperty characterRightYPosition;
+	// TODO: only flags for one character will be needed once two characters can not play on one computer anymore
+	private boolean isCharacterLeftMovingLeft;
+	private boolean isCharacterLeftMovingRight;
+	private boolean isCharacterRightMovingLeft;
+	private boolean isCharacterRightMovingRight;
+
+	private BooleanProperty showLevelSuccessDialog;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
@@ -26,20 +36,35 @@ public class GameViewModel {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 
+		this.characterLeftXPosition = new SimpleDoubleProperty();
+		this.characterLeftYPosition = new SimpleDoubleProperty();
+		this.characterRightXPosition = new SimpleDoubleProperty();
+		this.characterRightYPosition = new SimpleDoubleProperty();
+
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
-		this.characterLeftXPosition = new SimpleDoubleProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
 		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
 		// start with latest saved score for team
 		this.labelScore.setValue(teamModel.getTeamScore());
 
+		// set initial character positions
+		this.characterLeftYPosition.setValue(levelModel.getInitialCharacterYPosition());
+		this.characterRightYPosition.setValue(levelModel.getInitialCharacterYPosition());
+		this.characterLeftXPosition.setValue(levelModel.getInitialCharacterLeftXPosition());
+		this.characterRightXPosition.setValue(levelModel.getInitialCharacterRightXPosition());
+		this.isCharacterLeftMovingLeft = false;
+		this.isCharacterLeftMovingRight = false;
+		this.isCharacterRightMovingLeft = false;
+		this.isCharacterRightMovingRight = false;
+
 		this.startCountdown();
+		this.startCharacterAnimation();
 	}
 
 	private void startCountdown() {
@@ -59,13 +84,62 @@ public class GameViewModel {
 		timeline.play();
 	}
 
+	private void startCharacterAnimation() {
+		AnimationTimer timer = new AnimationTimer() {
+			@Override
+			public void handle(long l) {
+				// moving is not possible once the level is over
+				if (showLevelSuccessDialog.getValue()) return;
+
+				if (isCharacterLeftMovingLeft) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - 1);
+				if (isCharacterLeftMovingRight) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + 1);
+				if (isCharacterRightMovingLeft) characterRightXPosition.setValue(characterRightXPosition.getValue() - 1);
+				if (isCharacterRightMovingRight) characterRightXPosition.setValue(characterRightXPosition.getValue() + 1);
+			}
+		};
+
+		timer.start();
+	}
+
 	public void continueLevel() {
 		this.levelModel.updateCurrentLevel();
 		this.showLevelSuccessDialog.setValue(false);
 	}
 
-	public void setCharacterLeftXPosition(double position) {
-		this.characterLeftXPosition.setValue(position);
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void moveCharacterLeft(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingLeft = true;
+		} else {
+			this.isCharacterRightMovingLeft = true;
+		}
+	}
+
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void moveCharacterRight(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingRight = true;
+		} else {
+			this.isCharacterRightMovingRight = true;
+		}
+	}
+
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void stopCharacterMoveLeft(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingLeft = false;
+		} else {
+			this.isCharacterRightMovingLeft = false;
+		}
+	}
+
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void stopCharacterMoveRight(String character) {
+		if (character.equals("left")) {
+			this.isCharacterLeftMovingRight = false;
+		} else {
+			this.isCharacterRightMovingRight = false;
+		}
 	}
 
 	public void addScore(int score) {
@@ -105,11 +179,20 @@ public class GameViewModel {
 		return this.labelScore;
 	}
 
+	public BooleanProperty getLevelSuccessDialogOpenProperty() {
+		return this.showLevelSuccessDialog;
+	}
+
 	public DoubleProperty getCharacterLeftXPositionProperty() {
 		return this.characterLeftXPosition;
 	}
-
-	public BooleanProperty getLevelSuccessDialogOpenProperty() {
-		return this.showLevelSuccessDialog;
+	public DoubleProperty getCharacterLeftYPositionProperty() {
+		return this.characterLeftYPosition;
+	}
+	public DoubleProperty getCharacterRightXPositionProperty() {
+		return this.characterRightXPosition;
+	}
+	public DoubleProperty getCharacterRightYPositionProperty() {
+		return this.characterRightYPosition;
 	}
 }

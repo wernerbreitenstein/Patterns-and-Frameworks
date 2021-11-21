@@ -29,6 +29,9 @@ public class GameView {
 	@FXML
 	private CharacterLeftView characterLeftController;
 
+	@FXML
+	private CharacterRightView characterRightController;
+
 	private GameViewModel gameViewModel;
 	private ViewHandler viewHandler;
 
@@ -38,6 +41,7 @@ public class GameView {
 
 		this.topPanelController.init(gameViewModel);
 		this.characterLeftController.init(gameViewModel);
+		this.characterRightController.init(gameViewModel);
 
 		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
@@ -58,18 +62,25 @@ public class GameView {
 
 	@FXML
 	private void handleKeyPressed(KeyEvent event) {
-		switch(event.getCode()) {
-			case LEFT:
-			case RIGHT:
-				// TODO: implement
-				// TODO: implement
-				break;
-			case A:
-				this.gameViewModel.setCharacterLeftXPosition(-20);
-				break;
-			case D:
-				this.gameViewModel.setCharacterLeftXPosition(20);
-				break;
+		switch (event.getCode()) {
+			case LEFT -> this.gameViewModel.moveCharacterLeft("right");
+			case RIGHT -> this.gameViewModel.moveCharacterRight("right");
+
+			// TODO: this will be removed in the future, the second character position will probably come via websocket
+			case A -> this.gameViewModel.moveCharacterLeft("left");
+			case D -> this.gameViewModel.moveCharacterRight("left");
+		}
+	}
+
+	@FXML
+	private void handleKeyReleased(KeyEvent event) {
+		switch (event.getCode()) {
+			case LEFT -> this.gameViewModel.stopCharacterMoveLeft("right");
+			case RIGHT -> this.gameViewModel.stopCharacterMoveRight("right");
+
+			// TODO: this will be removed in the future, the second character position will probably come via websocket
+			case A -> this.gameViewModel.stopCharacterMoveLeft("left");
+			case D -> this.gameViewModel.stopCharacterMoveRight("left");
 		}
 	}
 }
