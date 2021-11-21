@@ -93,10 +93,21 @@ public class GameViewModel {
 				// moving is not possible once the level is over
 				if (showLevelSuccessDialog.getValue()) return;
 
-				if (isCharacterLeftMovingLeft) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - 1);
-				if (isCharacterLeftMovingRight) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + 1);
-				if (isCharacterRightMovingLeft) characterRightXPosition.setValue(characterRightXPosition.getValue() - 1);
-				if (isCharacterRightMovingRight) characterRightXPosition.setValue(characterRightXPosition.getValue() + 1);
+				int characterSpeed = gameModel.getCharacterSpeed();
+				int gravity = gameModel.getGravity();
+
+				if (isCharacterLeftMovingLeft) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
+				if (isCharacterLeftMovingRight) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
+				if (isCharacterRightMovingLeft) characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
+				if (isCharacterRightMovingRight) characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+
+				// jumps are detected if character is not on its initial position
+				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
+					characterLeftYPosition.setValue(characterLeftYPosition.getValue() + gravity);
+				}
+				if (characterRightYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
+					characterRightYPosition.setValue(characterRightYPosition.getValue() + gravity);
+				}
 			}
 		};
 
@@ -161,6 +172,30 @@ public class GameViewModel {
 			this.isCharacterRightMovingRight = false;
 		}
 	}
+
+	private boolean isCharacterLeftAllowedToJump() {
+		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
+				&& !this.isCharacterLeftMovingLeft
+				&& !this.isCharacterLeftMovingRight;
+	}
+
+	private boolean isCharacterRightAllowedToJump() {
+		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
+				&& !this.isCharacterRightMovingLeft
+				&& !this.isCharacterRightMovingRight;
+	}
+
+	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
+	public void jumpCharacter(String character) {
+		if (character.equals("left") && isCharacterLeftAllowedToJump()) {
+			this.characterLeftYPosition.setValue(this.characterLeftYPosition.getValue() - this.levelModel.getJumpHeight());
+		}
+
+		if (character.equals("right") && isCharacterRightAllowedToJump()) {
+			this.characterRightYPosition.setValue(this.characterRightYPosition.getValue() - this.levelModel.getJumpHeight());
+		}
+	}
+
 
 	public void addScore(int score) {
 		this.labelScore.setValue(this.labelScore.getValue() + score);

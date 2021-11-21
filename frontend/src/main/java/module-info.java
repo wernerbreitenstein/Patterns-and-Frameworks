@@ -2,7 +2,6 @@ module puf.frisbee.frontend {
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires transitive javafx.graphics;
-	requires com.jfoenix;
 	requires javafx.base;
 
 	opens puf.frisbee.frontend to javafx.fxml;
