@@ -106,21 +106,39 @@ public class GameViewModel {
 		this.showLevelSuccessDialog.setValue(false);
 	}
 
+	// TODO: checks only needed for one character once two characters can not play on one computer anymore
+	private boolean isLeftBorderReachedByCharacterLeft() {
+		return this.characterLeftXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
+	}
+	private boolean isLeftBorderReachedByCharacterRight() {
+		return this.characterRightXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
+	}
+	private boolean isRightBorderReachedByCharacterLeft() {
+		return this.characterLeftXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
+	}
+	private boolean isRightBorderReachedByCharacterRight() {
+		return this.characterRightXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
+	}
+
 	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
 	public void moveCharacterLeft(String character) {
 		if (character.equals("left")) {
-			this.isCharacterLeftMovingLeft = true;
-		} else {
-			this.isCharacterRightMovingLeft = true;
+			this.isCharacterLeftMovingLeft = !this.isLeftBorderReachedByCharacterLeft();
+		}
+
+		if (character.equals("right")) {
+			this.isCharacterRightMovingLeft = !this.isLeftBorderReachedByCharacterRight();
 		}
 	}
 
 	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
 	public void moveCharacterRight(String character) {
 		if (character.equals("left")) {
-			this.isCharacterLeftMovingRight = true;
-		} else {
-			this.isCharacterRightMovingRight = true;
+			this.isCharacterLeftMovingRight = !isRightBorderReachedByCharacterLeft();
+		}
+
+		if (character.equals("right")) {
+			this.isCharacterRightMovingRight = !isRightBorderReachedByCharacterRight();
 		}
 	}
 
@@ -149,12 +167,12 @@ public class GameViewModel {
 	public int getLevel() {
 		return this.levelModel.getCurrentLevel();
 	}
-	
+
 	public StringProperty getLabelTeamProperty() {
 		this.labelTeamName.setValue(this.teamModel.getTeamName());
 		return this.labelTeamName;
 	}
-	
+
 	public StringProperty getLabelLevelProperty() {
 		this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
 		return this.labelLevel;
