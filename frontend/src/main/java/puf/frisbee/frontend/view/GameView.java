@@ -13,10 +13,10 @@ import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class GameView {
 	@FXML
-	private Button buttonYes_ReturnToWaitingView;
+	private Button buttonGameOverContinue;
 	
 	@FXML
-	private Button buttonNo_QuitGame;
+	private Button buttonGameOverQuit;
 	
 	@FXML
 	private StackPane gameOverDialog;
@@ -96,12 +96,12 @@ public class GameView {
 	}
 	
 	@FXML
-	private void handleButtonYesClicked(ActionEvent event) {
+	private void handleButtonGameOverContinueClicked(ActionEvent event) {
 		this.viewHandler.openWaitingView();
 	}
 	
 	@FXML
-	private void handleButtonNoClicked(ActionEvent event) {
-		this.viewHandler.end();
+	private void handleButtonGameOverQuitClicked(ActionEvent event) {
+		this.viewHandler.openHighscoreView();
 	}
 }

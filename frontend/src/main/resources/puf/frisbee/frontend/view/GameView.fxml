@@ -107,8 +107,8 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button fx:id="buttonYes_ReturnToWaitingView" mnemonicParsing="false" onAction="#handleButtonYesClicked" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button fx:id="buttonNo_QuitGame" layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonNoClicked" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                        <Button fx:id="buttonGameOverContinue" mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
+                        <Button fx:id="buttonGameOverQuit" layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" stylesheets="@../css/main.css" text="No, I'll come back later!" />
                      </children>
                   </HBox>
                </children>

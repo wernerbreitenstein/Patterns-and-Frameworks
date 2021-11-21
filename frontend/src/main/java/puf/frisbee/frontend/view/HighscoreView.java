@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,4 +40,11 @@ public class HighscoreView {
         this.highscoreViewModel.refreshData();
         this.highscoreTable.sort();
     }
+    
+    @FXML
+    private void handleButtonQuitGameClicked(ActionEvent event) {
+        this.viewHandler.end();
+    }
+    
+    
 }
