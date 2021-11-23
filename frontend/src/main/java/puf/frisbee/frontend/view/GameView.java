@@ -55,8 +55,8 @@ public class GameView {
 
 		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
-		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogOpenProperty());
-		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogOpenProperty());
+		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogProperty());
+		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogProperty());
 	}
 
 	@FXML
@@ -105,5 +105,10 @@ public class GameView {
 	@FXML
 	private void handleButtonGameOverQuitClicked(ActionEvent event) {
 		this.viewHandler.openHighscoreView();
+	}
+	
+	@FXML
+	private void handleButtonOneLiveLost(ActionEvent event) {
+		this.topPanelController.removeTeamLives();
 	}
 }

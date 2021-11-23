@@ -10,7 +10,19 @@ public interface Team {
 	 * @return current team name as string
 	 */
 	String getTeamName();
-	
+
+	/**
+	 * Returns the current number of lives a team has got.
+	 * 
+	 * @return current number of lives as integer
+	 */
+	int getTeamLives();
+
+	/**
+	 * Sets the current number of lives a team has got.
+	 */
+	void setTeamLives(int lives);
+
 	/**
 	 * Returns the current level the team has achieved.
 	 * 

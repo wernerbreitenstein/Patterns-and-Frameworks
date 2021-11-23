@@ -10,6 +10,8 @@ import puf.frisbee.frontend.model.*;
 public class GameViewModel {
 	private Level levelModel;
 	private Game gameModel;
+	private Team teamModel;
+	private int second;
 
 	private DoubleProperty characterLeftXPosition;
 	private DoubleProperty characterLeftYPosition;
@@ -23,37 +25,40 @@ public class GameViewModel {
 
 	private BooleanProperty showLevelSuccessDialog;
 	private BooleanProperty showGameOverDialog;
+	private BooleanProperty showOverlayTeamLives;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
 	private StringProperty labelLevelSuccess;
 	private StringProperty labelTeamName;
 	private IntegerProperty labelScore;
-
-	private TeamModel teamModel;
-	private int second;
+	private IntegerProperty displayLives;
 
 	public GameViewModel(Game gameModel, Level levelModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
-
-		this.characterLeftXPosition = new SimpleDoubleProperty();
-		this.characterLeftYPosition = new SimpleDoubleProperty();
-		this.characterRightXPosition = new SimpleDoubleProperty();
-		this.characterRightYPosition = new SimpleDoubleProperty();
-
+		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
+		
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
-		this.showGameOverDialog = new SimpleBooleanProperty(true);
+		this.showGameOverDialog = new SimpleBooleanProperty(false);
+		this.showOverlayTeamLives = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
+		this.displayLives = new SimpleIntegerProperty();
 
-		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
 		// start with latest saved score for team
 		this.labelScore.setValue(teamModel.getTeamScore());
+		// start every level with total number of lives
+		this.displayLives.setValue(teamModel.getTeamLives());
+
+		this.characterLeftXPosition = new SimpleDoubleProperty();
+		this.characterLeftYPosition = new SimpleDoubleProperty();
+		this.characterRightXPosition = new SimpleDoubleProperty();
+		this.characterRightYPosition = new SimpleDoubleProperty();
 
 		// set initial character positions
 		this.characterLeftYPosition.setValue(levelModel.getInitialCharacterYPosition());
@@ -76,11 +81,16 @@ public class GameViewModel {
 			labelCountdown.setValue(Integer.toString(second));
 			second--;
 
-			if (second < 0) {
+			if (this.getTeamLives() == 0) {
+				timeline.stop();
+				showLevelSuccessDialog.setValue(false);
+			}
+			if ((this.getTeamLives() != 0) && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
 				showLevelSuccessDialog.setValue(true);
 			}
+			
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
@@ -91,7 +101,7 @@ public class GameViewModel {
 			@Override
 			public void handle(long l) {
 				// moving is not possible once the level is over
-				if (showLevelSuccessDialog.getValue()) return;
+				if ((getTeamLives() == 0) || showLevelSuccessDialog.getValue()) return;
 
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
@@ -114,11 +124,6 @@ public class GameViewModel {
 		timer.start();
 	}
 
-	public void continueLevel() {
-		this.levelModel.updateCurrentLevel();
-		this.showLevelSuccessDialog.setValue(false);
-	}
-
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore
 	private boolean isLeftBorderReachedByCharacterLeft() {
 		return this.characterLeftXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
@@ -138,7 +143,6 @@ public class GameViewModel {
 		if (character.equals("left")) {
 			this.isCharacterLeftMovingLeft = !this.isLeftBorderReachedByCharacterLeft();
 		}
-
 		if (character.equals("right")) {
 			this.isCharacterRightMovingLeft = !this.isLeftBorderReachedByCharacterRight();
 		}
@@ -149,7 +153,6 @@ public class GameViewModel {
 		if (character.equals("left")) {
 			this.isCharacterLeftMovingRight = !isRightBorderReachedByCharacterLeft();
 		}
-
 		if (character.equals("right")) {
 			this.isCharacterRightMovingRight = !isRightBorderReachedByCharacterRight();
 		}
@@ -176,13 +179,17 @@ public class GameViewModel {
 	private boolean isCharacterLeftAllowedToJump() {
 		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterLeftMovingLeft
-				&& !this.isCharacterLeftMovingRight;
+				&& !this.isCharacterLeftMovingRight
+				&& getTeamLives() != 0 
+				&& showLevelSuccessDialog.getValue() != true;
 	}
 
 	private boolean isCharacterRightAllowedToJump() {
 		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterRightMovingLeft
-				&& !this.isCharacterRightMovingRight;
+				&& !this.isCharacterRightMovingRight
+				&& getTeamLives() != 0 
+				&& showLevelSuccessDialog.getValue() != true;
 	}
 
 	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
@@ -190,19 +197,30 @@ public class GameViewModel {
 		if (character.equals("left") && isCharacterLeftAllowedToJump()) {
 			this.characterLeftYPosition.setValue(this.characterLeftYPosition.getValue() - this.levelModel.getJumpHeight());
 		}
-
 		if (character.equals("right") && isCharacterRightAllowedToJump()) {
 			this.characterRightYPosition.setValue(this.characterRightYPosition.getValue() - this.levelModel.getJumpHeight());
 		}
 	}
-
+	
+	public int getTeamLives() {
+		return this.teamModel.getTeamLives();
+	}
+	
+	public void setTeamLives(int lives) {
+		this.teamModel.setTeamLives(lives);
+	}
+	
+	public void continueLevel() {
+		this.levelModel.updateCurrentLevel();
+		this.showLevelSuccessDialog.setValue(false);
+	}
+	
+	public int getLevel() {
+		return this.levelModel.getCurrentLevel();
+	}
 
 	public void addScore(int score) {
 		this.labelScore.setValue(this.labelScore.getValue() + score);
-	}
-
-	public int getLevel() {
-		return this.levelModel.getCurrentLevel();
 	}
 
 	public StringProperty getLabelTeamProperty() {
@@ -234,23 +252,38 @@ public class GameViewModel {
 		return this.labelScore;
 	}
 
-	public BooleanProperty getLevelSuccessDialogOpenProperty() {
+	public BooleanProperty getLevelSuccessDialogProperty() {
 		return this.showLevelSuccessDialog;
 	}
 	
-	public BooleanProperty getGameOverDialogOpenProperty() {
+	public BooleanProperty getGameOverDialogProperty() {
 		return this.showGameOverDialog;
+	}
+	
+	public void showGameOverDialog() {
+		this.showGameOverDialog.setValue(true);
+	}
+	
+	public BooleanProperty getOverlayTeamLivesProperty() {
+		return this.showOverlayTeamLives;
+	}
+	
+	public void showOverlayTeamLives() {
+		this.showOverlayTeamLives.setValue(true);
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
 		return this.characterLeftXPosition;
 	}
+	
 	public DoubleProperty getCharacterLeftYPositionProperty() {
 		return this.characterLeftYPosition;
 	}
+	
 	public DoubleProperty getCharacterRightXPositionProperty() {
 		return this.characterRightXPosition;
 	}
+	
 	public DoubleProperty getCharacterRightYPositionProperty() {
 		return this.characterRightYPosition;
 	}
