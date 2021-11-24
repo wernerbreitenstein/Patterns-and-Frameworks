@@ -81,11 +81,10 @@ public class GameViewModel {
 			labelCountdown.setValue(Integer.toString(second));
 			second--;
 
-			if (this.getTeamLives() == 0) {
+			if (!this.teamHasLivesLeft()) {
 				timeline.stop();
-				showLevelSuccessDialog.setValue(false);
 			}
-			if ((this.getTeamLives() != 0) && (second < 0)) {
+			if (this.teamHasLivesLeft() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
 				showLevelSuccessDialog.setValue(true);
@@ -101,7 +100,7 @@ public class GameViewModel {
 			@Override
 			public void handle(long l) {
 				// moving is not possible once the level is over
-				if ((getTeamLives() == 0) || showLevelSuccessDialog.getValue()) return;
+				if (!teamHasLivesLeft() || showLevelSuccessDialog.getValue()) return;
 
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
@@ -180,7 +179,7 @@ public class GameViewModel {
 		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterLeftMovingLeft
 				&& !this.isCharacterLeftMovingRight
-				&& getTeamLives() != 0 
+				&& this.teamHasLivesLeft() 
 				&& showLevelSuccessDialog.getValue() != true;
 	}
 
@@ -188,7 +187,7 @@ public class GameViewModel {
 		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterRightMovingLeft
 				&& !this.isCharacterRightMovingRight
-				&& getTeamLives() != 0 
+				&& this.teamHasLivesLeft() 
 				&& showLevelSuccessDialog.getValue() != true;
 	}
 
@@ -208,6 +207,13 @@ public class GameViewModel {
 	
 	public void setTeamLives(int lives) {
 		this.teamModel.setTeamLives(lives);
+	}
+	
+	public boolean teamHasLivesLeft() {
+		if (this.getTeamLives() == 0) {
+			return false;
+		}
+		return true;
 	}
 	
 	public void continueLevel() {
