@@ -6,7 +6,7 @@ public class TeamModel implements Team {
 	private String teamName;
 	private int teamLives;
 	private int teamLevel;
-	private int teamScore;
+	private int teamScore = 0;
 
 	public TeamModel(String teamName, int teamLevel, int teamScore) {
 		this.teamName = teamName;
@@ -17,7 +17,7 @@ public class TeamModel implements Team {
 
 	@Override
 	public String getTeamName() {
-		return teamName;
+		return this.teamName;
 	}
 
 	@Override
@@ -32,12 +32,21 @@ public class TeamModel implements Team {
 
 	@Override
 	public int getTeamLevel() {
-		return teamLevel;
+		return this.teamLevel;
+	}
+	
+	@Override
+	public void setTeamLevel(int level) {
+		this.teamLevel = level;
 	}
 
 	@Override
 	public int getTeamScore() {
-		return teamScore;
+		return this.teamScore;
 	}
 
+	@Override
+	public void setTeamScore(int score) {
+		this.teamScore = score;
+	}
 }

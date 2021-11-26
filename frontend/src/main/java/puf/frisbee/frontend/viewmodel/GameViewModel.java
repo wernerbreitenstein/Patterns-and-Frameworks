@@ -8,8 +8,8 @@ import javafx.util.Duration;
 import puf.frisbee.frontend.model.*;
 
 public class GameViewModel {
-	private Level levelModel;
 	private Game gameModel;
+	private Level levelModel;
 	private Team teamModel;
 	private int second;
 
@@ -25,19 +25,17 @@ public class GameViewModel {
 
 	private BooleanProperty showLevelSuccessDialog;
 	private BooleanProperty showGameOverDialog;
-	private BooleanProperty showOverlayTeamLives;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
 	private StringProperty labelLevelSuccess;
 	private StringProperty labelTeamName;
 	private IntegerProperty labelScore;
-	private IntegerProperty displayLives;
 
-	public GameViewModel(Game gameModel, Level levelModel) {
+	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
-		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
+		this.teamModel = teamModel;
 		
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
@@ -45,15 +43,8 @@ public class GameViewModel {
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
 		this.showGameOverDialog = new SimpleBooleanProperty(false);
-		this.showOverlayTeamLives = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
-		this.displayLives = new SimpleIntegerProperty();
-
-		// start with latest saved score for team
-		this.labelScore.setValue(teamModel.getTeamScore());
-		// start every level with total number of lives
-		this.displayLives.setValue(teamModel.getTeamLives());
 
 		this.characterLeftXPosition = new SimpleDoubleProperty();
 		this.characterLeftYPosition = new SimpleDoubleProperty();
@@ -121,6 +112,11 @@ public class GameViewModel {
 		};
 
 		timer.start();
+	}
+	
+	public void restart() {
+		startCountdown();
+		startCharacterAnimation();
 	}
 
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore
@@ -201,12 +197,51 @@ public class GameViewModel {
 		}
 	}
 	
+	public StringProperty getLabelTeamProperty() {
+		this.labelTeamName.setValue(this.teamModel.getTeamName());
+		return this.labelTeamName;
+	}
+	
+	public StringProperty getLabelLevelProperty() {
+		this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
+		return this.labelLevel;
+	}
+	
+	public void resetLabelLevelProperty() {
+		this.levelModel.setCurrentLevel(1);
+	}
+	
+	public StringProperty getLabelCountdownProperty() {
+		return this.labelCountdown;
+	}
+	
+	public IntegerProperty getLabelScoreProperty() {
+		this.labelScore.setValue(this.teamModel.getTeamScore());
+		return this.labelScore;
+	}
+	
+	public void setLabelScoreProperty() {
+		this.teamModel.setTeamScore(this.labelScore.get());
+	}
+
+	public void incrementLabelScoreProperty() {
+		this.labelScore.setValue(this.labelScore.getValue() + 1);
+	}
+	
+	public void resetLabelScoreProperty() {
+		this.teamModel.setTeamScore(0);
+	}
+	
 	public int getTeamLives() {
 		return this.teamModel.getTeamLives();
 	}
 	
 	public void setTeamLives(int lives) {
 		this.teamModel.setTeamLives(lives);
+	}
+	
+	public void resetTeamLives() {
+		this.teamModel.setTeamLives(5);
 	}
 	
 	public boolean teamHasLivesLeft() {
@@ -216,32 +251,11 @@ public class GameViewModel {
 		return true;
 	}
 	
-	public void continueLevel() {
-		this.levelModel.updateCurrentLevel();
-		this.showLevelSuccessDialog.setValue(false);
-	}
-	
-	public int getLevel() {
-		return this.levelModel.getCurrentLevel();
-	}
-
-	public void addScore(int score) {
-		this.labelScore.setValue(this.labelScore.getValue() + score);
-	}
-
-	public StringProperty getLabelTeamProperty() {
-		this.labelTeamName.setValue(this.teamModel.getTeamName());
-		return this.labelTeamName;
-	}
-
-	public StringProperty getLabelLevelProperty() {
+	public void setNextLevel() {
+		this.levelModel.incrementCurrentLevel();
 		this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
-		return this.labelLevel;
-	}
-
-	public StringProperty getLabelCountdownProperty() {
-		return this.labelCountdown;
-	}
+		this.showLevelSuccessDialog.setValue(false);
+	}	
 
 	public StringProperty getLabelLevelSuccessProperty() {
 		this.labelLevelSuccess.setValue("Level " + this.levelModel.getCurrentLevel() + " geschafft!");
@@ -254,10 +268,6 @@ public class GameViewModel {
 		return this.buttonLevelContinueText;
 	}
 
-	public IntegerProperty getLabelScoreProperty() {
-		return this.labelScore;
-	}
-
 	public BooleanProperty getLevelSuccessDialogProperty() {
 		return this.showLevelSuccessDialog;
 	}
@@ -268,14 +278,6 @@ public class GameViewModel {
 	
 	public void showGameOverDialog() {
 		this.showGameOverDialog.setValue(true);
-	}
-	
-	public BooleanProperty getOverlayTeamLivesProperty() {
-		return this.showOverlayTeamLives;
-	}
-	
-	public void showOverlayTeamLives() {
-		this.showOverlayTeamLives.setValue(true);
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

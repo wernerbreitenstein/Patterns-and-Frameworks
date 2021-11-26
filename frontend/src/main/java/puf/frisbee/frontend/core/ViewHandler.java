@@ -31,7 +31,7 @@ public class ViewHandler {
 	 * 
 	 * @param level that should be loaded via css
 	 */
-	public void openGameView(int level) {
+	public void openGameView() {
 		FXMLLoader gameViewLoader = new FXMLLoader();
 		gameViewLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/GameView.fxml"));
 
@@ -41,7 +41,7 @@ public class ViewHandler {
 			Parent root = gameViewLoader.load();
 			GameView gameView = gameViewLoader.getController();
 			gameView.init(viewModelFactory.getGameViewModel(), this);
-			this.stage.setTitle("Frisbee Level " + level);
+			this.stage.setTitle("Frisbee Game");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 			root.requestFocus();

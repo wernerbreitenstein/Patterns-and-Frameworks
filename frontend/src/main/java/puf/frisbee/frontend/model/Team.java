@@ -29,11 +29,21 @@ public interface Team {
 	 * @return current level as integer
 	 */
 	int getTeamLevel();
-
+	
+	/**
+	 * Sets the current level the team has achieved.
+	 */
+	void setTeamLevel(int level);
+	
 	/**
 	 * Returns the current score the team has achieved.
 	 * 
 	 * @return current score as integer
 	 */
 	int getTeamScore();
+	
+	/**
+	 * Sets the current score the team has achieved.
+	 */
+	void setTeamScore(int score);
 }

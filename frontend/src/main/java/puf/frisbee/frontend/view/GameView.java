@@ -60,18 +60,6 @@ public class GameView {
 	}
 
 	@FXML
-	private void handleFrisbeeClicked(MouseEvent event) {
-		this.gameViewModel.addScore(1);
-		labelFrisbee.setText("Los geht's!");
-	}
-
-	@FXML
-	private void handleLevelContinueClicked(ActionEvent event) {
-		gameViewModel.continueLevel();
-		this.viewHandler.openGameView(this.gameViewModel.getLevel());
-	}
-
-	@FXML
 	private void handleKeyPressed(KeyEvent event) {
 		switch (event.getCode()) {
 			case LEFT -> this.gameViewModel.moveCharacterLeft("right");
@@ -98,10 +86,28 @@ public class GameView {
 	}
 	
 	@FXML
-	private void handleButtonGameOverContinueClicked(ActionEvent event) {
-		this.viewHandler.openWaitingView();
+	private void handleFrisbeeClicked(MouseEvent event) {
+		this.gameViewModel.incrementLabelScoreProperty();
+	}
+
+	@FXML
+	private void handleLevelContinueClicked(ActionEvent event) {
+		this.gameViewModel.setNextLevel();
+		this.gameViewModel.setLabelScoreProperty();
+		this.topPanelController.restoreRemainingTeamLives(this.gameViewModel.getTeamLives());
+		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
+		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
+		this.gameViewModel.restart();
 	}
 	
+	@FXML
+	private void handleButtonGameOverContinueClicked(ActionEvent event) {
+		this.gameViewModel.resetLabelLevelProperty();
+		this.gameViewModel.resetLabelScoreProperty();
+		this.gameViewModel.resetTeamLives();
+		this.viewHandler.openGameView();
+	}
+
 	@FXML
 	private void handleButtonGameOverQuitClicked(ActionEvent event) {
 		this.viewHandler.openHighscoreView();
