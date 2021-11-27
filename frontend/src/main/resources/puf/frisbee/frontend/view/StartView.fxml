@@ -9,10 +9,11 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.HighscoreView">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.StartView">
    <children>
       <VBox alignment="TOP_CENTER" layoutY="81.0" prefHeight="585.0" prefWidth="1280.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="81.0">
          <children>
@@ -24,7 +25,14 @@
                   <Insets bottom="6.0" />
                </VBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onMouseClicked="#handleStartButtonClicked" stylesheets="@../css/main.css" text="Neues Spiel starten" />
+            <Label fx:id="labelGreeting" text="Hello stranger" />
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonLoginRegister" mnemonicParsing="false" onMouseClicked="#handleLoginRegisterButtonClicked" stylesheets="@../css/main.css" text="Login / Register" />
+                  <Button fx:id="buttonLogout" mnemonicParsing="false" onMouseClicked="#handleLogoutButtonClicked" stylesheets="@../css/main.css" text="Logout" />
+               </children>
+            </StackPane>
+            <Button fx:id="buttonStart" mnemonicParsing="false" onMouseClicked="#handleStartButtonClicked" stylesheets="@../css/main.css" text="Start new game" />
             <TableView fx:id="highscoreTable" editable="true" prefHeight="318.0" prefWidth="880.0" styleClass="highscore-table">
               <columns>
                 <TableColumn prefWidth="564.8964691162109" text="Team">

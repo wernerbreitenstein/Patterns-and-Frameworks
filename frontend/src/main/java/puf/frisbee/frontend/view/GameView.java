@@ -104,6 +104,6 @@ public class GameView {
 	
 	@FXML
 	private void handleButtonGameOverQuitClicked(ActionEvent event) {
-		this.viewHandler.openHighscoreView();
+		this.viewHandler.openStartView();
 	}
 }

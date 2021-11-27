@@ -6,6 +6,7 @@ public class ModelFactory {
 	private Level levelModel;
 	private Highscore highscoreModel;
 	private Game gameModel;
+	private Player playerModel;
 
 	/**
 	 * Creates a GameModel instance if it does not exist yet and returns it.
@@ -44,5 +45,18 @@ public class ModelFactory {
 		}
 
 		return highscoreModel;
+	}
+
+	/**
+	 * Creates a PlayerModel instance if it does not exist yet and returns it.
+	 *
+	 * @return instance of PlayerModel
+	 */
+	public Player getPlayerModel() {
+		if (playerModel == null) {
+			playerModel = new PlayerModel();
+		}
+
+		return playerModel;
 	}
 }

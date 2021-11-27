@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import puf.frisbee.frontend.view.HighscoreView;
+import puf.frisbee.frontend.view.StartView;
 import puf.frisbee.frontend.view.GameView;
 import puf.frisbee.frontend.view.WaitingView;
 
@@ -18,7 +18,7 @@ public class ViewHandler {
 	}
 
 	public void start() {
-		openHighscoreView();
+		openStartView();
 		this.stage.show();
 	}
 	
@@ -65,13 +65,13 @@ public class ViewHandler {
 		}
 	}
 
-	public void openHighscoreView() {
-		FXMLLoader highscoreViewLoader = new FXMLLoader();
-		highscoreViewLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/HighscoreView.fxml"));
+	public void openStartView() {
+		FXMLLoader startViewLoader = new FXMLLoader();
+		startViewLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/StartView.fxml"));
 		try {
-			Parent root = highscoreViewLoader.load();
-			HighscoreView highscoreView = highscoreViewLoader.getController();
-			highscoreView.init(viewModelFactory.getHighscoreViewModel(),this);
+			Parent root = startViewLoader.load();
+			StartView startView = startViewLoader.getController();
+			startView.init(viewModelFactory.getHighscoreViewModel(),this);
 			this.stage.setTitle("Frisbee");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
