@@ -13,19 +13,10 @@ import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class GameView {
 	@FXML
-	private Button buttonGameOverContinue;
-	
-	@FXML
-	private Button buttonGameOverQuit;
-	
-	@FXML
 	private StackPane gameOverDialog;
 	
 	@FXML
 	private GridPane levelSuccessDialog;
-
-	@FXML
-	private Label labelFrisbee;
 
 	@FXML
 	private Label labelLevelSuccess;
@@ -55,20 +46,8 @@ public class GameView {
 
 		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
-		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogOpenProperty());
-		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogOpenProperty());
-	}
-
-	@FXML
-	private void handleFrisbeeClicked(MouseEvent event) {
-		this.gameViewModel.addScore(1);
-		labelFrisbee.setText("Los geht's!");
-	}
-
-	@FXML
-	private void handleLevelContinueClicked(ActionEvent event) {
-		gameViewModel.continueLevel();
-		this.viewHandler.openGameView(this.gameViewModel.getLevel());
+		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogProperty());
+		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogProperty());
 	}
 
 	@FXML
@@ -98,10 +77,24 @@ public class GameView {
 	}
 	
 	@FXML
-	private void handleButtonGameOverContinueClicked(ActionEvent event) {
-		this.viewHandler.openWaitingView();
+	private void handleFrisbeeClicked(MouseEvent event) {
+		this.gameViewModel.incrementScore();
+		this.gameViewModel.removeLife();
+	}
+
+	@FXML
+	private void handleLevelContinueClicked(ActionEvent event) {
+		this.gameViewModel.continueGame();
+		// reload game
+		this.viewHandler.openGameView();
 	}
 	
+	@FXML
+	private void handleButtonGameOverContinueClicked(ActionEvent event) {
+		this.gameViewModel.continueGameOver();
+		this.viewHandler.openGameView();
+	}
+
 	@FXML
 	private void handleButtonGameOverQuitClicked(ActionEvent event) {
 		this.viewHandler.openHighscoreView();

@@ -7,9 +7,14 @@ import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.model.*;
 
+import java.util.ArrayList;
+
 public class GameViewModel {
-	private Level levelModel;
 	private Game gameModel;
+	private Level levelModel;
+	private Team teamModel;
+	private int second;
+	private int remainingLives;
 
 	private DoubleProperty characterLeftXPosition;
 	private DoubleProperty characterLeftYPosition;
@@ -30,30 +35,32 @@ public class GameViewModel {
 	private StringProperty labelTeamName;
 	private IntegerProperty labelScore;
 
-	private TeamModel teamModel;
-	private int second;
+	private ArrayList<BooleanProperty> teamLivesHidden;
 
-	public GameViewModel(Game gameModel, Level levelModel) {
+	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
-
-		this.characterLeftXPosition = new SimpleDoubleProperty();
-		this.characterLeftYPosition = new SimpleDoubleProperty();
-		this.characterRightXPosition = new SimpleDoubleProperty();
-		this.characterRightYPosition = new SimpleDoubleProperty();
-
+		this.teamModel = teamModel;
+		this.remainingLives = teamModel.getTeamLives();
+		this.teamLivesHidden = new ArrayList<>(5);
+		for (int i = 0; i < 5; i++) {
+			BooleanProperty hidden = new SimpleBooleanProperty(i >= this.remainingLives);
+			this.teamLivesHidden.add(hidden);
+		}
+		
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
-		this.showGameOverDialog = new SimpleBooleanProperty(true);
+		this.showGameOverDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
-		this.teamModel = new TeamModel("Bonnie & Clyde", 5, 47);
-		// start with latest saved score for team
-		this.labelScore.setValue(teamModel.getTeamScore());
+		this.characterLeftXPosition = new SimpleDoubleProperty();
+		this.characterLeftYPosition = new SimpleDoubleProperty();
+		this.characterRightXPosition = new SimpleDoubleProperty();
+		this.characterRightYPosition = new SimpleDoubleProperty();
 
 		// set initial character positions
 		this.characterLeftYPosition.setValue(levelModel.getInitialCharacterYPosition());
@@ -69,6 +76,12 @@ public class GameViewModel {
 		this.startCharacterAnimation();
 	}
 
+	private void setTeamLivesHidden() {
+		for (int i = 0; i < 5; i++) {
+			this.teamLivesHidden.get(i).setValue(i >= this.remainingLives);
+		}
+	}
+
 	private void startCountdown() {
 		this.second = gameModel.getCountdown();
 		Timeline timeline = new Timeline();
@@ -76,11 +89,15 @@ public class GameViewModel {
 			labelCountdown.setValue(Integer.toString(second));
 			second--;
 
-			if (second < 0) {
+			if (this.showGameOverDialog.getValue()) {
+				timeline.stop();
+			}
+			if (!this.showGameOverDialog.getValue() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
 				showLevelSuccessDialog.setValue(true);
 			}
+			
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
@@ -91,7 +108,7 @@ public class GameViewModel {
 			@Override
 			public void handle(long l) {
 				// moving is not possible once the level is over
-				if (showLevelSuccessDialog.getValue()) return;
+				if (showGameOverDialog.getValue() || showLevelSuccessDialog.getValue()) return;
 
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
@@ -114,11 +131,6 @@ public class GameViewModel {
 		timer.start();
 	}
 
-	public void continueLevel() {
-		this.levelModel.updateCurrentLevel();
-		this.showLevelSuccessDialog.setValue(false);
-	}
-
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore
 	private boolean isLeftBorderReachedByCharacterLeft() {
 		return this.characterLeftXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
@@ -138,7 +150,6 @@ public class GameViewModel {
 		if (character.equals("left")) {
 			this.isCharacterLeftMovingLeft = !this.isLeftBorderReachedByCharacterLeft();
 		}
-
 		if (character.equals("right")) {
 			this.isCharacterRightMovingLeft = !this.isLeftBorderReachedByCharacterRight();
 		}
@@ -149,7 +160,6 @@ public class GameViewModel {
 		if (character.equals("left")) {
 			this.isCharacterLeftMovingRight = !isRightBorderReachedByCharacterLeft();
 		}
-
 		if (character.equals("right")) {
 			this.isCharacterRightMovingRight = !isRightBorderReachedByCharacterRight();
 		}
@@ -176,13 +186,17 @@ public class GameViewModel {
 	private boolean isCharacterLeftAllowedToJump() {
 		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterLeftMovingLeft
-				&& !this.isCharacterLeftMovingRight;
+				&& !this.isCharacterLeftMovingRight
+				&& !showGameOverDialog.getValue()
+				&& !showLevelSuccessDialog.getValue();
 	}
 
 	private boolean isCharacterRightAllowedToJump() {
 		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterRightMovingLeft
-				&& !this.isCharacterRightMovingRight;
+				&& !this.isCharacterRightMovingRight
+				&& !showGameOverDialog.getValue()
+				&& !showLevelSuccessDialog.getValue();
 	}
 
 	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
@@ -190,33 +204,49 @@ public class GameViewModel {
 		if (character.equals("left") && isCharacterLeftAllowedToJump()) {
 			this.characterLeftYPosition.setValue(this.characterLeftYPosition.getValue() - this.levelModel.getJumpHeight());
 		}
-
 		if (character.equals("right") && isCharacterRightAllowedToJump()) {
 			this.characterRightYPosition.setValue(this.characterRightYPosition.getValue() - this.levelModel.getJumpHeight());
 		}
 	}
-
-
-	public void addScore(int score) {
-		this.labelScore.setValue(this.labelScore.getValue() + score);
-	}
-
-	public int getLevel() {
-		return this.levelModel.getCurrentLevel();
-	}
-
+	
 	public StringProperty getLabelTeamProperty() {
 		this.labelTeamName.setValue(this.teamModel.getTeamName());
 		return this.labelTeamName;
 	}
-
+	
 	public StringProperty getLabelLevelProperty() {
 		this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
 		return this.labelLevel;
 	}
-
+	
 	public StringProperty getLabelCountdownProperty() {
 		return this.labelCountdown;
+	}
+	
+	public IntegerProperty getLabelScoreProperty() {
+		this.labelScore.setValue(this.teamModel.getTeamScore());
+		return this.labelScore;
+	}
+
+	public void incrementScore() {
+		this.labelScore.setValue(this.labelScore.getValue() + 1);
+	}
+	
+	public int getRemainingLives() {
+		return this.remainingLives;
+	}
+	
+	public void removeLife() {
+		this.remainingLives --;
+		this.setTeamLivesHidden();
+
+		if (this.remainingLives == 0) {
+			this.showGameOverDialog.setValue(true);
+		}
+	}
+
+	public BooleanProperty getTeamLivesHiddenProperty(int lifeIndex) {
+		return this.teamLivesHidden.get(lifeIndex);
 	}
 
 	public StringProperty getLabelLevelSuccessProperty() {
@@ -230,27 +260,43 @@ public class GameViewModel {
 		return this.buttonLevelContinueText;
 	}
 
-	public IntegerProperty getLabelScoreProperty() {
-		return this.labelScore;
-	}
-
-	public BooleanProperty getLevelSuccessDialogOpenProperty() {
+	public BooleanProperty getLevelSuccessDialogProperty() {
 		return this.showLevelSuccessDialog;
 	}
 	
-	public BooleanProperty getGameOverDialogOpenProperty() {
+	public BooleanProperty getGameOverDialogProperty() {
 		return this.showGameOverDialog;
+	}
+
+	public void continueGameOver() {
+		// TODO: save current lives, score and level of team to backend later on
+		this.teamModel.setTeamLevel(1);
+		this.teamModel.setTeamScore(0);
+		this.teamModel.setTeamLives(5);
+
+		this.levelModel.setCurrentLevel(1);
+	}
+
+	public void continueGame() {
+		this.levelModel.incrementCurrentLevel();
+		// TODO: save current lives, score and level of team to backend later on
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
 		return this.characterLeftXPosition;
 	}
+	
 	public DoubleProperty getCharacterLeftYPositionProperty() {
 		return this.characterLeftYPosition;
 	}
+	
 	public DoubleProperty getCharacterRightXPositionProperty() {
 		return this.characterRightXPosition;
 	}
+	
 	public DoubleProperty getCharacterRightYPositionProperty() {
 		return this.characterRightYPosition;
 	}

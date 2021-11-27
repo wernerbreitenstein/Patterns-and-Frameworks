@@ -25,7 +25,7 @@
          <children>
             <ImageView fx:id="frisbee" fitHeight="97.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/Frisbee_2.gif" />
+                  <Image url="@../images/frisbee01.png" />
                </image>
             </ImageView>
          </children>

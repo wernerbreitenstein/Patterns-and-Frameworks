@@ -53,7 +53,7 @@ public class WaitingView {
 
     @FXML
     private void handleStartButtonClicked(MouseEvent event) {
-        this.viewHandler.openGameView(this.gameViewModel.getLevel());
+        this.viewHandler.openGameView();
     }
     
     @FXML
