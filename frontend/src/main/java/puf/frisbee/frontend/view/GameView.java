@@ -13,19 +13,10 @@ import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class GameView {
 	@FXML
-	private Button buttonGameOverContinue;
-	
-	@FXML
-	private Button buttonGameOverQuit;
-	
-	@FXML
 	private StackPane gameOverDialog;
 	
 	@FXML
 	private GridPane levelSuccessDialog;
-
-	@FXML
-	private Label labelFrisbee;
 
 	@FXML
 	private Label labelLevelSuccess;
@@ -87,24 +78,19 @@ public class GameView {
 	
 	@FXML
 	private void handleFrisbeeClicked(MouseEvent event) {
-		this.gameViewModel.incrementLabelScoreProperty();
+		this.gameViewModel.incrementScore();
 	}
 
 	@FXML
 	private void handleLevelContinueClicked(ActionEvent event) {
-		this.gameViewModel.setNextLevel();
-		this.gameViewModel.setLabelScoreProperty();
-		this.topPanelController.restoreRemainingTeamLives(this.gameViewModel.getTeamLives());
-		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
-		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
-		this.gameViewModel.restart();
+		this.gameViewModel.continueGame();
+		// reload game
+		this.viewHandler.openGameView();
 	}
 	
 	@FXML
 	private void handleButtonGameOverContinueClicked(ActionEvent event) {
-		this.gameViewModel.resetLabelLevelProperty();
-		this.gameViewModel.resetLabelScoreProperty();
-		this.gameViewModel.resetTeamLives();
+		this.gameViewModel.continueGameOver();
 		this.viewHandler.openGameView();
 	}
 

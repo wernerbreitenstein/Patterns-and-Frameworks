@@ -30,21 +30,23 @@ public class TopPanelView {
         this.labelLevel.textProperty().bind(this.gameViewModel.getLabelLevelProperty());
         this.labelScore.textProperty().bind(this.gameViewModel.getLabelScoreProperty().asString());
         this.labelTeamName.textProperty().bind(this.gameViewModel.getLabelTeamProperty());
+
+        setOverlaysTeamLivesVisible();
+    }
+
+    private void setOverlaysTeamLivesVisible() {
+        for (int i = overlaysTeamLives.getChildren().size(); i > this.gameViewModel.getRemainingLives(); i-- ) {
+            this.overlaysTeamLives.getChildren().get(i - 1).setVisible(true);
+        }
     }
     
     public void removeTeamLives() {
-    	if (this.gameViewModel.getTeamLives() > 0) {    		    		
-    		overlaysTeamLives.getChildren().get(this.gameViewModel.getTeamLives() - 1).setVisible(true);
-    		this.gameViewModel.setTeamLives(this.gameViewModel.getTeamLives() - 1);
+    	if (this.gameViewModel.getRemainingLives() > 0) {
+    		this.gameViewModel.removeLife();
+    		setOverlaysTeamLivesVisible();
     	}
-    	if (this.gameViewModel.getTeamLives() == 0) {
+    	if (this.gameViewModel.getRemainingLives() == 0) {
 			this.gameViewModel.showGameOverDialog();
 		}
-    }
-    
-    public void restoreRemainingTeamLives(int remainingLives) {
-    	for (int i = overlaysTeamLives.getChildren().size(); i > remainingLives; i-- ) {
-    		this.overlaysTeamLives.getChildren().get(i - 1).setVisible(true);
-    	}
     }
 }

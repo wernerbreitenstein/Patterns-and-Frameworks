@@ -29,7 +29,6 @@ public class ViewHandler {
 	/**
 	 * Loads the view for the game.
 	 * 
-	 * @param level that should be loaded via css
 	 */
 	public void openGameView() {
 		FXMLLoader gameViewLoader = new FXMLLoader();
