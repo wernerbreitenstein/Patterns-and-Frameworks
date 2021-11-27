@@ -3,9 +3,10 @@ package puf.frisbee.frontend.core;
 import puf.frisbee.frontend.model.*;
 
 public class ModelFactory {
-	private Level levelModel;
-	private Highscore highscoreModel;
 	private Game gameModel;
+	private Level levelModel;
+	private Team teamModel;
+	private Highscore highscoreModel;
 	private Player playerModel;
 
 	/**
@@ -17,7 +18,6 @@ public class ModelFactory {
 		if (gameModel == null) {
 			gameModel = new GameModel();
 		}
-
 		return gameModel;
 	}
 
@@ -30,8 +30,19 @@ public class ModelFactory {
 		if (levelModel == null) {
 			levelModel = new LevelModel();
 		}
-
 		return levelModel;
+	}
+
+	/**
+	 * Creates a TeamModel instance if it does not exist yet and returns it.
+	 *
+	 * @return instance of TeamModel
+	 */
+	public Team getTeamModel() {
+		if (teamModel == null) {
+			teamModel = new TeamModel("–––", 1, 0);
+		}
+		return teamModel;
 	}
 
 	/**
@@ -43,7 +54,6 @@ public class ModelFactory {
 		if (highscoreModel == null) {
 			highscoreModel = new HighscoreModel();
 		}
-
 		return highscoreModel;
 	}
 

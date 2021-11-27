@@ -1,4 +1,4 @@
 .root {
-	-fx-background-image: url("../images/waitingbackground.png");
+	-fx-background-image: url("../images/waiting_bg.png");
 	-fx-background-size: contain;
 }
