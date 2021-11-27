@@ -7,6 +7,8 @@ import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.model.*;
 
+import java.util.ArrayList;
+
 public class GameViewModel {
 	private Game gameModel;
 	private Level levelModel;
@@ -33,11 +35,18 @@ public class GameViewModel {
 	private StringProperty labelTeamName;
 	private IntegerProperty labelScore;
 
+	private ArrayList<BooleanProperty> teamLivesHidden;
+
 	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
 		this.remainingLives = teamModel.getTeamLives();
+		this.teamLivesHidden = new ArrayList<>(5);
+		for (int i = 0; i < 5; i++) {
+			BooleanProperty hidden = new SimpleBooleanProperty(i >= this.remainingLives);
+			this.teamLivesHidden.add(hidden);
+		}
 		
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
@@ -65,6 +74,12 @@ public class GameViewModel {
 
 		this.startCountdown();
 		this.startCharacterAnimation();
+	}
+
+	private void setTeamLivesHidden() {
+		for (int i = 0; i < 5; i++) {
+			this.teamLivesHidden.get(i).setValue(i >= this.remainingLives);
+		}
 	}
 
 	private void startCountdown() {
@@ -223,6 +238,15 @@ public class GameViewModel {
 	
 	public void removeLife() {
 		this.remainingLives --;
+		this.setTeamLivesHidden();
+
+		if (this.remainingLives == 0) {
+			this.showGameOverDialog.setValue(true);
+		}
+	}
+
+	public BooleanProperty getTeamLivesHiddenProperty(int lifeIndex) {
+		return this.teamLivesHidden.get(lifeIndex);
 	}
 
 	public StringProperty getLabelLevelSuccessProperty() {
@@ -242,10 +266,6 @@ public class GameViewModel {
 	
 	public BooleanProperty getGameOverDialogProperty() {
 		return this.showGameOverDialog;
-	}
-	
-	public void showGameOverDialog() {
-		this.showGameOverDialog.setValue(true);
 	}
 
 	public void continueGameOver() {

@@ -79,6 +79,7 @@ public class GameView {
 	@FXML
 	private void handleFrisbeeClicked(MouseEvent event) {
 		this.gameViewModel.incrementScore();
+		this.gameViewModel.removeLife();
 	}
 
 	@FXML
@@ -97,10 +98,5 @@ public class GameView {
 	@FXML
 	private void handleButtonGameOverQuitClicked(ActionEvent event) {
 		this.viewHandler.openHighscoreView();
-	}
-	
-	@FXML
-	private void handleButtonOneLiveLost(ActionEvent event) {
-		this.topPanelController.removeTeamLives();
 	}
 }

@@ -31,22 +31,8 @@ public class TopPanelView {
         this.labelScore.textProperty().bind(this.gameViewModel.getLabelScoreProperty().asString());
         this.labelTeamName.textProperty().bind(this.gameViewModel.getLabelTeamProperty());
 
-        setOverlaysTeamLivesVisible();
-    }
-
-    private void setOverlaysTeamLivesVisible() {
-        for (int i = overlaysTeamLives.getChildren().size(); i > this.gameViewModel.getRemainingLives(); i-- ) {
-            this.overlaysTeamLives.getChildren().get(i - 1).setVisible(true);
+        for (int i = 0; i < this.overlaysTeamLives.getChildren().size(); i++) {
+            this.overlaysTeamLives.getChildren().get(i).visibleProperty().bind(this.gameViewModel.getTeamLivesHiddenProperty(i));
         }
-    }
-    
-    public void removeTeamLives() {
-    	if (this.gameViewModel.getRemainingLives() > 0) {
-    		this.gameViewModel.removeLife();
-    		setOverlaysTeamLivesVisible();
-    	}
-    	if (this.gameViewModel.getRemainingLives() == 0) {
-			this.gameViewModel.showGameOverDialog();
-		}
     }
 }

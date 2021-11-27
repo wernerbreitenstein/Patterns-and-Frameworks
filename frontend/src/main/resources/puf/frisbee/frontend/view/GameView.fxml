@@ -117,7 +117,6 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
             <Insets bottom="40.0" top="80.0" />
          </padding>
       </StackPane>
-      <Button layoutX="1180.0" layoutY="100.0" mnemonicParsing="false" onAction="#handleButtonOneLiveLost" text="one live lost" />
    </children>
    <stylesheets>
       <URL value="@../css/main.css" />
