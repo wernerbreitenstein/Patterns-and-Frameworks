@@ -5,5 +5,4 @@ public final class Constants {
     public static final int SCENE_HEIGHT = 720;
     public static final double CHARACTER_HEIGHT = 200;
     public static final double CHARACTER_WIDTH = 172;
-    public static final int TEAM_LIVES = 5;
 }

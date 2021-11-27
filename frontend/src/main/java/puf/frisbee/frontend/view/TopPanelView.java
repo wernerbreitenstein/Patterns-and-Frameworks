@@ -36,11 +36,10 @@ public class TopPanelView {
     	if (this.gameViewModel.getTeamLives() > 0) {    		    		
     		overlaysTeamLives.getChildren().get(this.gameViewModel.getTeamLives() - 1).setVisible(true);
     		this.gameViewModel.setTeamLives(this.gameViewModel.getTeamLives() - 1);
-    		
-    		if (this.gameViewModel.getTeamLives() == 0) {
-    			this.gameViewModel.showGameOverDialog();
-    		}
     	}
+    	if (this.gameViewModel.getTeamLives() == 0) {
+			this.gameViewModel.showGameOverDialog();
+		}
     }
     
     public void restoreRemainingTeamLives(int remainingLives) {
