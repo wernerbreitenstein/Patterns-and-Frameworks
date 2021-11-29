@@ -27,7 +27,7 @@ public class WaitingView {
     public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
         this.gameViewModel = gameViewModel;
-        this.startFrisbeeTransition();
+//        this.startFrisbeeTransition();
     }
 
     @FXML

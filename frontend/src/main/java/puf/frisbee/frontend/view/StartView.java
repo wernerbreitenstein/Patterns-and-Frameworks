@@ -12,30 +12,42 @@ import puf.frisbee.frontend.model.Team;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class StartView {
+	@FXML
+    private Label labelTeamName;
+	
+	@FXML
+    private Label labelLevel;
+	
+	@FXML
+    private Label labelScore;
+	
+	@FXML
+    private Label labelQuickTip;
+	
     @FXML
-    Label labelGreeting;
+    private Label labelGreeting;
 
     @FXML
-    Button buttonLoginRegister;
+    private Button buttonLoginRegister;
 
     @FXML
-    Button buttonLogout;
+    private Button buttonLogout;
 
     @FXML
-    Button buttonStart;
+    private Button buttonStart;
 
     @FXML
-    TableView<Team> highscoreTable;
+    private TableView<Team> highscoreTable;
 
     @FXML
-    TableColumn<Team, Integer> highscoreScore;
+    private TableColumn<Team, Integer> highscoreScore;
 
     private StartViewModel startViewModel;
     private ViewHandler viewHandler;
 
     public void init(StartViewModel startViewModel, ViewHandler viewHandler) {
+    	this.startViewModel = startViewModel;
         this.viewHandler = viewHandler;
-        this.startViewModel = startViewModel;
 
         this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
         this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
@@ -71,9 +83,17 @@ public class StartView {
     }
     
     @FXML
-    private void handleButtonQuitGameClicked(ActionEvent event) {
+    private void handleIconCloseClicked(MouseEvent event) {
         this.viewHandler.end();
     }
     
+    @FXML
+    private void handleIconCloseEntered(MouseEvent event) {
+    	this.labelQuickTip.textProperty().setValue("Quit the game.");
+    }
     
+    @FXML
+    private void handleIconCloseExited(MouseEvent event) {
+    	this.labelQuickTip.textProperty().setValue("");
+    }    
 }

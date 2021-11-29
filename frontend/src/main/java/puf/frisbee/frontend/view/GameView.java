@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
+import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class GameView {
 	@FXML
@@ -26,6 +27,9 @@ public class GameView {
 
 	@FXML
 	private TopPanelView topPanelController;
+	
+	@FXML
+	private BottomPanelView bottomPanelController;
 
 	@FXML
 	private CharacterLeftView characterLeftController;
@@ -37,10 +41,11 @@ public class GameView {
 	private ViewHandler viewHandler;
 
 	public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
-		this.gameViewModel = gameViewModel;
-		this.viewHandler = viewHandler;
+        this.gameViewModel = gameViewModel;
+        this.viewHandler = viewHandler;
 
 		this.topPanelController.init(gameViewModel);
+		this.bottomPanelController.init(gameViewModel, viewHandler);
 		this.characterLeftController.init(gameViewModel);
 		this.characterRightController.init(gameViewModel);
 
