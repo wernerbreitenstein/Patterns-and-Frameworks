@@ -5,17 +5,14 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
-import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class BottomPanelView {
     @FXML
     private Label labelQuickTip;
 
-	private GameViewModel gameViewModel;
 	private ViewHandler viewHandler;
     
-    public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
-        this.gameViewModel = gameViewModel;
+    public void init(ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
     }
 
