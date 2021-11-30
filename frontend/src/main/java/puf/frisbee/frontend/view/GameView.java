@@ -13,8 +13,11 @@ import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class GameView {
 	@FXML
+	private StackPane quitConfirmDialog;
+
+	@FXML
 	private StackPane gameOverDialog;
-	
+
 	@FXML
 	private GridPane levelSuccessDialog;
 
@@ -26,7 +29,7 @@ public class GameView {
 
 	@FXML
 	private TopPanelView topPanelController;
-	
+
 	@FXML
 	private BottomPanelView bottomPanelController;
 
@@ -40,11 +43,11 @@ public class GameView {
 	private ViewHandler viewHandler;
 
 	public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
-        this.gameViewModel = gameViewModel;
-        this.viewHandler = viewHandler;
+		this.gameViewModel = gameViewModel;
+		this.viewHandler = viewHandler;
 
 		this.topPanelController.init(gameViewModel);
-		this.bottomPanelController.init(viewHandler);
+		this.bottomPanelController.init(gameViewModel, viewHandler);
 		this.characterLeftController.init(gameViewModel);
 		this.characterRightController.init(gameViewModel);
 
@@ -52,34 +55,35 @@ public class GameView {
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
 		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogProperty());
 		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogProperty());
+		this.quitConfirmDialog.visibleProperty().bind(this.gameViewModel.getQuitConfirmDialogProperty());
 	}
 
 	@FXML
 	private void handleKeyPressed(KeyEvent event) {
 		switch (event.getCode()) {
-			case LEFT -> this.gameViewModel.moveCharacterLeft("right");
-			case RIGHT -> this.gameViewModel.moveCharacterRight("right");
-			case UP -> this.gameViewModel.jumpCharacter("right");
+		case LEFT -> this.gameViewModel.moveCharacterLeft("right");
+		case RIGHT -> this.gameViewModel.moveCharacterRight("right");
+		case UP -> this.gameViewModel.jumpCharacter("right");
 
-			// TODO: this will be removed in the future, the second character position will probably come via websocket
-			case A -> this.gameViewModel.moveCharacterLeft("left");
-			case D -> this.gameViewModel.moveCharacterRight("left");
-			case W -> this.gameViewModel.jumpCharacter("left");
+		// TODO: this will be removed in the future, the second character position will probably come via websocket
+		case A -> this.gameViewModel.moveCharacterLeft("left");
+		case D -> this.gameViewModel.moveCharacterRight("left");
+		case W -> this.gameViewModel.jumpCharacter("left");
 		}
 	}
 
 	@FXML
 	private void handleKeyReleased(KeyEvent event) {
 		switch (event.getCode()) {
-			case LEFT -> this.gameViewModel.stopCharacterMoveLeft("right");
-			case RIGHT -> this.gameViewModel.stopCharacterMoveRight("right");
+		case LEFT -> this.gameViewModel.stopCharacterMoveLeft("right");
+		case RIGHT -> this.gameViewModel.stopCharacterMoveRight("right");
 
-			// TODO: this will be removed in the future, the second character position will probably come via websocket
-			case A -> this.gameViewModel.stopCharacterMoveLeft("left");
-			case D -> this.gameViewModel.stopCharacterMoveRight("left");
+		// TODO: this will be removed in the future, the second character position will probably come via websocket
+		case A -> this.gameViewModel.stopCharacterMoveLeft("left");
+		case D -> this.gameViewModel.stopCharacterMoveRight("left");
 		}
 	}
-	
+
 	@FXML
 	private void handleFrisbeeClicked(MouseEvent event) {
 		this.gameViewModel.incrementScore();
@@ -89,10 +93,9 @@ public class GameView {
 	@FXML
 	private void handleLevelContinueClicked(ActionEvent event) {
 		this.gameViewModel.continueGame();
-		// reload game
 		this.viewHandler.openGameView();
 	}
-	
+
 	@FXML
 	private void handleButtonGameOverContinueClicked(ActionEvent event) {
 		this.gameViewModel.continueGameOver();
@@ -102,5 +105,15 @@ public class GameView {
 	@FXML
 	private void handleButtonGameOverQuitClicked(ActionEvent event) {
 		this.viewHandler.openStartView();
+	}
+
+	@FXML
+	private void handleButtonQuitGameContinueClicked(ActionEvent event) {
+		this.viewHandler.openStartView();
+	}
+
+	@FXML
+	private void handleButtonQuitGameQuitClicked(ActionEvent event) {
+		this.viewHandler.end();
 	}
 }

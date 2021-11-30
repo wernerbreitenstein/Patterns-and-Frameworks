@@ -28,6 +28,7 @@ public class GameViewModel {
 
 	private BooleanProperty showLevelSuccessDialog;
 	private BooleanProperty showGameOverDialog;
+	private BooleanProperty showQuitConfirmDialog;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
@@ -54,6 +55,7 @@ public class GameViewModel {
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
 		this.showGameOverDialog = new SimpleBooleanProperty(false);
+		this.showQuitConfirmDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
@@ -88,7 +90,10 @@ public class GameViewModel {
 		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), actionEvent -> {
 			labelCountdown.setValue(Integer.toString(second));
 			second--;
-
+			
+			if (this.showQuitConfirmDialog.getValue()) {
+				timeline.stop();
+			}
 			if (this.showGameOverDialog.getValue()) {
 				timeline.stop();
 			}
@@ -108,7 +113,7 @@ public class GameViewModel {
 			@Override
 			public void handle(long l) {
 				// moving is not possible once the level is over
-				if (showGameOverDialog.getValue() || showLevelSuccessDialog.getValue()) return;
+				if (showQuitConfirmDialog.getValue() || showGameOverDialog.getValue() || showLevelSuccessDialog.getValue()) return;
 
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
@@ -187,6 +192,7 @@ public class GameViewModel {
 		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterLeftMovingLeft
 				&& !this.isCharacterLeftMovingRight
+				&& !showQuitConfirmDialog.getValue()
 				&& !showGameOverDialog.getValue()
 				&& !showLevelSuccessDialog.getValue();
 	}
@@ -195,6 +201,7 @@ public class GameViewModel {
 		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterRightMovingLeft
 				&& !this.isCharacterRightMovingRight
+				&& !showQuitConfirmDialog.getValue()
 				&& !showGameOverDialog.getValue()
 				&& !showLevelSuccessDialog.getValue();
 	}
@@ -266,6 +273,14 @@ public class GameViewModel {
 	
 	public BooleanProperty getGameOverDialogProperty() {
 		return this.showGameOverDialog;
+	}
+	
+	public BooleanProperty getQuitConfirmDialogProperty() {
+		return this.showQuitConfirmDialog;
+	}
+	
+	public void showQuitConfirmDialog() {
+		this.showQuitConfirmDialog.setValue(true);
 	}
 
 	public void continueGameOver() {

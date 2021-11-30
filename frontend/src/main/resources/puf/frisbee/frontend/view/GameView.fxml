@@ -19,7 +19,6 @@
 
 <AnchorPane onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.GameView">
    <children>
-      <fx:include fx:id="topPanel" source="TopPanel.fxml" />
       <fx:include fx:id="characterLeft" source="CharacterLeftView.fxml" />
       <fx:include fx:id="characterRight" source="CharacterRightView.fxml" />
       <Group>
@@ -31,7 +30,6 @@
             </ImageView>
          </children>
       </Group>
-      <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
       <Group layoutX="480.0" layoutY="270.0">
          <children>
             <GridPane fx:id="levelSuccessDialog" maxHeight="270.0" maxWidth="480.0" minHeight="90.0" minWidth="160.0" prefHeight="180.0" prefWidth="320.0" styleClass="dialog-background" stylesheets="@../css/level.css">
@@ -83,8 +81,8 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
                      </children>
                   </HBox>
                </children>
@@ -93,6 +91,38 @@
          <padding>
             <Insets bottom="40.0" top="80.0" />
          </padding>
+      </StackPane>
+      <fx:include fx:id="topPanel" source="TopPanel.fxml" />
+      <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
+      <StackPane fx:id="quitConfirmDialog" layoutY="80.0">
+         <children>
+            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label stylesheets="@../css/main.css" text="WAIT!">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-game-over" />
+                     </styleClass>
+                  </Label>
+                  <Label stylesheets="@../css/main.css" text="You rather like to return to start?">
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-h1" />
+                     </styleClass>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I think that's better." />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later." />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
       </StackPane>
    </children>
    <stylesheets>
