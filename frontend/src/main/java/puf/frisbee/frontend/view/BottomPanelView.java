@@ -17,17 +17,17 @@ public class BottomPanelView {
     }
 
     @FXML
-	private void handleIconCloseClicked(MouseEvent event) {
-    	this.viewHandler.end();
+	private void handleQuitGameClicked(MouseEvent event) {
+    	this.viewHandler.openStartView();
 	}
     
     @FXML
-	private void handleIconCloseEntered(MouseEvent event) {
+	private void handleQuitGameEntered(MouseEvent event) {
     	this.labelQuickTip.textProperty().setValue("Quit the game.");
 	}
     
     @FXML
-	private void handleIconCloseExited(MouseEvent event) {
+	private void handleQuitGameExited(MouseEvent event) {
     	this.labelQuickTip.textProperty().setValue("");
 	}
     

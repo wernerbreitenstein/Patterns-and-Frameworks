@@ -130,7 +130,7 @@
                <children>
                   <FlowPane alignment="CENTER_LEFT">
                      <children>
-                        <Label fx:id="labelQuickTip" styleClass="dialog-text" stylesheets="@../css/main.css" text="Waiting for second player …" textFill="WHITE">
+                        <Label fx:id="labelQuickTip" styleClass="dialog-text" stylesheets="@../css/main.css" text="Do we get the tips and tricks down here from the database?" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
                            </font>
