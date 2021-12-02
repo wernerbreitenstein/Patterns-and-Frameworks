@@ -108,7 +108,7 @@
                         <String fx:value="dialog-game-over" />
                      </styleClass>
                   </Label>
-                  <Label stylesheets="@../css/main.css" text="You rather like to return to start?">
+                  <Label stylesheets="@../css/main.css" text="You really want to quit the game?">
                      <styleClass>
                         <String fx:value="dialog-text" />
                         <String fx:value="dialog-h1" />
@@ -116,8 +116,8 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I think that's better." />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later." />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
                      </children>
                   </HBox>
                </children>
