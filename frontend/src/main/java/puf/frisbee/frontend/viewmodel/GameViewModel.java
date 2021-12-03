@@ -13,6 +13,7 @@ public class GameViewModel {
 	private Game gameModel;
 	private Level levelModel;
 	private Team teamModel;
+	private Timeline timeline;
 	private int second;
 	private int remainingLives;
 
@@ -86,14 +87,11 @@ public class GameViewModel {
 
 	private void startCountdown() {
 		this.second = gameModel.getCountdown();
-		Timeline timeline = new Timeline();
+		timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), actionEvent -> {
 			labelCountdown.setValue(Integer.toString(second));
 			second--;
 			
-			if (this.showQuitConfirmDialog.getValue()) {
-				timeline.stop();
-			}
 			if (this.showGameOverDialog.getValue()) {
 				timeline.stop();
 			}
@@ -280,7 +278,13 @@ public class GameViewModel {
 	}
 	
 	public void showQuitConfirmDialog() {
+		this.timeline.pause();
 		this.showQuitConfirmDialog.setValue(true);
+	}
+	
+	public void hideQuitConfirmDialog() {
+		this.timeline.playFrom(this.timeline.getCurrentTime());
+		this.showQuitConfirmDialog.setValue(false);
 	}
 
 	public void continueGameOver() {
@@ -298,6 +302,15 @@ public class GameViewModel {
 		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
 		this.teamModel.setTeamScore(this.labelScore.getValue());
 		this.teamModel.setTeamLives(this.remainingLives);
+	}
+	
+	public void continueGameAfterQuit() {
+		// TODO: Do we really want to save current lives, score and level of team to backend later on here too?
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
+		
+		this.hideQuitConfirmDialog();
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

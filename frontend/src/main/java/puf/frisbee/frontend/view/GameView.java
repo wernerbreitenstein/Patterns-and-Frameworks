@@ -109,13 +109,12 @@ public class GameView {
 
 	@FXML
 	private void handleButtonQuitGameContinueClicked(ActionEvent event) {
+		this.gameViewModel.continueGameOver();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
 	private void handleButtonQuitGameQuitClicked(ActionEvent event) {
-//		this.viewHandler.end();
-		this.gameViewModel.continueGame();
-		this.viewHandler.openGameView();
+		this.gameViewModel.continueGameAfterQuit();
 	}
 }
