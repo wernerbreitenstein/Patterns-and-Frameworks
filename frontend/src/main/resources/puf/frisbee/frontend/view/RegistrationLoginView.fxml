@@ -18,19 +18,15 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="640.0">
                <children>
-                    <VBox alignment="CENTER" layoutX="70.0" prefHeight="347.0" prefWidth="500.0" styleClass="bg-dark">
+                    <VBox alignment="TOP_CENTER" layoutX="70.0" prefWidth="500.0" styleClass="bg-dark">
                      <children>
-                        <Label styleClass="font-heading" text="LOGIN">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
                         <Label styleClass="font-small" text="Already have an account?" />
+                        <Label styleClass="font-heading" text="LOGIN" />
                         <Label styleClass="font-label" text="Email" />
-                         <TextField maxWidth="-Infinity" prefWidth="200.0" />
+                        <TextField fx:id="loginEmail" maxWidth="-Infinity" prefWidth="200.0" />
                         <Label styleClass="font-label" text="Password" />
-                        <PasswordField maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" />
-                        <Button mnemonicParsing="false" styleClass="button-light" text="Login" />
+                        <PasswordField fx:id="loginPassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" />
+                        <Button mnemonicParsing="false" onAction="#handleLogin" styleClass="button-light" text="Login" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -40,17 +36,17 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="640.0">
                <children>
-                  <VBox alignment="CENTER" layoutX="70.0" prefWidth="500.0" styleClass="bg-dark">
+                  <VBox alignment="TOP_CENTER" layoutX="70.0" prefWidth="500.0" styleClass="bg-dark">
                      <children>
-                        <Label styleClass="font-heading" text="REGISTER" />
                         <Label styleClass="font-small" text="New to the game?" />
+                        <Label styleClass="font-heading" text="REGISTER" />
                         <Label styleClass="font-label" text="Name" />
-                        <TextField maxWidth="-Infinity" prefWidth="200.0" />
+                        <TextField fx:id="registerName" maxWidth="-Infinity" prefWidth="200.0" />
                         <Label styleClass="font-label" text="Email" />
-                        <TextField maxWidth="-Infinity" prefWidth="200.0" />
+                        <TextField fx:id="registerEmail" maxWidth="-Infinity" prefWidth="200.0" />
                         <Label styleClass="font-label" text="Password" />
-                        <PasswordField maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" />
-                        <Button mnemonicParsing="false" styleClass="button-light" text="Register" />
+                        <PasswordField fx:id="registerPassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" />
+                        <Button mnemonicParsing="false" styleClass="button-light" text="Register" onAction="#handleRegister" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

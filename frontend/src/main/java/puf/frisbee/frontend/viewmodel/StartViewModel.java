@@ -32,7 +32,7 @@ public class StartViewModel {
 
 
     public StringProperty getLabelGreetingProperty() {
-        String name = this.playerModel.isLoggedIn() ? this.playerModel.getPlayerName() : "Stranger";
+        String name = this.playerModel.isLoggedIn() ? this.playerModel.getName() : "Stranger";
         this.labelGreetingProperty.setValue("Hello " + name);
         return this.labelGreetingProperty;
     }

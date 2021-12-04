@@ -2,12 +2,14 @@ package puf.frisbee.frontend.model;
 
 public class PlayerModel implements Player {
     // TODO: get this from server
-    private String playerName = "Player 1";
+    private String name;
+    private String email;
+    private String password;
     private boolean isLoggedIn = false;
 
     @Override
-    public String getPlayerName() {
-        return playerName;
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -18,5 +20,19 @@ public class PlayerModel implements Player {
     @Override
     public void setLoginStatus(boolean status) {
         this.isLoggedIn = status;
+    }
+
+    @Override
+    public boolean register(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+
+        return true;
+    }
+
+    @Override
+    public boolean login(String email, String password) {
+        return email.equals(this.email) && password.equals(this.password);
     }
 }
