@@ -1,6 +1,7 @@
 package puf.frisbee.frontend.core;
 
 import puf.frisbee.frontend.viewmodel.GameViewModel;
+import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class ViewModelFactory {
@@ -26,5 +27,14 @@ public class ViewModelFactory {
 	 */
 	public StartViewModel getHighscoreViewModel() {
 		return new StartViewModel(modelFactory.getHighscoreModel(), modelFactory.getPlayerModel());
+	}
+
+	/**
+	 * Creates and returns an instance of RegistrationViewModel.
+	 *
+	 * @return a new instance of RegistrationViewModel
+	 */
+	public RegistrationLoginViewModel getRegistrationLoginViewModel() {
+		return new RegistrationLoginViewModel(modelFactory.getPlayerModel());
 	}
 }

@@ -52,15 +52,6 @@ public class StartViewModel {
         return this.showStartButton;
     }
 
-    public void login() {
-        this.playerModel.setLoginStatus(true);
-
-        this.labelGreetingProperty.setValue("Hello " + this.playerModel.getPlayerName());
-        this.showLogoutButton.setValue(true);
-        this.showLoginRegisterButton.setValue(false);
-        this.showStartButton.setValue(true);
-    }
-
     public void logout() {
         this.playerModel.setLoginStatus(false);
 

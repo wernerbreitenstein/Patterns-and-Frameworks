@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import puf.frisbee.frontend.view.RegistrationLoginView;
 import puf.frisbee.frontend.view.StartView;
 import puf.frisbee.frontend.view.GameView;
 import puf.frisbee.frontend.view.WaitingView;
@@ -72,6 +73,21 @@ public class ViewHandler {
 			StartView startView = startViewLoader.getController();
 			startView.init(viewModelFactory.getHighscoreViewModel(),this);
 			this.stage.setTitle("Frisbee");
+			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+			this.stage.setScene(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void openRegistrationLoginView() {
+		FXMLLoader registrationLoginLoader = new FXMLLoader();
+		registrationLoginLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/RegistrationLoginView.fxml"));
+		try {
+			Parent root = registrationLoginLoader.load();
+			RegistrationLoginView registrationLoginView = registrationLoginLoader.getController();
+			registrationLoginView.init(viewModelFactory.getRegistrationLoginViewModel(),this);
+			this.stage.setTitle("Frisbee Registration - Login");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
