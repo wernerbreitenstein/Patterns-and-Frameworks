@@ -23,7 +23,14 @@
     -fx-font-weight: bold;
 }
 
-.button {
+.button-light {
     -fx-background-color: rgba(255, 255, 255, 1);
     -fx-text-fill: rgba(0, 0, 0, 0.8);
+    -fx-padding: 12px 10px 10px 10px;
+}
+
+.button-dark {
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+    -fx-text-fill: rgba(255, 255, 255, 1);
+    -fx-padding: 12px 10px 10px 10px;
 }

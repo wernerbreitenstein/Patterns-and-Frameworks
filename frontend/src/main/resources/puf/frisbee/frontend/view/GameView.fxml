@@ -16,16 +16,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
-<!-- Da der SceneBuilder mit einer eigenen JRE-Version 17 arbeitet, 
-sollte der Wert des xmlns-Attributs stets geprüft und ggf. manuell 
-von "http://javafx.com/javafx/17" auf "http://javafx.com/javafx/15.0.1" 
-angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
-
-<AnchorPane onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.GameView">
+<AnchorPane onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.GameView">
    <children>
-      <fx:include fx:id="topPanel" source="TopPanel.fxml" />
       <fx:include fx:id="characterLeft" source="CharacterLeftView.fxml" />
       <fx:include fx:id="characterRight" source="CharacterRightView.fxml" />
       <Group>
@@ -35,24 +28,6 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
                   <Image url="@../images/frisbee01.png" />
                </image>
             </ImageView>
-         </children>
-      </Group>
-
-      <Group>
-         <children>
-            <Rectangle height="40.0" layoutY="680.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-            <HBox alignment="CENTER_LEFT" layoutY="680.0" prefHeight="40.0" prefWidth="1280.0">
-               <children>
-                  <Label text="Use up and down arrow keys to jump." textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </HBox>
          </children>
       </Group>
       <Group layoutX="480.0" layoutY="270.0">
@@ -106,8 +81,8 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
                      </children>
                   </HBox>
                </children>
@@ -116,6 +91,38 @@ angepasst werden, um Fehlermeldungen in Eclipse zu vermeiden. -->
          <padding>
             <Insets bottom="40.0" top="80.0" />
          </padding>
+      </StackPane>
+      <fx:include fx:id="topPanel" source="TopPanel.fxml" />
+      <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
+      <StackPane fx:id="quitConfirmDialog" layoutY="80.0">
+         <children>
+            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label stylesheets="@../css/main.css" text="WAIT!">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-game-over" />
+                     </styleClass>
+                  </Label>
+                  <Label stylesheets="@../css/main.css" text="You really want to quit the game?">
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-h1" />
+                     </styleClass>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
       </StackPane>
    </children>
    <stylesheets>

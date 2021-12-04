@@ -6,74 +6,83 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.model.Team;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class StartView {
-    @FXML
-    Label labelGreeting;
+	@FXML
+	private Label labelTeamName;
 
-    @FXML
-    Button buttonLoginRegister;
+	@FXML
+	private Label labelLevel;
 
-    @FXML
-    Button buttonLogout;
+	@FXML
+	private Label labelScore;
 
-    @FXML
-    Button buttonStart;
+	@FXML
+	private Label labelQuickTip;
 
-    @FXML
-    TableView<Team> highscoreTable;
+	@FXML
+	private Label labelGreeting;
 
-    @FXML
-    TableColumn<Team, Integer> highscoreScore;
+	@FXML
+	private Button buttonLoginRegister;
 
-    private StartViewModel startViewModel;
-    private ViewHandler viewHandler;
+	@FXML
+	private Button buttonLogout;
 
-    public void init(StartViewModel startViewModel, ViewHandler viewHandler) {
-        this.viewHandler = viewHandler;
-        this.startViewModel = startViewModel;
+	@FXML
+	private Button buttonStart;
 
-        this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
-        this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
-        this.buttonLogout.visibleProperty().bind(this.startViewModel.getShowLogoutButtonProperty());
-        this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
+	@FXML
+	private TableView<Team> highscoreTable;
 
-        this.highscoreTable.setItems(startViewModel.getHighscoreTableItems());
-        this.highscoreScore.setSortType(TableColumn.SortType.DESCENDING);
-        this.highscoreTable.getSortOrder().add(highscoreScore);
-        this.highscoreTable.sort();
-    }
+	@FXML
+	private TableColumn<Team, Integer> highscoreScore;
 
-    @FXML
-    private void handleLoginRegisterButtonClicked(MouseEvent event) {
-        // TODO: load login/register view later on
-        this.startViewModel.login();
-    }
+	@FXML
+	private BottomPanelView bottomPanelController;
 
-    @FXML
-    private void handleLogoutButtonClicked(MouseEvent event) {
-        this.startViewModel.logout();
-    }
+	private StartViewModel startViewModel;
+	private ViewHandler viewHandler;
 
-    @FXML
-    private void handleStartButtonClicked(MouseEvent event) {
-        this.viewHandler.openWaitingView();
-    }
+	public void init(StartViewModel startViewModel, ViewHandler viewHandler) {
+		this.startViewModel = startViewModel;
+		this.viewHandler = viewHandler;
 
-    @FXML
-    private void handleRefreshButtonClicked(MouseEvent event) {
-        this.startViewModel.refreshData();
-        this.highscoreTable.sort();
-    }
-    
-    @FXML
-    private void handleButtonQuitGameClicked(ActionEvent event) {
-        this.viewHandler.end();
-    }
-    
-    
+		this.bottomPanelController.init(viewHandler);
+
+		this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
+		this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
+		this.buttonLogout.visibleProperty().bind(this.startViewModel.getShowLogoutButtonProperty());
+		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
+
+		this.highscoreTable.setItems(startViewModel.getHighscoreTableItems());
+		this.highscoreScore.setSortType(TableColumn.SortType.DESCENDING);
+		this.highscoreTable.getSortOrder().add(highscoreScore);
+		this.highscoreTable.sort();
+	}
+
+	@FXML
+	private void handleLoginRegisterButtonClicked(ActionEvent event) {
+		// TODO: load login/register view later on
+		this.startViewModel.login();
+	}
+
+	@FXML
+	private void handleLogoutButtonClicked(ActionEvent event) {
+		this.startViewModel.logout();
+	}
+
+	@FXML
+	private void handleStartButtonClicked(ActionEvent event) {
+		this.viewHandler.openWaitingView();
+	}
+
+	@FXML
+	private void handleRefreshButtonClicked(ActionEvent event) {
+		this.startViewModel.refreshData();
+		this.highscoreTable.sort();
+	}
 }
