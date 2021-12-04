@@ -304,12 +304,7 @@ public class GameViewModel {
 		this.teamModel.setTeamLives(this.remainingLives);
 	}
 	
-	public void continueGameAfterQuit() {
-		// TODO: Do we really want to save current lives, score and level of team to backend later on here too?
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
-		
+	public void continueGameAfterQuit() {		
 		this.hideQuitConfirmDialog();
 	}
 
