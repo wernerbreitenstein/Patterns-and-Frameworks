@@ -66,8 +66,7 @@ public class StartView {
 
 	@FXML
 	private void handleLoginRegisterButtonClicked(ActionEvent event) {
-		// TODO: load login/register view later on
-		this.startViewModel.login();
+		this.viewHandler.openRegistrationLoginView();
 	}
 
 	@FXML

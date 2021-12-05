@@ -32,7 +32,7 @@ public class StartViewModel {
 
 
     public StringProperty getLabelGreetingProperty() {
-        String name = this.playerModel.isLoggedIn() ? this.playerModel.getPlayerName() : "Stranger";
+        String name = this.playerModel.isLoggedIn() ? this.playerModel.getName() : "Stranger";
         this.labelGreetingProperty.setValue("Hello " + name);
         return this.labelGreetingProperty;
     }
@@ -50,15 +50,6 @@ public class StartViewModel {
     public BooleanProperty getShowStartButtonProperty() {
         this.showStartButton.setValue(this.playerModel.isLoggedIn());
         return this.showStartButton;
-    }
-
-    public void login() {
-        this.playerModel.setLoginStatus(true);
-
-        this.labelGreetingProperty.setValue("Hello " + this.playerModel.getPlayerName());
-        this.showLogoutButton.setValue(true);
-        this.showLoginRegisterButton.setValue(false);
-        this.showStartButton.setValue(true);
     }
 
     public void logout() {

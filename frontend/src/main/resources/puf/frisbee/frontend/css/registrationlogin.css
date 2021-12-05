@@ -1,0 +1,32 @@
+.root {
+    -fx-background-image: url("../images/waiting_bg.png");
+    -fx-background-size: contain;
+}
+
+.bg-dark {
+    -fx-background-color: rgba(72, 52, 39, 0.83);
+}
+
+.font-heading {
+    -fx-font-size: 20px;
+    -fx-padding: 0 0 20px 0;
+}
+
+.font-small {
+    -fx-font-size: 10px;
+    -fx-padding: 0 0 10px 0;
+}
+
+.font-label {
+    -fx-font-size: 12px;
+}
+
+.label {
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+}
+
+.text-field {
+    -fx-padding: 13px 8px 28px 8px;
+    -fx-border-insets: 5px 0 20px 0;
+    -fx-background-insets: 5px 0 20px 0;
+}
