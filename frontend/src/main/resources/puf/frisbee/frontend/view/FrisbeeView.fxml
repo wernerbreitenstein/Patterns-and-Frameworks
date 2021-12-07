@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.FrisbeeView">
+   <children>
+      <ImageView fx:id="frisbee" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#handleFrisbeeClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/frisbee01.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
