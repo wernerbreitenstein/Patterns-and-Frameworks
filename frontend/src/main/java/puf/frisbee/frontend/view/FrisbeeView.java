@@ -13,13 +13,12 @@ public class FrisbeeView {
 
     public void init(GameViewModel gameViewModel) {
         this.gameViewModel = gameViewModel;
-        this.frisbee.layoutXProperty().bind(gameViewModel.getCharacterLeftXPositionProperty());
-        this.frisbee.layoutYProperty().bind(gameViewModel.getCharacterLeftYPositionProperty());
+        this.frisbee.layoutXProperty().bind(gameViewModel.getFrisbeeXPositionProperty());
+        this.frisbee.layoutYProperty().bind(gameViewModel.getFrisbeeYPositionProperty());
     }
 
     @FXML
     private void handleFrisbeeClicked(MouseEvent event) {
-        this.gameViewModel.incrementScore();
-        this.gameViewModel.removeLife();
+        this.gameViewModel.throwFrisbee();
     }
 }
