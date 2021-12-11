@@ -2,10 +2,7 @@ package puf.frisbee.frontend.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.model.Team;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
@@ -30,7 +27,10 @@ public class StartView {
 	private Button buttonLoginRegister;
 
 	@FXML
-	private Button buttonLogout;
+	private MenuButton buttonSettings;
+
+	@FXML
+	private MenuItem buttonLogout;
 
 	@FXML
 	private Button buttonStart;
@@ -55,7 +55,7 @@ public class StartView {
 
 		this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
 		this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
-		this.buttonLogout.visibleProperty().bind(this.startViewModel.getShowLogoutButtonProperty());
+		this.buttonSettings.visibleProperty().bind(this.startViewModel.getShowSettingsButtonProperty());
 		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
 
 		this.highscoreTable.setItems(startViewModel.getHighscoreTableItems());
