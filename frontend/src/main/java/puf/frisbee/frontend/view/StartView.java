@@ -30,9 +30,6 @@ public class StartView {
 	private MenuButton buttonSettings;
 
 	@FXML
-	private MenuItem buttonLogout;
-
-	@FXML
 	private Button buttonStart;
 
 	@FXML
@@ -72,6 +69,11 @@ public class StartView {
 	@FXML
 	private void handleLogoutButtonClicked(ActionEvent event) {
 		this.startViewModel.logout();
+	}
+
+	@FXML
+	private void handleProfileButtonClicked(ActionEvent event) {
+		this.viewHandler.openProfileView();
 	}
 
 	@FXML

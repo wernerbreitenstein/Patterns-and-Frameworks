@@ -13,6 +13,11 @@ public class PlayerModel implements Player {
     }
 
     @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
     public boolean isLoggedIn() {
         return this.isLoggedIn;
     };
@@ -34,5 +39,17 @@ public class PlayerModel implements Player {
     @Override
     public boolean login(String email, String password) {
         return email.equals(this.email) && password.equals(this.password);
+    }
+
+    @Override
+    public boolean updateName(String name) {
+        this.name = name;
+        return true;
+    }
+
+    @Override
+    public boolean updatePassword(String password) {
+        this.password = password;
+        return false;
     }
 }

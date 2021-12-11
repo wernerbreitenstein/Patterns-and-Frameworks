@@ -150,7 +150,7 @@
                               <Button fx:id="buttonLoginRegister" mnemonicParsing="false" onAction="#handleLoginRegisterButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="LOGIN / REGISTER" />
                               <MenuButton fx:id="buttonSettings" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="button-light" text="Settings" StackPane.alignment="TOP_RIGHT">
                                 <items>
-                                  <MenuItem fx:id="buttonLogout" mnemonicParsing="false" text="Profile" />
+                                  <MenuItem mnemonicParsing="false" onAction="#handleProfileButtonClicked" text="Profile" />
                                   <MenuItem mnemonicParsing="false" onAction="#handleLogoutButtonClicked" text="Logout" />
                                 </items>
                               </MenuButton>
