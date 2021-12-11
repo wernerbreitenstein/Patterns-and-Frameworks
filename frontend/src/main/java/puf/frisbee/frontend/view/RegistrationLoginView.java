@@ -2,6 +2,7 @@ package puf.frisbee.frontend.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
@@ -22,12 +23,21 @@ public class RegistrationLoginView {
     @FXML
     TextField registerPassword;
 
+    @FXML
+    Label loginError;
+
+    @FXML
+    Label registrationError;
+
     RegistrationLoginViewModel registrationLoginViewModel;
     ViewHandler viewHandler;
 
     public void init(RegistrationLoginViewModel registrationLoginViewModel, ViewHandler viewHandler) {
         this.registrationLoginViewModel = registrationLoginViewModel;
         this.viewHandler = viewHandler;
+
+        this.loginError.textProperty().bind(this.registrationLoginViewModel.getLoginErrorLabelProperty());
+        this.registrationError.textProperty().bind(this.registrationLoginViewModel.getRegistrationErrorLabelProperty());
     }
 
     @FXML
