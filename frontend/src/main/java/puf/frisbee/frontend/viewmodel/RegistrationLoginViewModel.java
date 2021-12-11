@@ -1,6 +1,8 @@
 package puf.frisbee.frontend.viewmodel;
 
 import puf.frisbee.frontend.model.Player;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class RegistrationLoginViewModel {
     private final Player playerModel;
@@ -9,7 +11,7 @@ public class RegistrationLoginViewModel {
         this.playerModel = playerModel;
     }
 
-    public boolean login(String email, String password) {
+    public boolean login(String email, String password) throws URISyntaxException {
         // TODO: validation of text fields with messages
         if (email.length() < 1 || password.length() < 1) {
             return false;
@@ -24,7 +26,7 @@ public class RegistrationLoginViewModel {
         return loginSuccessful;
     }
 
-    public boolean register(String name, String email, String password) {
+    public boolean register(String name, String email, String password) throws URISyntaxException, IOException, InterruptedException {
         // TODO: validation of text fields with messages
         if (name.length() < 1 || email.length() < 1 || password.length() < 1) {
             return false;

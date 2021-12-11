@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class RegistrationLoginView {
     @FXML
@@ -31,7 +33,7 @@ public class RegistrationLoginView {
     }
 
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLogin(ActionEvent event) throws URISyntaxException {
         boolean loginSuccessful = registrationLoginViewModel.login(loginEmail.getText(), loginPassword.getText());
 
         if (loginSuccessful) {
@@ -40,7 +42,7 @@ public class RegistrationLoginView {
     }
 
     @FXML
-    private void handleRegister(ActionEvent event) {
+    private void handleRegister(ActionEvent event) throws URISyntaxException, IOException, InterruptedException {
         boolean registerSuccessful = registrationLoginViewModel.register(registerName.getText(), registerEmail.getText(), registerPassword.getText());
 
         if (registerSuccessful) {

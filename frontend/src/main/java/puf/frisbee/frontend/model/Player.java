@@ -1,5 +1,8 @@
 package puf.frisbee.frontend.model;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 /**
  * Contains all player data.
  */
@@ -10,6 +13,20 @@ public interface Player {
      * @return the player name
      */
     String getName();
+
+    /**
+     * Returns the email of the player
+     *
+     * @return the player email
+     */
+    String getEmail();
+
+    /**
+     * Returns the password of the player
+     *
+     * @return the player password
+     */
+    String getPassword();
 
     /**
      * Returns true if the player is logged in.
@@ -34,7 +51,7 @@ public interface Player {
      *
      * @return boolean true if registration was successful
      */
-    boolean register(String name, String email, String password);
+    boolean register(String name, String email, String password) throws URISyntaxException, IOException, InterruptedException;
 
     /**
      * Logs player in and sets data in the player model.
