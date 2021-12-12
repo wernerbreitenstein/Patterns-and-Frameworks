@@ -42,34 +42,33 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public boolean register(String name, String email, String password) throws URISyntaxException, IOException, InterruptedException {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.isLoggedIn = true;
+    public boolean register(String name, String email, String password){
+        try {
+            this.name = name;
+            this.email = email;
+            this.password = password;
+            this.isLoggedIn = true;
 
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String playerJson = objectMapper.writeValueAsString(this);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String playerJson = objectMapper.writeValueAsString(this);
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/register"))
-//                .uri(new URI("http://localhost:8080/api/players/register"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(playerJson))
-                .build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/register"))
+                    //                .uri(new URI("http://localhost:8080/api/players/register"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(playerJson))
+                    .build();
 
-        HttpResponse<String> response = HttpClient
-                .newBuilder()
-                .build()
-                .send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-
-        System.out.println(response.statusCode());
-        System.out.println(response.body());
-
-
-        return response.statusCode() == 201 ? true : false;
+            return response.statusCode() == 201 ? true : false;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

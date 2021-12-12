@@ -51,7 +51,7 @@ public interface Player {
      *
      * @return boolean true if registration was successful
      */
-    boolean register(String name, String email, String password) throws URISyntaxException, IOException, InterruptedException;
+    boolean register(String name, String email, String password);
 
     /**
      * Logs player in and sets data in the player model.

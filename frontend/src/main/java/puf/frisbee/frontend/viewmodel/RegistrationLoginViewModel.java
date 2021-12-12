@@ -26,7 +26,7 @@ public class RegistrationLoginViewModel {
         return loginSuccessful;
     }
 
-    public boolean register(String name, String email, String password) throws URISyntaxException, IOException, InterruptedException {
+    public boolean register(String name, String email, String password){
         // TODO: validation of text fields with messages
         if (name.length() < 1 || email.length() < 1 || password.length() < 1) {
             return false;
