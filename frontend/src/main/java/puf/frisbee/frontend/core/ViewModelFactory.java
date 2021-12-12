@@ -1,6 +1,7 @@
 package puf.frisbee.frontend.core;
 
 import puf.frisbee.frontend.viewmodel.GameViewModel;
+import puf.frisbee.frontend.viewmodel.ProfileViewModel;
 import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
 
@@ -36,5 +37,14 @@ public class ViewModelFactory {
 	 */
 	public RegistrationLoginViewModel getRegistrationLoginViewModel() {
 		return new RegistrationLoginViewModel(modelFactory.getPlayerModel());
+	}
+
+	/**
+	 * Creates and returns an instance of ProfileViewModel.
+	 *
+	 * @return a new instance of ProfileViewModel
+	 */
+	public ProfileViewModel getProfileViewModel() {
+		return new ProfileViewModel(modelFactory.getPlayerModel());
 	}
 }

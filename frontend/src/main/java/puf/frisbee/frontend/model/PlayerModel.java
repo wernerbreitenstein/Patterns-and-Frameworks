@@ -1,8 +1,6 @@
 package puf.frisbee.frontend.model;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -23,13 +21,9 @@ public class PlayerModel implements Player {
 
     @Override
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
 
     @Override
     public boolean isLoggedIn() {
@@ -74,5 +68,17 @@ public class PlayerModel implements Player {
     @Override
     public boolean login(String email, String password) {
         return email.equals(this.email) && password.equals(this.password);
+    }
+
+    @Override
+    public boolean updateName(String name) {
+        this.name = name;
+        return true;
+    }
+
+    @Override
+    public boolean updatePassword(String password) {
+        this.password = password;
+        return false;
     }
 }

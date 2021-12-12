@@ -237,10 +237,6 @@ public class GameViewModel {
 		this.labelScore.setValue(this.labelScore.getValue() + 1);
 	}
 	
-	public int getRemainingLives() {
-		return this.remainingLives;
-	}
-	
 	public void removeLife() {
 		this.remainingLives --;
 		this.setTeamLivesHidden();
