@@ -60,7 +60,7 @@
     </children>
     <stylesheets>
         <URL value="@../css/main.css" />
-        <URL value="@../css/registrationlogin.css" />
+        <URL value="@../css/form.css" />
     </stylesheets>
 
 </AnchorPane>
