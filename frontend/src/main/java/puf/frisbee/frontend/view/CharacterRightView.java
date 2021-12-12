@@ -11,10 +11,7 @@ public class CharacterRightView {
     private Group character;
 
     @FXML
-    private Circle catcherRightHand;
-
-    @FXML
-    private Circle catcherLeftHand;
+    private Circle catchingZone;
 
     private GameViewModel gameViewModel;
 
