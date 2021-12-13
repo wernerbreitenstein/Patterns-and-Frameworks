@@ -154,7 +154,6 @@ public class GameViewModel {
 				double currentYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
 				double endYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - 1/2.2;
 				if (currentYPosition == endYPosition) {
-					System.out.println("You've lost one life.");
 					removeLife();
 				}
                 return (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
