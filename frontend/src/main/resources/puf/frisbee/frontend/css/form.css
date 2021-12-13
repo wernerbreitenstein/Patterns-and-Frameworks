@@ -30,3 +30,13 @@
     -fx-border-insets: 5px 0 20px 0;
     -fx-background-insets: 5px 0 20px 0;
 }
+
+.disabled {
+    -fx-background-color: rgba(180, 180, 180, 0.8);
+}
+
+.label.error {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgb(255, 142, 142);
+    -fx-padding: 0 0 10px 0;
+}
