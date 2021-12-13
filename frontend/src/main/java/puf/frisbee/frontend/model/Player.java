@@ -12,6 +12,13 @@ public interface Player {
     String getName();
 
     /**
+     * Returns the email of the player.
+     *
+     * @return the player email
+     */
+    String getEmail();
+
+    /**
      * Returns true if the player is logged in.
      *
      * @return true if player is logged in
@@ -45,4 +52,20 @@ public interface Player {
      * @return boolean true if login was successful
      */
     boolean login(String email, String password);
+
+    /**
+     * Updates the player name in the database and in the player model.
+     *
+     * @param name that should be updated
+     * @return true if update was successful
+     */
+    boolean updateName(String name);
+
+    /**
+     * Updates the player password in the database and in the player model.
+     *
+     * @param password that should be updated
+     * @return true if update was successful
+     */
+    boolean updatePassword(String password);
 }
