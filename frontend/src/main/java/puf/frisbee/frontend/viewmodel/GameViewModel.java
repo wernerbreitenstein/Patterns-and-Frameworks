@@ -1,8 +1,6 @@
 package puf.frisbee.frontend.viewmodel;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.model.*;
@@ -21,6 +19,10 @@ public class GameViewModel {
 	private DoubleProperty characterLeftYPosition;
 	private DoubleProperty characterRightXPosition;
 	private DoubleProperty characterRightYPosition;
+
+	private DoubleProperty frisbeeXPosition;
+	private DoubleProperty frisbeeYPosition;
+
 	// TODO: only flags for one character will be needed once two characters can not play on one computer anymore
 	private boolean isCharacterLeftMovingLeft;
 	private boolean isCharacterLeftMovingRight;
@@ -65,6 +67,9 @@ public class GameViewModel {
 		this.characterRightXPosition = new SimpleDoubleProperty();
 		this.characterRightYPosition = new SimpleDoubleProperty();
 
+		this.frisbeeXPosition = new SimpleDoubleProperty();
+		this.frisbeeYPosition = new SimpleDoubleProperty();
+
 		// set initial character positions
 		this.characterLeftYPosition.setValue(levelModel.getInitialCharacterYPosition());
 		this.characterRightYPosition.setValue(levelModel.getInitialCharacterYPosition());
@@ -74,6 +79,10 @@ public class GameViewModel {
 		this.isCharacterLeftMovingRight = false;
 		this.isCharacterRightMovingLeft = false;
 		this.isCharacterRightMovingRight = false;
+
+		// set initial frisbee position (later on this should probably fit to any specific character)
+		this.frisbeeXPosition.setValue(levelModel.getInitialFrisbeeXPosition());
+		this.frisbeeYPosition.setValue(levelModel.getInitialFrisbeeYPosition());
 
 		this.startCountdown();
 		this.startCharacterAnimation();
@@ -130,8 +139,32 @@ public class GameViewModel {
 				}
 			}
 		};
-
 		timer.start();
+	}
+
+	public void throwFrisbee() {
+		Timeline timelineFrisbee = new Timeline();
+        timelineFrisbee.setCycleCount(1);
+        KeyValue xKV = new KeyValue(this.frisbeeXPosition, 1000);
+        KeyValue yKV = new KeyValue(this.frisbeeYPosition, 100, new Interpolator() {
+            @Override
+            protected double curve(double t) {
+				// The subtrahend 't/2.2' at the end defines the difference of vertical start and end position
+				// and needs to be adjusted according to the individual character's and level floor's height.
+				double currentYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
+				double endYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - 1/2.2;
+				if (currentYPosition == endYPosition) {
+					removeLife();
+				}
+                return (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
+            }
+        });
+
+		// To modify the frisbee's velocity simply reduce or increase the duration parameter manually.
+        KeyFrame xKF = new KeyFrame(Duration.millis(2000), xKV);
+        KeyFrame yKF = new KeyFrame(Duration.millis(2000), yKV);
+        timelineFrisbee.getKeyFrames().addAll(xKF, yKF);
+        timelineFrisbee.play();
 	}
 
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore
@@ -236,7 +269,7 @@ public class GameViewModel {
 	public void incrementScore() {
 		this.labelScore.setValue(this.labelScore.getValue() + 1);
 	}
-	
+
 	public void removeLife() {
 		this.remainingLives --;
 		this.setTeamLivesHidden();
@@ -274,8 +307,10 @@ public class GameViewModel {
 	}
 	
 	public void showQuitConfirmDialog() {
-		this.timeline.pause();
-		this.showQuitConfirmDialog.setValue(true);
+		if (!this.showGameOverDialog.getValue()) {
+			this.timeline.pause();
+			this.showQuitConfirmDialog.setValue(true);
+		}
 	}
 	
 	public void hideQuitConfirmDialog() {
@@ -288,7 +323,6 @@ public class GameViewModel {
 		this.teamModel.setTeamLevel(1);
 		this.teamModel.setTeamScore(0);
 		this.teamModel.setTeamLives(5);
-
 		this.levelModel.setCurrentLevel(1);
 	}
 
@@ -318,5 +352,13 @@ public class GameViewModel {
 	
 	public DoubleProperty getCharacterRightYPositionProperty() {
 		return this.characterRightYPosition;
+	}
+
+	public DoubleProperty getFrisbeeXPositionProperty() {
+		return this.frisbeeXPosition;
+	}
+
+	public DoubleProperty getFrisbeeYPositionProperty() {
+		return this.frisbeeYPosition;
 	}
 }

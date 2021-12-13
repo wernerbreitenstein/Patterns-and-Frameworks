@@ -39,6 +39,9 @@ public class GameView {
 	@FXML
 	private CharacterRightView characterRightController;
 
+	@FXML
+	private FrisbeeView frisbeeController;
+
 	private GameViewModel gameViewModel;
 	private ViewHandler viewHandler;
 
@@ -50,6 +53,7 @@ public class GameView {
 		this.bottomPanelController.init(gameViewModel, viewHandler);
 		this.characterLeftController.init(gameViewModel);
 		this.characterRightController.init(gameViewModel);
+		this.frisbeeController.init(gameViewModel);
 
 		this.labelLevelSuccess.textProperty().bind(this.gameViewModel.getLabelLevelSuccessProperty());
 		this.buttonLevelContinue.textProperty().bind(this.gameViewModel.getButtonLevelContinueTextProperty());
@@ -82,12 +86,6 @@ public class GameView {
 		case A -> this.gameViewModel.stopCharacterMoveLeft("left");
 		case D -> this.gameViewModel.stopCharacterMoveRight("left");
 		}
-	}
-
-	@FXML
-	private void handleFrisbeeClicked(MouseEvent event) {
-		this.gameViewModel.incrementScore();
-		this.gameViewModel.removeLife();
 	}
 
 	@FXML

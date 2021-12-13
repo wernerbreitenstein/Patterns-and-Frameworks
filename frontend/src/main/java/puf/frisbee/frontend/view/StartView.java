@@ -62,6 +62,9 @@ public class StartView {
 	}
 
 	@FXML
+//	private void handleLoginRegisterButtonClicked(ActionEvent event) {
+//		this.viewHandler.openGameView();
+//	}
 	private void handleLoginRegisterButtonClicked(ActionEvent event) {
 		this.viewHandler.openRegistrationLoginView();
 	}
