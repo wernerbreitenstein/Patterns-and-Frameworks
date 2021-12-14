@@ -23,6 +23,9 @@ public class GameViewModel {
 	private DoubleProperty frisbeeXPosition;
 	private DoubleProperty frisbeeYPosition;
 
+	private DoubleProperty catchingZoneXPosition;
+	private DoubleProperty catchingZoneYPosition;
+
 	// TODO: only flags for one character will be needed once two characters can not play on one computer anymore
 	private boolean isCharacterLeftMovingLeft;
 	private boolean isCharacterLeftMovingRight;
@@ -70,6 +73,9 @@ public class GameViewModel {
 		this.frisbeeXPosition = new SimpleDoubleProperty();
 		this.frisbeeYPosition = new SimpleDoubleProperty();
 
+		this.catchingZoneXPosition = new SimpleDoubleProperty();
+		this.catchingZoneYPosition = new SimpleDoubleProperty();
+
 		// set initial character positions
 		this.characterLeftYPosition.setValue(levelModel.getInitialCharacterYPosition());
 		this.characterRightYPosition.setValue(levelModel.getInitialCharacterYPosition());
@@ -83,6 +89,9 @@ public class GameViewModel {
 		// set initial frisbee position (later on this should probably fit to any specific character)
 		this.frisbeeXPosition.setValue(levelModel.getInitialFrisbeeXPosition());
 		this.frisbeeYPosition.setValue(levelModel.getInitialFrisbeeYPosition());
+
+		this.catchingZoneXPosition.setValue(this.characterRightXPosition.getValue() + 86.0);
+		this.catchingZoneYPosition.setValue(this.characterRightYPosition.getValue() + 50.0);
 
 		this.startCountdown();
 		this.startCharacterAnimation();
@@ -127,8 +136,14 @@ public class GameViewModel {
 
 				if (isCharacterLeftMovingLeft) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
 				if (isCharacterLeftMovingRight) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
-				if (isCharacterRightMovingLeft) characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-				if (isCharacterRightMovingRight) characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+				if (isCharacterRightMovingLeft) {
+					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
+					catchingZoneXPosition.setValue(characterRightXPosition.getValue() + 86.0);
+				}
+				if (isCharacterRightMovingRight) {
+					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+					catchingZoneXPosition.setValue(characterRightXPosition.getValue() + 86.0);
+				}
 
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
@@ -136,6 +151,7 @@ public class GameViewModel {
 				}
 				if (characterRightYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
 					characterRightYPosition.setValue(characterRightYPosition.getValue() + gravity);
+					catchingZoneYPosition.setValue(characterRightYPosition.getValue() + 50.0);
 				}
 			}
 		};
@@ -144,27 +160,38 @@ public class GameViewModel {
 
 	public void throwFrisbee() {
 		Timeline timelineFrisbee = new Timeline();
-        timelineFrisbee.setCycleCount(1);
-        KeyValue xKV = new KeyValue(this.frisbeeXPosition, 1000);
-        KeyValue yKV = new KeyValue(this.frisbeeYPosition, 100, new Interpolator() {
-            @Override
-            protected double curve(double t) {
+		timelineFrisbee.setCycleCount(1);
+		int maxXPosition = 1000;
+		int maxYPosition = 100;
+
+		KeyValue xKV = new KeyValue(this.frisbeeXPosition, maxXPosition);
+		KeyValue yKV = new KeyValue(this.frisbeeYPosition, maxYPosition, new Interpolator() {
+			@Override
+			protected double curve(double t) {
 				// The subtrahend 't/2.2' at the end defines the difference of vertical start and end position
 				// and needs to be adjusted according to the individual character's and level floor's height.
-				double currentYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
-				double endYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - 1/2.2;
+				double currentYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - t / 2.2;
+				double endYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - 1 / 2.2;
+				if (frisbeeYPosition.intValue() >= catchingZoneYPosition.getValue()
+						&& frisbeeXPosition.intValue() >= catchingZoneXPosition.getValue() - 30
+						&& frisbeeXPosition.intValue() <= catchingZoneXPosition.getValue() + 30) {
+					incrementScore();
+					timelineFrisbee.stop();
+
+				}
 				if (currentYPosition == endYPosition) {
 					removeLife();
+					timelineFrisbee.stop();
 				}
-                return (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
-            }
-        });
+				return currentYPosition;
+			}
+		});
 
 		// To modify the frisbee's velocity simply reduce or increase the duration parameter manually.
-        KeyFrame xKF = new KeyFrame(Duration.millis(2000), xKV);
-        KeyFrame yKF = new KeyFrame(Duration.millis(2000), yKV);
-        timelineFrisbee.getKeyFrames().addAll(xKF, yKF);
-        timelineFrisbee.play();
+		KeyFrame xKF = new KeyFrame(Duration.millis(2000), xKV);
+		KeyFrame yKF = new KeyFrame(Duration.millis(2000), yKV);
+		timelineFrisbee.getKeyFrames().addAll(xKF, yKF);
+		timelineFrisbee.play();
 	}
 
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore
@@ -360,5 +387,13 @@ public class GameViewModel {
 
 	public DoubleProperty getFrisbeeYPositionProperty() {
 		return this.frisbeeYPosition;
+	}
+
+	public DoubleProperty getCatchingZoneXPositionProperty() {
+		return this.catchingZoneXPosition;
+	}
+
+	public DoubleProperty getCatchingZoneYPositionProperty() {
+		return this.catchingZoneYPosition;
 	}
 }

@@ -16,7 +16,8 @@ public class ViewHandler {
 	}
 
 	public void start() {
-		openStartView();
+//		openStartView();
+		openGameView();
 		this.stage.show();
 	}
 	

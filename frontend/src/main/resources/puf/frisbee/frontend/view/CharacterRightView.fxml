@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -8,15 +7,11 @@
 
 <Pane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.CharacterRightView">
  <children>
-      <Group fx:id="character">
-         <children>
-           <ImageView fitHeight="200" fitWidth="172" pickOnBounds="true" preserveRatio="true">
-               <image>
-                   <Image url="@../images/Character_02.gif" />
-               </image>
-           </ImageView>
-            <Circle fx:id="catchingZone" fill="#1f93ff80" layoutX="86.0" layoutY="50.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
-         </children>
-      </Group>
+     <ImageView fx:id="character" fitHeight="200" fitWidth="172" pickOnBounds="true" preserveRatio="true">
+         <image>
+             <Image url="@../images/Character_02.gif" />
+         </image>
+     </ImageView>
+      <Circle fx:id="catchingZone" fill="#ffffff80" radius="50.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
  </children>
 </Pane>
