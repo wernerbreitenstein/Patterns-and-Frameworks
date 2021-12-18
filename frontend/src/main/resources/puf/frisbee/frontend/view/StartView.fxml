@@ -97,7 +97,7 @@
                      <children>
                         <VBox alignment="CENTER_LEFT">
                            <children>
-                              <Label text="YOUR TEAM" textFill="WHITE">
+                              <Label text="LAST TEAM" textFill="WHITE">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

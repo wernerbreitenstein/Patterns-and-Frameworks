@@ -56,7 +56,7 @@
                             </VBox>
                             <VBox alignment="CENTER_LEFT">
                                 <children>
-                                    <Label text="THIS LEVEL" textFill="WHITE">
+                                    <Label text="YOUR LEVEL" textFill="WHITE">
                                         <font>
                                             <Font size="14.0" />
                                         </font>
@@ -70,7 +70,7 @@
                             </VBox>
                             <VBox alignment="CENTER_LEFT">
                                 <children>
-                                    <Label text="TIME REMAINING" textFill="WHITE">
+                                    <Label text="YOUR TIME REMAINING" textFill="WHITE">
                                         <font>
                                             <Font size="14.0" />
                                         </font>
@@ -84,7 +84,7 @@
                             </VBox>
                             <VBox alignment="CENTER_LEFT">
                                 <children>
-                                    <Label text="CURRENT SCORE" textFill="WHITE">
+                                    <Label text="YOUR CURRENT SCORE" textFill="WHITE">
                                         <font>
                                             <Font size="14.0" />
                                         </font>
