@@ -44,6 +44,7 @@ public class GameViewModel {
 	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
+		if (levelModel.getCurrentLevel() == 0) {this.levelModel.setCurrentLevel(1);}
 		this.teamModel = teamModel;
 		this.remainingLives = teamModel.getTeamLives();
 		this.teamLivesHidden = new ArrayList<>(5);

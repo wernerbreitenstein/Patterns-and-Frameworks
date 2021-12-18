@@ -45,7 +45,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowTeamDataTopPanelProperty() {
-        if (this.playerModel.isLoggedIn()) {
+        if (this.playerModel.isLoggedIn() && this.levelModel.getCurrentLevel() != 0) {
             this.showTeamDataTopPanel.setValue(true);
         } else {
             this.showTeamDataTopPanel.setValue(false);

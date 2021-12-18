@@ -4,7 +4,7 @@ import puf.frisbee.frontend.core.Constants;
 
 public class LevelModel implements Level {	
 	// TODO: get this from the server
-	private int currentLevel = 1;
+	private int currentLevel = 0;
 
 	private final double sceneBoundaryLeft = 80;
 	private final double sceneBoundaryRight = 80;
