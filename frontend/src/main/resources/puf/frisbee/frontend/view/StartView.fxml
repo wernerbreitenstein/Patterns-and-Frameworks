@@ -88,7 +88,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </ImageView>
-                  <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="40.0" GridPane.columnIndex="1">
+                  <HBox fx:id="teamDataTopPanel" alignment="CENTER_LEFT" prefHeight="80.0" spacing="40.0" GridPane.columnIndex="1">
                      <children>
                         <VBox alignment="CENTER_LEFT">
                            <children>
@@ -132,7 +132,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button fx:id="buttonStart" mnemonicParsing="false" onAction="#handleStartButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="START PLAYING" />
+                        <Button fx:id="buttonStart" onAction="#handleStartButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="START PLAYING" />
                      </children>
                      <padding>
                         <Insets left="10.0" />
@@ -140,18 +140,18 @@
                   </HBox>
                   <FlowPane alignment="CENTER_RIGHT" GridPane.columnIndex="2">
                      <children>
-                        <Label fx:id="labelGreeting" styleClass="dialog-text" stylesheets="@../css/main.css" textAlignment="RIGHT">
+                        <Label fx:id="labelGreeting" styleClass="dialog-text" stylesheets="@../css/main.css">
                            <FlowPane.margin>
                               <Insets />
                            </FlowPane.margin>
                         </Label>
                         <StackPane alignment="CENTER_LEFT">
                            <children>
-                              <Button fx:id="buttonLoginRegister" mnemonicParsing="false" onAction="#handleLoginRegisterButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="LOGIN / REGISTER" />
-                              <MenuButton fx:id="buttonSettings" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="button-light" text="Settings" StackPane.alignment="TOP_RIGHT">
+                              <Button fx:id="buttonLoginRegister" onAction="#handleLoginRegisterButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="LOGIN / REGISTER" />
+                              <MenuButton fx:id="buttonSettings" prefHeight="39.0" styleClass="button-light" stylesheets="@../css/main.css" text="SETTINGS" StackPane.alignment="TOP_RIGHT">
                                 <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#handleProfileButtonClicked" text="Profile" />
-                                  <MenuItem mnemonicParsing="false" onAction="#handleLogoutButtonClicked" text="Logout" />
+                                  <MenuItem onAction="#handleProfileButtonClicked" text="PROFILE" />
+                                  <MenuItem onAction="#handleLogoutButtonClicked" text="LOGOUT" />
                                 </items>
                               </MenuButton>
                            </children>

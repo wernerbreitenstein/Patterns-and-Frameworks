@@ -13,6 +13,7 @@ public class StartViewModel {
     private Player playerModel;
 
     private StringProperty labelGreetingProperty;
+    private BooleanProperty showTeamDataTopPanel;
     private BooleanProperty showSettingsButton;
     private BooleanProperty showLoginRegisterButton;
     private BooleanProperty showStartButton;
@@ -23,6 +24,7 @@ public class StartViewModel {
         this.highscoreModel = highscoreModel;
         this.playerModel = playerModel;
 
+        this.showTeamDataTopPanel = new SimpleBooleanProperty(false);
         this.labelGreetingProperty = new SimpleStringProperty();
         this.showSettingsButton = new SimpleBooleanProperty(false);
         this.showLoginRegisterButton = new SimpleBooleanProperty(true);
@@ -30,6 +32,14 @@ public class StartViewModel {
         this.highscoreTableProperty = FXCollections.observableArrayList();
     }
 
+    public BooleanProperty getTeamDataTopPanelProperty() {
+        if (this.playerModel.isLoggedIn()) {
+            this.showTeamDataTopPanel.setValue(true);
+        } else {
+            this.showTeamDataTopPanel.setValue(false);
+        }
+        return this.showTeamDataTopPanel;
+    }
 
     public StringProperty getLabelGreetingProperty() {
         String name = this.playerModel.isLoggedIn() ? this.playerModel.getName() : "Stranger";
@@ -54,7 +64,7 @@ public class StartViewModel {
 
     public void logout() {
         this.playerModel.setLoginStatus(false);
-
+        this.showTeamDataTopPanel.setValue(false);
         this.labelGreetingProperty.setValue("Hello Stranger");
         this.showSettingsButton.setValue(false);
         this.showLoginRegisterButton.setValue(true);

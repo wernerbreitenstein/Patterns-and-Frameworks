@@ -3,11 +3,15 @@ package puf.frisbee.frontend.view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.model.Team;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class StartView {
+	@FXML
+	private HBox teamDataTopPanel;
+
 	@FXML
 	private Label labelTeamName;
 
@@ -50,6 +54,7 @@ public class StartView {
 
 		this.bottomPanelController.init(viewHandler);
 
+		this.teamDataTopPanel.visibleProperty().bind(this.startViewModel.getTeamDataTopPanelProperty());
 		this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
 		this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
 		this.buttonSettings.visibleProperty().bind(this.startViewModel.getShowSettingsButtonProperty());
@@ -62,9 +67,6 @@ public class StartView {
 	}
 
 	@FXML
-//	private void handleLoginRegisterButtonClicked(ActionEvent event) {
-//		this.viewHandler.openGameView();
-//	}
 	private void handleLoginRegisterButtonClicked(ActionEvent event) {
 		this.viewHandler.openRegistrationLoginView();
 	}
