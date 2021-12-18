@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
@@ -49,7 +48,7 @@ public class GameView {
 		this.gameViewModel = gameViewModel;
 		this.viewHandler = viewHandler;
 
-		this.topPanelController.init(gameViewModel);
+		this.topPanelController.init(gameViewModel, viewHandler);
 		this.bottomPanelController.init(gameViewModel, viewHandler);
 		this.characterLeftController.init(gameViewModel);
 		this.characterRightController.init(gameViewModel);
@@ -107,7 +106,7 @@ public class GameView {
 
 	@FXML
 	private void handleButtonQuitGameContinueClicked(ActionEvent event) {
-		this.gameViewModel.continueGameOver();
+		this.gameViewModel.quitGame();
 		this.viewHandler.openStartView();
 	}
 

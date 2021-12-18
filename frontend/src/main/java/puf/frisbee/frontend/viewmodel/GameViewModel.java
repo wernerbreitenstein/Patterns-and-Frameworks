@@ -271,7 +271,7 @@ public class GameViewModel {
 	}
 
 	public void removeLife() {
-		this.remainingLives --;
+		this.remainingLives--;
 		this.setTeamLivesHidden();
 
 		if (this.remainingLives == 0) {
@@ -336,6 +336,13 @@ public class GameViewModel {
 	
 	public void continueGameAfterQuit() {		
 		this.hideQuitConfirmDialog();
+	}
+
+	public void quitGame() {
+		// TODO: save current lives, score and level of team to backend later on
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

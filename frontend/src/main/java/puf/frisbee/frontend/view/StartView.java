@@ -3,38 +3,19 @@ package puf.frisbee.frontend.view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.model.Team;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class StartView {
 	@FXML
-	private HBox teamDataTopPanel;
+	private TopPanelView topPanelController;
 
 	@FXML
-	private Label labelTeamName;
-
-	@FXML
-	private Label labelLevel;
-
-	@FXML
-	private Label labelScore;
+	private BottomPanelView bottomPanelController;
 
 	@FXML
 	private Label labelQuickTip;
-
-	@FXML
-	private Label labelGreeting;
-
-	@FXML
-	private Button buttonLoginRegister;
-
-	@FXML
-	private MenuButton buttonSettings;
-
-	@FXML
-	private Button buttonStart;
 
 	@FXML
 	private TableView<Team> highscoreTable;
@@ -43,7 +24,7 @@ public class StartView {
 	private TableColumn<Team, Integer> highscoreScore;
 
 	@FXML
-	private BottomPanelView bottomPanelController;
+	private Button buttonStart;
 
 	private StartViewModel startViewModel;
 	private ViewHandler viewHandler;
@@ -52,43 +33,25 @@ public class StartView {
 		this.startViewModel = startViewModel;
 		this.viewHandler = viewHandler;
 
+		this.topPanelController.init(startViewModel, viewHandler);
 		this.bottomPanelController.init(viewHandler);
-
-		this.teamDataTopPanel.visibleProperty().bind(this.startViewModel.getTeamDataTopPanelProperty());
-		this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
-		this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
-		this.buttonSettings.visibleProperty().bind(this.startViewModel.getShowSettingsButtonProperty());
-		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
 
 		this.highscoreTable.setItems(startViewModel.getHighscoreTableItems());
 		this.highscoreScore.setSortType(TableColumn.SortType.DESCENDING);
 		this.highscoreTable.getSortOrder().add(highscoreScore);
 		this.highscoreTable.sort();
-	}
 
-	@FXML
-	private void handleLoginRegisterButtonClicked(ActionEvent event) {
-		this.viewHandler.openRegistrationLoginView();
-	}
-
-	@FXML
-	private void handleLogoutButtonClicked(ActionEvent event) {
-		this.startViewModel.logout();
-	}
-
-	@FXML
-	private void handleProfileButtonClicked(ActionEvent event) {
-		this.viewHandler.openProfileView();
-	}
-
-	@FXML
-	private void handleStartButtonClicked(ActionEvent event) {
-		this.viewHandler.openWaitingView();
+		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
 	}
 
 	@FXML
 	private void handleRefreshButtonClicked(ActionEvent event) {
 		this.startViewModel.refreshData();
 		this.highscoreTable.sort();
+	}
+
+	@FXML
+	private void handleStartButtonClicked(ActionEvent event) {
+		this.viewHandler.openWaitingView();
 	}
 }

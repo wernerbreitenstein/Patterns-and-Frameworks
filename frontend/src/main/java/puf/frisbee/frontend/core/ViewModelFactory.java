@@ -27,7 +27,7 @@ public class ViewModelFactory {
 	 * @return a new instance of StartViewModel
 	 */
 	public StartViewModel getHighscoreViewModel() {
-		return new StartViewModel(modelFactory.getHighscoreModel(), modelFactory.getPlayerModel());
+		return new StartViewModel(modelFactory.getLevelModel(), modelFactory.getTeamModel(), modelFactory.getHighscoreModel(), modelFactory.getPlayerModel());
 	}
 
 	/**

@@ -2,26 +2,13 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.StartView">
    <children>
@@ -72,103 +59,7 @@
             </VBox>
          </children>
       </StackPane>
-      <Group>
-         <children>
-            <Rectangle height="80.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-            <GridPane hgap="20.0" prefHeight="80.0" prefWidth="1280.0">
-               <columnConstraints>
-                  <ColumnConstraints maxWidth="975.5" minWidth="10.0" prefWidth="138.5" />
-                  <ColumnConstraints maxWidth="999.5" minWidth="10.0" prefWidth="744.5" />
-                  <ColumnConstraints maxWidth="384.0" minWidth="10.0" prefWidth="360.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <ImageView pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/FrizzbeeFreakz_Logo_TopPanel.png" />
-                     </image>
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </ImageView>
-                  <HBox fx:id="teamDataTopPanel" alignment="CENTER_LEFT" prefHeight="80.0" spacing="40.0" GridPane.columnIndex="1">
-                     <children>
-                        <VBox alignment="CENTER_LEFT">
-                           <children>
-                              <Label text="LAST TEAM" textFill="WHITE">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="labelTeamName" text="Dick &amp; Doof" textFill="WHITE">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER_LEFT">
-                           <children>
-                              <Label text="LAST LEVEL" textFill="WHITE">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="labelLevel" alignment="TOP_CENTER" text="7" textFill="WHITE">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER_LEFT">
-                           <children>
-                              <Label text="LAST SCORE" textFill="WHITE">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="labelScore" alignment="TOP_CENTER" text="123" textFill="WHITE">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                  <FlowPane alignment="CENTER_RIGHT" GridPane.columnIndex="2">
-                     <children>
-                        <Label fx:id="labelGreeting" styleClass="dialog-text" stylesheets="@../css/main.css">
-                           <FlowPane.margin>
-                              <Insets />
-                           </FlowPane.margin>
-                        </Label>
-                        <StackPane alignment="CENTER_LEFT">
-                           <children>
-                              <Button fx:id="buttonLoginRegister" onAction="#handleLoginRegisterButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="LOGIN / REGISTER" />
-                              <MenuButton fx:id="buttonSettings" prefHeight="39.0" styleClass="button-light" stylesheets="@../css/main.css" text="SETTINGS" StackPane.alignment="TOP_RIGHT">
-                                <items>
-                                  <MenuItem onAction="#handleProfileButtonClicked" text="PROFILE" />
-                                  <MenuItem onAction="#handleLogoutButtonClicked" text="LOGOUT" />
-                                </items>
-                              </MenuButton>
-                           </children>
-                        </StackPane>
-                     </children>
-                     <GridPane.margin>
-                        <Insets right="15.0" />
-                     </GridPane.margin>
-                  </FlowPane>
-               </children>
-            </GridPane>
-         </children>
-      </Group>
+      <fx:include fx:id="topPanel" source="TopPanel.fxml" />
       <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
    </children>
    <stylesheets>
