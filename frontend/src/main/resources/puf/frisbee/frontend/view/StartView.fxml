@@ -60,7 +60,12 @@
                   </VBox>
                   <Button mnemonicParsing="false" onAction="#handleRefreshButtonClicked" styleClass="button-dark" stylesheets="@../css/main.css" text="REFRESH DATA">
                      <VBox.margin>
-                        <Insets top="40.0" />
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="buttonStart" onAction="#handleStartButtonClicked" styleClass="button-darkred" stylesheets="@../css/main.css" text="START PLAYING" textFill="#800000">
+                     <VBox.margin>
+                        <Insets top="20.0" />
                      </VBox.margin>
                   </Button>
                </children>
@@ -132,7 +137,6 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button fx:id="buttonStart" onAction="#handleStartButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="START PLAYING" />
                      </children>
                      <padding>
                         <Insets left="10.0" />
