@@ -104,7 +104,7 @@ public class StartViewModel {
     }
 
     public void resetTeamData() {
-        if (this.teamModel.getTeamPlayingState() == false) {
+        if (!this.teamModel.getTeamPlayingState()) {
             this.teamModel.setTeamLevel(1);
             this.teamModel.setTeamScore(0);
             this.teamModel.setTeamLives(5);

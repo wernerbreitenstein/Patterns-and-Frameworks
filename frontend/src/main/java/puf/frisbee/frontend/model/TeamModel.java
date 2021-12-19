@@ -52,7 +52,5 @@ public class TeamModel implements Team {
 	public boolean getTeamPlayingState() { return teamPlayingState; }
 
 	@Override
-	public void setTeamPlayingState(boolean value) {
-
-	}
+	public void setTeamPlayingState(boolean value) { this.teamPlayingState = value; }
 }

@@ -97,6 +97,12 @@ public class GameView {
 	}
 
 	@FXML
+	private void handleButtonLevelQuitClicked(ActionEvent event) {
+		this.gameViewModel.pauseGame();
+		this.viewHandler.openStartView();
+	}
+
+	@FXML
 	private void handleButtonGameOverContinueClicked(ActionEvent event) {
 		this.gameViewModel.continueGameOver();
 		this.viewHandler.openGameView();

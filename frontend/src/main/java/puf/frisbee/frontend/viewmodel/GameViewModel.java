@@ -349,6 +349,13 @@ public class GameViewModel {
 		this.teamModel.setTeamScore(this.labelScore.getValue());
 		this.teamModel.setTeamLives(this.remainingLives);
 	}
+
+	public void pauseGame() {
+		// TODO: save current lives, score and level of team to backend later on
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
+	}
 	
 	public void continueGameAfterQuit() {		
 		this.hideQuitConfirmDialog();
@@ -360,8 +367,6 @@ public class GameViewModel {
 		this.teamModel.setTeamScore(this.labelScore.getValue());
 		this.teamModel.setTeamLives(this.remainingLives);
 		this.teamModel.setTeamPlayingState(false);
-//		this.teamModel.setTeamLives(0);
-
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

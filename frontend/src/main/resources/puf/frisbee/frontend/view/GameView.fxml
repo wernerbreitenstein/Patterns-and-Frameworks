@@ -104,7 +104,7 @@
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
                         <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleButtonLevelContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonLevelQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I need a pause first." />
                      </children>
                   </HBox>
                </children>
