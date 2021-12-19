@@ -6,8 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class RegistrationLoginView {
     @FXML
