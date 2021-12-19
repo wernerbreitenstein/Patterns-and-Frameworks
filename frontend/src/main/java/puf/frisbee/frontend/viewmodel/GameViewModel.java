@@ -30,6 +30,7 @@ public class GameViewModel {
 	private boolean isCharacterRightMovingRight;
 
 	private BooleanProperty showLevelSuccessDialog;
+	private BooleanProperty showGameSuccessDialog;
 	private BooleanProperty showGameOverDialog;
 	private BooleanProperty showQuitConfirmDialog;
 	private StringProperty buttonLevelContinueText;
@@ -44,7 +45,6 @@ public class GameViewModel {
 	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
-		if (levelModel.getCurrentLevel() == 0) {this.levelModel.setCurrentLevel(1);}
 		this.teamModel = teamModel;
 		this.remainingLives = teamModel.getTeamLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -58,6 +58,7 @@ public class GameViewModel {
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
+		this.showGameSuccessDialog = new SimpleBooleanProperty(false);
 		this.showGameOverDialog = new SimpleBooleanProperty(false);
 		this.showQuitConfirmDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
@@ -85,8 +86,13 @@ public class GameViewModel {
 		this.frisbeeXPosition.setValue(levelModel.getInitialFrisbeeXPosition());
 		this.frisbeeYPosition.setValue(levelModel.getInitialFrisbeeYPosition());
 
+		this.setTeamData();
 		this.startCountdown();
 		this.startCharacterAnimation();
+	}
+
+	private void setTeamData() {
+		if (levelModel.getCurrentLevel() == 0) {this.levelModel.setCurrentLevel(1);}
 	}
 
 	private void setTeamLivesHidden() {
@@ -108,7 +114,11 @@ public class GameViewModel {
 			if (!this.showGameOverDialog.getValue() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
-				showLevelSuccessDialog.setValue(true);
+				if (this.levelModel.getCurrentLevel() < 3) {
+					showLevelSuccessDialog.setValue(true);
+				} else {
+					showGameSuccessDialog.setValue(true);
+				}
 			}
 			
 		}));
@@ -285,18 +295,22 @@ public class GameViewModel {
 	}
 
 	public StringProperty getLabelLevelSuccessProperty() {
-		this.labelLevelSuccess.setValue("Level " + this.levelModel.getCurrentLevel() + " geschafft!");
+		this.labelLevelSuccess.setValue("Hey, you finished level " + this.levelModel.getCurrentLevel() + " … go ahead?");
 		return this.labelLevelSuccess;
 	}
 
 	public StringProperty getButtonLevelContinueTextProperty() {
 		int nextLevel = this.levelModel.getCurrentLevel() + 1;
-		this.buttonLevelContinueText.setValue("Weiter zu Level " + nextLevel);
+		this.buttonLevelContinueText.setValue("Yes, take me to level " + nextLevel + ".");
 		return this.buttonLevelContinueText;
 	}
 
 	public BooleanProperty getLevelSuccessDialogProperty() {
 		return this.showLevelSuccessDialog;
+	}
+
+	public BooleanProperty getGameSuccessDialogProperty() {
+		return this.showGameSuccessDialog;
 	}
 	
 	public BooleanProperty getGameOverDialogProperty() {
