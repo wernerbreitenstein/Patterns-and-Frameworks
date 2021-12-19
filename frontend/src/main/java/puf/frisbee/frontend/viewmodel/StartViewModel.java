@@ -7,6 +7,7 @@ import puf.frisbee.frontend.model.*;
 
 
 public class StartViewModel {
+    private Game gameModel;
     private Level levelModel;
     private Team teamModel;
     private Highscore highscoreModel;
@@ -25,7 +26,8 @@ public class StartViewModel {
 
     private ObservableList<Team> highscoreTableProperty;
 
-    public StartViewModel(Level levelModel, Team teamModel, Highscore highscoreModel, Player playerModel) {
+    public StartViewModel(Game gameModel, Level levelModel, Team teamModel, Highscore highscoreModel, Player playerModel) {
+        this.gameModel = gameModel;
         this.levelModel = levelModel;
         this.teamModel = teamModel;
         this.highscoreModel = highscoreModel;
@@ -103,13 +105,8 @@ public class StartViewModel {
         this.showStartButton.setValue(false);
     }
 
-    public void resetTeamData() {
-        if (!this.teamModel.getTeamPlayingState()) {
-            this.teamModel.setTeamLevel(1);
-            this.teamModel.setTeamScore(0);
-            this.teamModel.setTeamLives(5);
-            this.levelModel.setCurrentLevel(1);
-        }
+    public void resetCountdown() {
+        this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
     }
 
     /**

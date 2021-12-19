@@ -86,7 +86,6 @@ public class GameViewModel {
 		this.frisbeeXPosition.setValue(levelModel.getInitialFrisbeeXPosition());
 		this.frisbeeYPosition.setValue(levelModel.getInitialFrisbeeYPosition());
 
-		this.teamModel.setTeamPlayingState(true);
 		this.setTeamData();
 		this.startCountdown();
 		this.startCharacterAnimation();
@@ -103,7 +102,7 @@ public class GameViewModel {
 	}
 
 	private void startCountdown() {
-		this.second = gameModel.getCountdown();
+		this.second = gameModel.getCurrentCountdown();
 		timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), actionEvent -> {
 			labelCountdown.setValue(Integer.toString(second));
@@ -112,6 +111,7 @@ public class GameViewModel {
 			if (this.showGameOverDialog.getValue()) {
 				timeline.stop();
 			}
+
 			if (!this.showGameOverDialog.getValue() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
@@ -325,13 +325,9 @@ public class GameViewModel {
 	public void showQuitConfirmDialog() {
 		if (!this.showGameOverDialog.getValue()) {
 			this.timeline.pause();
+			this.gameModel.setCurrentCountdown(this.second);
 			this.showQuitConfirmDialog.setValue(true);
 		}
-	}
-	
-	public void hideQuitConfirmDialog() {
-		this.timeline.playFrom(this.timeline.getCurrentTime());
-		this.showQuitConfirmDialog.setValue(false);
 	}
 
 	public void continueGameOver() {
@@ -340,6 +336,7 @@ public class GameViewModel {
 		this.teamModel.setTeamScore(0);
 		this.teamModel.setTeamLives(5);
 		this.levelModel.setCurrentLevel(1);
+		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
 	public void continueGame() {
@@ -348,6 +345,7 @@ public class GameViewModel {
 		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
 		this.teamModel.setTeamScore(this.labelScore.getValue());
 		this.teamModel.setTeamLives(this.remainingLives);
+		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
 	public void pauseGame() {
@@ -355,10 +353,14 @@ public class GameViewModel {
 		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
 		this.teamModel.setTeamScore(this.labelScore.getValue());
 		this.teamModel.setTeamLives(this.remainingLives);
+		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 	
-	public void continueGameAfterQuit() {		
-		this.hideQuitConfirmDialog();
+	public void continueGameAfterQuit() {
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
+		this.showQuitConfirmDialog.setValue(false);
 	}
 
 	public void quitGame() {
@@ -366,7 +368,7 @@ public class GameViewModel {
 		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
 		this.teamModel.setTeamScore(this.labelScore.getValue());
 		this.teamModel.setTeamLives(this.remainingLives);
-		this.teamModel.setTeamPlayingState(false);
+		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

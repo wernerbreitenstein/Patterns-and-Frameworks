@@ -123,5 +123,6 @@ public class GameView {
 	@FXML
 	private void handleButtonQuitGameQuitClicked(ActionEvent event) {
 		this.gameViewModel.continueGameAfterQuit();
+		this.viewHandler.openGameView();
 	}
 }

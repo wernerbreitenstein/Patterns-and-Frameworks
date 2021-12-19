@@ -52,7 +52,8 @@ public class StartView {
 
 	@FXML
 	private void handleStartButtonClicked(ActionEvent event) {
-		this.startViewModel.resetTeamData();
+		this.startViewModel.resetCountdown();
 		this.viewHandler.openWaitingView();
+
 	}
 }

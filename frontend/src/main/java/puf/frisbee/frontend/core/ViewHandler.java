@@ -68,7 +68,7 @@ public class ViewHandler {
 		try {
 			Parent root = startViewLoader.load();
 			StartView startView = startViewLoader.getController();
-			startView.init(viewModelFactory.getHighscoreViewModel(),this);
+			startView.init(viewModelFactory.getStartViewModel(),this);
 			this.stage.setTitle("Frisbee");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
