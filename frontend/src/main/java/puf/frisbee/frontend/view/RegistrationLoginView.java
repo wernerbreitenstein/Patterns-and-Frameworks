@@ -43,7 +43,7 @@ public class RegistrationLoginView {
     }
 
     @FXML
-    private void handleLogin(ActionEvent event) throws URISyntaxException {
+    private void handleLogin(ActionEvent event) {
         boolean loginSuccessful = registrationLoginViewModel.login(loginEmail.getText(), loginPassword.getText());
 
         if (loginSuccessful) {
@@ -52,7 +52,7 @@ public class RegistrationLoginView {
     }
 
     @FXML
-    private void handleRegister(ActionEvent event) throws URISyntaxException, IOException, InterruptedException {
+    private void handleRegister(ActionEvent event) {
         boolean registerSuccessful = registrationLoginViewModel.register(registerName.getText(), registerEmail.getText(), registerPassword.getText());
 
         if (registerSuccessful) {
