@@ -3,40 +3,41 @@
     -fx-background-size: contain;
 }
 
-.bg-dark {
-    -fx-background-color: rgba(72, 52, 39, 0.83);
+.form-background {
+    -fx-padding: 24px 0px 30px 0px;
 }
 
-.font-heading {
+.form-text {
+    -fx-font-family: "sans-serif";
+}
+
+.form-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(255, 255, 255, 1);
+    -fx-padding: 0 0 6px 0;
+}
+
+.form-label-top {
+    -fx-padding: 0 0 18px 0;
+}
+
+.form-label-error {
+    -fx-text-fill: rgb(255, 128, 128);
+    -fx-padding: 0 0 12px 0;
+}
+
+.form-heading {
     -fx-font-size: 20px;
-    -fx-padding: 0 0 20px 0;
+    -fx-font-weight: bold;
+    -fx-padding: 0px 0 24px 0;
 }
 
-.font-small {
-    -fx-font-size: 10px;
-    -fx-padding: 0 0 10px 0;
+.form-inputfield{
+    -fx-padding: 12px 8px 24px 8px;
+    -fx-border-insets: 4px 0 20px 0;
+    -fx-background-insets: 4px 0 20px 0;
 }
 
-.font-label {
-    -fx-font-size: 12px;
-}
-
-.label {
-    -fx-text-fill: rgba(255, 255, 255, 0.8);
-}
-
-.text-field {
-    -fx-padding: 13px 8px 28px 8px;
-    -fx-border-insets: 5px 0 20px 0;
-    -fx-background-insets: 5px 0 20px 0;
-}
-
-.disabled {
-    -fx-background-color: rgba(180, 180, 180, 0.8);
-}
-
-.label.error {
-    -fx-font-size: 12px;
-    -fx-text-fill: rgb(255, 142, 142);
-    -fx-padding: 0 0 10px 0;
+.form-inputfield-disabled {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
 }

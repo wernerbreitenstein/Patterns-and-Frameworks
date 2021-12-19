@@ -259,8 +259,8 @@
                                       <Button fx:id="buttonLoginRegister" onAction="#handleLoginRegisterButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="LOGIN / REGISTER" />
                                       <MenuButton fx:id="buttonSettings" prefHeight="39.0" styleClass="button-light" stylesheets="@../css/main.css" text="SETTINGS" StackPane.alignment="TOP_RIGHT">
                                           <items>
-                                              <MenuItem onAction="#handleProfileButtonClicked" text="PROFILE" />
-                                              <MenuItem onAction="#handleLogoutButtonClicked" text="LOGOUT" />
+                                              <MenuItem onAction="#handleProfileButtonClicked" styleClass="button-light-menu-item" text="PROFILE" />
+                                              <MenuItem onAction="#handleLogoutButtonClicked" styleClass="button-light-menu-item" text="LOGOUT" />
                                           </items>
                                       </MenuButton>
                                   </children>
