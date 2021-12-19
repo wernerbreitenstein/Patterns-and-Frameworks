@@ -3,6 +3,8 @@ module puf.frisbee.frontend {
 	requires javafx.fxml;
 	requires transitive javafx.graphics;
 	requires javafx.base;
+	requires java.net.http;
+	requires com.fasterxml.jackson.databind;
 
 	opens puf.frisbee.frontend to javafx.fxml;
 	exports puf.frisbee.frontend;

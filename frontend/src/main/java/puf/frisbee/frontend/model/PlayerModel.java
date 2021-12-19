@@ -1,7 +1,14 @@
 package puf.frisbee.frontend.model;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 public class PlayerModel implements Player {
-    // TODO: get this from server
+
     private String name;
     private String email;
     private String password;
@@ -17,6 +24,7 @@ public class PlayerModel implements Player {
         return email;
     }
 
+
     @Override
     public boolean isLoggedIn() {
         return this.isLoggedIn;
@@ -28,12 +36,33 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public boolean register(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public boolean register(String name, String email, String password){
+        try {
+            this.name = name;
+            this.email = email;
+            this.password = password;
+            this.isLoggedIn = true;
 
-        return true;
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String playerJson = objectMapper.writeValueAsString(this);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/register"))
+                    //                .uri(new URI("http://localhost:8080/api/players/register"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(playerJson))
+                    .build();
+
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.statusCode() == 201 ? true : false;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override
