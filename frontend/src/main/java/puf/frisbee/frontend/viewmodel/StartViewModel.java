@@ -103,6 +103,15 @@ public class StartViewModel {
         this.showStartButton.setValue(false);
     }
 
+    public void resetTeamData() {
+        if (this.teamModel.getTeamPlayingState() == false) {
+            this.teamModel.setTeamLevel(1);
+            this.teamModel.setTeamScore(0);
+            this.teamModel.setTeamLives(5);
+            this.levelModel.setCurrentLevel(1);
+        }
+    }
+
     /**
      * Returns the available highscore data of all teams
      * @return an obersable list of teams with name, level and score

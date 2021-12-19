@@ -46,4 +46,16 @@ public interface Team {
 	 * Sets the current score the team has achieved.
 	 */
 	void setTeamScore(int score);
+
+	/**
+	 * Returns the current team playing state.
+	 *
+	 * @return current team playing state
+	 */
+	boolean getTeamPlayingState();
+
+	/**
+	 * Sets the current team playing state.
+	 */
+	void setTeamPlayingState(boolean value);
 }

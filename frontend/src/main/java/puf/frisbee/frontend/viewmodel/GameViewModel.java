@@ -86,6 +86,7 @@ public class GameViewModel {
 		this.frisbeeXPosition.setValue(levelModel.getInitialFrisbeeXPosition());
 		this.frisbeeYPosition.setValue(levelModel.getInitialFrisbeeYPosition());
 
+		this.teamModel.setTeamPlayingState(true);
 		this.setTeamData();
 		this.startCountdown();
 		this.startCharacterAnimation();
@@ -358,6 +359,9 @@ public class GameViewModel {
 		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
 		this.teamModel.setTeamScore(this.labelScore.getValue());
 		this.teamModel.setTeamLives(this.remainingLives);
+		this.teamModel.setTeamPlayingState(false);
+//		this.teamModel.setTeamLives(0);
+
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

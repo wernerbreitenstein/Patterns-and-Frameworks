@@ -5,6 +5,7 @@ public class TeamModel implements Team {
 	private int teamLives = 5;
 	private int teamLevel;
 	private int teamScore = 0;
+	private boolean teamPlayingState = false;
 
 	public TeamModel(String teamName, int teamLevel, int teamScore) {
 		this.teamName = teamName;
@@ -45,5 +46,13 @@ public class TeamModel implements Team {
 	@Override
 	public void setTeamScore(int score) {
 		this.teamScore = score;
+	}
+
+	@Override
+	public boolean getTeamPlayingState() { return teamPlayingState; }
+
+	@Override
+	public void setTeamPlayingState(boolean value) {
+
 	}
 }
