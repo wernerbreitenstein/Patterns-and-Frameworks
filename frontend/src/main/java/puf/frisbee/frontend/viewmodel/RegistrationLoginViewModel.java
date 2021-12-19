@@ -59,6 +59,8 @@ public class RegistrationLoginViewModel {
 
         if (registrationSuccessful) {
             this.playerModel.setLoginStatus(true);
+        } else {
+            this.registrationErrorLabel.setValue("Something went wrong. Please try again.");
         }
 
         return registrationSuccessful;
