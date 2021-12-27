@@ -15,7 +15,8 @@
                    <Image url="@../images/Character_02.gif" />
                </image>
            </ImageView>
-            <Circle fx:id="catchingZone" fill="#1f93ff80" layoutX="86.0" layoutY="50.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#1f93ff80" centerX="15.0" centerY="106.0" radius="21.0" strokeType="INSIDE" />
+            <Circle fill="#1f93ff80" centerX="157.0" centerY="97.0" radius="21.0" strokeType="INSIDE" />
          </children>
       </Group>
  </children>
