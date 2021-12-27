@@ -152,9 +152,15 @@ public class GameViewModel {
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
 					characterLeftYPosition.setValue(characterLeftYPosition.getValue() + gravity);
+				} else if(isCharacterLeftThrowing && !isFrisbeeMoving) {
+					// set frisbee position to character who is next when not jumping (anymore)
+					setFrisbeePositionToLeftCharacter();
 				}
 				if (characterRightYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
 					characterRightYPosition.setValue(characterRightYPosition.getValue() + gravity);
+				} else if(!isCharacterLeftThrowing && !isFrisbeeMoving) {
+					// set frisbee position to character who is next when not jumping (anymore)
+					setFrisbeePositionToRightCharacter();
 				}
 
 				// frisbee
@@ -244,22 +250,18 @@ public class GameViewModel {
 			this.removeLife();
 
 			// add timeout so frisbee is not imediately available
-			try {
-				Thread.sleep(1000);
-			} catch(InterruptedException e) {
-				System.out.println("Timeout exception");
-			}
+			setFrisbeeTimeout();
 
-			// reset frisbee position to player who did not catch the frisbee
-			if (this.isCharacterLeftThrowing) {
-				this.isCharacterLeftThrowing = false;
-				this.frisbeeXPosition.setValue(this.characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X - Constants.FRISBEE_RADIUS);
-				this.frisbeeYPosition.setValue(this.characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y - Constants.FRISBEE_RADIUS);
-			} else {
-				this.isCharacterLeftThrowing = true;
-				this.frisbeeXPosition.setValue(this.characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
-				this.frisbeeYPosition.setValue(this.characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
-			}
+			// set frisbee throwing turn to player who did not catch the frisbee
+			this.isCharacterLeftThrowing = !this.isCharacterLeftThrowing;
+		}
+	}
+
+	private void setFrisbeeTimeout() {
+		try {
+			Thread.sleep(1000);
+		} catch(InterruptedException e) {
+			System.out.println("Timeout exception");
 		}
 	}
 
@@ -269,6 +271,16 @@ public class GameViewModel {
 
 	private boolean hasCharacterRightTheFrisbee() {
 		return !this.isCharacterLeftThrowing && !this.isFrisbeeMoving;
+	}
+
+	private void setFrisbeePositionToLeftCharacter() {
+		this.frisbeeXPosition.setValue(this.characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(this.characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
+	}
+
+	private void setFrisbeePositionToRightCharacter() {
+		this.frisbeeXPosition.setValue(this.characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(this.characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y - Constants.FRISBEE_RADIUS);
 	}
 
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore

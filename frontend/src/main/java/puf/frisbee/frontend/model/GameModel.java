@@ -2,8 +2,8 @@ package puf.frisbee.frontend.model;
 
 public class GameModel implements Game {
     private final int countdownInSeconds = 30;
-    private final int gravity = 1;
-    private final int characterSpeed = 1;
+    private final int gravity = 2;
+    private final int characterSpeed = 2;
 
 
     @Override
