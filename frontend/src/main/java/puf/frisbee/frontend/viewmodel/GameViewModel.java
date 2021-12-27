@@ -140,10 +140,14 @@ public class GameViewModel {
 				int gravity = gameModel.getGravity();
 
 				// only the character that is not throwing is allowed to move
-				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee()) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
-				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee()) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
-				if (isCharacterRightMovingLeft && !hasCharacterRightTheFrisbee()) characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-				if (isCharacterRightMovingRight && !hasCharacterRightTheFrisbee()) characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+					characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
+				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+					characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
+				if (isCharacterRightMovingLeft && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
+					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
+				if (isCharacterRightMovingRight && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
+					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
 
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
@@ -279,6 +283,10 @@ public class GameViewModel {
 	}
 	private boolean isRightBorderReachedByCharacterRight() {
 		return this.characterRightXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
+	}
+	// return true if characters have at least a distance of 350
+	private boolean haveCharactersEnoughDistance() {
+		return Math.abs(this.characterRightXPosition.getValue() - this.characterLeftXPosition.getValue()) > 350;
 	}
 
 	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
