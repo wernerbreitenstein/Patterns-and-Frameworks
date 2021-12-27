@@ -89,7 +89,7 @@ public class GameViewModel {
 		// for now always the left character starts with the frisbee, this can alternate in the levels later on
 		this.isCharacterLeftThrowing = true;
 
-		// set initial frisbee position (later on this should probably fit to any specific character)
+		// set initial frisbee position
 		this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
 		this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
 
@@ -135,10 +135,10 @@ public class GameViewModel {
 				int gravity = gameModel.getGravity();
 
 				// only the character that is not throwing is allowed to move
-				if (isCharacterLeftMovingLeft && !isCharacterLeftThrowing) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
-				if (isCharacterLeftMovingRight && !isCharacterLeftThrowing) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
-				if (isCharacterRightMovingLeft && isCharacterLeftThrowing) characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-				if (isCharacterRightMovingRight && isCharacterLeftThrowing) characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee()) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
+				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee()) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
+				if (isCharacterRightMovingLeft && !hasCharacterRightTheFrisbee()) characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
+				if (isCharacterRightMovingRight && !hasCharacterRightTheFrisbee()) characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
 
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
@@ -256,6 +256,14 @@ public class GameViewModel {
 		}
 	}
 
+	private boolean hasCharacterLeftTheFrisbee() {
+		return this.isCharacterLeftThrowing && !this.isFrisbeeMoving;
+	}
+
+	private boolean hasCharacterRightTheFrisbee() {
+		return !this.isCharacterLeftThrowing && !this.isFrisbeeMoving;
+	}
+
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore
 	private boolean isLeftBorderReachedByCharacterLeft() {
 		return this.characterLeftXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
@@ -312,6 +320,7 @@ public class GameViewModel {
 		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterLeftMovingLeft
 				&& !this.isCharacterLeftMovingRight
+				// no jump if the character still needs to throw the frisbee
 				&& !this.isCharacterLeftThrowing
 				&& !showQuitConfirmDialog.getValue()
 				&& !showGameOverDialog.getValue()
@@ -322,7 +331,8 @@ public class GameViewModel {
 		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterRightMovingLeft
 				&& !this.isCharacterRightMovingRight
-				&& this.isCharacterLeftThrowing
+				// no jump if the character still needs to throw the frisbee
+				&& !this.hasCharacterRightTheFrisbee()
 				&& !showQuitConfirmDialog.getValue()
 				&& !showGameOverDialog.getValue()
 				&& !showLevelSuccessDialog.getValue();
