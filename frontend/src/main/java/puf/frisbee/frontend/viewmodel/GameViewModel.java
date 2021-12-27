@@ -237,12 +237,22 @@ public class GameViewModel {
 			}
 		}
 
-		// TODO: check all boundaries of scene
-		if(frisbeeXPosition.getValue() + Constants.FRISBEE_RADIUS >= levelModel.getSceneBoundaryRight()) {
+		// check all boundaries of scene
+		if(frisbeeX >= Constants.SCENE_WIDTH || frisbeeX - Constants.FRISBEE_RADIUS * 2 <= 0 || frisbeeY <= levelModel.getGroundHeight()) {
 			this.isFrisbeeMoving = false;
 			this.removeLife();
-			// TODO: reset frisbee position to left player
-			this.isCharacterLeftThrowing = true;
+
+			// reset frisbee position to player who did not catch the frisbee
+			if (this.isCharacterLeftThrowing) {
+				this.isCharacterLeftThrowing = false;
+				this.frisbeeXPosition.setValue(levelModel.getInitialCharacterRightXPosition() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X - Constants.FRISBEE_RADIUS);
+				this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y - Constants.FRISBEE_RADIUS);
+			} else {
+				this.isCharacterLeftThrowing = true;
+				this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
+				this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
+			}
+
 		}
 	}
 

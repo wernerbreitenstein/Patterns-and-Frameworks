@@ -62,4 +62,11 @@ public interface Level {
 	 * @return jump height
 	 */
 	double getJumpHeight();
+
+	/**
+	 * Returns the ground height a level.
+	 *
+	 * @return ground height
+	 */
+	double getGroundHeight();
 }

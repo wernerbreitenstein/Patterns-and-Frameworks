@@ -55,4 +55,9 @@ public class LevelModel implements Level {
 	public double getJumpHeight() {
 		return this.jumpHeight;
 	}
+
+	@Override
+	public double getGroundHeight() {
+		return this.groundHeight;
+	}
 }
