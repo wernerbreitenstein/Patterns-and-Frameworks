@@ -62,18 +62,4 @@ public interface Level {
 	 * @return jump height
 	 */
 	double getJumpHeight();
-
-	/**
-	 * Returns the initial frisbee x position for the level.
-	 *
-	 * @return position
-	 */
-	double getInitialFrisbeeXPosition();
-
-	/**
-	 * Returns the initial frisbee y position for the level.
-	 *
-	 * @return position
-	 */
-	double getInitialFrisbeeYPosition();
 }

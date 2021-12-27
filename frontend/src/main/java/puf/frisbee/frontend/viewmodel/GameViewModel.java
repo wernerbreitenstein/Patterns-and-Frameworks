@@ -90,8 +90,8 @@ public class GameViewModel {
 		this.isCharacterLeftThrowing = true;
 
 		// set initial frisbee position (later on this should probably fit to any specific character)
-		this.frisbeeXPosition.setValue(levelModel.getInitialFrisbeeXPosition());
-		this.frisbeeYPosition.setValue(levelModel.getInitialFrisbeeYPosition());
+		this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
 
 		this.startCountdown();
 		this.startAnimation();
@@ -127,7 +127,7 @@ public class GameViewModel {
 	private void startAnimation() {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
-			public void handle(long l) {
+			public void handle(long now) {
 				// moving is not possible once the level is over
 				if (showQuitConfirmDialog.getValue() || showGameOverDialog.getValue() || showLevelSuccessDialog.getValue()) return;
 
@@ -150,7 +150,7 @@ public class GameViewModel {
 
 				// frisbee
 				if (isFrisbeeMoving) {
-					frisbeeMove();
+					frisbeeMove(now);
 				}
 			}
 		};
@@ -184,10 +184,13 @@ public class GameViewModel {
 //        timelineFrisbee.play();
 	}
 
-	private void frisbeeMove() {
-		// TODO: randomize + parabel
+	private void frisbeeMove(long now) {
+		// TODO: randomize + curve (maybe use now timestamp value)
 		double frisbeeSpeed = isCharacterLeftThrowing ? 3 : -3;
-		this.frisbeeXPosition.setValue(this.frisbeeXPosition.getValue() + frisbeeSpeed);
+		double frisbeeX = this.frisbeeXPosition.getValue() + frisbeeSpeed;
+		double frisbeeY = this.frisbeeYPosition.getValue();
+
+		this.frisbeeXPosition.setValue(frisbeeX);
 
 		// check only right character collision if left character is throwing
 		if (isCharacterLeftThrowing) {
@@ -197,11 +200,12 @@ public class GameViewModel {
 			double characterRightCatchingZoneRightX = characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X;
 			double characterRightCatchingZoneRightY = characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y;
 
+			// frisbee is an image view, for the center we need to substract half of the size
 			boolean collisionWithCharacterRightCatchingZoneLeft = Calculations.circlesIntersect(
-					frisbeeXPosition.getValue(), frisbeeYPosition.getValue(), Constants.FRISBEE_RADIUS,
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
 					characterRightCatchingZoneLeftX, characterRightCatchingZoneLeftY, Constants.CHARACTER_RIGHT_CATCHING_RADIUS);
 			boolean collisionWithCharacterRightCatchingZoneRight = Calculations.circlesIntersect(
-					frisbeeXPosition.getValue(), frisbeeYPosition.getValue(), Constants.FRISBEE_RADIUS,
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
 					characterRightCatchingZoneRightX, characterRightCatchingZoneRightY, Constants.CHARACTER_RIGHT_CATCHING_RADIUS);
 
 			if (collisionWithCharacterRightCatchingZoneLeft || collisionWithCharacterRightCatchingZoneRight) {
@@ -219,11 +223,11 @@ public class GameViewModel {
 			double characterLeftCatchingZoneRightY = characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y;
 
 			boolean collisionWithCharacterLeftCatchingZoneLeft = Calculations.circlesIntersect(
-					characterLeftCatchingZoneLeftX, characterLeftCatchingZoneLeftY, Constants.CHARACTER_LEFT_CATCHING_RADIUS,
-					frisbeeXPosition.getValue(), frisbeeYPosition.getValue(), Constants.FRISBEE_RADIUS);
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
+					characterLeftCatchingZoneLeftX, characterLeftCatchingZoneLeftY, Constants.CHARACTER_LEFT_CATCHING_RADIUS);
 			boolean collisionWithCharacterLeftCatchingZoneRight = Calculations.circlesIntersect(
-					characterLeftCatchingZoneRightX, characterLeftCatchingZoneRightY, Constants.CHARACTER_LEFT_CATCHING_RADIUS,
-					frisbeeXPosition.getValue(), frisbeeYPosition.getValue(), Constants.FRISBEE_RADIUS);
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
+					characterLeftCatchingZoneRightX, characterLeftCatchingZoneRightY, Constants.CHARACTER_LEFT_CATCHING_RADIUS);
 
 			if (collisionWithCharacterLeftCatchingZoneLeft || collisionWithCharacterLeftCatchingZoneRight) {
 				incrementScore();
@@ -233,10 +237,12 @@ public class GameViewModel {
 			}
 		}
 
-		// TODO: check all boundaries
-		if(frisbeeYPosition.getValue() + Constants.FRISBEE_RADIUS == 0) {
+		// TODO: check all boundaries of scene
+		if(frisbeeXPosition.getValue() + Constants.FRISBEE_RADIUS >= levelModel.getSceneBoundaryRight()) {
 			this.isFrisbeeMoving = false;
-			return;
+			this.removeLife();
+			// TODO: reset frisbee position to left player
+			this.isCharacterLeftThrowing = true;
 		}
 	}
 
@@ -430,14 +436,10 @@ public class GameViewModel {
 	}
 
 	public DoubleProperty getFrisbeeXPositionProperty() {
-		// frisbee is an image view, so we need to substract the radius to get the left upper corner for view position
-		//this.frisbeeXPosition.setValue(this.frisbeeXPosition.getValue() - Constants.FRISBEE_RADIUS);
 		return this.frisbeeXPosition;
 	}
 
 	public DoubleProperty getFrisbeeYPositionProperty() {
-		// frisbee is an image view, so we need to substract the radius to get the left upper corner for view position
-		//this.frisbeeYPosition.setValue(this.frisbeeYPosition.getValue() - Constants.FRISBEE_RADIUS);
 		return this.frisbeeYPosition;
 	}
 }
