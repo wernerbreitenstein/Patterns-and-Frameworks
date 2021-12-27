@@ -33,6 +33,9 @@ public class GameViewModel {
 
 	private boolean isFrisbeeMoving;
 	private boolean isCharacterLeftThrowing;
+	private boolean isHighestFrisbeePointReached;
+	private double frisbeeSpeedX;
+	private double frisbeeSpeedY;
 
 	private BooleanProperty showLevelSuccessDialog;
 	private BooleanProperty showGameOverDialog;
@@ -88,6 +91,8 @@ public class GameViewModel {
 		this.isFrisbeeMoving = false;
 		// for now always the left character starts with the frisbee, this can alternate in the levels later on
 		this.isCharacterLeftThrowing = true;
+		// helper for the frisbee y position
+		this.isHighestFrisbeePointReached = false;
 
 		// set initial frisbee position
 		this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
@@ -150,7 +155,7 @@ public class GameViewModel {
 
 				// frisbee
 				if (isFrisbeeMoving) {
-					frisbeeMove(now);
+					frisbeeMove();
 				}
 			}
 		};
@@ -158,39 +163,29 @@ public class GameViewModel {
 	}
 
 	public void throwFrisbee() {
+		// reset curve helper for new frisbee throw
+		this.isHighestFrisbeePointReached = false;
+		// set frisbee speed random
+		this.frisbeeSpeedX = Math.random() * 10 + 0.5;
+		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
+		// throw frisbee
 		this.isFrisbeeMoving = true;
-
-//		Timeline timelineFrisbee = new Timeline();
-//        timelineFrisbee.setCycleCount(1);
-//        KeyValue xKV = new KeyValue(this.frisbeeXPosition, 1000);
-//        KeyValue yKV = new KeyValue(this.frisbeeYPosition, 100, new Interpolator() {
-//            @Override
-//            protected double curve(double t) {
-//				// The subtrahend 't/2.2' at the end defines the difference of vertical start and end position
-//				// and needs to be adjusted according to the individual character's and level floor's height.
-//				double currentYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
-//				double endYPosition = ((-4 * (t - 0.5) * (t - 0.5) + 1) - 1/2.2) + Constants.FRISBEE_RADIUS;
-//				if (currentYPosition == 0) {
-//					removeLife();
-//				}
-//                return (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
-//            }
-//        });
-//
-//		// To modify the frisbee's velocity simply reduce or increase the duration parameter manually.
-//        KeyFrame xKF = new KeyFrame(Duration.millis(5000), xKV);
-//        KeyFrame yKF = new KeyFrame(Duration.millis(5000), yKV);
-//        timelineFrisbee.getKeyFrames().addAll(xKF, yKF);
-//        timelineFrisbee.play();
 	}
 
-	private void frisbeeMove(long now) {
-		// TODO: randomize + curve (maybe use now timestamp value)
-		double frisbeeSpeed = isCharacterLeftThrowing ? 3 : -3;
-		double frisbeeX = this.frisbeeXPosition.getValue() + frisbeeSpeed;
-		double frisbeeY = this.frisbeeYPosition.getValue();
+	private void frisbeeMove() {
+		double frisbeeXDirection = isCharacterLeftThrowing ? 1 : -1;
+		double frisbeeX = this.frisbeeXPosition.getValue() + this.frisbeeSpeedX * frisbeeXDirection;
+
+		double upperLimit = Constants.SCENE_HEIGHT - Constants.CHARACTER_HEIGHT - this.levelModel.getGroundHeight() - this.levelModel.getJumpHeight();
+		if (this.frisbeeYPosition.getValue() <=  upperLimit) {
+			this.isHighestFrisbeePointReached = true;
+		}
+		// positive is down, negative is up
+		double frisbeeYDirection = isHighestFrisbeePointReached ? 1 : -1;
+		double frisbeeY = this.frisbeeYPosition.getValue() + this.frisbeeSpeedY * frisbeeYDirection;
 
 		this.frisbeeXPosition.setValue(frisbeeX);
+		this.frisbeeYPosition.setValue(frisbeeY);
 
 		// check only right character collision if left character is throwing
 		if (isCharacterLeftThrowing) {
@@ -238,21 +233,29 @@ public class GameViewModel {
 		}
 
 		// check all boundaries of scene
-		if(frisbeeX >= Constants.SCENE_WIDTH || frisbeeX - Constants.FRISBEE_RADIUS * 2 <= 0 || frisbeeY <= levelModel.getGroundHeight()) {
+		if(frisbeeX >= Constants.SCENE_WIDTH ||
+				frisbeeX <= 0 - Constants.FRISBEE_RADIUS * 2 ||
+				frisbeeY + Constants.FRISBEE_RADIUS * 2 >= Constants.SCENE_HEIGHT - levelModel.getGroundHeight()) {
 			this.isFrisbeeMoving = false;
 			this.removeLife();
+
+			// add timeout so frisbee is not imediately available
+			try {
+				Thread.sleep(1000);
+			} catch(InterruptedException e) {
+				System.out.println("Timeout exception");
+			}
 
 			// reset frisbee position to player who did not catch the frisbee
 			if (this.isCharacterLeftThrowing) {
 				this.isCharacterLeftThrowing = false;
-				this.frisbeeXPosition.setValue(levelModel.getInitialCharacterRightXPosition() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X - Constants.FRISBEE_RADIUS);
-				this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y - Constants.FRISBEE_RADIUS);
+				this.frisbeeXPosition.setValue(this.characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X - Constants.FRISBEE_RADIUS);
+				this.frisbeeYPosition.setValue(this.characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y - Constants.FRISBEE_RADIUS);
 			} else {
 				this.isCharacterLeftThrowing = true;
-				this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
-				this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
+				this.frisbeeXPosition.setValue(this.characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
+				this.frisbeeYPosition.setValue(this.characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
 			}
-
 		}
 	}
 
