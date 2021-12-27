@@ -19,6 +19,13 @@ public interface Player {
     String getEmail();
 
     /**
+     * Returns the password of the player.
+     *
+     * @return the player password
+     */
+    String getPassword();
+
+    /**
      * Returns true if the player is logged in.
      *
      * @return true if player is logged in
