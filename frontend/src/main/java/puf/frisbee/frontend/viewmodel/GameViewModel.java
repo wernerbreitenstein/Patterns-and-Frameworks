@@ -176,7 +176,7 @@ public class GameViewModel {
 		// reset curve helper for new frisbee throw
 		this.isHighestFrisbeePointReached = false;
 		// set frisbee speed random
-		this.frisbeeSpeedX = Math.random() * 10 + 0.5;
+		this.frisbeeSpeedX = Math.random() * 8 + 2;
 		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
 		// throw frisbee
 		this.isFrisbeeMoving = true;
