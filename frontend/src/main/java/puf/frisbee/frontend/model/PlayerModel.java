@@ -32,9 +32,7 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public boolean isLoggedIn() {
-        return this.isLoggedIn;
-    };
+    public boolean isLoggedIn() { return this.isLoggedIn; }
 
     @Override
     public void setLoginStatus(boolean status) {
@@ -107,8 +105,25 @@ public class PlayerModel implements Player {
 
     @Override
     public boolean updateName(String name) {
-        this.name = name;
-        return true;
+        try {
+            this.name = name;
+
+            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/register"))
+                    .uri(new URI("http://localhost:8080/api/players/update-player-name/" + this.email))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(this.name))
+                    .build();
+
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.statusCode() == 200;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
