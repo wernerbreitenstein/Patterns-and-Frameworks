@@ -27,14 +27,10 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public String getPassword() {
-        return password;
-    }
+    public String getPassword() { return password; }
 
     @Override
-    public boolean isLoggedIn() {
-        return this.isLoggedIn;
-    };
+    public boolean isLoggedIn() { return this.isLoggedIn; }
 
     @Override
     public void setLoginStatus(boolean status) {
