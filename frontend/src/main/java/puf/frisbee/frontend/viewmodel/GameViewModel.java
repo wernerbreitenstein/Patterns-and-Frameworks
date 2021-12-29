@@ -350,8 +350,10 @@ public class GameViewModel {
 
 	public void pauseGame() {
 		// TODO: save current lives, score and level of team to backend later on
+		this.levelModel.setCurrentLevel(this.levelModel.getCurrentLevel() + 1);
 		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
 		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
 		this.teamModel.setTeamLives(this.remainingLives);
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
