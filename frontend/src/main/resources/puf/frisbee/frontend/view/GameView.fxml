@@ -40,7 +40,7 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
                         <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
                      </children>
                   </HBox>
@@ -71,7 +71,7 @@
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
                      </children>
                   </HBox>
                </children>
@@ -137,8 +137,8 @@
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
                         <Button disable="true" mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" visible="false" />
-                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
-                        <Button disable="true" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" visible="false" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
+                        <Button disable="true" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" visible="false" />
                      </children>
                   </HBox>
                </children>

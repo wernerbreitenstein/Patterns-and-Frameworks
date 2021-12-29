@@ -96,7 +96,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowStartButtonProperty() {
-        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()));
+        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getTeamLives() > 0) && (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()));
         return this.showStartButton;
     }
 

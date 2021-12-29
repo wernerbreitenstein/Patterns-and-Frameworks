@@ -334,14 +334,8 @@ public class GameViewModel {
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
-	public void continueAfterLevelSucceeded() {
+	public void continueOrPauseAfterLevelSucceeded() {
 		this.levelModel.incrementCurrentLevel();
-		// TODO: save current lives, score and level of team to backend later on
-		this.saveGame();
-	}
-
-	public void pauseAfterLevelSucceeded() {
-		this.levelModel.setCurrentLevel(this.levelModel.getCurrentLevel() + 1);
 		// TODO: save current lives, score and level of team to backend later on
 		this.saveGame();
 	}
@@ -353,11 +347,6 @@ public class GameViewModel {
 		this.showQuitConfirmDialog.setValue(false);
 	}
 
-	public void quitAfterQuitGame() {
-		// TODO: save current lives, score and level of team to backend later on
-		this.saveGame();
-	}
-
 	public void continueAfterGameOver() {
 		// TODO: save current lives, score and level of team to backend later on
 		this.teamModel.setTeamLevel(1);
@@ -367,8 +356,7 @@ public class GameViewModel {
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
-	public void quitAfterGameOver() {
-		this.levelModel.setCurrentLevel(this.levelModel.getCurrentLevel() + 1);
+	public void quitAfterQuitGameOrAfterGameOver() {
 		// TODO: save current lives, score and level of team to backend later on
 		this.saveGame();
 	}
