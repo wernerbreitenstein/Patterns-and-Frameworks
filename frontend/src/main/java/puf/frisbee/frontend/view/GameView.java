@@ -110,7 +110,7 @@ public class GameView {
 
 	@FXML
 	private void handleButtonGameOverQuitClicked(ActionEvent event) {
-		this.gameViewModel.quitGame();
+		this.gameViewModel.quitGameAfterFinish();
 		this.viewHandler.openStartView();
 	}
 

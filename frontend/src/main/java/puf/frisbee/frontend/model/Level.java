@@ -3,7 +3,14 @@ package puf.frisbee.frontend.model;
 /**
  * Contains all level specific settings.
  */
-public interface Level {	
+public interface Level {
+	/**
+	 * Returns the maximum level that a team can play.
+	 *
+	 * @return maximum level as integer
+	 */
+	int getMaximumLevel();
+
 	/**
 	 * Returns the current level that a team can play.
 	 * 
@@ -12,7 +19,7 @@ public interface Level {
 	int getCurrentLevel();
 	
 	/**
-	 * Sets the the current level that a team can play.
+	 * Sets the current level that a team can play.
 	 */
 	void setCurrentLevel(int level);
 

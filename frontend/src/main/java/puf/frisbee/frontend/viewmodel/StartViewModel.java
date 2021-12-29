@@ -61,7 +61,11 @@ public class StartViewModel {
     }
 
     public StringProperty getLabelLevelProperty() {
-        this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
+        if (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()) {
+            this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
+        } else {
+            this.labelLevel.setValue(String.valueOf(this.levelModel.getMaximumLevel()));
+        }
         return this.labelLevel;
     }
 
@@ -92,7 +96,11 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowStartButtonProperty() {
-        this.showStartButton.setValue(this.playerModel.isLoggedIn());
+        if (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()) {
+            this.showStartButton.setValue(this.playerModel.isLoggedIn());
+        } else {
+            this.showStartButton.setValue(false);
+        }
         return this.showStartButton;
     }
 
