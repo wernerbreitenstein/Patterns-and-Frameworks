@@ -1,12 +1,12 @@
 package puf.frisbee.frontend.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
+import javafx.scene.Group;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class CharacterLeftView {
     @FXML
-    private ImageView character;
+    private Group character;
 
     private GameViewModel gameViewModel;
 
