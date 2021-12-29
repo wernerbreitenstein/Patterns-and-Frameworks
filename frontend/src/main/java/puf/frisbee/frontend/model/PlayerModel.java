@@ -106,19 +106,21 @@ public class PlayerModel implements Player {
     @Override
     public boolean updateName(String name) {
         try {
-            this.name = name;
-
             HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/register"))
+//                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/update-player-name/" + this.email))
                     .uri(new URI("http://localhost:8080/api/players/update-player-name/" + this.email))
                     .header("Content-Type", "application/json")
-                    .PUT(HttpRequest.BodyPublishers.ofString(this.name))
+                    .PUT(HttpRequest.BodyPublishers.ofString(name))
                     .build();
 
             HttpResponse<String> response = HttpClient
                     .newBuilder()
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                this.name = name;
+            }
 
             return response.statusCode() == 200;
         } catch (Exception e) {
