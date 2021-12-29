@@ -106,4 +106,19 @@ public class ViewHandler {
 			e.printStackTrace();
 		}
 	}
+
+	public void openTeamView() {
+		FXMLLoader teamViewLoader = new FXMLLoader();
+		teamViewLoader.setLocation(getClass().getResource("/puf/frisbee/frontend/view/TeamView.fxml"));
+		try {
+			Parent root = teamViewLoader.load();
+			TeamView teamView = teamViewLoader.getController();
+			teamView.init(viewModelFactory.getTeamViewModel(), this);
+			this.stage.setTitle("Frisbee Team");
+			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+			this.stage.setScene(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

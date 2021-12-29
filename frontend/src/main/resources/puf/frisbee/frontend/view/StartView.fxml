@@ -151,6 +151,7 @@
                               <MenuButton fx:id="buttonSettings" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="button-light" text="Settings" StackPane.alignment="TOP_RIGHT">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#handleProfileButtonClicked" text="Profile" />
+                                  <MenuItem mnemonicParsing="false" onAction="#handleTeamButtonClicked" text="Team" />
                                   <MenuItem mnemonicParsing="false" onAction="#handleLogoutButtonClicked" text="Logout" />
                                 </items>
                               </MenuButton>

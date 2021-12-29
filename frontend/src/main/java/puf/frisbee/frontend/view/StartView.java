@@ -80,6 +80,11 @@ public class StartView {
 	}
 
 	@FXML
+	private void handleTeamButtonClicked(ActionEvent event) {
+		this.viewHandler.openTeamView();
+	}
+
+	@FXML
 	private void handleStartButtonClicked(ActionEvent event) {
 		this.viewHandler.openWaitingView();
 	}

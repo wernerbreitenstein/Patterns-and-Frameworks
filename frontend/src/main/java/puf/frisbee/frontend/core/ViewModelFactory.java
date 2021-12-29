@@ -4,6 +4,7 @@ import puf.frisbee.frontend.viewmodel.GameViewModel;
 import puf.frisbee.frontend.viewmodel.ProfileViewModel;
 import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
 import puf.frisbee.frontend.viewmodel.StartViewModel;
+import puf.frisbee.frontend.viewmodel.TeamViewModel;
 
 public class ViewModelFactory {
 	private ModelFactory modelFactory;
@@ -46,5 +47,14 @@ public class ViewModelFactory {
 	 */
 	public ProfileViewModel getProfileViewModel() {
 		return new ProfileViewModel(modelFactory.getPlayerModel());
+	}
+
+	/**
+	 * Creates and returns an instance of TeamViewModel.
+	 *
+	 * @return a new instance of TeamViewModel
+	 */
+	public TeamViewModel getTeamViewModel() {
+		return new TeamViewModel(modelFactory.getTeamModel(), modelFactory.getPlayerModel());
 	}
 }
