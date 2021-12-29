@@ -96,11 +96,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowStartButtonProperty() {
-        if (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()) {
-            this.showStartButton.setValue(this.playerModel.isLoggedIn());
-        } else {
-            this.showStartButton.setValue(false);
-        }
+        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()));
         return this.showStartButton;
     }
 

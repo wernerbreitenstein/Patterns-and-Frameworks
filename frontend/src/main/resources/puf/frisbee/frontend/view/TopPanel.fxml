@@ -189,7 +189,7 @@
                   <children>
                      <VBox alignment="CENTER_LEFT">
                         <children>
-                           <Label text="LAST TEAM" textFill="WHITE">
+                           <Label text="YOUR TEAM" textFill="WHITE">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -203,7 +203,7 @@
                      </VBox>
                      <VBox alignment="CENTER_LEFT">
                         <children>
-                           <Label text="LAST LEVEL" textFill="WHITE">
+                           <Label text="YOUR LEVEL" textFill="WHITE">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -217,7 +217,7 @@
                      </VBox>
                      <VBox alignment="CENTER_LEFT">
                         <children>
-                           <Label text="LAST SCORE" textFill="WHITE">
+                           <Label text="YOUR SCORE" textFill="WHITE">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -231,7 +231,7 @@
                      </VBox>
                      <VBox alignment="CENTER_LEFT" layoutX="247.0" layoutY="10.0">
                         <children>
-                           <Label text="LAST LIVES" textFill="WHITE">
+                           <Label text="YOUR LIVES" textFill="WHITE">
                               <font>
                                  <Font size="14.0" />
                               </font>

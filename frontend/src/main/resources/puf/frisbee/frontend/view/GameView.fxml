@@ -40,8 +40,8 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
                      </children>
                   </HBox>
                </children>
@@ -104,7 +104,7 @@
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
                         <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleButtonLevelContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonLevelQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I need a pause first." />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonLevelPauseClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I need a pause first." />
                      </children>
                   </HBox>
                </children>

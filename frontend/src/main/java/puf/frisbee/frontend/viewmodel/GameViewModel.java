@@ -115,11 +115,8 @@ public class GameViewModel {
 			if (!this.showGameOverDialog.getValue() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
-				if (this.levelModel.getCurrentLevel() < 3) {
-					showLevelSuccessDialog.setValue(true);
-				} else {
-					showGameSuccessDialog.setValue(true);
-				}
+				showLevelSuccessDialog.setValue(this.levelModel.getCurrentLevel() < 3);
+				showGameSuccessDialog.setValue(this.levelModel.getCurrentLevel() >= 3);
 			}
 			
 		}));
@@ -330,7 +327,38 @@ public class GameViewModel {
 		}
 	}
 
-	public void continueGameOver() {
+	public void saveGame() {
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
+		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
+	}
+
+	public void continueAfterLevelSucceeded() {
+		this.levelModel.incrementCurrentLevel();
+		// TODO: save current lives, score and level of team to backend later on
+		this.saveGame();
+	}
+
+	public void pauseAfterLevelSucceeded() {
+		this.levelModel.setCurrentLevel(this.levelModel.getCurrentLevel() + 1);
+		// TODO: save current lives, score and level of team to backend later on
+		this.saveGame();
+	}
+	
+	public void continueAfterQuitGame() {
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
+		this.showQuitConfirmDialog.setValue(false);
+	}
+
+	public void quitAfterQuitGame() {
+		// TODO: save current lives, score and level of team to backend later on
+		this.saveGame();
+	}
+
+	public void continueAfterGameOver() {
 		// TODO: save current lives, score and level of team to backend later on
 		this.teamModel.setTeamLevel(1);
 		this.teamModel.setTeamScore(0);
@@ -339,47 +367,10 @@ public class GameViewModel {
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
-	public void continueGame() {
-		this.levelModel.incrementCurrentLevel();
-		// TODO: save current lives, score and level of team to backend later on
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
-		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
-	}
-
-	public void pauseGame() {
-		// TODO: save current lives, score and level of team to backend later on
+	public void quitAfterGameOver() {
 		this.levelModel.setCurrentLevel(this.levelModel.getCurrentLevel() + 1);
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
-		this.teamModel.setTeamLives(this.remainingLives);
-		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
-	}
-	
-	public void continueGameAfterQuit() {
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
-		this.showQuitConfirmDialog.setValue(false);
-	}
-
-	public void quitGame() {
 		// TODO: save current lives, score and level of team to backend later on
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
-		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
-	}
-
-	public void quitGameAfterFinish() {
-		// TODO: save current lives, score and level of team to backend later on
-		this.levelModel.setCurrentLevel(this.levelModel.getCurrentLevel() + 1);
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
-		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
+		this.saveGame();
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

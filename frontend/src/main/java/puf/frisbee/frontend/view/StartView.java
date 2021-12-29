@@ -33,6 +33,8 @@ public class StartView {
 		this.startViewModel = startViewModel;
 		this.viewHandler = viewHandler;
 
+		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
+
 		this.topPanelController.init(startViewModel, viewHandler);
 		this.bottomPanelController.init(viewHandler);
 
@@ -40,8 +42,6 @@ public class StartView {
 		this.highscoreScore.setSortType(TableColumn.SortType.DESCENDING);
 		this.highscoreTable.getSortOrder().add(highscoreScore);
 		this.highscoreTable.sort();
-
-		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
 	}
 
 	@FXML
