@@ -334,7 +334,7 @@ public class GameViewModel {
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
-	public void continueOrPauseAfterLevelSucceeded() {
+	public void saveAfterLevelSucceeded() {
 		this.levelModel.incrementCurrentLevel();
 		// TODO: save current lives, score and level of team to backend later on
 		this.saveGame();
@@ -356,7 +356,7 @@ public class GameViewModel {
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
-	public void quitAfterQuitGameOrAfterGameOver() {
+	public void saveAfterQuitGameOrAfterGameOver() {
 		// TODO: save current lives, score and level of team to backend later on
 		this.saveGame();
 	}

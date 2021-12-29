@@ -92,13 +92,13 @@ public class GameView {
 
 	@FXML
 	private void handleButtonLevelContinueClicked(ActionEvent event) {
-		this.gameViewModel.continueOrPauseAfterLevelSucceeded();
+		this.gameViewModel.saveAfterLevelSucceeded();
 		this.viewHandler.openGameView();
 	}
 
 	@FXML
 	private void handleButtonLevelPauseClicked(ActionEvent event) {
-		this.gameViewModel.continueOrPauseAfterLevelSucceeded();
+		this.gameViewModel.saveAfterLevelSucceeded();
 		this.viewHandler.openStartView();
 	}
 
@@ -110,7 +110,7 @@ public class GameView {
 
 	@FXML
 	private void handleButtonQuitGameQuitOrGameOverQuitClicked(ActionEvent event) {
-		this.gameViewModel.quitAfterQuitGameOrAfterGameOver();
+		this.gameViewModel.saveAfterQuitGameOrAfterGameOver();
 		this.viewHandler.openStartView();
 	}
 
