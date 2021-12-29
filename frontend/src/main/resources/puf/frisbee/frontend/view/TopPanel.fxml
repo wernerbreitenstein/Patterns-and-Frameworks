@@ -2,11 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -20,11 +24,11 @@
     <Group>
         <children>
             <Rectangle height="80.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-            <GridPane hgap="20.0" prefHeight="80.0" prefWidth="1280.0">
+            <GridPane fx:id="topPanelGameView" prefHeight="80.0" prefWidth="1280.0">
                 <columnConstraints>
-               <ColumnConstraints maxWidth="975.5" minWidth="10.0" prefWidth="138.5" />
-                    <ColumnConstraints maxWidth="999.5" minWidth="10.0" prefWidth="744.5" />
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="360.0" />
+               <ColumnConstraints halignment="LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="165.0" />
+                    <ColumnConstraints halignment="LEFT" minWidth="-Infinity" prefWidth="795.0" />
+                    <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" prefWidth="320.0" />
                 </columnConstraints>
                 <rowConstraints>
                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -47,7 +51,7 @@
                                             <Font size="14.0" />
                                         </font>
                                     </Label>
-                                    <Label fx:id="labelTeamName" textFill="WHITE">
+                                    <Label fx:id="labelTeamNameGameView" textFill="WHITE">
                                         <font>
                                             <Font size="24.0" />
                                         </font>
@@ -56,12 +60,12 @@
                             </VBox>
                             <VBox alignment="CENTER_LEFT">
                                 <children>
-                                    <Label text="THIS LEVEL" textFill="WHITE">
+                                    <Label text="YOUR LEVEL" textFill="WHITE">
                                         <font>
                                             <Font size="14.0" />
                                         </font>
                                     </Label>
-                                    <Label fx:id="labelLevel" alignment="TOP_CENTER" textFill="WHITE">
+                                    <Label fx:id="labelLevelGameView" alignment="TOP_CENTER" textFill="WHITE">
                                         <font>
                                             <Font size="24.0" />
                                         </font>
@@ -70,12 +74,12 @@
                             </VBox>
                             <VBox alignment="CENTER_LEFT">
                                 <children>
-                                    <Label text="TIME REMAINING" textFill="WHITE">
+                                    <Label text="YOUR TIME REMAINING" textFill="WHITE">
                                         <font>
                                             <Font size="14.0" />
                                         </font>
                                     </Label>
-                                    <Label fx:id="labelCountdown" alignment="TOP_CENTER" textFill="WHITE">
+                                    <Label fx:id="labelCountdownGameView" alignment="TOP_CENTER" textFill="WHITE">
                                         <font>
                                             <Font size="24.0" />
                                         </font>
@@ -84,12 +88,12 @@
                             </VBox>
                             <VBox alignment="CENTER_LEFT">
                                 <children>
-                                    <Label text="CURRENT SCORE" textFill="WHITE">
+                                    <Label text="YOUR CURRENT SCORE" textFill="WHITE">
                                         <font>
                                             <Font size="14.0" />
                                         </font>
                                     </Label>
-                                    <Label fx:id="labelScore" alignment="TOP_CENTER" text="123" textFill="WHITE">
+                                    <Label fx:id="labelScoreGameView" alignment="TOP_CENTER" textFill="WHITE">
                                         <font>
                                             <Font size="24.0" />
                                         </font>
@@ -97,9 +101,6 @@
                                 </children>
                             </VBox>
                         </children>
-                        <padding>
-                            <Insets left="10.0" />
-                        </padding>
                     </HBox>
                <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2">
                   <children>
@@ -138,7 +139,7 @@
                            <Insets left="10.0" />
                         </padding>
                         <StackPane.margin>
-                           <Insets right="10.0" />
+                           <Insets />
                         </StackPane.margin>
                      </HBox>
                           <HBox fx:id="overlaysTeamLives" alignment="CENTER_RIGHT" blendMode="MULTIPLY" prefHeight="150.0" prefWidth="758.0" spacing="10.0">
@@ -156,13 +157,129 @@
                            <Insets />
                         </opaqueInsets>
                         <StackPane.margin>
-                           <Insets right="10.0" />
+                           <Insets />
                         </StackPane.margin>
                           </HBox>
                   </children>
+                  <GridPane.margin>
+                     <Insets right="15.0" />
+                  </GridPane.margin>
                </StackPane>
                 </children>
             </GridPane>
+            <GridPane fx:id="topPanelStartView" prefHeight="80.0" prefWidth="1280.0">
+            <columnConstraints>
+               <ColumnConstraints halignment="LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="165.0" />
+               <ColumnConstraints halignment="LEFT" minWidth="-Infinity" prefWidth="735.0" />
+               <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" prefWidth="380.0" />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+               <ImageView pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/FrizzbeeFreakz_Logo_TopPanel.png" />
+                  </image>
+                  <GridPane.margin>
+                     <Insets left="10.0" />
+                  </GridPane.margin>
+               </ImageView>
+               <HBox fx:id="teamDataTopPanel" alignment="CENTER_LEFT" prefHeight="80.0" spacing="40.0" GridPane.columnIndex="1">
+                  <children>
+                     <VBox alignment="CENTER_LEFT">
+                        <children>
+                           <Label text="YOUR TEAM" textFill="WHITE">
+                              <font>
+                                 <Font size="14.0" />
+                              </font>
+                           </Label>
+                           <Label fx:id="labelTeamNameStartView" textFill="WHITE">
+                              <font>
+                                 <Font size="24.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                     <VBox alignment="CENTER_LEFT">
+                        <children>
+                           <Label text="YOUR LEVEL" textFill="WHITE">
+                              <font>
+                                 <Font size="14.0" />
+                              </font>
+                           </Label>
+                           <Label fx:id="labelLevelStartView" alignment="TOP_CENTER" textFill="WHITE">
+                              <font>
+                                 <Font size="24.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                     <VBox alignment="CENTER_LEFT">
+                        <children>
+                           <Label text="YOUR SCORE" textFill="WHITE">
+                              <font>
+                                 <Font size="14.0" />
+                              </font>
+                           </Label>
+                           <Label fx:id="labelScoreStartView" alignment="TOP_CENTER" textFill="WHITE">
+                              <font>
+                                 <Font size="24.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                     <VBox alignment="CENTER_LEFT" layoutX="247.0" layoutY="10.0">
+                        <children>
+                           <Label text="YOUR LIVES" textFill="WHITE">
+                              <font>
+                                 <Font size="14.0" />
+                              </font>
+                           </Label>
+                           <Label fx:id="labelLivesStartView" alignment="TOP_CENTER" textFill="WHITE">
+                              <font>
+                                 <Font size="24.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2">
+                  <children>
+                      <FlowPane alignment="CENTER_RIGHT" GridPane.columnIndex="2">
+                          <children>
+                              <Label fx:id="labelGreeting" styleClass="dialog-text" stylesheets="@../css/main.css">
+                                  <FlowPane.margin>
+                                      <Insets />
+                                  </FlowPane.margin>
+                              </Label>
+                              <StackPane alignment="CENTER_LEFT">
+                                  <children>
+                                      <Button fx:id="buttonLoginRegister" onAction="#handleLoginRegisterButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="LOGIN / REGISTER" />
+                                      <MenuButton fx:id="buttonSettings" prefHeight="39.0" styleClass="button-light" stylesheets="@../css/main.css" text="SETTINGS" StackPane.alignment="TOP_RIGHT">
+                                          <items>
+                                              <MenuItem onAction="#handleProfileButtonClicked" styleClass="button-light-menu-item" text="PROFILE" />
+                                              <MenuItem onAction="#handleLogoutButtonClicked" styleClass="button-light-menu-item" text="LOGOUT" />
+                                          </items>
+                                      </MenuButton>
+                                  </children>
+                              </StackPane>
+                          </children>
+                          <GridPane.margin>
+                              <Insets right="15.0" />
+                          </GridPane.margin>
+                        <StackPane.margin>
+                           <Insets />
+                        </StackPane.margin>
+                      </FlowPane>
+                  </children>
+                  <GridPane.margin>
+                     <Insets right="15.0" />
+                  </GridPane.margin>
+               </StackPane>
+            </children>
+         </GridPane>
         </children>
     </Group>
 </AnchorPane>

@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
@@ -19,7 +17,10 @@ public class GameView {
 	private StackPane gameOverDialog;
 
 	@FXML
-	private GridPane levelSuccessDialog;
+	private StackPane levelSuccessDialog;
+
+	@FXML
+	private StackPane gameSuccessDialog;
 
 	@FXML
 	private Label labelLevelSuccess;
@@ -49,7 +50,7 @@ public class GameView {
 		this.gameViewModel = gameViewModel;
 		this.viewHandler = viewHandler;
 
-		this.topPanelController.init(gameViewModel);
+		this.topPanelController.init(gameViewModel, viewHandler);
 		this.bottomPanelController.init(gameViewModel, viewHandler);
 		this.characterLeftController.init(gameViewModel);
 		this.characterRightController.init(gameViewModel);
@@ -60,6 +61,7 @@ public class GameView {
 		this.levelSuccessDialog.visibleProperty().bind(this.gameViewModel.getLevelSuccessDialogProperty());
 		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogProperty());
 		this.quitConfirmDialog.visibleProperty().bind(this.gameViewModel.getQuitConfirmDialogProperty());
+		this.gameSuccessDialog.visibleProperty().bind(this.gameViewModel.getGameSuccessDialogProperty());
 	}
 
 	@FXML
@@ -89,30 +91,33 @@ public class GameView {
 	}
 
 	@FXML
-	private void handleLevelContinueClicked(ActionEvent event) {
-		this.gameViewModel.continueGame();
+	private void handleButtonLevelContinueClicked(ActionEvent event) {
+		this.gameViewModel.saveAfterLevelSucceeded();
 		this.viewHandler.openGameView();
 	}
 
 	@FXML
-	private void handleButtonGameOverContinueClicked(ActionEvent event) {
-		this.gameViewModel.continueGameOver();
-		this.viewHandler.openGameView();
-	}
-
-	@FXML
-	private void handleButtonGameOverQuitClicked(ActionEvent event) {
+	private void handleButtonLevelPauseClicked(ActionEvent event) {
+		this.gameViewModel.saveAfterLevelSucceeded();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
 	private void handleButtonQuitGameContinueClicked(ActionEvent event) {
-		this.gameViewModel.continueGameOver();
+		this.gameViewModel.continueAfterQuitGame();
+		this.viewHandler.openGameView();
+	}
+
+	@FXML
+	private void handleButtonQuitGameQuitOrGameOverQuitClicked(ActionEvent event) {
+		this.gameViewModel.saveAfterQuitGameOrAfterGameOver();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
-	private void handleButtonQuitGameQuitClicked(ActionEvent event) {
-		this.gameViewModel.continueGameAfterQuit();
+	private void handleButtonGameOverContinueClicked(ActionEvent event) {
+		this.gameViewModel.continueAfterGameOver();
+		this.viewHandler.openGameView();
 	}
+
 }

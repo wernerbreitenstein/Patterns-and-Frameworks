@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -13,21 +14,41 @@
     <children>
       <VBox alignment="CENTER" minHeight="720.0" minWidth="1280.0">
          <children>
-              <VBox alignment="TOP_CENTER" maxWidth="500.0" prefWidth="500.0" styleClass="bg-dark">
+              <VBox alignment="TOP_CENTER" maxWidth="500.0" prefWidth="500.0">
                <children>
-                  <Label styleClass="font-heading" text="USER PROFILE" />
-                  <Label styleClass="font-label" text="Name" />
-                  <TextField fx:id="profileName" maxWidth="-Infinity" prefWidth="200.0" />
-                  <Label styleClass="font-label" text="Email" />
-                  <TextField fx:id="profileEmail" styleClass="disabled" editable="false" maxWidth="-Infinity" prefWidth="200.0" />
-                  <Label styleClass="font-label" text="Password" />
-                  <PasswordField fx:id="profilePassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" />
-                   <Label fx:id="profileError" styleClass="error" text="Label" />
-                  <Button mnemonicParsing="false" onAction="#handleSave" styleClass="button-light" text="Save" />
+                  <Label stylesheets="@../css/form.css" text="USER PROFILE">
+                     <styleClass>
+                        <String fx:value="form-label" />
+                        <String fx:value="form-heading" />
+                     </styleClass></Label>
+                  <Label styleClass="form-label" stylesheets="@../css/form.css" text="NAME" />
+                  <TextField fx:id="profileName" maxWidth="-Infinity" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                  <Label styleClass="form-label" stylesheets="@../css/form.css" text="EMAIL" />
+                  <TextField fx:id="profileEmail" editable="false" maxWidth="-Infinity" prefWidth="200.0" stylesheets="@../css/form.css">
+                     <styleClass>
+                        <String fx:value="form-inputfield" />
+                        <String fx:value="form-inputfield-disabled" />
+                     </styleClass></TextField>
+                  <Label styleClass="form-label" stylesheets="@../css/form.css" text="PASSWORD" />
+                  <PasswordField fx:id="profilePassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                   <Label fx:id="profileError" stylesheets="@../css/form.css" text="This is an errormessage.">
+                     <styleClass>
+                        <String fx:value="form-label" />
+                        <String fx:value="form-label-error" />
+                     </styleClass></Label>
+                  <Button mnemonicParsing="false" onAction="#handleSave" styleClass="button-light" text="SAVE" />
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
+               <styleClass>
+                  <String fx:value="dialog-background" />
+                  <String fx:value="form-background" />
+               </styleClass>
+               <stylesheets>
+                  <URL value="@../css/main.css" />
+                  <URL value="@../css/form.css" />
+               </stylesheets>
             </VBox>
          </children>
       </VBox>

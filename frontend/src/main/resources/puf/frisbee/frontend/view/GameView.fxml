@@ -3,14 +3,10 @@
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -20,68 +16,6 @@
       <fx:include fx:id="characterLeft" source="CharacterLeftView.fxml" />
       <fx:include fx:id="characterRight" source="CharacterRightView.fxml" />
       <fx:include fx:id="frisbee" source="FrisbeeView.fxml" />
-      <Group layoutX="480.0" layoutY="270.0">
-         <children>
-            <GridPane fx:id="levelSuccessDialog" maxHeight="270.0" maxWidth="480.0" minHeight="90.0" minWidth="160.0" prefHeight="180.0" prefWidth="320.0" styleClass="dialog-background" stylesheets="@../css/level.css">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label fx:id="labelLevelSuccess" stylesheets="@../css/level.css" wrapText="true" GridPane.columnSpan="2147483647">
-                     <styleClass>
-                        <String fx:value="dialog-text" />
-                        <String fx:value="dialog-h1" />
-                     </styleClass>
-                  </Label>
-                  <Label styleClass="dialog-text" stylesheets="@../css/level.css" wrapText="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-                  <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleLevelContinueClicked" stylesheets="@../css/level.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
-                     </GridPane.margin>
-                  </Button>
-               </children>
-            </GridPane>
-         </children>
-      </Group>
-      <StackPane fx:id="gameOverDialog">
-         <children>
-            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-            <VBox alignment="CENTER">
-               <children>
-                  <Label stylesheets="@../css/main.css" text="GAME OVER">
-                     <VBox.margin>
-                        <Insets bottom="40.0" />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="dialog-text" />
-                        <String fx:value="dialog-game-over" />
-                     </styleClass>
-                  </Label>
-                  <Label stylesheets="@../css/main.css" text="Play it again?">
-                     <styleClass>
-                        <String fx:value="dialog-text" />
-                        <String fx:value="dialog-h1" />
-                     </styleClass>
-                  </Label>
-                  <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-         <padding>
-            <Insets bottom="40.0" top="80.0" />
-         </padding>
-      </StackPane>
       <fx:include fx:id="topPanel" source="TopPanel.fxml" />
       <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
       <StackPane fx:id="quitConfirmDialog" layoutY="80.0">
@@ -106,13 +40,113 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
                      </children>
                   </HBox>
                </children>
             </VBox>
          </children>
+      </StackPane>
+      <StackPane fx:id="gameOverDialog">
+         <children>
+            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label stylesheets="@../css/main.css" text="GAME OVER">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-game-over" />
+                     </styleClass>
+                  </Label>
+                  <Label stylesheets="@../css/main.css" text="Play it again?">
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-h1" />
+                     </styleClass>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="40.0" top="80.0" />
+         </padding>
+      </StackPane>
+      <StackPane fx:id="levelSuccessDialog">
+         <children>
+            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label stylesheets="@../css/main.css" text="WELL DONE">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-game-over" />
+                     </styleClass>
+                  </Label>
+                  <Label fx:id="labelLevelSuccess" stylesheets="@../css/main.css" text="Play it again?">
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-h1" />
+                     </styleClass>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
+                     <children>
+                        <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleButtonLevelContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonLevelPauseClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I need a pause first." />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="40.0" top="80.0" />
+         </padding>
+      </StackPane>
+      <StackPane fx:id="gameSuccessDialog">
+         <children>
+            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.4" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label stylesheets="@../css/main.css" text="YOU DID IT!">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-game-over" />
+                     </styleClass>
+                  </Label>
+                  <Label stylesheets="@../css/main.css" text="Congratulations, … nice job!">
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-h1" />
+                     </styleClass>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
+                     <children>
+                        <Button disable="true" mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" visible="false" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
+                        <Button disable="true" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" visible="false" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="40.0" top="80.0" />
+         </padding>
       </StackPane>
    </children>
    <stylesheets>
