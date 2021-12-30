@@ -53,20 +53,29 @@ public interface Team {
 	void setTeamScore(int score);
 
 	/**
-	 * Assignes player to existing team
+	 * @return first player in team
+	 */
+	String getPlayer1();
+
+	/**
+	 * @return second player in team
+	 */
+	String getPlayer2();
+
+	/**
+	 * Assignes player to existing team until team is full
 	 *
-	 * @param player2 second player in team
+	 * @param player player to be added to team
 	 * @param teamName of the team to be joined
 	 * @return true if joining was successful
 	 */
-	boolean joinTeam(Player player2, String teamName);
+	boolean joinTeam(Player player, String teamName);
 
 	/**
-	 * Creates a new team with player as member
-	 * @param player1 first player in created team
+	 * Creates a new team
 	 * @param teamName of the team to be created
 	 *
 	 * @return true if creating was successful
 	 */
-	boolean createTeam(Player player1, String teamName);
+	boolean createTeam(String teamName);
 }

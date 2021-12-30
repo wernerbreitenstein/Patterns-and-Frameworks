@@ -54,14 +54,43 @@ public class TeamModel implements Team {
 		this.teamScore = score;
 	}
 
+	@Override
+	public String getPlayer1() {
+		if (this.player1 != null) {
+			return this.player1.getName();
+		} else {
+			return "---";
+		}
+	}
 
-	public boolean joinTeam(Player player2, String teamName){
-		this.player2 = player2;
+	@Override
+	public String getPlayer2() {
+		if (this.player2 != null) {
+			return this.player2.getName();
+		} else {
+			return "---";
+		}
+	}
+
+
+	public boolean joinTeam(Player player, String teamName){
+		if (teamName == this.teamName){
+			if (this.player1 == null && this.player2 == null){
+				this.player1 = player;
+			} else if (this.player1 != null && this.player2 == null){
+				this.player2 = player;
+			}else{
+				System.out.println("Team already has two members.");
+				return false;
+			}
+		} else{
+			System.out.println("Team doesn't exist.");
+			return false;
+		}
 		return true;
 	}
 
-	public boolean createTeam(Player player1, String teamName){
-		this.player1 = player1;
+	public boolean createTeam(String teamName){
 		this.teamName = teamName;
 		return true;
 	}

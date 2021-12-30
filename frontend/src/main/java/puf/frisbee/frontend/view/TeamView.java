@@ -20,12 +20,25 @@ public class TeamView {
     @FXML
     Label createTeamError;
 
+    @FXML
+    Label currentTeam;
+
+    @FXML
+    Label player1;
+
+    @FXML
+    Label player2;
+
     TeamViewModel teamViewModel;
     ViewHandler viewHandler;
 
     public void init(TeamViewModel teamViewModel, ViewHandler viewHandler) {
         this.teamViewModel = teamViewModel;
         this.viewHandler = viewHandler;
+
+        this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
+        this.player1.setText("Player 1: " + this.teamViewModel.getPlayer1Label());
+        this.player2.setText("Player 2: " + this.teamViewModel.getPlayer2Label());
 
         this.joinTeamError.textProperty().bind(this.teamViewModel.getJoinTeamErrorLabelProperty());
         this.createTeamError.textProperty().bind(this.teamViewModel.getCreateTeamErrorLabelProperty());

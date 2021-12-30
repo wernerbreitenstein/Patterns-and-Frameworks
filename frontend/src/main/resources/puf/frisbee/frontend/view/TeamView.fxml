@@ -50,6 +50,17 @@
             </Pane>
          </children>
       </HBox>
+      <Pane prefHeight="200.0" prefWidth="640.0" />
+      <VBox alignment="CENTER" layoutX="400.0" layoutY="493.0" maxWidth="500.0" prefWidth="500.0" styleClass="bg-dark">
+         <children>
+            <Label fx:id="currentTeam" styleClass="font-heading" text="Current Team: " />
+            <Label fx:id="player1" styleClass="font-label" text="Player 1:" />
+            <Label fx:id="player2" styleClass="font-label" text="Player 2:" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
     </children>
     <stylesheets>
         <URL value="@../css/main.css" />
