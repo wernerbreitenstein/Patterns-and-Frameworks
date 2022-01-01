@@ -61,6 +61,7 @@ public class TopPanelView {
 
     private StartViewModel startViewModel;
     private ProfileViewModel profileViewModel;
+    private RegistrationLoginViewModel registrationLoginViewModel;
     private GameViewModel gameViewModel;
     private ViewHandler viewHandler;
 
@@ -99,6 +100,15 @@ public class TopPanelView {
         this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
         this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
         this.buttonSettings.visibleProperty().bind(this.startViewModel.getShowSettingsButtonProperty());
+    }
+
+    public void init(RegistrationLoginViewModel registrationLoginViewModel, ViewHandler viewHandler) {
+        this.registrationLoginViewModel = registrationLoginViewModel;
+        this.viewHandler = viewHandler;
+
+        this.topPanelStartView.setVisible(false);
+        this.topPanelGameView.setVisible(false);
+        this.topPanelProfileRegistrationLoginView.setVisible(true);
     }
 
     public void init(ProfileViewModel profileViewModel, ViewHandler viewHandler) {
