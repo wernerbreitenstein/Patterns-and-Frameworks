@@ -280,6 +280,26 @@
                </StackPane>
             </children>
          </GridPane>
+         <GridPane fx:id="topPanelProfileRegistrationLoginView" prefHeight="80.0" prefWidth="1280.0">
+            <columnConstraints>
+               <ColumnConstraints halignment="LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="165.0" />
+               <ColumnConstraints halignment="LEFT" minWidth="-Infinity" prefWidth="735.0" />
+               <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" prefWidth="380.0" />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+               <ImageView pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/FrizzbeeFreakz_Logo_TopPanel.png" />
+                  </image>
+                  <GridPane.margin>
+                     <Insets left="10.0" />
+                  </GridPane.margin>
+               </ImageView>
+            </children>
+         </GridPane>
         </children>
     </Group>
 </AnchorPane>

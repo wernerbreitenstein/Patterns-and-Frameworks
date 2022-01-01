@@ -8,8 +8,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import puf.frisbee.frontend.core.ViewHandler;
-import puf.frisbee.frontend.viewmodel.StartViewModel;
-import puf.frisbee.frontend.viewmodel.GameViewModel;
+import puf.frisbee.frontend.viewmodel.*;
 
 public class TopPanelView {
     @FXML
@@ -17,6 +16,9 @@ public class TopPanelView {
 
     @FXML
     private GridPane topPanelStartView;
+
+    @FXML
+    private GridPane topPanelProfileRegistrationLoginView;
 
     @FXML
     private GridPane topPanelGameView;
@@ -58,6 +60,7 @@ public class TopPanelView {
     private HBox overlaysTeamLives;
 
     private StartViewModel startViewModel;
+    private ProfileViewModel profileViewModel;
     private GameViewModel gameViewModel;
     private ViewHandler viewHandler;
 
@@ -66,6 +69,7 @@ public class TopPanelView {
         this.viewHandler = viewHandler;
 
         this.topPanelStartView.setVisible(false);
+        this.topPanelProfileRegistrationLoginView.setVisible(false);
         this.topPanelGameView.setVisible(true);
 
         this.labelTeamNameGameView.textProperty().bind(this.gameViewModel.getLabelTeamProperty());
@@ -83,6 +87,7 @@ public class TopPanelView {
         this.viewHandler = viewHandler;
 
         this.topPanelGameView.setVisible(false);
+        this.topPanelProfileRegistrationLoginView.setVisible(false);
         this.topPanelStartView.setVisible(true);
 
         this.labelTeamNameStartView.textProperty().bind(this.startViewModel.getLabelTeamProperty());
@@ -94,6 +99,15 @@ public class TopPanelView {
         this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
         this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
         this.buttonSettings.visibleProperty().bind(this.startViewModel.getShowSettingsButtonProperty());
+    }
+
+    public void init(ProfileViewModel profileViewModel, ViewHandler viewHandler) {
+        this.profileViewModel = profileViewModel;
+        this.viewHandler = viewHandler;
+
+        this.topPanelStartView.setVisible(false);
+        this.topPanelGameView.setVisible(false);
+        this.topPanelProfileRegistrationLoginView.setVisible(true);
     }
 
     @FXML
