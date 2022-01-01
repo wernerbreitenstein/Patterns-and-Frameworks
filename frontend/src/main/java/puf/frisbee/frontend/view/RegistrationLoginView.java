@@ -9,39 +9,56 @@ import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
 
 public class RegistrationLoginView {
     @FXML
-    TextField loginEmail;
+    private TopPanelView topPanelController;
 
     @FXML
-    TextField loginPassword;
+    private BottomPanelView bottomPanelController;
 
     @FXML
-    TextField registerName;
+    private Label labelQuickTip;
 
     @FXML
-    TextField registerEmail;
+    private TextField loginEmail;
 
     @FXML
-    TextField registerPassword;
+    private TextField loginPassword;
 
     @FXML
-    Label loginError;
+    private TextField registerName;
 
     @FXML
-    Label registrationError;
+    private TextField registerEmail;
 
-    RegistrationLoginViewModel registrationLoginViewModel;
-    ViewHandler viewHandler;
+    @FXML
+    private TextField registerPassword;
+
+    @FXML
+    private Label loginError;
+
+    @FXML
+    private Label registrationError;
+
+    private RegistrationLoginViewModel registrationLoginViewModel;
+    private ViewHandler viewHandler;
 
     public void init(RegistrationLoginViewModel registrationLoginViewModel, ViewHandler viewHandler) {
         this.registrationLoginViewModel = registrationLoginViewModel;
         this.viewHandler = viewHandler;
+
+        this.topPanelController.init(registrationLoginViewModel, viewHandler);
+        this.bottomPanelController.init(viewHandler);
 
         this.loginError.textProperty().bind(this.registrationLoginViewModel.getLoginErrorLabelProperty());
         this.registrationError.textProperty().bind(this.registrationLoginViewModel.getRegistrationErrorLabelProperty());
     }
 
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleButtonCancelClicked(ActionEvent event) {
+        this.viewHandler.openStartView();
+    }
+
+    @FXML
+    private void handleButtonLoginClicked(ActionEvent event) {
         boolean loginSuccessful = registrationLoginViewModel.login(loginEmail.getText(), loginPassword.getText());
 
         if (loginSuccessful) {
@@ -50,7 +67,7 @@ public class RegistrationLoginView {
     }
 
     @FXML
-    private void handleRegister(ActionEvent event) {
+    private void handleButtonRegisterClicked(ActionEvent event) {
         boolean registerSuccessful = registrationLoginViewModel.register(registerName.getText(), registerEmail.getText(), registerPassword.getText());
 
         if (registerSuccessful) {

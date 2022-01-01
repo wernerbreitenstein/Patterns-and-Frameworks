@@ -9,23 +9,35 @@ import puf.frisbee.frontend.viewmodel.ProfileViewModel;
 
 public class ProfileView {
     @FXML
-    TextField profileName;
+    private TopPanelView topPanelController;
 
     @FXML
-    TextField profileEmail;
+    private BottomPanelView bottomPanelController;
 
     @FXML
-    TextField profilePassword;
+    private Label labelQuickTip;
 
     @FXML
-    Label profileError;
+    private TextField profileName;
 
-    ProfileViewModel profileViewModel;
-    ViewHandler viewHandler;
+    @FXML
+    private TextField profileEmail;
+
+    @FXML
+    private TextField profilePassword;
+
+    @FXML
+    private Label profileError;
+
+    private ProfileViewModel profileViewModel;
+    private ViewHandler viewHandler;
 
     public void init(ProfileViewModel profileViewModel, ViewHandler viewHandler) {
         this.profileViewModel = profileViewModel;
         this.viewHandler = viewHandler;
+
+        this.topPanelController.init(profileViewModel, viewHandler);
+        this.bottomPanelController.init(viewHandler);
 
         this.profileName.setText(this.profileViewModel.getProfileNameLabel());
         this.profileEmail.setText(this.profileViewModel.getProfileEmailLabel());
@@ -34,7 +46,12 @@ public class ProfileView {
     }
 
     @FXML
-    private void handleSave(ActionEvent event) {
+    private void handleButtonCancelClicked(ActionEvent event) {
+        this.viewHandler.openStartView();
+    }
+
+    @FXML
+    private void handleButtonSaveClicked(ActionEvent event) {
         boolean changesSavedSuccessful = this.profileViewModel.saveChanges(this.profileName.getText(), this.profilePassword.getText());
 
         if (changesSavedSuccessful) {
