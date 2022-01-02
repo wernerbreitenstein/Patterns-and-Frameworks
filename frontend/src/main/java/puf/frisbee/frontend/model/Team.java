@@ -12,11 +12,6 @@ public interface Team {
 	String getTeamName();
 
 	/**
-	 * Sets the team name.
-	 */
-	void setTeamName(String teamName);
-
-	/**
 	 * Returns the current number of lives a team has got.
 	 * 
 	 * @return current number of lives as integer
@@ -52,18 +47,9 @@ public interface Team {
 	 */
 	void setTeamScore(int score);
 
-	/**
-	 * @return first player in team
-	 */
-	String getPlayer1();
 
 	/**
-	 * @return second player in team
-	 */
-	String getPlayer2();
-
-	/**
-	 * Assignes player to existing team until team is full
+	 * Assignes player to existing team
 	 *
 	 * @param player player to be added to team
 	 * @param teamName of the team to be joined

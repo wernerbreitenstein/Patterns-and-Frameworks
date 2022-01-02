@@ -16,7 +16,7 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="640.0">
                <children>
-                  <VBox alignment="TOP_CENTER" layoutX="70.0" prefWidth="500.0" styleClass="bg-dark">
+                  <VBox alignment="TOP_CENTER" layoutX="70.0" layoutY="-70.0" prefWidth="500.0" styleClass="bg-dark">
                      <children>
                         <Label styleClass="font-small" text="Join an existing team?" />
                         <Label styleClass="font-heading" text="JOIN A TEAM" />
@@ -33,7 +33,7 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="640.0">
                <children>
-                  <VBox alignment="TOP_CENTER" layoutX="70.0" prefWidth="500.0" styleClass="bg-dark">
+                  <VBox alignment="TOP_CENTER" layoutX="54.0" layoutY="-70.0" prefWidth="500.0" styleClass="bg-dark">
                      <children>
                         <Label styleClass="font-small" text="Create a new team?" />
                         <Label styleClass="font-heading" text="CREATE TEAM" />
@@ -50,8 +50,8 @@
             </Pane>
          </children>
       </HBox>
-      <Pane prefHeight="200.0" prefWidth="640.0" />
-      <VBox alignment="CENTER" layoutX="400.0" layoutY="493.0" maxWidth="500.0" prefWidth="500.0" styleClass="bg-dark">
+      <Pane prefHeight="200.0" prefWidth="640.0" AnchorPane.topAnchor="0.0" />
+      <VBox alignment="CENTER" layoutX="400.0" layoutY="430.0" maxWidth="500.0" prefWidth="500.0" styleClass="bg-dark">
          <children>
             <Label fx:id="currentTeam" styleClass="font-heading" text="Current Team: " />
             <Label fx:id="player1" styleClass="font-label" text="Player 1:" />
@@ -61,6 +61,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
+      <Button layoutX="600.0" layoutY="590.0" mnemonicParsing="false" onAction="#handleBackToStartButtonClicked" styleClass="button-dark" text="Back to Start" />
     </children>
     <stylesheets>
         <URL value="@../css/main.css" />

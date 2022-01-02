@@ -49,7 +49,8 @@ public class TeamView {
         boolean joinTeamSuccessful = this.teamViewModel.joinTeam(this.joinTeamName.getText());
 
         if (joinTeamSuccessful) {
-            this.viewHandler.openStartView();
+            this.joinTeamName.clear();
+            this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
         }
     }
 
@@ -58,7 +59,13 @@ public class TeamView {
         boolean createTeamSuccessful = this.teamViewModel.createTeam(this.createTeamName.getText());
 
         if (createTeamSuccessful) {
-            this.viewHandler.openStartView();
+            this.createTeamName.clear();
+            this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
         }
+    }
+
+    @FXML
+    private void handleBackToStartButtonClicked(ActionEvent event) {
+        this.viewHandler.openStartView();
     }
 }

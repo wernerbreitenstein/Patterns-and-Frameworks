@@ -5,13 +5,14 @@ import javafx.beans.property.StringProperty;
 import puf.frisbee.frontend.model.Player;
 import puf.frisbee.frontend.model.Team;
 
+
 public class TeamViewModel {
-    private final Team teamModel;
+    private Team teamModel;
     private final Player playerModel;
 
     private String currentTeamLabel;
-    private String player1Label;
-    private String player2Label;
+    private String player1Label = "Bud Spencer";
+    private String player2Label = "Terence Hill";
 
     private StringProperty joinTeamErrorLabel;
     private StringProperty createTeamErrorLabel;
@@ -22,8 +23,6 @@ public class TeamViewModel {
         this.playerModel = playerModel;
 
         this.currentTeamLabel = teamModel.getTeamName();
-        this.player1Label = teamModel.getPlayer1();
-        this.player2Label = teamModel.getPlayer2();
 
         this.joinTeamErrorLabel = new SimpleStringProperty();
         this.createTeamErrorLabel = new SimpleStringProperty();
@@ -36,11 +35,14 @@ public class TeamViewModel {
         }
 
         boolean joinTeamSuccessful = this.teamModel.joinTeam(this.playerModel, teamName);
-        if (!joinTeamSuccessful){
-            this.joinTeamErrorLabel.setValue("Team couldn't be joined.");
-        }
 
-        return joinTeamSuccessful;
+        if (joinTeamSuccessful){
+            this.currentTeamLabel = this.teamModel.getTeamName();
+            return true;
+        } else {
+            this.joinTeamErrorLabel.setValue("Team couldn't be joined.");
+            return false;
+        }
     }
 
     public boolean createTeam(String teamName) {
@@ -48,16 +50,26 @@ public class TeamViewModel {
             this.createTeamErrorLabel.setValue("Team name is required.");
             return false;
         }
-
         boolean createTeamSuccessful = this.teamModel.createTeam(teamName);
-        boolean joinTeamSuccessful = this.teamModel.joinTeam(this.playerModel, teamName);
+        boolean joinTeamSuccessful = this.teamModel.joinTeam(playerModel, teamName);
 
-        return createTeamSuccessful && joinTeamSuccessful;
+        if (createTeamSuccessful && joinTeamSuccessful){
+            this.currentTeamLabel = this.teamModel.getTeamName();
+            return true;
+        } else {
+            this.joinTeamErrorLabel.setValue("Team couldn't be created.");
+            return false;
+        }
     }
 
-    public String getCurrentTeamLabel(){ return this.currentTeamLabel;}
-    public String getPlayer1Label(){ return this.player1Label;}
-    public String getPlayer2Label(){ return this.player2Label;}
+    public String getCurrentTeamLabel() { return this.currentTeamLabel;}
+
+    public String getPlayer1Label() {
+        return this.player1Label;
+    }
+    public String getPlayer2Label(){
+        return this.player2Label;
+    }
 
     public StringProperty getJoinTeamErrorLabelProperty() {
         return this.joinTeamErrorLabel;
