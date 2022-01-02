@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -8,55 +9,111 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.RegistrationLoginView">
     <children>
-      <HBox layoutY="178.0" prefHeight="100.0" prefWidth="1280.0">
+      <StackPane fx:id="gameSuccessDialog">
          <children>
-            <Pane prefHeight="200.0" prefWidth="640.0">
+            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.6" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <HBox alignment="CENTER" spacing="80.0">
                <children>
-                    <VBox alignment="TOP_CENTER" layoutX="70.0" prefWidth="500.0" styleClass="bg-dark">
+                    <VBox alignment="TOP_CENTER">
                      <children>
-                        <Label styleClass="font-small" text="Already have an account?" />
-                        <Label styleClass="font-heading" text="LOGIN" />
-                        <Label styleClass="font-label" text="Email" />
-                        <TextField fx:id="loginEmail" maxWidth="-Infinity" prefWidth="200.0" />
-                        <Label styleClass="font-label" text="Password" />
-                        <PasswordField fx:id="loginPassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" />
-                        <Label fx:id="loginError" styleClass="error" text="Label" />
-                        <Button mnemonicParsing="false" onAction="#handleLogin" styleClass="button-light" text="Login" />
+                        <Label stylesheets="@../css/form.css" text="Already have an account?">
+                           <styleClass>
+                              <String fx:value="form-label" />
+                              <String fx:value="form-label-top" />
+                           </styleClass>
+                        </Label>
+                        <Label stylesheets="@../css/form.css" text="LOGIN">
+                           <styleClass>
+                              <String fx:value="form-label" />
+                              <String fx:value="form-heading" />
+                           </styleClass>
+                        </Label>
+                        <Label styleClass="form-label" stylesheets="@../css/form.css" text="EMAIL" />
+                        <TextField fx:id="loginEmail" maxWidth="-Infinity" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                        <Label styleClass="form-label" stylesheets="@../css/form.css" text="PASSWORD" />
+                        <PasswordField fx:id="loginPassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                        <Label fx:id="loginError" stylesheets="@../css/form.css" text="This is an errormessage.">
+                           <styleClass>
+                              <String fx:value="form-label" />
+                              <String fx:value="form-label-error" />
+                           </styleClass>
+                        </Label>
+                        <HBox alignment="CENTER" spacing="40.0">
+                           <children>
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleButtonCancelClicked" styleClass="button-light" text="CANCEL" />
+                              <Button mnemonicParsing="false" onAction="#handleButtonLoginClicked" styleClass="button-light" text="LOGIN" />
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
+                     <stylesheets>
+                        <URL value="@../css/main.css" />
+                        <URL value="@../css/form.css" />
+                     </stylesheets>
                   </VBox>
-               </children>
-            </Pane>
-            <Pane prefHeight="200.0" prefWidth="640.0">
-               <children>
-                  <VBox alignment="TOP_CENTER" layoutX="70.0" prefWidth="500.0" styleClass="bg-dark">
+                  <Line endY="420.0" stroke="WHITE" translateY="-65.0" />
+                  <VBox alignment="TOP_CENTER">
                      <children>
-                        <Label styleClass="font-small" text="New to the game?" />
-                        <Label styleClass="font-heading" text="REGISTER" />
-                        <Label styleClass="font-label" text="Name" />
-                        <TextField fx:id="registerName" maxWidth="-Infinity" prefWidth="200.0" />
-                        <Label styleClass="font-label" text="Email" />
-                        <TextField fx:id="registerEmail" maxWidth="-Infinity" prefWidth="200.0" />
-                        <Label styleClass="font-label" text="Password" />
-                        <PasswordField fx:id="registerPassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" />
-                        <Label fx:id="registrationError" styleClass="error" text="Label" />
-                        <Button mnemonicParsing="false" onAction="#handleRegister" styleClass="button-light" text="Register" />
+                        <Label stylesheets="@../css/form.css" text="New to the game?">
+                           <styleClass>
+                              <String fx:value="form-label" />
+                              <String fx:value="form-label-top" />
+                           </styleClass>
+                        </Label>
+                        <Label stylesheets="@../css/form.css" text="REGISTER">
+                           <styleClass>
+                              <String fx:value="form-label" />
+                              <String fx:value="form-heading" />
+                           </styleClass>
+                        </Label>
+                        <Label styleClass="form-label" stylesheets="@../css/form.css" text="NAME" />
+                        <TextField fx:id="registerName" maxWidth="-Infinity" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                        <Label styleClass="form-label" stylesheets="@../css/form.css" text="EMAIL" />
+                        <TextField fx:id="registerEmail" maxWidth="-Infinity" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                        <Label styleClass="form-label" stylesheets="@../css/form.css" text="PASSWORD" />
+                        <PasswordField fx:id="registerPassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                        <Label fx:id="registrationError" stylesheets="@../css/form.css" text="This is an errormessage.">
+                           <styleClass>
+                              <String fx:value="form-label" />
+                              <String fx:value="form-label-error" />
+                           </styleClass>
+                        </Label>
+                        <HBox alignment="CENTER" spacing="40.0">
+                           <children>
+                              <Button layoutX="72.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleButtonCancelClicked" styleClass="button-light" text="CANCEL" />
+                              <Button mnemonicParsing="false" onAction="#handleButtonRegisterClicked" styleClass="button-light" text="REGISTER" />
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
+                     <stylesheets>
+                        <URL value="@../css/main.css" />
+                        <URL value="@../css/form.css" />
+                     </stylesheets>
                   </VBox>
                </children>
-            </Pane>
+               <padding>
+                  <Insets top="40.0" />
+               </padding>
+            </HBox>
          </children>
-      </HBox>
+         <padding>
+            <Insets bottom="40.0" top="80.0" />
+         </padding>
+      </StackPane>
+       <fx:include fx:id="topPanel" source="TopPanel.fxml" />
+       <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
     </children>
     <stylesheets>
         <URL value="@../css/main.css" />

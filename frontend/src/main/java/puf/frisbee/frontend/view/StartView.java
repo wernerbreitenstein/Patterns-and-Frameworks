@@ -9,28 +9,13 @@ import puf.frisbee.frontend.viewmodel.StartViewModel;
 
 public class StartView {
 	@FXML
-	private Label labelTeamName;
+	private TopPanelView topPanelController;
 
 	@FXML
-	private Label labelLevel;
-
-	@FXML
-	private Label labelScore;
+	private BottomPanelView bottomPanelController;
 
 	@FXML
 	private Label labelQuickTip;
-
-	@FXML
-	private Label labelGreeting;
-
-	@FXML
-	private Button buttonLoginRegister;
-
-	@FXML
-	private MenuButton buttonSettings;
-
-	@FXML
-	private Button buttonStart;
 
 	@FXML
 	private TableView<Team> highscoreTable;
@@ -39,7 +24,7 @@ public class StartView {
 	private TableColumn<Team, Integer> highscoreScore;
 
 	@FXML
-	private BottomPanelView bottomPanelController;
+	private Button buttonStart;
 
 	private StartViewModel startViewModel;
 	private ViewHandler viewHandler;
@@ -48,12 +33,10 @@ public class StartView {
 		this.startViewModel = startViewModel;
 		this.viewHandler = viewHandler;
 
-		this.bottomPanelController.init(viewHandler);
-
-		this.labelGreeting.textProperty().bind(this.startViewModel.getLabelGreetingProperty());
-		this.buttonLoginRegister.visibleProperty().bind(this.startViewModel.getShowLoginRegisterButtonProperty());
-		this.buttonSettings.visibleProperty().bind(this.startViewModel.getShowSettingsButtonProperty());
 		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
+
+		this.topPanelController.init(startViewModel, viewHandler);
+		this.bottomPanelController.init(viewHandler);
 
 		this.highscoreTable.setItems(startViewModel.getHighscoreTableItems());
 		this.highscoreScore.setSortType(TableColumn.SortType.DESCENDING);
@@ -62,36 +45,15 @@ public class StartView {
 	}
 
 	@FXML
-//	private void handleLoginRegisterButtonClicked(ActionEvent event) {
-//		this.viewHandler.openGameView();
-//	}
-	private void handleLoginRegisterButtonClicked(ActionEvent event) {
-		this.viewHandler.openRegistrationLoginView();
-	}
-
-	@FXML
-	private void handleLogoutButtonClicked(ActionEvent event) {
-		this.startViewModel.logout();
-	}
-
-	@FXML
-	private void handleProfileButtonClicked(ActionEvent event) {
-		this.viewHandler.openProfileView();
-	}
-
-	@FXML
-	private void handleTeamButtonClicked(ActionEvent event) {
-		this.viewHandler.openTeamView();
+	private void handleRefreshButtonClicked(ActionEvent event) {
+		this.startViewModel.refreshData();
+		this.highscoreTable.sort();
 	}
 
 	@FXML
 	private void handleStartButtonClicked(ActionEvent event) {
+		this.startViewModel.resetCountdown();
 		this.viewHandler.openWaitingView();
-	}
 
-	@FXML
-	private void handleRefreshButtonClicked(ActionEvent event) {
-		this.startViewModel.refreshData();
-		this.highscoreTable.sort();
 	}
 }

@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 
 <Pane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.CharacterLeftView">
  <children>
-     <ImageView fx:id="character" fitHeight="200" fitWidth="172" pickOnBounds="true" preserveRatio="true">
-         <image>
-             <Image url="@../images/Character_01.gif" />
-         </image>
-     </ImageView>
+     <Group fx:id="character">
+         <children>
+             <ImageView fitHeight="200" fitWidth="172" pickOnBounds="true" preserveRatio="true">
+                 <image>
+                     <Image url="@../images/Character_01.gif" />
+                 </image>
+             </ImageView>
+             <Circle centerX="35.0" centerY="70.0" fill="#1f93ff80" radius="21.0" strokeType="INSIDE" />
+             <Circle centerX="136.0" centerY="76.0" fill="#1f93ff80" radius="21.0" strokeType="INSIDE" />
+         </children>
+     </Group>
  </children>
 </Pane>

@@ -3,7 +3,9 @@ package puf.frisbee.frontend.viewmodel;
 import javafx.animation.*;
 import javafx.beans.property.*;
 import javafx.util.Duration;
+import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
+import puf.frisbee.frontend.utils.Calculations;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,14 @@ public class GameViewModel {
 	private boolean isCharacterRightMovingLeft;
 	private boolean isCharacterRightMovingRight;
 
+	private boolean isFrisbeeMoving;
+	private boolean isCharacterLeftThrowing;
+	private boolean isHighestFrisbeePointReached;
+	private double frisbeeSpeedX;
+	private double frisbeeSpeedY;
+
 	private BooleanProperty showLevelSuccessDialog;
+	private BooleanProperty showGameSuccessDialog;
 	private BooleanProperty showGameOverDialog;
 	private BooleanProperty showQuitConfirmDialog;
 	private StringProperty buttonLevelContinueText;
@@ -57,6 +66,7 @@ public class GameViewModel {
 		this.labelLevelSuccess = new SimpleStringProperty();
 		this.buttonLevelContinueText = new SimpleStringProperty();
 		this.showLevelSuccessDialog = new SimpleBooleanProperty(false);
+		this.showGameSuccessDialog = new SimpleBooleanProperty(false);
 		this.showGameOverDialog = new SimpleBooleanProperty(false);
 		this.showQuitConfirmDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
@@ -80,12 +90,23 @@ public class GameViewModel {
 		this.isCharacterRightMovingLeft = false;
 		this.isCharacterRightMovingRight = false;
 
-		// set initial frisbee position (later on this should probably fit to any specific character)
-		this.frisbeeXPosition.setValue(levelModel.getInitialFrisbeeXPosition());
-		this.frisbeeYPosition.setValue(levelModel.getInitialFrisbeeYPosition());
+		this.isFrisbeeMoving = false;
+		// for now always the left character starts with the frisbee, this can alternate in the levels later on
+		this.isCharacterLeftThrowing = true;
+		// helper for the frisbee y position
+		this.isHighestFrisbeePointReached = false;
 
+		// set initial frisbee position
+		this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
+
+		this.setTeamData();
 		this.startCountdown();
-		this.startCharacterAnimation();
+		this.startAnimation();
+	}
+
+	private void setTeamData() {
+		if (levelModel.getCurrentLevel() == 0) {this.levelModel.setCurrentLevel(1);}
 	}
 
 	private void setTeamLivesHidden() {
@@ -95,7 +116,7 @@ public class GameViewModel {
 	}
 
 	private void startCountdown() {
-		this.second = gameModel.getCountdown();
+		this.second = gameModel.getCurrentCountdown();
 		timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), actionEvent -> {
 			labelCountdown.setValue(Integer.toString(second));
@@ -104,10 +125,12 @@ public class GameViewModel {
 			if (this.showGameOverDialog.getValue()) {
 				timeline.stop();
 			}
+
 			if (!this.showGameOverDialog.getValue() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
-				showLevelSuccessDialog.setValue(true);
+				showLevelSuccessDialog.setValue(this.levelModel.getCurrentLevel() < 3);
+				showGameSuccessDialog.setValue(this.levelModel.getCurrentLevel() >= 3);
 			}
 			
 		}));
@@ -115,27 +138,43 @@ public class GameViewModel {
 		timeline.play();
 	}
 
-	private void startCharacterAnimation() {
+	private void startAnimation() {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
-			public void handle(long l) {
+			public void handle(long now) {
 				// moving is not possible once the level is over
 				if (showQuitConfirmDialog.getValue() || showGameOverDialog.getValue() || showLevelSuccessDialog.getValue()) return;
 
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
 
-				if (isCharacterLeftMovingLeft) characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
-				if (isCharacterLeftMovingRight) characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
-				if (isCharacterRightMovingLeft) characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-				if (isCharacterRightMovingRight) characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+				// only the character that is not throwing is allowed to move
+				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+					characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
+				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+					characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
+				if (isCharacterRightMovingLeft && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
+					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
+				if (isCharacterRightMovingRight && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
+					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
 
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
 					characterLeftYPosition.setValue(characterLeftYPosition.getValue() + gravity);
+				} else if(isCharacterLeftThrowing && !isFrisbeeMoving) {
+					// set frisbee position to character who is next when not jumping (anymore)
+					setFrisbeePositionToLeftCharacter();
 				}
 				if (characterRightYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
 					characterRightYPosition.setValue(characterRightYPosition.getValue() + gravity);
+				} else if(!isCharacterLeftThrowing && !isFrisbeeMoving) {
+					// set frisbee position to character who is next when not jumping (anymore)
+					setFrisbeePositionToRightCharacter();
+				}
+
+				// frisbee
+				if (isFrisbeeMoving) {
+					frisbeeMove();
 				}
 			}
 		};
@@ -143,28 +182,114 @@ public class GameViewModel {
 	}
 
 	public void throwFrisbee() {
-		Timeline timelineFrisbee = new Timeline();
-        timelineFrisbee.setCycleCount(1);
-        KeyValue xKV = new KeyValue(this.frisbeeXPosition, 1000);
-        KeyValue yKV = new KeyValue(this.frisbeeYPosition, 100, new Interpolator() {
-            @Override
-            protected double curve(double t) {
-				// The subtrahend 't/2.2' at the end defines the difference of vertical start and end position
-				// and needs to be adjusted according to the individual character's and level floor's height.
-				double currentYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
-				double endYPosition = (-4 * (t - 0.5) * (t - 0.5) + 1) - 1/2.2;
-				if (currentYPosition == endYPosition) {
-					removeLife();
-				}
-                return (-4 * (t - 0.5) * (t - 0.5) + 1) - t/2.2;
-            }
-        });
+		// reset curve helper for new frisbee throw
+		this.isHighestFrisbeePointReached = false;
+		// set frisbee speed random
+		this.frisbeeSpeedX = Math.random() * 8 + 2;
+		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
+		// throw frisbee
+		this.isFrisbeeMoving = true;
+	}
 
-		// To modify the frisbee's velocity simply reduce or increase the duration parameter manually.
-        KeyFrame xKF = new KeyFrame(Duration.millis(2000), xKV);
-        KeyFrame yKF = new KeyFrame(Duration.millis(2000), yKV);
-        timelineFrisbee.getKeyFrames().addAll(xKF, yKF);
-        timelineFrisbee.play();
+	private void frisbeeMove() {
+		double frisbeeXDirection = isCharacterLeftThrowing ? 1 : -1;
+		double frisbeeX = this.frisbeeXPosition.getValue() + this.frisbeeSpeedX * frisbeeXDirection;
+
+		double upperLimit = Constants.SCENE_HEIGHT - Constants.CHARACTER_HEIGHT - this.levelModel.getGroundHeight() - this.levelModel.getJumpHeight();
+		if (this.frisbeeYPosition.getValue() <=  upperLimit) {
+			this.isHighestFrisbeePointReached = true;
+		}
+		// positive is down, negative is up
+		double frisbeeYDirection = isHighestFrisbeePointReached ? 1 : -1;
+		double frisbeeY = this.frisbeeYPosition.getValue() + this.frisbeeSpeedY * frisbeeYDirection;
+
+		this.frisbeeXPosition.setValue(frisbeeX);
+		this.frisbeeYPosition.setValue(frisbeeY);
+
+		// check only right character collision if left character is throwing
+		if (isCharacterLeftThrowing) {
+			// catching zone is relative to character position
+			double characterRightCatchingZoneLeftX = characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X;
+			double characterRightCatchingZoneLeftY = characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y;
+			double characterRightCatchingZoneRightX = characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X;
+			double characterRightCatchingZoneRightY = characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y;
+
+			// frisbee is an image view, for the center we need to substract half of the size
+			boolean collisionWithCharacterRightCatchingZoneLeft = Calculations.circlesIntersect(
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
+					characterRightCatchingZoneLeftX, characterRightCatchingZoneLeftY, Constants.CHARACTER_RIGHT_CATCHING_RADIUS);
+			boolean collisionWithCharacterRightCatchingZoneRight = Calculations.circlesIntersect(
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
+					characterRightCatchingZoneRightX, characterRightCatchingZoneRightY, Constants.CHARACTER_RIGHT_CATCHING_RADIUS);
+
+			if (collisionWithCharacterRightCatchingZoneLeft || collisionWithCharacterRightCatchingZoneRight) {
+				incrementScore();
+				this.isFrisbeeMoving = false;
+				this.isCharacterLeftThrowing = false;
+				return;
+			}
+		} else {
+			// check only left character collision if right character is throwing
+			// catching zone is relative to character position
+			double characterLeftCatchingZoneLeftX = characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X;
+			double characterLeftCatchingZoneLeftY = characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y;
+			double characterLeftCatchingZoneRightX = characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X;
+			double characterLeftCatchingZoneRightY = characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y;
+
+			boolean collisionWithCharacterLeftCatchingZoneLeft = Calculations.circlesIntersect(
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
+					characterLeftCatchingZoneLeftX, characterLeftCatchingZoneLeftY, Constants.CHARACTER_LEFT_CATCHING_RADIUS);
+			boolean collisionWithCharacterLeftCatchingZoneRight = Calculations.circlesIntersect(
+					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
+					characterLeftCatchingZoneRightX, characterLeftCatchingZoneRightY, Constants.CHARACTER_LEFT_CATCHING_RADIUS);
+
+			if (collisionWithCharacterLeftCatchingZoneLeft || collisionWithCharacterLeftCatchingZoneRight) {
+				incrementScore();
+				this.isFrisbeeMoving = false;
+				this.isCharacterLeftThrowing = true;
+				return;
+			}
+		}
+
+		// check all boundaries of scene
+		if(frisbeeX >= Constants.SCENE_WIDTH ||
+				frisbeeX <= 0 - Constants.FRISBEE_RADIUS * 2 ||
+				frisbeeY + Constants.FRISBEE_RADIUS * 2 >= Constants.SCENE_HEIGHT - levelModel.getGroundHeight()) {
+			this.isFrisbeeMoving = false;
+			this.removeLife();
+
+			// add timeout so frisbee is not imediately available
+			setFrisbeeTimeout();
+
+			// set frisbee throwing turn to player who did not catch the frisbee
+			this.isCharacterLeftThrowing = !this.isCharacterLeftThrowing;
+		}
+	}
+
+	private void setFrisbeeTimeout() {
+		try {
+			Thread.sleep(1000);
+		} catch(InterruptedException e) {
+			System.out.println("Timeout exception");
+		}
+	}
+
+	private boolean hasCharacterLeftTheFrisbee() {
+		return this.isCharacterLeftThrowing && !this.isFrisbeeMoving;
+	}
+
+	private boolean hasCharacterRightTheFrisbee() {
+		return !this.isCharacterLeftThrowing && !this.isFrisbeeMoving;
+	}
+
+	private void setFrisbeePositionToLeftCharacter() {
+		this.frisbeeXPosition.setValue(this.characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(this.characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
+	}
+
+	private void setFrisbeePositionToRightCharacter() {
+		this.frisbeeXPosition.setValue(this.characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(this.characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y - Constants.FRISBEE_RADIUS);
 	}
 
 	// TODO: checks only needed for one character once two characters can not play on one computer anymore
@@ -179,6 +304,10 @@ public class GameViewModel {
 	}
 	private boolean isRightBorderReachedByCharacterRight() {
 		return this.characterRightXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
+	}
+	// return true if characters have at least a distance of 350
+	private boolean haveCharactersEnoughDistance() {
+		return Math.abs(this.characterRightXPosition.getValue() - this.characterLeftXPosition.getValue()) > 350;
 	}
 
 	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
@@ -223,6 +352,8 @@ public class GameViewModel {
 		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterLeftMovingLeft
 				&& !this.isCharacterLeftMovingRight
+				// no jump if the character still needs to throw the frisbee
+				&& !this.isCharacterLeftThrowing
 				&& !showQuitConfirmDialog.getValue()
 				&& !showGameOverDialog.getValue()
 				&& !showLevelSuccessDialog.getValue();
@@ -232,6 +363,8 @@ public class GameViewModel {
 		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
 				&& !this.isCharacterRightMovingLeft
 				&& !this.isCharacterRightMovingRight
+				// no jump if the character still needs to throw the frisbee
+				&& !this.hasCharacterRightTheFrisbee()
 				&& !showQuitConfirmDialog.getValue()
 				&& !showGameOverDialog.getValue()
 				&& !showLevelSuccessDialog.getValue();
@@ -251,7 +384,7 @@ public class GameViewModel {
 		this.labelTeamName.setValue(this.teamModel.getTeamName());
 		return this.labelTeamName;
 	}
-	
+
 	public StringProperty getLabelLevelProperty() {
 		this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
 		return this.labelLevel;
@@ -271,7 +404,7 @@ public class GameViewModel {
 	}
 
 	public void removeLife() {
-		this.remainingLives --;
+		this.remainingLives--;
 		this.setTeamLivesHidden();
 
 		if (this.remainingLives == 0) {
@@ -284,18 +417,22 @@ public class GameViewModel {
 	}
 
 	public StringProperty getLabelLevelSuccessProperty() {
-		this.labelLevelSuccess.setValue("Level " + this.levelModel.getCurrentLevel() + " geschafft!");
+		this.labelLevelSuccess.setValue("Hey, you finished level " + this.levelModel.getCurrentLevel() + " … go ahead?");
 		return this.labelLevelSuccess;
 	}
 
 	public StringProperty getButtonLevelContinueTextProperty() {
 		int nextLevel = this.levelModel.getCurrentLevel() + 1;
-		this.buttonLevelContinueText.setValue("Weiter zu Level " + nextLevel);
+		this.buttonLevelContinueText.setValue("Yes, take me to level " + nextLevel + ".");
 		return this.buttonLevelContinueText;
 	}
 
 	public BooleanProperty getLevelSuccessDialogProperty() {
 		return this.showLevelSuccessDialog;
+	}
+
+	public BooleanProperty getGameSuccessDialogProperty() {
+		return this.showGameSuccessDialog;
 	}
 	
 	public BooleanProperty getGameOverDialogProperty() {
@@ -309,33 +446,44 @@ public class GameViewModel {
 	public void showQuitConfirmDialog() {
 		if (!this.showGameOverDialog.getValue()) {
 			this.timeline.pause();
+			this.gameModel.setCurrentCountdown(this.second);
 			this.showQuitConfirmDialog.setValue(true);
 		}
 	}
+
+	public void saveGame() {
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
+		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
+	}
+
+	public void saveAfterLevelSucceeded() {
+		this.levelModel.incrementCurrentLevel();
+		// TODO: save current lives, score and level of team to backend later on
+		this.saveGame();
+	}
 	
-	public void hideQuitConfirmDialog() {
-		this.timeline.playFrom(this.timeline.getCurrentTime());
+	public void continueAfterQuitGame() {
+		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setTeamScore(this.labelScore.getValue());
+		this.teamModel.setTeamLives(this.remainingLives);
 		this.showQuitConfirmDialog.setValue(false);
 	}
 
-	public void continueGameOver() {
+	public void continueAfterGameOver() {
 		// TODO: save current lives, score and level of team to backend later on
 		this.teamModel.setTeamLevel(1);
 		this.teamModel.setTeamScore(0);
 		this.teamModel.setTeamLives(5);
 		this.levelModel.setCurrentLevel(1);
+		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
-	public void continueGame() {
-		this.levelModel.incrementCurrentLevel();
+	public void saveAfterQuitGameOrAfterGameOver() {
+		if (this.showGameSuccessDialog.getValue()) { this.levelModel.incrementCurrentLevel(); }
 		// TODO: save current lives, score and level of team to backend later on
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
-	}
-	
-	public void continueGameAfterQuit() {		
-		this.hideQuitConfirmDialog();
+		this.saveGame();
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

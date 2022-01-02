@@ -4,13 +4,17 @@ import puf.frisbee.frontend.core.Constants;
 
 public class LevelModel implements Level {	
 	// TODO: get this from the server
-	private int currentLevel = 1;
+	private final int maximumLevel = 3;
+	private int currentLevel = 0;
 
 	private final double sceneBoundaryLeft = 80;
 	private final double sceneBoundaryRight = 80;
 	private final double groundHeight = 150;
 	private final double jumpHeight = 100;
-	
+
+	@Override
+	public int getMaximumLevel() { return this.maximumLevel; }
+
 	@Override
 	public int getCurrentLevel() {
 		return this.currentLevel;
@@ -57,14 +61,7 @@ public class LevelModel implements Level {
 	}
 
 	@Override
-	//TODO: We could refer to any specific character model (width and height) later on.
-	public double getInitialFrisbeeXPosition() {
-		return this.sceneBoundaryLeft + 10;
-	}
-
-	@Override
-	//TODO: We could refer to any specific character model (width and height) later on.
-	public double getInitialFrisbeeYPosition() {
-		return Constants.SCENE_HEIGHT - this.groundHeight - Constants.CHARACTER_HEIGHT + 10;
+	public double getGroundHeight() {
+		return this.groundHeight;
 	}
 }

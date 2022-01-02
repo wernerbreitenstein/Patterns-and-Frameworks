@@ -5,11 +5,23 @@ package puf.frisbee.frontend.model;
  */
 public interface Game {
     /**
-     * Returns the game countdown.
+     * Returns the game initial countdown.
      *
-     * @return countdown in seconds
+     * @return initial countdown in seconds
      */
-    int getCountdown();
+    int getInitialCountdown();
+
+    /**
+     * Returns the current game countdown.
+     *
+     * @return current countdown in seconds
+     */
+    int getCurrentCountdown();
+
+    /**
+     * Sets the current game countdown.
+     */
+    void setCurrentCountdown(int second);
 
     /**
      * Returns the game gravity.

@@ -3,7 +3,14 @@ package puf.frisbee.frontend.model;
 /**
  * Contains all level specific settings.
  */
-public interface Level {	
+public interface Level {
+	/**
+	 * Returns the maximum level that a team can play.
+	 *
+	 * @return maximum level as integer
+	 */
+	int getMaximumLevel();
+
 	/**
 	 * Returns the current level that a team can play.
 	 * 
@@ -12,7 +19,7 @@ public interface Level {
 	int getCurrentLevel();
 	
 	/**
-	 * Sets the the current level that a team can play.
+	 * Sets the current level that a team can play.
 	 */
 	void setCurrentLevel(int level);
 
@@ -64,16 +71,9 @@ public interface Level {
 	double getJumpHeight();
 
 	/**
-	 * Returns the initial frisbee x position for the level.
+	 * Returns the ground height a level.
 	 *
-	 * @return position
+	 * @return ground height
 	 */
-	double getInitialFrisbeeXPosition();
-
-	/**
-	 * Returns the initial frisbee y position for the level.
-	 *
-	 * @return position
-	 */
-	double getInitialFrisbeeYPosition();
+	double getGroundHeight();
 }
