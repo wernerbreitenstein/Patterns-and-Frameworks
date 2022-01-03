@@ -9,32 +9,44 @@ import puf.frisbee.frontend.viewmodel.TeamViewModel;
 
 public class TeamView {
     @FXML
-    TextField joinTeamName;
+    private TopPanelView topPanelController;
 
     @FXML
-    TextField createTeamName;
+    private BottomPanelView bottomPanelController;
 
     @FXML
-    Label joinTeamError;
+    private Label labelQuickTip;
 
     @FXML
-    Label createTeamError;
+    private TextField joinTeamName;
 
     @FXML
-    Label currentTeam;
+    private TextField createTeamName;
 
     @FXML
-    Label player1;
+    private Label joinTeamError;
 
     @FXML
-    Label player2;
+    private Label createTeamError;
 
-    TeamViewModel teamViewModel;
-    ViewHandler viewHandler;
+    @FXML
+    private Label currentTeam;
+
+    @FXML
+    private Label player1;
+
+    @FXML
+    private Label player2;
+
+    private TeamViewModel teamViewModel;
+    private ViewHandler viewHandler;
 
     public void init(TeamViewModel teamViewModel, ViewHandler viewHandler) {
         this.teamViewModel = teamViewModel;
         this.viewHandler = viewHandler;
+
+        this.topPanelController.init(teamViewModel, viewHandler);
+        this.bottomPanelController.init(viewHandler);
 
         this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
         this.player1.setText("Player 1: " + this.teamViewModel.getPlayer1Label());
