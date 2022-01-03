@@ -483,7 +483,11 @@ public class GameViewModel {
 	public void saveAfterQuitGameOrAfterGameOver() {
 		if (this.showGameSuccessDialog.getValue()) { this.levelModel.incrementCurrentLevel(); }
 		// TODO: save current lives, score and level of team to backend later on
-		this.saveGame();
+		if (this.showGameOverDialog.getValue()) { this.saveGame(); }
+		if (this.showQuitConfirmDialog.getValue()) {
+			this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
+			this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
+		}
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
