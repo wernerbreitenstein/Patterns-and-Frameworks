@@ -10,25 +10,19 @@ public class TeamModel implements Team {
 	private int level;
 	private int score;
 
-	// TODO: use for model factory
 	public TeamModel() {
-
+		this.name = "---";
+		this.level = 0;
+		this.lives = 5;
+		this.score = 0;
 	}
 
-//	public TeamModel(int id, String name, Player playerLeft, Player playerRight, int level, int score, int lives) {
-//		this.id = id;
-//		this.teamName = name;
-//		this.playerLeft = playerLeft;
-//		this.playerRight = playerRight;
-//		this.teamLevel = level;
-//		this.teamScore = score;
-//		this.teamLives = lives;
-//	}
-
+	@Override
 	public int getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -38,22 +32,27 @@ public class TeamModel implements Team {
 		return this.name;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public Player getPlayerLeft() {
 		return playerLeft;
 	}
 
+	@Override
 	public void setPlayerLeft(Player playerLeft) {
 		this.playerLeft = playerLeft;
 	}
 
+	@Override
 	public Player getPlayerRight() {
 		return playerRight;
 	}
 
+	@Override
 	public void setPlayerRight(Player playerRight) {
 		this.playerRight = playerRight;
 	}
@@ -88,13 +87,14 @@ public class TeamModel implements Team {
 		this.score = score;
 	}
 
+	@Override
 	public boolean createTeam(String teamName) {
 		// create team in backend
 		this.name = teamName;
 		return true;
 	}
 
-
+	@Override
 	public boolean joinTeam(Player player, String teamName) {
 		// get team data from backend
 		// save current player in team at backend
