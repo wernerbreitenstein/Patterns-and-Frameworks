@@ -260,6 +260,7 @@
                                       <MenuButton fx:id="buttonSettings" prefHeight="39.0" styleClass="button-light" stylesheets="@../css/main.css" text="SETTINGS" StackPane.alignment="TOP_RIGHT">
                                           <items>
                                               <MenuItem onAction="#handleProfileButtonClicked" styleClass="button-light-menu-item" text="PROFILE" />
+                                              <MenuItem onAction="#handleTeamButtonClicked" styleClass="button-light-menu-item" text="TEAM" />
                                               <MenuItem onAction="#handleLogoutButtonClicked" styleClass="button-light-menu-item" text="LOGOUT" />
                                           </items>
                                       </MenuButton>

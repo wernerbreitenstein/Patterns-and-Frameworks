@@ -46,4 +46,22 @@ public interface Team {
 	 * Sets the current score the team has achieved.
 	 */
 	void setTeamScore(int score);
+
+
+	/**
+	 * Assignes player to existing team
+	 *
+	 * @param player player to be added to team
+	 * @param teamName of the team to be joined
+	 * @return true if joining was successful
+	 */
+	boolean joinTeam(Player player, String teamName);
+
+	/**
+	 * Creates a new team
+	 * @param teamName of the team to be created
+	 *
+	 * @return true if creating was successful
+	 */
+	boolean createTeam(String teamName);
 }

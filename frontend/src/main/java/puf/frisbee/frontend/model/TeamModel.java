@@ -31,7 +31,7 @@ public class TeamModel implements Team {
 	public int getTeamLevel() {
 		return this.teamLevel;
 	}
-	
+
 	@Override
 	public void setTeamLevel(int level) {
 		this.teamLevel = level;
@@ -46,4 +46,19 @@ public class TeamModel implements Team {
 	public void setTeamScore(int score) {
 		this.teamScore = score;
 	}
+
+	public boolean createTeam(String teamName) {
+		// create team in backend
+		this.teamName = teamName;
+		return true;
+	}
+
+
+	public boolean joinTeam(Player player, String teamName) {
+		// get team data from backend
+		// save current player in team at backend
+		this.teamName = teamName;
+		return true;
+	}
+
 }

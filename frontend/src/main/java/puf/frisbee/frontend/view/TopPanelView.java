@@ -63,6 +63,7 @@ public class TopPanelView {
     private ProfileViewModel profileViewModel;
     private RegistrationLoginViewModel registrationLoginViewModel;
     private GameViewModel gameViewModel;
+    private TeamViewModel teamViewModel;
     private ViewHandler viewHandler;
 
     public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
@@ -120,6 +121,15 @@ public class TopPanelView {
         this.topPanelProfileRegistrationLoginView.setVisible(true);
     }
 
+    public void init(TeamViewModel teamViewModel, ViewHandler viewHandler) {
+        this.teamViewModel = teamViewModel;
+        this.viewHandler = viewHandler;
+
+        this.topPanelStartView.setVisible(false);
+        this.topPanelGameView.setVisible(false);
+        this.topPanelProfileRegistrationLoginView.setVisible(true);
+    }
+
     @FXML
     private void handleLoginRegisterButtonClicked(ActionEvent event) {
         this.viewHandler.openRegistrationLoginView();
@@ -134,4 +144,7 @@ public class TopPanelView {
     private void handleProfileButtonClicked(ActionEvent event) {
         this.viewHandler.openProfileView();
     }
+
+    @FXML
+    public void handleTeamButtonClicked(ActionEvent event) { this.viewHandler.openTeamView(); }
 }
