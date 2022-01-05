@@ -485,7 +485,6 @@ public class GameViewModel {
 		// TODO: save current lives, score and level of team to backend later on
 		if (this.showGameOverDialog.getValue()) { this.saveGame(); }
 		if (this.showQuitConfirmDialog.getValue()) {
-			this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
 			this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 		}
 	}
