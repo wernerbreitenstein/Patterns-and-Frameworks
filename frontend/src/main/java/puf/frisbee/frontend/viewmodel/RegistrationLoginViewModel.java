@@ -2,12 +2,14 @@ package puf.frisbee.frontend.viewmodel;
 
 import javafx.beans.property.*;
 import puf.frisbee.frontend.model.Player;
+import puf.frisbee.frontend.model.Team;
 
 import java.util.regex.Pattern;
 
 
 public class RegistrationLoginViewModel {
     private final Player playerModel;
+    private final Team teamModel;
 
     private StringProperty loginErrorLabel;
     private StringProperty registrationErrorLabel;
@@ -15,8 +17,9 @@ public class RegistrationLoginViewModel {
     private final Pattern VALID_EMAIL_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    public RegistrationLoginViewModel(Player playerModel) {
+    public RegistrationLoginViewModel(Player playerModel, Team teamModel) {
         this.playerModel = playerModel;
+        this.teamModel = teamModel;
 
         this.loginErrorLabel = new SimpleStringProperty();
         this.registrationErrorLabel = new SimpleStringProperty();
@@ -40,6 +43,9 @@ public class RegistrationLoginViewModel {
         } else {
             this.loginErrorLabel.setValue("Email or password is wrong.");
         }
+
+        // load team data for player
+        this.teamModel.getTeamForPlayer(this.playerModel);
 
         return loginSuccessful;
     }

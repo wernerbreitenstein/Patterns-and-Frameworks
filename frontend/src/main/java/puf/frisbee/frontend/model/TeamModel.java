@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -8,9 +9,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 public class TeamModel implements Team {
 	private final String baseUrl;
+	@JsonIgnore
+	private boolean teamIsSet;
 
 	private int id;
 	private String name;
@@ -24,11 +28,6 @@ public class TeamModel implements Team {
 		// initialize base url for requests
 		Dotenv dotenv = Dotenv.load();
 		this.baseUrl = dotenv.get("BACKEND_BASE_URL");
-
-		this.name = "---";
-		this.level = 0;
-		this.lives = 5;
-		this.score = 0;
 	}
 
 	@Override
@@ -102,6 +101,11 @@ public class TeamModel implements Team {
 	}
 
 	@Override
+	public boolean getTeamIsSet() {
+		return this.teamIsSet;
+	}
+
+	@Override
 	public boolean createTeam(String teamName) throws IllegalArgumentException {
 		// create team in backend
 		try {
@@ -124,13 +128,14 @@ public class TeamModel implements Team {
 				throw new IllegalArgumentException(response.body().toString());
 			}
 		} catch(IllegalArgumentException e) {
+			this.teamIsSet = false;
 			// forward because we need the message for the error label
 			throw e;
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
-			return false;
 		}
 
+		this.teamIsSet = false;
 		return false;
 	}
 
@@ -154,14 +159,7 @@ public class TeamModel implements Team {
 			if (response.statusCode() == 201) {
 				ObjectMapper objectMapper = new ObjectMapper();
 				Team joinedTeam = objectMapper.readValue(response.body(), new TypeReference<>() {});
-
-				this.id = joinedTeam.getId();
-				this.name = joinedTeam.getName();
-				this.playerLeft = joinedTeam.getPlayerLeft();
-				this.playerRight = joinedTeam.getPlayerRight();
-				this.lives = joinedTeam.getLives();
-				this.score = joinedTeam.getScore();
-				this.level = joinedTeam.getLevel();
+				setTeamData(joinedTeam);
 
 				return true;
 			}
@@ -170,14 +168,55 @@ public class TeamModel implements Team {
 				throw new IllegalArgumentException(response.body().toString());
 			}
 		} catch(IllegalArgumentException e) {
+			this.teamIsSet = false;
 			// forward because we need the message for the error label
 			throw e;
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
-			return false;
 		}
 
+		this.teamIsSet = false;
 		return false;
 	}
 
+	public boolean getTeamForPlayer(Player player) {
+		try {
+			HttpRequest request = HttpRequest.newBuilder()
+					.uri(new URI(this.baseUrl + "/teams/player/" + player.getEmail()))
+					.GET()
+					.build();
+
+			HttpResponse<String> response = HttpClient
+					.newBuilder()
+					.build()
+					.send(request, HttpResponse.BodyHandlers.ofString());
+
+			if (response.statusCode() == 200) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				ArrayList<Team> teams = objectMapper.readValue(response.body(), new TypeReference<>() {});
+				// set data of first found team for this player
+				setTeamData(teams.get(0));
+				return true;
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		this.teamIsSet = false;
+		return false;
+	}
+
+	@JsonIgnore
+	private void setTeamData(Team team) {
+		this.id = team.getId();
+		this.name = team.getName();
+		this.playerLeft = team.getPlayerLeft();
+		this.playerRight = team.getPlayerRight();
+		this.lives = team.getLives();
+		this.score = team.getScore();
+		this.level = team.getLevel();
+
+		this.teamIsSet = true;
+	}
 }
