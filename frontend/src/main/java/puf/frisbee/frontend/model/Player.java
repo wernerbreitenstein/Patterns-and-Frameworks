@@ -1,9 +1,29 @@
 package puf.frisbee.frontend.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * Contains all player data.
  */
+@JsonDeserialize(as = PlayerModel.class)
 public interface Player {
+    int getId();
+
+    void setId(int id);
+
+    String getBaseUrl();
+
+    void setBaseUrl(String baseUrl);
+
+    void setName(String name);
+
+    void setEmail(String email);
+
+    void setPassword(String password);
+
+    void setLoggedIn(boolean loggedIn);
+    
+
     /**
      * Returns the name of the player.
      *

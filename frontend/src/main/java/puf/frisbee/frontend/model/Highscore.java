@@ -10,5 +10,5 @@ public interface Highscore {
      * Returns all teams for the highscore list.
      * @return Team Objects
      */
-    ArrayList<Team> getTeams();
+    ArrayList<Team> getHighscoreData();
 }

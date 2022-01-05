@@ -1,51 +1,55 @@
 package puf.frisbee.frontend.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * Contains all team data.
  */
+@JsonDeserialize(as = TeamModel.class)
 public interface Team {
+	// TODO: update interface
 	/**
 	 * Returns the current team name that a team identifies.
 	 * 
 	 * @return current team name as string
 	 */
-	String getTeamName();
+	String getName();
 
 	/**
 	 * Returns the current number of lives a team has got.
 	 * 
 	 * @return current number of lives as integer
 	 */
-	int getTeamLives();
+	int getLives();
 
 	/**
 	 * Sets the current number of lives a team has got.
 	 */
-	void setTeamLives(int lives);
+	void setLives(int lives);
 
 	/**
 	 * Returns the current level the team has achieved.
 	 * 
 	 * @return current level as integer
 	 */
-	int getTeamLevel();
+	int getLevel();
 	
 	/**
 	 * Sets the current level the team has achieved.
 	 */
-	void setTeamLevel(int level);
+	void setLevel(int level);
 	
 	/**
 	 * Returns the current score the team has achieved.
 	 * 
 	 * @return current score as integer
 	 */
-	int getTeamScore();
+	int getScore();
 	
 	/**
 	 * Sets the current score the team has achieved.
 	 */
-	void setTeamScore(int score);
+	void setScore(int score);
 
 
 	/**

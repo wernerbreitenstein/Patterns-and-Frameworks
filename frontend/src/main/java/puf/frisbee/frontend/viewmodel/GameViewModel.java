@@ -54,7 +54,7 @@ public class GameViewModel {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
-		this.remainingLives = teamModel.getTeamLives();
+		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
 		for (int i = 0; i < 5; i++) {
 			BooleanProperty hidden = new SimpleBooleanProperty(i >= this.remainingLives);
@@ -381,7 +381,7 @@ public class GameViewModel {
 	}
 	
 	public StringProperty getLabelTeamProperty() {
-		this.labelTeamName.setValue(this.teamModel.getTeamName());
+		this.labelTeamName.setValue(this.teamModel.getName());
 		return this.labelTeamName;
 	}
 
@@ -395,7 +395,7 @@ public class GameViewModel {
 	}
 	
 	public IntegerProperty getLabelScoreProperty() {
-		this.labelScore.setValue(this.teamModel.getTeamScore());
+		this.labelScore.setValue(this.teamModel.getScore());
 		return this.labelScore;
 	}
 
@@ -452,9 +452,9 @@ public class GameViewModel {
 	}
 
 	public void saveGame() {
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
+		this.teamModel.setLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
@@ -465,17 +465,17 @@ public class GameViewModel {
 	}
 	
 	public void continueAfterQuitGame() {
-		this.teamModel.setTeamLevel(this.levelModel.getCurrentLevel());
-		this.teamModel.setTeamScore(this.labelScore.getValue());
-		this.teamModel.setTeamLives(this.remainingLives);
+		this.teamModel.setLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
 		this.showQuitConfirmDialog.setValue(false);
 	}
 
 	public void continueAfterGameOver() {
 		// TODO: save current lives, score and level of team to backend later on
-		this.teamModel.setTeamLevel(1);
-		this.teamModel.setTeamScore(0);
-		this.teamModel.setTeamLives(5);
+		this.teamModel.setLevel(1);
+		this.teamModel.setScore(0);
+		this.teamModel.setLives(5);
 		this.levelModel.setCurrentLevel(1);
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}

@@ -11,6 +11,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 
 public class PlayerModel implements Player {
+    private int id;
     private String baseUrl;
     private String name;
     private String email;
@@ -21,6 +22,46 @@ public class PlayerModel implements Player {
         // initialize base url for requests
         Dotenv dotenv = Dotenv.load();
         this.baseUrl = dotenv.get("BACKEND_BASE_URL");
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    @Override
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
     }
 
     @Override
