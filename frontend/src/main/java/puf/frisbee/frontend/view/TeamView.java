@@ -51,9 +51,6 @@ public class TeamView {
         this.currentTeam.textProperty().bind(this.teamViewModel.getCurrentTeamLabel());
         this.playerLeft.textProperty().bind(this.teamViewModel.getPlayerLeftLabel());
         this.playerRight.textProperty().bind(this.teamViewModel.getPlayerRightLabel());
-        //this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
-        //this.player1.setText("Player left: " + this.teamViewModel.getPlayerLeftLabel());
-        //this.player2.setText("Player right: " + this.teamViewModel.getPlayerRightLabel());
 
         this.joinTeamError.textProperty().bind(this.teamViewModel.getJoinTeamErrorLabelProperty());
         this.createTeamError.textProperty().bind(this.teamViewModel.getCreateTeamErrorLabelProperty());
