@@ -1,5 +1,7 @@
 package puf.frisbee.frontend.model;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.net.URI;
@@ -115,7 +117,7 @@ public class TeamModel implements Team {
 					.send(request, HttpResponse.BodyHandlers.ofString());
 
 			if (response.statusCode() == 201) {
-				return false;
+				return true;
 			}
 
 			if (response.statusCode() == 400) {
@@ -134,10 +136,48 @@ public class TeamModel implements Team {
 
 	@Override
 	public boolean joinTeam(Player player, String teamName) {
-		// get team data from backend
-		// save current player in team at backend
-		this.name = teamName;
-		return true;
+		// join team in backend
+		try {
+			String requestBody = "{\"teamName\":\"" + teamName + "\",\"playerEmail\":\"" + player.getEmail()  +"\"}";
+
+			HttpRequest request = HttpRequest.newBuilder()
+					.uri(new URI(this.baseUrl + "/teams/join"))
+					.header("Content-Type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(requestBody))
+					.build();
+
+			HttpResponse<String> response = HttpClient
+					.newBuilder()
+					.build()
+					.send(request, HttpResponse.BodyHandlers.ofString());
+
+			if (response.statusCode() == 201) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				Team joinedTeam = objectMapper.readValue(response.body(), new TypeReference<>() {});
+
+				this.id = joinedTeam.getId();
+				this.name = joinedTeam.getName();
+				this.playerLeft = joinedTeam.getPlayerLeft();
+				this.playerRight = joinedTeam.getPlayerRight();
+				this.lives = joinedTeam.getLives();
+				this.score = joinedTeam.getScore();
+				this.level = joinedTeam.getLevel();
+
+				return true;
+			}
+
+			if (response.statusCode() == 400) {
+				throw new IllegalArgumentException(response.body().toString());
+			}
+		} catch(IllegalArgumentException e) {
+			// forward because we need the message for the error label
+			throw e;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+
+		return false;
 	}
 
 }

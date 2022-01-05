@@ -34,15 +34,14 @@ public class TeamViewModel {
             return false;
         }
 
-        boolean joinTeamSuccessful = this.teamModel.joinTeam(this.playerModel, teamName);
-
-        if (joinTeamSuccessful){
-            this.currentTeamLabel = this.teamModel.getName();
-            return true;
-        } else {
-            this.joinTeamErrorLabel.setValue("Team couldn't be joined.");
+        try {
+            this.teamModel.joinTeam(playerModel, teamName);
+        } catch (IllegalArgumentException e) {
+            this.joinTeamErrorLabel.setValue(e.getMessage());
             return false;
         }
+
+        return true;
     }
 
     public boolean createTeam(String teamName) {
@@ -58,15 +57,14 @@ public class TeamViewModel {
             return false;
         }
 
-        boolean joinTeamSuccessful = this.teamModel.joinTeam(playerModel, teamName);
-
-        if (joinTeamSuccessful){
-            this.currentTeamLabel = this.teamModel.getName();
-            return true;
-        } else {
-            this.createTeamErrorLabel.setValue("Team couldn't be created.");
+        try {
+            this.teamModel.joinTeam(playerModel, teamName);
+        } catch (IllegalArgumentException e) {
+            this.createTeamErrorLabel.setValue(e.getMessage());
             return false;
         }
+
+        return true;
     }
 
     public String getCurrentTeamLabel() { return this.currentTeamLabel;}
