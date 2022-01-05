@@ -1,63 +1,104 @@
 package puf.frisbee.frontend.model;
 
 public class TeamModel implements Team {
-	private String teamName;
-	private int teamLives = 5;
-	private int teamLevel;
-	private int teamScore = 0;
 
-	public TeamModel(String teamName, int teamLevel, int teamScore) {
-		this.teamName = teamName;
-		this.teamLevel = teamLevel;
-		this.teamScore = teamScore;
+	private int id;
+	private String name;
+	private Player playerLeft;
+	private Player playerRight;
+	private int lives;
+	private int level;
+	private int score;
+
+	public TeamModel() {
+		this.name = "---";
+		this.level = 0;
+		this.lives = 5;
+		this.score = 0;
 	}
 
 	@Override
-	public String getTeamName() {
-		return this.teamName;
+	public int getId() {
+		return id;
 	}
 
 	@Override
-	public int getTeamLives() {
-		return this.teamLives;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override
-	public void setTeamLives(int lives) {
-		this.teamLives = lives;
+	public String getName() {
+		return this.name;
 	}
 
 	@Override
-	public int getTeamLevel() {
-		return this.teamLevel;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
-	public void setTeamLevel(int level) {
-		this.teamLevel = level;
+	public Player getPlayerLeft() {
+		return playerLeft;
 	}
 
 	@Override
-	public int getTeamScore() {
-		return this.teamScore;
+	public void setPlayerLeft(Player playerLeft) {
+		this.playerLeft = playerLeft;
 	}
 
 	@Override
-	public void setTeamScore(int score) {
-		this.teamScore = score;
+	public Player getPlayerRight() {
+		return playerRight;
 	}
 
+	@Override
+	public void setPlayerRight(Player playerRight) {
+		this.playerRight = playerRight;
+	}
+
+	@Override
+	public int getLives() {
+		return this.lives;
+	}
+
+	@Override
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+
+	@Override
+	public int getLevel() {
+		return this.level;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	@Override
+	public int getScore() {
+		return this.score;
+	}
+
+	@Override
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	@Override
 	public boolean createTeam(String teamName) {
 		// create team in backend
-		this.teamName = teamName;
+		this.name = teamName;
 		return true;
 	}
 
-
+	@Override
 	public boolean joinTeam(Player player, String teamName) {
 		// get team data from backend
 		// save current player in team at backend
-		this.teamName = teamName;
+		this.name = teamName;
 		return true;
 	}
 

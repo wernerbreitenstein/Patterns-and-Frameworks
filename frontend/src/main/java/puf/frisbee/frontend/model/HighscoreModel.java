@@ -1,22 +1,49 @@
 package puf.frisbee.frontend.model;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.Random;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class HighscoreModel implements Highscore {
-    // TODO: get all data from backend
+    String baseUrl;
+
+    public HighscoreModel() {
+        // initialize base url for requests
+        Dotenv dotenv = Dotenv.load();
+        this.baseUrl = dotenv.get("BACKEND_BASE_URL");
+    }
+
     @Override
-    public ArrayList<Team> getTeams() {
-        ArrayList<Team> teams = new ArrayList<>();
+    public ArrayList<Team> getHighscoreData() {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(this.baseUrl + "/teams"))
+                    .GET()
+                    .build();
 
-        Random random = new Random();
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-        for (int i = 0; i < 50; i++) {
-            String name = "Team #" + random.nextInt(10);
-            Team team = new TeamModel(name, random.nextInt(15), random.nextInt(200));
-            teams.add(team);
+            if (response.statusCode() == 200) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                // create team objects on the fly and return them
+                return objectMapper.readValue(response.body(), new TypeReference<>() {
+                });
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
-        return teams;
+        // if something goes wrong, return empty list
+        return new ArrayList<>();
     }
 }

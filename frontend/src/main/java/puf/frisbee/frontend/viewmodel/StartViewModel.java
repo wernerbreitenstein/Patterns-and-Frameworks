@@ -56,7 +56,7 @@ public class StartViewModel {
     }
 
     public StringProperty getLabelTeamProperty() {
-        this.labelTeamName.setValue(this.teamModel.getTeamName());
+        this.labelTeamName.setValue(this.teamModel.getName());
         return this.labelTeamName;
     }
 
@@ -70,12 +70,12 @@ public class StartViewModel {
     }
 
     public IntegerProperty getLabelScoreProperty() {
-        this.labelScore.setValue(this.teamModel.getTeamScore());
+        this.labelScore.setValue(this.teamModel.getScore());
         return this.labelScore;
     }
 
     public IntegerProperty getLabelLivesProperty() {
-        this.labelLives.setValue(this.teamModel.getTeamLives());
+        this.labelLives.setValue(this.teamModel.getLives());
         return this.labelLives;
     }
 
@@ -96,7 +96,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowStartButtonProperty() {
-        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getTeamLives() > 0) && (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()));
+        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getLives() > 0) && (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()));
         return this.showStartButton;
     }
 
@@ -123,6 +123,6 @@ public class StartViewModel {
     }
 
     public void refreshData() {
-        this.highscoreTableProperty.setAll(highscoreModel.getTeams());
+        this.highscoreTableProperty.setAll(highscoreModel.getHighscoreData());
     }
 }

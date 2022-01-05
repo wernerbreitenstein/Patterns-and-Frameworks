@@ -1,51 +1,103 @@
 package puf.frisbee.frontend.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * Contains all team data.
  */
+@JsonDeserialize(as = TeamModel.class)
 public interface Team {
+	/**
+	 * Returns the id of the team.
+	 *
+	 * @return team id
+	 */
+	int getId();
+
+	/**
+	 * Sets the id of the team.
+	 *
+	 * @param id id of the team
+	 */
+	void setId(int id);
+
 	/**
 	 * Returns the current team name that a team identifies.
 	 * 
 	 * @return current team name as string
 	 */
-	String getTeamName();
+	String getName();
+
+	/**
+	 * Sets the name of a team.
+	 *
+	 * @param name the team name
+	 */
+	void setName(String name);
+
+	/**
+	 * Returns the left player.
+	 *
+	 * @return object of the left player
+	 */
+	 Player getPlayerLeft();
+
+	/**
+	 * Sets the left player.
+	 *
+	 * @param playerLeft player object
+	 */
+	 void setPlayerLeft(Player playerLeft);
+
+	/**
+	 * Returns the right player.
+	 *
+	 * @return object of the right player
+	 */
+	 Player getPlayerRight();
+
+	/**
+	 * Sets the right player.
+	 *
+	 * @param playerRight player object
+	 */
+	 void setPlayerRight(Player playerRight);
 
 	/**
 	 * Returns the current number of lives a team has got.
 	 * 
 	 * @return current number of lives as integer
 	 */
-	int getTeamLives();
+	int getLives();
 
 	/**
 	 * Sets the current number of lives a team has got.
 	 */
-	void setTeamLives(int lives);
+	void setLives(int lives);
 
 	/**
 	 * Returns the current level the team has achieved.
 	 * 
 	 * @return current level as integer
 	 */
-	int getTeamLevel();
+	int getLevel();
 	
 	/**
 	 * Sets the current level the team has achieved.
 	 */
-	void setTeamLevel(int level);
+	void setLevel(int level);
 	
 	/**
 	 * Returns the current score the team has achieved.
 	 * 
 	 * @return current score as integer
 	 */
-	int getTeamScore();
+	int getScore();
 	
 	/**
 	 * Sets the current score the team has achieved.
 	 */
-	void setTeamScore(int score);
+	void setScore(int score);
 
 
 	/**

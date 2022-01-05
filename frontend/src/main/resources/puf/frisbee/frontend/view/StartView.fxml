@@ -25,17 +25,17 @@
                           <columns>
                             <TableColumn maxWidth="240.0" minWidth="-Infinity" prefWidth="-1.0" text="TEAM">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="teamName" />
+                                    <PropertyValueFactory property="name" />
                                 </cellValueFactory>
                             </TableColumn>
                               <TableColumn maxWidth="120.0" minWidth="-Infinity" prefWidth="-1.0" text="LEVEL">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="teamLevel" />
+                                      <PropertyValueFactory property="level" />
                                   </cellValueFactory>
                               </TableColumn>
                             <TableColumn fx:id="highscoreScore" maxWidth="120.0" minWidth="-Infinity" prefWidth="-1.0" text="SCORE">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="teamScore" />
+                                    <PropertyValueFactory property="score" />
                                 </cellValueFactory>
                             </TableColumn>
                           </columns>

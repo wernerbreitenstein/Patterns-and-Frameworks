@@ -40,7 +40,7 @@ public class ModelFactory {
 	 */
 	public Team getTeamModel() {
 		if (teamModel == null) {
-			teamModel = new TeamModel("–––", 1, 0);
+			teamModel = new TeamModel();
 		}
 		return teamModel;
 	}

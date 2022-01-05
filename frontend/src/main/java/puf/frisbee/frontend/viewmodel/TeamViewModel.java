@@ -22,7 +22,7 @@ public class TeamViewModel {
         this.teamModel = teamModel;
         this.playerModel = playerModel;
 
-        this.currentTeamLabel = teamModel.getTeamName();
+        this.currentTeamLabel = teamModel.getName();
 
         this.joinTeamErrorLabel = new SimpleStringProperty();
         this.createTeamErrorLabel = new SimpleStringProperty();
@@ -37,7 +37,7 @@ public class TeamViewModel {
         boolean joinTeamSuccessful = this.teamModel.joinTeam(this.playerModel, teamName);
 
         if (joinTeamSuccessful){
-            this.currentTeamLabel = this.teamModel.getTeamName();
+            this.currentTeamLabel = this.teamModel.getName();
             return true;
         } else {
             this.joinTeamErrorLabel.setValue("Team couldn't be joined.");
@@ -54,7 +54,7 @@ public class TeamViewModel {
         boolean joinTeamSuccessful = this.teamModel.joinTeam(playerModel, teamName);
 
         if (createTeamSuccessful && joinTeamSuccessful){
-            this.currentTeamLabel = this.teamModel.getTeamName();
+            this.currentTeamLabel = this.teamModel.getName();
             return true;
         } else {
             this.joinTeamErrorLabel.setValue("Team couldn't be created.");

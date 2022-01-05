@@ -6,12 +6,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 
 
 public class PlayerModel implements Player {
-    private String baseUrl;
+    private final String baseUrl;
+
+    private int id;
     private String name;
     private String email;
     private String password;
@@ -24,8 +27,23 @@ public class PlayerModel implements Player {
     }
 
     @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -34,8 +52,19 @@ public class PlayerModel implements Player {
     }
 
     @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -94,7 +123,7 @@ public class PlayerModel implements Player {
             if (response.statusCode() == 200){
 
                 ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, String> map = objectMapper.readValue(response.body(), Map.class);
+                Map<String, String> map = objectMapper.readValue(response.body(), new TypeReference<>() {});
 
                 this.name = map.get("name");
                 this.email = map.get("email");
