@@ -110,7 +110,7 @@ public interface Team {
 	 *
 	 * @return true if team data is set
 	 */
-	boolean getTeamIsSet();
+	boolean isTeamSet();
 
 
 	/**

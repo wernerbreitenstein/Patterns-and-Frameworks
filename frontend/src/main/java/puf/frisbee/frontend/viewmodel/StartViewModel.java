@@ -42,7 +42,8 @@ public class StartViewModel {
         this.labelGreetingProperty = new SimpleStringProperty();
         this.showSettingsButton = new SimpleBooleanProperty(false);
         this.showLoginRegisterButton = new SimpleBooleanProperty(true);
-        this.showStartButton = new SimpleBooleanProperty(false);
+        // set start view to true, if player has a team
+        this.showStartButton = new SimpleBooleanProperty(this.teamModel.isTeamSet());
         this.highscoreTableProperty = FXCollections.observableArrayList();
     }
 

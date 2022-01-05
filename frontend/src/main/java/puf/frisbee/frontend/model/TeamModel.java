@@ -101,7 +101,7 @@ public class TeamModel implements Team {
 	}
 
 	@Override
-	public boolean getTeamIsSet() {
+	public boolean isTeamSet() {
 		return this.teamIsSet;
 	}
 
