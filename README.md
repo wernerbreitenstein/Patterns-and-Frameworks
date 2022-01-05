@@ -12,6 +12,10 @@ und bei "Import module from existing model" maven auswählen.
 Bei der Run Configuration kann dann `frontend` als Modul gewählt werden, der Pfad zur Main Application
 ist `puf.frisbee.frontend.StartApplication`.
 
+### Environment variables
+Für die Kommunikation mit dem Backend muss `.env.example` in ein neues File `.env` kopiert werden. 
+Je nachdem, ob mit dem lokalen oder deploytem Backend kommuniziert werden soll, müssen die Environment Variablen angepasst werden.
+
 ## Server starten
 TBD
 
