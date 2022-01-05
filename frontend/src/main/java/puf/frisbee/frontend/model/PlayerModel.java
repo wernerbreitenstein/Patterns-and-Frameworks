@@ -6,13 +6,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 
 
 public class PlayerModel implements Player {
+    private final String baseUrl;
+
     private int id;
-    private String baseUrl;
     private String name;
     private String email;
     private String password;
@@ -35,13 +37,8 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    @Override
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -50,33 +47,24 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public String getEmail() {
         return email;
     }
 
     @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -135,7 +123,7 @@ public class PlayerModel implements Player {
             if (response.statusCode() == 200){
 
                 ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, String> map = objectMapper.readValue(response.body(), Map.class);
+                Map<String, String> map = objectMapper.readValue(response.body(), new TypeReference<>() {});
 
                 this.name = map.get("name");
                 this.email = map.get("email");
