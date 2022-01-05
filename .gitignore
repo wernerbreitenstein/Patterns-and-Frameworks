@@ -40,3 +40,6 @@ target/
 
 # Apple Desktop Services Store
 .DS_Store
+
+# env
+**/.env

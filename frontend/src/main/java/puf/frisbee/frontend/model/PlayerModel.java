@@ -7,14 +7,21 @@ import java.net.http.HttpResponse;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 
 
 public class PlayerModel implements Player {
-
+    private String baseUrl;
     private String name;
     private String email;
     private String password;
     private boolean isLoggedIn = false;
+
+    public PlayerModel() {
+        // initialize base url for requests
+        Dotenv dotenv = Dotenv.load();
+        this.baseUrl = dotenv.get("BACKEND_BASE_URL");
+    }
 
     @Override
     public String getName() {
@@ -51,8 +58,7 @@ public class PlayerModel implements Player {
             String playerJson = objectMapper.writeValueAsString(this);
 
             HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/register"))
-                    .uri(new URI("http://localhost:8080/api/players/register"))
+                    .uri(new URI(this.baseUrl + "/players/register"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(playerJson))
                     .build();
@@ -75,8 +81,7 @@ public class PlayerModel implements Player {
             String loginCredentials = "{\"email\":\"" + email + "\",\"password\":\"" + password  +"\"}";
 
             HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/login"))
-                    .uri(new URI("http://localhost:8080/api/players/login"))
+                    .uri(new URI(this.baseUrl + "/players/login"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(loginCredentials))
                     .build();
@@ -107,8 +112,7 @@ public class PlayerModel implements Player {
     public boolean updateName(String name) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(new URI("https://puf-frisbee-backend.herokuapp.com/api/players/update-player-name/" + this.email))
-                    .uri(new URI("http://localhost:8080/api/players/update-player-name/" + this.email))
+                    .uri(new URI(this.baseUrl + "/players/update-player-name/" + this.email))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(name))
                     .build();
