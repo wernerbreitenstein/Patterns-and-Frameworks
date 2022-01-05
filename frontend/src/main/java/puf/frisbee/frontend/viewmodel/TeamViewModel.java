@@ -50,14 +50,21 @@ public class TeamViewModel {
             this.createTeamErrorLabel.setValue("Team name is required.");
             return false;
         }
-        boolean createTeamSuccessful = this.teamModel.createTeam(teamName);
+
+        try {
+            this.teamModel.createTeam(teamName);
+        } catch (IllegalArgumentException e) {
+            this.createTeamErrorLabel.setValue(e.getMessage());
+            return false;
+        }
+
         boolean joinTeamSuccessful = this.teamModel.joinTeam(playerModel, teamName);
 
-        if (createTeamSuccessful && joinTeamSuccessful){
+        if (joinTeamSuccessful){
             this.currentTeamLabel = this.teamModel.getName();
             return true;
         } else {
-            this.joinTeamErrorLabel.setValue("Team couldn't be created.");
+            this.createTeamErrorLabel.setValue("Team couldn't be created.");
             return false;
         }
     }
