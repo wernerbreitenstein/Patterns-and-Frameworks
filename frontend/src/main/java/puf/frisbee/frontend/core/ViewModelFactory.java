@@ -37,7 +37,7 @@ public class ViewModelFactory {
 	 * @return a new instance of RegistrationViewModel
 	 */
 	public RegistrationLoginViewModel getRegistrationLoginViewModel() {
-		return new RegistrationLoginViewModel(modelFactory.getPlayerModel());
+		return new RegistrationLoginViewModel(modelFactory.getPlayerModel(), modelFactory.getTeamModel());
 	}
 
 	/**

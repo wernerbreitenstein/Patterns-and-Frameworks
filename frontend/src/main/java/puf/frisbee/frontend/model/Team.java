@@ -72,6 +72,8 @@ public interface Team {
 
 	/**
 	 * Sets the current number of lives a team has got.
+	 *
+	 * @param lives team lives
 	 */
 	void setLives(int lives);
 
@@ -84,6 +86,8 @@ public interface Team {
 	
 	/**
 	 * Sets the current level the team has achieved.
+	 *
+	 * @param level team level
 	 */
 	void setLevel(int level);
 	
@@ -96,8 +100,17 @@ public interface Team {
 	
 	/**
 	 * Sets the current score the team has achieved.
+	 *
+	 * @param  score team score
 	 */
 	void setScore(int score);
+
+	/**
+	 * Returns true if team for a player is loaded and its data is set.
+	 *
+	 * @return true if team data is set
+	 */
+	boolean isTeamSet();
 
 
 	/**
@@ -116,4 +129,12 @@ public interface Team {
 	 * @return true if creating was successful
 	 */
 	boolean createTeam(String teamName);
+
+	/**
+	 * Returns the first team of the teams of a player and sets its data.
+	 *
+	 * @param player player object
+	 * @return true if a team for the player was found
+	 */
+	boolean getTeamForPlayer(Player player);
 }

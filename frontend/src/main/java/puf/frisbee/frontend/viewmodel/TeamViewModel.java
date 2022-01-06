@@ -33,7 +33,8 @@ public class TeamViewModel {
     }
 
     private void refreshTeamLabelValues() {
-        this.currentTeamLabel.setValue("Current team: "+ this.teamModel.getName());
+        String nameTeam = this.teamModel.getName() != null ? this.teamModel.getName() : "no team";
+        this.currentTeamLabel.setValue("Current team: " + nameTeam);
         String namePlayerLeft = this.teamModel.getPlayerLeft() != null ? this.teamModel.getPlayerLeft().getName() : "no player";
         this.playerLeftLabel.setValue("Player left: " + namePlayerLeft);
         String namePlayerRight = this.teamModel.getPlayerRight() != null ? this.teamModel.getPlayerRight().getName() : "no player";
