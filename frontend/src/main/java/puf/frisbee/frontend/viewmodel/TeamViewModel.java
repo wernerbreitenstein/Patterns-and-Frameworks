@@ -42,6 +42,8 @@ public class TeamViewModel {
     }
 
     public boolean joinTeam(String teamName) {
+        this.joinTeamErrorLabel.setValue("");
+
         if (teamName.length() < 1) {
             this.joinTeamErrorLabel.setValue("Team name is required.");
             return false;
@@ -62,6 +64,8 @@ public class TeamViewModel {
     }
 
     public boolean createTeam(String teamName) {
+        this.createTeamErrorLabel.setValue("");
+
         if (teamName.length() < 1) {
             this.createTeamErrorLabel.setValue("Team name is required.");
             return false;
