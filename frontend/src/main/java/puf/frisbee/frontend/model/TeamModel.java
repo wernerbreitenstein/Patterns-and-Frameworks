@@ -207,6 +207,40 @@ public class TeamModel implements Team {
 		return false;
 	}
 
+	@Override
+	public boolean saveTeamData() {
+		try {
+			String requestBody = "{\"name\":\"" + this.name
+					+ "\",\"level\":" + this.level
+					+ ", \"score\":" + this.score
+					+ ", \"lives\":" + this.lives  + "}";
+
+			HttpRequest request = HttpRequest.newBuilder()
+					.uri(new URI(this.baseUrl + "/teams/update"))
+					.header("Content-Type", "application/json")
+					.PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+					.build();
+
+			HttpResponse<String> response = HttpClient
+					.newBuilder()
+					.build()
+					.send(request, HttpResponse.BodyHandlers.ofString());
+
+			if (response.statusCode() == 201) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				Team updatedTeam = objectMapper.readValue(response.body(), new TypeReference<>() {});
+				// set data to be sure to have the right data
+				setTeamData(updatedTeam);
+				return true;
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return false;
+	}
+
 	@JsonIgnore
 	private void setTeamData(Team team) {
 		this.id = team.getId();
