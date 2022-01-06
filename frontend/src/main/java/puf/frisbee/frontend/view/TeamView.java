@@ -33,10 +33,10 @@ public class TeamView {
     private Label currentTeam;
 
     @FXML
-    private Label player1;
+    private Label playerLeft;
 
     @FXML
-    private Label player2;
+    private Label playerRight;
 
     private TeamViewModel teamViewModel;
     private ViewHandler viewHandler;
@@ -48,9 +48,9 @@ public class TeamView {
         this.topPanelController.init(teamViewModel, viewHandler);
         this.bottomPanelController.init(viewHandler);
 
-        this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
-        this.player1.setText("Player 1: " + this.teamViewModel.getPlayer1Label());
-        this.player2.setText("Player 2: " + this.teamViewModel.getPlayer2Label());
+        this.currentTeam.textProperty().bind(this.teamViewModel.getCurrentTeamLabel());
+        this.playerLeft.textProperty().bind(this.teamViewModel.getPlayerLeftLabel());
+        this.playerRight.textProperty().bind(this.teamViewModel.getPlayerRightLabel());
 
         this.joinTeamError.textProperty().bind(this.teamViewModel.getJoinTeamErrorLabelProperty());
         this.createTeamError.textProperty().bind(this.teamViewModel.getCreateTeamErrorLabelProperty());
@@ -62,7 +62,6 @@ public class TeamView {
 
         if (joinTeamSuccessful) {
             this.joinTeamName.clear();
-            this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
         }
     }
 
@@ -72,7 +71,6 @@ public class TeamView {
 
         if (createTeamSuccessful) {
             this.createTeamName.clear();
-            this.currentTeam.setText("Current Team: " + this.teamViewModel.getCurrentTeamLabel());
         }
     }
 

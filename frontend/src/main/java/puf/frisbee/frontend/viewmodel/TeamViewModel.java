@@ -10,9 +10,9 @@ public class TeamViewModel {
     private Team teamModel;
     private final Player playerModel;
 
-    private String currentTeamLabel;
-    private String player1Label = "Bud Spencer";
-    private String player2Label = "Terence Hill";
+    private StringProperty currentTeamLabel;
+    private StringProperty playerLeftLabel;
+    private StringProperty playerRightLabel;
 
     private StringProperty joinTeamErrorLabel;
     private StringProperty createTeamErrorLabel;
@@ -22,53 +22,82 @@ public class TeamViewModel {
         this.teamModel = teamModel;
         this.playerModel = playerModel;
 
-        this.currentTeamLabel = teamModel.getName();
-
         this.joinTeamErrorLabel = new SimpleStringProperty();
         this.createTeamErrorLabel = new SimpleStringProperty();
+
+        this.currentTeamLabel = new SimpleStringProperty();
+        this.playerLeftLabel = new SimpleStringProperty();
+        this.playerRightLabel = new SimpleStringProperty();
+        // fill values
+        this.refreshTeamLabelValues();
+    }
+
+    private void refreshTeamLabelValues() {
+        this.currentTeamLabel.setValue("Current team: "+ this.teamModel.getName());
+        String namePlayerLeft = this.teamModel.getPlayerLeft() != null ? this.teamModel.getPlayerLeft().getName() : "no player";
+        this.playerLeftLabel.setValue("Player left: " + namePlayerLeft);
+        String namePlayerRight = this.teamModel.getPlayerRight() != null ? this.teamModel.getPlayerRight().getName() : "no player";
+        this.playerRightLabel.setValue("Player right: "+ namePlayerRight);
     }
 
     public boolean joinTeam(String teamName) {
+        this.joinTeamErrorLabel.setValue("");
+
         if (teamName.length() < 1) {
             this.joinTeamErrorLabel.setValue("Team name is required.");
             return false;
         }
 
-        boolean joinTeamSuccessful = this.teamModel.joinTeam(this.playerModel, teamName);
+        try {
+            this.teamModel.joinTeam(playerModel, teamName);
+            this.currentTeamLabel.setValue(this.teamModel.getName());
 
-        if (joinTeamSuccessful){
-            this.currentTeamLabel = this.teamModel.getName();
-            return true;
-        } else {
-            this.joinTeamErrorLabel.setValue("Team couldn't be joined.");
+        } catch (IllegalArgumentException e) {
+            this.joinTeamErrorLabel.setValue(e.getMessage());
             return false;
         }
+
+        // set label values to new team data
+        refreshTeamLabelValues();
+        return true;
     }
 
     public boolean createTeam(String teamName) {
+        this.createTeamErrorLabel.setValue("");
+
         if (teamName.length() < 1) {
             this.createTeamErrorLabel.setValue("Team name is required.");
             return false;
         }
-        boolean createTeamSuccessful = this.teamModel.createTeam(teamName);
-        boolean joinTeamSuccessful = this.teamModel.joinTeam(playerModel, teamName);
 
-        if (createTeamSuccessful && joinTeamSuccessful){
-            this.currentTeamLabel = this.teamModel.getName();
-            return true;
-        } else {
-            this.joinTeamErrorLabel.setValue("Team couldn't be created.");
+        try {
+            this.teamModel.createTeam(teamName);
+        } catch (IllegalArgumentException e) {
+            this.createTeamErrorLabel.setValue(e.getMessage());
             return false;
         }
+
+        try {
+            this.teamModel.joinTeam(playerModel, teamName);
+        } catch (IllegalArgumentException e) {
+            this.createTeamErrorLabel.setValue(e.getMessage());
+            return false;
+        }
+
+        // set label values to new team data
+        refreshTeamLabelValues();
+        return true;
     }
 
-    public String getCurrentTeamLabel() { return this.currentTeamLabel;}
-
-    public String getPlayer1Label() {
-        return this.player1Label;
+    public StringProperty getCurrentTeamLabel() {
+        return this.currentTeamLabel;
     }
-    public String getPlayer2Label(){
-        return this.player2Label;
+
+    public StringProperty getPlayerLeftLabel() {
+        return this.playerLeftLabel;
+    }
+    public StringProperty getPlayerRightLabel(){
+        return this.playerRightLabel;
     }
 
     public StringProperty getJoinTeamErrorLabelProperty() {

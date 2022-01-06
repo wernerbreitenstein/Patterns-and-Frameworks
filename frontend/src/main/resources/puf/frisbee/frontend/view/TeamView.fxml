@@ -89,14 +89,14 @@
          <children>
             <VBox alignment="CENTER" minWidth="500.0" styleClass="bg-dark" translateX="-150.0">
                <children>
-                  <Label fx:id="currentTeam" stylesheets="@../css/form.css" text="CURRENT TEAM">
+                  <Label fx:id="currentTeam" stylesheets="@../css/form.css">
                      <styleClass>
                         <String fx:value="form-label" />
                         <String fx:value="form-heading" />
                      </styleClass>
                   </Label>
-                  <Label fx:id="player1" styleClass="form-label" text="PLAYER 1:" />
-                  <Label fx:id="player2" styleClass="form-label" text="PLAYER 2:">
+                  <Label fx:id="playerLeft" styleClass="form-label" />
+                  <Label fx:id="playerRight" styleClass="form-label">
                      <VBox.margin>
                         <Insets top="6.0" />
                      </VBox.margin>
