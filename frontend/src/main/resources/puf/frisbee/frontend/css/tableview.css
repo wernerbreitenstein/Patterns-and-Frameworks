@@ -13,13 +13,11 @@
 .table-view .column-header-background{
     -fx-background-color: rgba(0, 0, 0, 0.8);
     -fx-background-radius: 6px 6px 0px 0px;
-    -fx-background-insets: 0 12px 0 0;
     -fx-padding: 6px 0 6px 0;
 }
 
 .table-view .column-header {
     -fx-background-color: transparent;
-    -fx-background-insets: 0 12px 0 0;
 }
 
 .table-view .column-header .label {
