@@ -24,6 +24,9 @@ public class StartView {
 	private TableColumn<Team, Integer> highscoreScore;
 
 	@FXML
+	private Button buttonJoinCreateTeam;
+
+	@FXML
 	private Button buttonStart;
 
 	private StartViewModel startViewModel;
@@ -33,6 +36,7 @@ public class StartView {
 		this.startViewModel = startViewModel;
 		this.viewHandler = viewHandler;
 
+		this.buttonJoinCreateTeam.visibleProperty().bind(this.startViewModel.getShowJoinCreateTeamButtonProperty());
 		this.buttonStart.visibleProperty().bind(this.startViewModel.getShowStartButtonProperty());
 
 		this.topPanelController.init(startViewModel, viewHandler);
@@ -51,9 +55,14 @@ public class StartView {
 	}
 
 	@FXML
+	private void handleJoinCreateTeamButtonClicked(ActionEvent event) {
+		this.startViewModel.resetCountdown();
+		this.viewHandler.openTeamView();
+	}
+
+	@FXML
 	private void handleStartButtonClicked(ActionEvent event) {
 		this.startViewModel.resetCountdown();
 		this.viewHandler.openWaitingView();
-
 	}
 }

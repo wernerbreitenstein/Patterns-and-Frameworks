@@ -22,7 +22,9 @@ public class StartViewModel {
     private BooleanProperty showTeamDataTopPanel;
     private BooleanProperty showSettingsButton;
     private BooleanProperty showLoginRegisterButton;
+
     private BooleanProperty showStartButton;
+    private BooleanProperty showJoinCreateTeamButton;
 
     private ObservableList<Team> highscoreTableProperty;
 
@@ -44,6 +46,7 @@ public class StartViewModel {
         this.showLoginRegisterButton = new SimpleBooleanProperty(true);
         // set start view to true, if player has a team
         this.showStartButton = new SimpleBooleanProperty(this.teamModel.isTeamSet());
+        this.showJoinCreateTeamButton = new SimpleBooleanProperty(!this.teamModel.isTeamSet());
         this.highscoreTableProperty = FXCollections.observableArrayList();
     }
 
@@ -94,6 +97,11 @@ public class StartViewModel {
     public BooleanProperty getShowLoginRegisterButtonProperty() {
         this.showLoginRegisterButton.setValue(!this.playerModel.isLoggedIn());
         return this.showLoginRegisterButton;
+    }
+
+    public BooleanProperty getShowJoinCreateTeamButtonProperty() {
+        this.showJoinCreateTeamButton.setValue((this.playerModel.isLoggedIn() && (this.teamModel.getLives() == 0)));
+        return this.showJoinCreateTeamButton;
     }
 
     public BooleanProperty getShowStartButtonProperty() {

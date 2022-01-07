@@ -50,11 +50,15 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="buttonStart" onAction="#handleStartButtonClicked" styleClass="button-darkred" stylesheets="@../css/main.css" text="START PLAYING" textFill="#800000">
+                  <StackPane>
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
-                  </Button>
+                     <children>
+                        <Button fx:id="buttonStart" onAction="#handleStartButtonClicked" styleClass="button-darkred" stylesheets="@../css/main.css" text="START PLAYING" textFill="#800000" />
+                        <Button fx:id="buttonJoinCreateTeam" layoutX="194.0" layoutY="10.0" onAction="#handleJoinCreateTeamButtonClicked" styleClass="button-darkred" stylesheets="@../css/main.css" text="JOIN TEAM  |  CREATE TEAM" textFill="#800000" />
+                     </children>
+                  </StackPane>
                </children>
             </VBox>
          </children>
