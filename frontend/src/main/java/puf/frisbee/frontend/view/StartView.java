@@ -56,7 +56,6 @@ public class StartView {
 
 	@FXML
 	private void handleJoinCreateTeamButtonClicked(ActionEvent event) {
-		this.startViewModel.resetCountdown();
 		this.viewHandler.openTeamView();
 	}
 
