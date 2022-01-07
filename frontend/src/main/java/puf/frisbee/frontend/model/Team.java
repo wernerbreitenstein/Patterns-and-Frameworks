@@ -137,4 +137,11 @@ public interface Team {
 	 * @return true if a team for the player was found
 	 */
 	boolean getTeamForPlayer(Player player);
+
+	/**
+	 * Saves team data to backend and sets updated data in team model.
+	 *
+	 * @return true if saving was successful
+	 */
+	boolean saveTeamData();
 }
