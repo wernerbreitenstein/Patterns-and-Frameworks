@@ -3,7 +3,7 @@ package puf.frisbee.frontend.model;
 import puf.frisbee.frontend.core.Constants;
 
 public class LevelModel implements Level {	
-	private int currentLevel = 0;
+	private int currentLevel = 1;
 
 	private final double sceneBoundaryLeft = 80;
 	private final double sceneBoundaryRight = 80;

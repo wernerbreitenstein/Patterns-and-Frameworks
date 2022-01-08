@@ -100,7 +100,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowJoinCreateTeamButtonProperty() {
-        this.showJoinCreateTeamButton.setValue((this.playerModel.isLoggedIn() && (this.teamModel.getLives() == 0)));
+        this.showJoinCreateTeamButton.setValue(this.playerModel.isLoggedIn() && ((this.teamModel.getLives() == 0) || (this.levelModel.getCurrentLevel() > this.gameModel.getMaximumLevel())));
         return this.showJoinCreateTeamButton;
     }
 
