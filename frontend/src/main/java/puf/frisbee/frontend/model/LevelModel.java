@@ -3,7 +3,6 @@ package puf.frisbee.frontend.model;
 import puf.frisbee.frontend.core.Constants;
 
 public class LevelModel implements Level {	
-	private final int maximumLevel = 3;
 	private int currentLevel = 0;
 
 	private final double sceneBoundaryLeft = 80;
@@ -12,17 +11,7 @@ public class LevelModel implements Level {
 	private final double jumpHeight = 100;
 
 	@Override
-	public int getMaximumLevel() { return this.maximumLevel; }
-
-	@Override
-	public int getCurrentLevel() {
-		return this.currentLevel;
-	}
-	
-	@Override
-	public void setCurrentLevel(int level) {
-		this.currentLevel = level;
-	}
+	public int getCurrentLevel() { return this.currentLevel; }
 
 	@Override
 	public void incrementCurrentLevel() {

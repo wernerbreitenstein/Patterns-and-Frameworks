@@ -51,7 +51,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowTeamDataTopPanelProperty() {
-        if (this.playerModel.isLoggedIn() && this.levelModel.getCurrentLevel() != 0) {
+        if (this.playerModel.isLoggedIn() && this.teamModel.getLevel() != 0) {
             this.showTeamDataTopPanel.setValue(true);
         } else {
             this.showTeamDataTopPanel.setValue(false);
@@ -65,10 +65,10 @@ public class StartViewModel {
     }
 
     public StringProperty getLabelLevelProperty() {
-        if (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()) {
-            this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
+        if (this.teamModel.getLevel() <= this.gameModel.getMaximumLevel()) {
+            this.labelLevel.setValue(String.valueOf(this.teamModel.getLevel()));
         } else {
-            this.labelLevel.setValue(String.valueOf(this.levelModel.getMaximumLevel()));
+            this.labelLevel.setValue(String.valueOf(this.gameModel.getMaximumLevel()));
         }
         return this.labelLevel;
     }
@@ -105,7 +105,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowStartButtonProperty() {
-        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getLives() > 0) && (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()));
+        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getLives() > 0) && (this.levelModel.getCurrentLevel() <= this.gameModel.getMaximumLevel()));
         return this.showStartButton;
     }
 

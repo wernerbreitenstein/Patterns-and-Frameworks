@@ -106,7 +106,7 @@ public class GameViewModel {
 	}
 
 	private void setTeamData() {
-		if (levelModel.getCurrentLevel() == 0) {this.levelModel.setCurrentLevel(1);}
+		if (this.teamModel.getLevel() == 0) {this.teamModel.setLevel(1);}
 	}
 
 	private void setTeamLivesHidden() {
@@ -129,8 +129,8 @@ public class GameViewModel {
 			if (!this.showGameOverDialog.getValue() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
-				showLevelSuccessDialog.setValue(this.levelModel.getCurrentLevel() < 3);
-				showGameSuccessDialog.setValue(this.levelModel.getCurrentLevel() >= 3);
+				showLevelSuccessDialog.setValue(this.teamModel.getLevel() < 3);
+				showGameSuccessDialog.setValue(this.teamModel.getLevel() >= 3);
 			}
 			
 		}));
@@ -386,7 +386,7 @@ public class GameViewModel {
 	}
 
 	public StringProperty getLabelLevelProperty() {
-		this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
+		this.labelLevel.setValue(String.valueOf(this.teamModel.getLevel()));
 		return this.labelLevel;
 	}
 	
@@ -417,12 +417,12 @@ public class GameViewModel {
 	}
 
 	public StringProperty getLabelLevelSuccessProperty() {
-		this.labelLevelSuccess.setValue("Hey, you finished level " + this.levelModel.getCurrentLevel() + " … go ahead?");
+		this.labelLevelSuccess.setValue("Hey, you finished level " + this.teamModel.getLevel() + " … go ahead?");
 		return this.labelLevelSuccess;
 	}
 
 	public StringProperty getButtonLevelContinueTextProperty() {
-		int nextLevel = this.levelModel.getCurrentLevel() + 1;
+		int nextLevel = this.teamModel.getLevel() + 1;
 		this.buttonLevelContinueText.setValue("Yes, take me to level " + nextLevel + ".");
 		return this.buttonLevelContinueText;
 	}
@@ -452,7 +452,11 @@ public class GameViewModel {
 	}
 
 	public void saveGame() {
-		this.teamModel.setLevel(this.levelModel.getCurrentLevel());
+		if (this.teamModel.getLevel() < this.gameModel.getMaximumLevel()) {
+			this.teamModel.setLevel(Integer.parseInt(this.labelLevel.getValue()) + 1);
+		} else {
+			this.teamModel.setLevel(this.gameModel.getMaximumLevel());
+		}
 		this.teamModel.setScore(this.labelScore.getValue());
 		this.teamModel.setLives(this.remainingLives);
 		// save to backend
@@ -468,7 +472,7 @@ public class GameViewModel {
 	}
 	
 	public void continueAfterQuitGame() {
-		this.teamModel.setLevel(this.levelModel.getCurrentLevel());
+		this.teamModel.setLevel(this.teamModel.getLevel());
 		this.teamModel.setScore(this.labelScore.getValue());
 		this.teamModel.setLives(this.remainingLives);
 		this.showQuitConfirmDialog.setValue(false);
@@ -479,7 +483,7 @@ public class GameViewModel {
 		this.teamModel.setLevel(1);
 		this.teamModel.setScore(0);
 		this.teamModel.setLives(5);
-		this.levelModel.setCurrentLevel(1);
+		this.teamModel.setLevel(1);
 		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
 	}
 
