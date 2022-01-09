@@ -106,6 +106,20 @@ public interface Team {
 	void setScore(int score);
 
 	/**
+	 * Returns the active status of the team.
+	 *
+	 * @return true if team is active
+	 */
+	boolean getActive();
+
+	/**
+	 * Returns the active status of the team.
+	 *
+	 * @param  active true if team is active
+	 */
+	void setActive(boolean active);
+
+	/**
 	 * Returns true if team for a player is loaded and its data is set.
 	 *
 	 * @return true if team data is set
