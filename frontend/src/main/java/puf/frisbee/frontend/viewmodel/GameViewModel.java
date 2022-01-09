@@ -452,7 +452,9 @@ public class GameViewModel {
 	}
 
 	public void saveGame() {
-		if (this.teamModel.getLevel() < this.gameModel.getMaximumLevel()) {
+		if (this.remainingLives == 0) {
+			this.teamModel.setLevel(Integer.parseInt(this.labelLevel.getValue()));
+		} else if (this.teamModel.getLevel() < this.gameModel.getMaximumLevel()) {
 			this.teamModel.setLevel(Integer.parseInt(this.labelLevel.getValue()) + 1);
 		} else {
 			this.teamModel.setLevel(this.gameModel.getMaximumLevel());
