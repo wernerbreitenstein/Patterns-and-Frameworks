@@ -6,8 +6,10 @@ module puf.frisbee.frontend {
 	requires java.net.http;
 	requires com.fasterxml.jackson.databind;
     requires dotenv.java;
+    requires javax.websocket.api;
+	requires tyrus.client;
 
-    opens puf.frisbee.frontend to javafx.fxml;
+	opens puf.frisbee.frontend to javafx.fxml;
 	exports puf.frisbee.frontend;
 
 	opens puf.frisbee.frontend.core to javafx.fxml;
