@@ -97,7 +97,7 @@ public class GameView {
 	}
 
 	@FXML
-	private void handleButtonLevelPauseClicked(ActionEvent event) {
+	private void handleButtonLevelPauseOrGameSucceededClicked(ActionEvent event) {
 		this.gameViewModel.saveAfterLevelSucceeded();
 		this.viewHandler.openStartView();
 	}

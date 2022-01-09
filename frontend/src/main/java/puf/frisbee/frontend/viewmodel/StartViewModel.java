@@ -22,7 +22,9 @@ public class StartViewModel {
     private BooleanProperty showTeamDataTopPanel;
     private BooleanProperty showSettingsButton;
     private BooleanProperty showLoginRegisterButton;
+
     private BooleanProperty showStartButton;
+    private BooleanProperty showJoinCreateTeamButton;
 
     private ObservableList<Team> highscoreTableProperty;
 
@@ -44,11 +46,12 @@ public class StartViewModel {
         this.showLoginRegisterButton = new SimpleBooleanProperty(true);
         // set start view to true, if player has a team
         this.showStartButton = new SimpleBooleanProperty(this.teamModel.isTeamSet());
+        this.showJoinCreateTeamButton = new SimpleBooleanProperty(!this.teamModel.isTeamSet());
         this.highscoreTableProperty = FXCollections.observableArrayList();
     }
 
     public BooleanProperty getShowTeamDataTopPanelProperty() {
-        if (this.playerModel.isLoggedIn() && this.levelModel.getCurrentLevel() != 0) {
+        if (this.playerModel.isLoggedIn() && this.teamModel.getLevel() != 0) {
             this.showTeamDataTopPanel.setValue(true);
         } else {
             this.showTeamDataTopPanel.setValue(false);
@@ -62,10 +65,10 @@ public class StartViewModel {
     }
 
     public StringProperty getLabelLevelProperty() {
-        if (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()) {
-            this.labelLevel.setValue(String.valueOf(this.levelModel.getCurrentLevel()));
+        if (this.teamModel.getLevel() <= this.gameModel.getMaximumLevel()) {
+            this.labelLevel.setValue(String.valueOf(this.teamModel.getLevel()));
         } else {
-            this.labelLevel.setValue(String.valueOf(this.levelModel.getMaximumLevel()));
+            this.labelLevel.setValue(String.valueOf(this.gameModel.getMaximumLevel()));
         }
         return this.labelLevel;
     }
@@ -96,8 +99,13 @@ public class StartViewModel {
         return this.showLoginRegisterButton;
     }
 
+    public BooleanProperty getShowJoinCreateTeamButtonProperty() {
+        this.showJoinCreateTeamButton.setValue(this.playerModel.isLoggedIn() && ((this.teamModel.getLives() == 0) || (this.levelModel.getCurrentLevel() > this.gameModel.getMaximumLevel())));
+        return this.showJoinCreateTeamButton;
+    }
+
     public BooleanProperty getShowStartButtonProperty() {
-        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getLives() > 0) && (this.levelModel.getCurrentLevel() <= this.levelModel.getMaximumLevel()));
+        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getLives() > 0) && (this.levelModel.getCurrentLevel() <= this.gameModel.getMaximumLevel()));
         return this.showStartButton;
     }
 

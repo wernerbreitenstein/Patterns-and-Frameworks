@@ -5,6 +5,13 @@ package puf.frisbee.frontend.model;
  */
 public interface Game {
     /**
+     * Returns the maximum level that a team can play.
+     *
+     * @return maximum level as integer
+     */
+    int getMaximumLevel();
+
+    /**
      * Returns the game initial countdown.
      *
      * @return initial countdown in seconds
@@ -20,6 +27,8 @@ public interface Game {
 
     /**
      * Sets the current game countdown.
+     *
+     * @param second the current game countdown
      */
     void setCurrentCountdown(int second);
 
