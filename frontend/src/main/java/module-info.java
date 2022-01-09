@@ -8,6 +8,7 @@ module puf.frisbee.frontend {
     requires dotenv.java;
     requires javax.websocket.api;
 	requires tyrus.client;
+	requires Java.WebSocket;
 
 	opens puf.frisbee.frontend to javafx.fxml;
 	exports puf.frisbee.frontend;

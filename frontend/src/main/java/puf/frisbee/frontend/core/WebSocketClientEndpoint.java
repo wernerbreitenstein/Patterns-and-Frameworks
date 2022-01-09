@@ -14,12 +14,12 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 @ClientEndpoint
-public class WebSocketClient {
+public class WebSocketClientEndpoint {
 
     protected   WebSocketContainer container;
     protected   Session userSession = null;
 
-    public WebSocketClient() {
+    public WebSocketClientEndpoint() {
         container = ContainerProvider.getWebSocketContainer();
     }
 
