@@ -224,7 +224,8 @@ public class TeamModel implements Team {
 			String requestBody = "{\"name\":\"" + this.name
 					+ "\",\"level\":" + this.level
 					+ ", \"score\":" + this.score
-					+ ", \"lives\":" + this.lives  + "}";
+					+ ", \"lives\":" + this.lives
+					+ ", \"active\":" + this.active  + "}";
 
 			HttpRequest request = HttpRequest.newBuilder()
 					.uri(new URI(this.baseUrl + "/teams/update"))
