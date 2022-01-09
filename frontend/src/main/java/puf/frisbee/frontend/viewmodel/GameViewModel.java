@@ -16,6 +16,7 @@ public class GameViewModel {
 	private Timeline timeline;
 	private int second;
 	private int remainingLives;
+	private double counter;
 
 	private DoubleProperty characterLeftXPosition;
 	private DoubleProperty characterLeftYPosition;
@@ -189,19 +190,30 @@ public class GameViewModel {
 		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
 		// throw frisbee
 		this.isFrisbeeMoving = true;
+		this.counter = 0;
 	}
 
 	private void frisbeeMove() {
 		double frisbeeXDirection = isCharacterLeftThrowing ? 1 : -1;
-		double frisbeeX = this.frisbeeXPosition.getValue() + this.frisbeeSpeedX * frisbeeXDirection;
+		double frisbeeYDirection;
+		double t;
 
-		double upperLimit = Constants.SCENE_HEIGHT - Constants.CHARACTER_HEIGHT - this.levelModel.getGroundHeight() - this.levelModel.getJumpHeight();
+		double upperLimit = Constants.SCENE_HEIGHT - Constants.CHARACTER_HEIGHT - this.levelModel.getGroundHeight() - this.levelModel.getJumpHeight() - 300;
 		if (this.frisbeeYPosition.getValue() <=  upperLimit) {
 			this.isHighestFrisbeePointReached = true;
 		}
+
 		// positive is down, negative is up
-		double frisbeeYDirection = isHighestFrisbeePointReached ? 1 : -1;
-		double frisbeeY = this.frisbeeYPosition.getValue() + this.frisbeeSpeedY * frisbeeYDirection;
+		if (isHighestFrisbeePointReached) {
+			frisbeeYDirection = 1;
+			t = --counter;
+		} else {
+			frisbeeYDirection = -1;
+			t = ++counter;
+		}
+
+		double frisbeeX = this.frisbeeXPosition.getValue() + (this.frisbeeSpeedX + 60 / t) * frisbeeXDirection;
+		double frisbeeY = this.frisbeeYPosition.getValue() + this.frisbeeSpeedY + ((60 * t) / (t * t) - (t / 30)) * frisbeeYDirection;
 
 		this.frisbeeXPosition.setValue(frisbeeX);
 		this.frisbeeYPosition.setValue(frisbeeY);
