@@ -1,27 +1,23 @@
 package puf.frisbee.frontend.core;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 
-/**
- * This example demonstrates how to create a websocket connection to a server. Only the most
- * important callbacks are overloaded.
- */
-public class ExampleClient extends WebSocketClient {
 
-    public ExampleClient(URI serverUri, Draft draft) {
+public class FrisbeeWebSocketClient extends WebSocketClient {
+
+    public FrisbeeWebSocketClient(URI serverUri, Draft draft) {
         super(serverUri, draft);
     }
 
-    public ExampleClient(URI serverURI) {
+    public FrisbeeWebSocketClient(URI serverURI) {
         super(serverURI);
     }
 
-    public ExampleClient(URI serverUri, Map<String, String> httpHeaders) {
+    public FrisbeeWebSocketClient(URI serverUri, Map<String, String> httpHeaders) {
         super(serverUri, (Draft) httpHeaders);
     }
 
@@ -50,11 +46,5 @@ public class ExampleClient extends WebSocketClient {
         ex.printStackTrace();
         // if the error is fatal then onClose will be called additionally
     }
-
-//    public static void main(String[] args) throws URISyntaxException {
-//        ExampleClient c = new ExampleClient(new URI(
-//                "ws://localhost:8887")); // more about drafts here: http://github.com/TooTallNate/Java-WebSocket/wiki/Drafts
-//        c.connect();
-//    }
 
 }
