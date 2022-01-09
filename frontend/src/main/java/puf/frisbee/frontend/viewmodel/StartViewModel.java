@@ -116,6 +116,7 @@ public class StartViewModel {
         this.showSettingsButton.setValue(false);
         this.showLoginRegisterButton.setValue(true);
         this.showStartButton.setValue(false);
+        this.showJoinCreateTeamButton.setValue(false);
     }
 
     public void resetCountdown() {
