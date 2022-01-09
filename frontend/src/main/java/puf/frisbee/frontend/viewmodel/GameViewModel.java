@@ -473,6 +473,7 @@ public class GameViewModel {
 		}
 		this.teamModel.setScore(this.labelScore.getValue());
 		this.teamModel.setLives(this.remainingLives);
+		this.teamModel.setActive(true);
 		// save to backend
 		this.teamModel.saveTeamData();
 		// reset countdown

@@ -23,6 +23,7 @@ public class TeamModel implements Team {
 	private int lives;
 	private int level;
 	private int score;
+	private boolean active;
 
 	public TeamModel() {
 		// initialize base url for requests
@@ -98,6 +99,16 @@ public class TeamModel implements Team {
 	@Override
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	@Override
+	public boolean getActive() {
+		return active;
+	}
+
+	@Override
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override
@@ -213,7 +224,8 @@ public class TeamModel implements Team {
 			String requestBody = "{\"name\":\"" + this.name
 					+ "\",\"level\":" + this.level
 					+ ", \"score\":" + this.score
-					+ ", \"lives\":" + this.lives  + "}";
+					+ ", \"lives\":" + this.lives
+					+ ", \"active\":" + this.active  + "}";
 
 			HttpRequest request = HttpRequest.newBuilder()
 					.uri(new URI(this.baseUrl + "/teams/update"))
