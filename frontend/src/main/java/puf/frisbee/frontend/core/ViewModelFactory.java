@@ -1,10 +1,6 @@
 package puf.frisbee.frontend.core;
 
-import puf.frisbee.frontend.viewmodel.GameViewModel;
-import puf.frisbee.frontend.viewmodel.ProfileViewModel;
-import puf.frisbee.frontend.viewmodel.RegistrationLoginViewModel;
-import puf.frisbee.frontend.viewmodel.StartViewModel;
-import puf.frisbee.frontend.viewmodel.TeamViewModel;
+import puf.frisbee.frontend.viewmodel.*;
 
 public class ViewModelFactory {
 	private ModelFactory modelFactory;
@@ -56,5 +52,14 @@ public class ViewModelFactory {
 	 */
 	public TeamViewModel getTeamViewModel() {
 		return new TeamViewModel(modelFactory.getTeamModel(), modelFactory.getPlayerModel());
+	}
+
+	/**
+	 * Creates and returns an instance of WaitingViewModel.
+	 *
+	 * @return a new instance of WaitingViewModel
+	 */
+	public WaitingViewModel getWaitingViewModel() {
+		return new WaitingViewModel(modelFactory.getGameModel(), modelFactory.getLevelModel(), modelFactory.getTeamModel());
 	}
 }

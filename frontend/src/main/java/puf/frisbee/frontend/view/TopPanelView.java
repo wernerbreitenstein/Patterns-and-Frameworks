@@ -21,7 +21,13 @@ public class TopPanelView {
     private GridPane topPanelProfileRegistrationLoginView;
 
     @FXML
+    private GridPane topPanelWaitingView;
+
+    @FXML
     private GridPane topPanelGameView;
+
+    @FXML
+    private Label labelTeamNameWaitingView;
 
     @FXML
     private Label labelTeamNameGameView;
@@ -30,13 +36,22 @@ public class TopPanelView {
     private Label labelTeamNameStartView;
 
     @FXML
+    private Label labelLevelWaitingView;
+
+    @FXML
     private Label labelLevelGameView;
 
     @FXML
     private Label labelLevelStartView;
 
     @FXML
+    private Label labelCountdownWaitingView;
+
+    @FXML
     private Label labelCountdownGameView;
+
+    @FXML
+    private Label labelScoreWaitingView;
 
     @FXML
     private Label labelScoreGameView;
@@ -57,14 +72,37 @@ public class TopPanelView {
     private MenuButton buttonSettings;
     
     @FXML
-    private HBox overlaysTeamLives;
+    private HBox overlaysTeamLivesGameView;
+
+    @FXML
+    private HBox overlaysTeamLivesWaitingView;
 
     private StartViewModel startViewModel;
     private ProfileViewModel profileViewModel;
     private RegistrationLoginViewModel registrationLoginViewModel;
     private GameViewModel gameViewModel;
     private TeamViewModel teamViewModel;
+    private WaitingViewModel waitingViewModel;
     private ViewHandler viewHandler;
+
+    public void init(WaitingViewModel waitingViewModel, ViewHandler viewHandler) {
+        this.waitingViewModel = waitingViewModel;
+        this.viewHandler = viewHandler;
+
+        this.topPanelStartView.setVisible(false);
+        this.topPanelProfileRegistrationLoginView.setVisible(false);
+        this.topPanelGameView.setVisible(false);
+        this.topPanelWaitingView.setVisible(true);
+
+        this.labelTeamNameWaitingView.textProperty().bind(this.waitingViewModel.getLabelTeamProperty());
+        this.labelLevelWaitingView.textProperty().bind(this.waitingViewModel.getLabelLevelProperty());
+        this.labelCountdownWaitingView.textProperty().bind(this.waitingViewModel.getLabelCountdownProperty());
+        this.labelScoreWaitingView.textProperty().bind(this.waitingViewModel.getLabelScoreProperty().asString());
+
+        for (int i = 0; i < this.overlaysTeamLivesWaitingView.getChildren().size(); i++) {
+            this.overlaysTeamLivesWaitingView.getChildren().get(i).visibleProperty().bind(this.waitingViewModel.getTeamLivesHiddenProperty(i));
+        }
+    }
 
     public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
         this.gameViewModel = gameViewModel;
@@ -72,6 +110,7 @@ public class TopPanelView {
 
         this.topPanelStartView.setVisible(false);
         this.topPanelProfileRegistrationLoginView.setVisible(false);
+        this.topPanelWaitingView.setVisible(false);
         this.topPanelGameView.setVisible(true);
 
         this.labelTeamNameGameView.textProperty().bind(this.gameViewModel.getLabelTeamProperty());
@@ -79,8 +118,8 @@ public class TopPanelView {
         this.labelCountdownGameView.textProperty().bind(this.gameViewModel.getLabelCountdownProperty());
         this.labelScoreGameView.textProperty().bind(this.gameViewModel.getLabelScoreProperty().asString());
 
-        for (int i = 0; i < this.overlaysTeamLives.getChildren().size(); i++) {
-            this.overlaysTeamLives.getChildren().get(i).visibleProperty().bind(this.gameViewModel.getTeamLivesHiddenProperty(i));
+        for (int i = 0; i < this.overlaysTeamLivesGameView.getChildren().size(); i++) {
+            this.overlaysTeamLivesGameView.getChildren().get(i).visibleProperty().bind(this.gameViewModel.getTeamLivesHiddenProperty(i));
         }
     }
 
@@ -90,6 +129,7 @@ public class TopPanelView {
 
         this.topPanelGameView.setVisible(false);
         this.topPanelProfileRegistrationLoginView.setVisible(false);
+        this.topPanelWaitingView.setVisible(false);
         this.topPanelStartView.setVisible(true);
 
         this.labelTeamNameStartView.textProperty().bind(this.startViewModel.getLabelTeamProperty());
@@ -109,6 +149,7 @@ public class TopPanelView {
 
         this.topPanelStartView.setVisible(false);
         this.topPanelGameView.setVisible(false);
+        this.topPanelWaitingView.setVisible(false);
         this.topPanelProfileRegistrationLoginView.setVisible(true);
     }
 
@@ -118,6 +159,7 @@ public class TopPanelView {
 
         this.topPanelStartView.setVisible(false);
         this.topPanelGameView.setVisible(false);
+        this.topPanelWaitingView.setVisible(false);
         this.topPanelProfileRegistrationLoginView.setVisible(true);
     }
 
@@ -127,6 +169,7 @@ public class TopPanelView {
 
         this.topPanelStartView.setVisible(false);
         this.topPanelGameView.setVisible(false);
+        this.topPanelWaitingView.setVisible(false);
         this.topPanelProfileRegistrationLoginView.setVisible(true);
     }
 

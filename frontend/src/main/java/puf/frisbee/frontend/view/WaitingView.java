@@ -1,46 +1,50 @@
 package puf.frisbee.frontend.view;
+
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.ViewHandler;
-import puf.frisbee.frontend.viewmodel.GameViewModel;
+import puf.frisbee.frontend.viewmodel.WaitingViewModel;
 
 public class WaitingView {
+    @FXML
+    private TopPanelView topPanelController;
 
     @FXML
-    private Button startButton;
-
-    @FXML
-    private Text startText;
+    private BottomPanelView bottomPanelController;
 
     @FXML
     private ImageView frisbee;
 
-    private GameViewModel gameViewModel;
+    @FXML
+    private Button buttonStart;
+
+    private WaitingViewModel waitingViewModel;
     private ViewHandler viewHandler;
 
-    public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
+    public void init(WaitingViewModel waitingViewModel, ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
-        this.gameViewModel = gameViewModel;
+        this.waitingViewModel = waitingViewModel;
+
+        this.topPanelController.init(waitingViewModel, viewHandler);
+        this.bottomPanelController.init(waitingViewModel, viewHandler);
+
         this.startFrisbeeTransition();
     }
 
     @FXML
-    private void startFrisbeeTransition(){
-
+    private void startFrisbeeTransition() {
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(3000), frisbee);
         rotateTransition.setToAngle(360.0);
         rotateTransition.setCycleCount(RotateTransition.INDEFINITE);
         rotateTransition.setInterpolator(Interpolator.LINEAR);
 
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(3000), frisbee);
-        scaleTransition.setFromX(10);
-        scaleTransition.setFromY(10);
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(500), frisbee);
+        scaleTransition.setFromX(0.1);
+        scaleTransition.setFromY(0.1);
         scaleTransition.setToX(1);
         scaleTransition.setToY(1);
         scaleTransition.setInterpolator(Interpolator.EASE_OUT);
@@ -52,12 +56,7 @@ public class WaitingView {
     }
 
     @FXML
-    private void handleStartButtonClicked(MouseEvent event) {
+    private void handleButtonStartClicked(ActionEvent event) {
         this.viewHandler.openGameView();
-    }
-    
-    @FXML
-    private void handleButtonQuitGameClicked(ActionEvent event) {
-        this.viewHandler.end();
     }
 }
