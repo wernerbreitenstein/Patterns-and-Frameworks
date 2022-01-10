@@ -15,9 +15,6 @@ public class TeamView {
     private BottomPanelView bottomPanelController;
 
     @FXML
-    private Label labelQuickTip;
-
-    @FXML
     private TextField joinTeamName;
 
     @FXML

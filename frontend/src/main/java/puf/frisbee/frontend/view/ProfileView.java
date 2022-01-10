@@ -15,9 +15,6 @@ public class ProfileView {
     private BottomPanelView bottomPanelController;
 
     @FXML
-    private Label labelQuickTip;
-
-    @FXML
     private TextField profileName;
 
     @FXML

@@ -15,9 +15,6 @@ public class StartView {
 	private BottomPanelView bottomPanelController;
 
 	@FXML
-	private Label labelQuickTip;
-
-	@FXML
 	private TableView<Team> highscoreTable;
 
 	@FXML

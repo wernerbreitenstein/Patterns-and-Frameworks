@@ -15,9 +15,6 @@ public class RegistrationLoginView {
     private BottomPanelView bottomPanelController;
 
     @FXML
-    private Label labelQuickTip;
-
-    @FXML
     private TextField loginEmail;
 
     @FXML
