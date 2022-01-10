@@ -26,13 +26,8 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="labelQuickTip" styleClass="dialog-text" stylesheets="@../css/main.css" text="Do we get the tips and tricks down here from the backend?" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
                   <Line endY="35.0" startY="5.0" stroke="WHITE" GridPane.columnIndex="1" />
-                  <Label onMouseClicked="#handleQuitGameClicked" onMouseEntered="#handleQuitGameEntered" onMouseExited="#handleQuitGameExited" styleClass="dialog-text" stylesheets="@../css/main.css" text="QUIT GAME" textFill="WHITE" GridPane.columnIndex="2">
+                  <Label onMouseClicked="#handleQuitGameClicked" styleClass="dialog-text" stylesheets="@../css/main.css" text="QUIT GAME" textFill="WHITE" GridPane.columnIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -7,9 +7,6 @@ import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 public class BottomPanelView {
-	@FXML
-	private Label labelQuickTip;
-
 	private GameViewModel gameViewModel;
 	private ViewHandler viewHandler;
 
@@ -20,16 +17,6 @@ public class BottomPanelView {
 
 	public void init(ViewHandler viewHandler) {
 		this.viewHandler = viewHandler;
-	}
-
-	@FXML
-	private void handleQuitGameEntered(MouseEvent event) {
-		this.labelQuickTip.textProperty().setValue("Should I stay or should I go?");
-	}
-
-	@FXML
-	private void handleQuitGameExited(MouseEvent event) {
-		this.labelQuickTip.textProperty().setValue("");
 	}
 
 	@FXML
