@@ -1,3 +1,8 @@
+.root {
+    -fx-background-image: url("../images/start_login_profile_bg.png");
+    -fx-background-size: contain;
+}
+
 .modal-background {
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }

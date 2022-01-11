@@ -68,6 +68,5 @@
    </children>
    <stylesheets>
       <URL value="@../css/main.css" />
-      <URL value="@../css/highscore.css" />
    </stylesheets>
 </AnchorPane>

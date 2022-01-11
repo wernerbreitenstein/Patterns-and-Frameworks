@@ -117,8 +117,8 @@
       <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
    </children>
    <stylesheets>
-      <URL value="@../css/main.css" />
       <URL value="@../css/form.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 
 </AnchorPane>
