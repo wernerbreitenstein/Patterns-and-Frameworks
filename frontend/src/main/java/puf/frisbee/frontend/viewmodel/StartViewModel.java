@@ -50,8 +50,12 @@ public class StartViewModel {
         this.highscoreTableProperty = FXCollections.observableArrayList();
     }
 
+    private boolean teamIsActive() {
+        return teamModel.isTeamSet() && teamModel.getActive();
+    }
+
     public BooleanProperty getShowTeamDataTopPanelProperty() {
-        this.showTeamDataTopPanel.setValue(this.playerModel.isLoggedIn());
+        this.showTeamDataTopPanel.setValue(this.playerModel.isLoggedIn() && this.teamIsActive());
         return this.showTeamDataTopPanel;
     }
 
@@ -61,11 +65,7 @@ public class StartViewModel {
     }
 
     public StringProperty getLabelLevelProperty() {
-        if (this.teamModel.getLevel() <= this.gameModel.getMaximumLevel()) {
-            this.labelLevel.setValue(String.valueOf(this.teamModel.getLevel()));
-        } else {
-            this.labelLevel.setValue(String.valueOf(this.gameModel.getMaximumLevel()));
-        }
+        this.labelLevel.setValue(String.valueOf(this.teamModel.getLevel()));
         return this.labelLevel;
     }
 
@@ -96,12 +96,12 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowJoinCreateTeamButtonProperty() {
-        this.showJoinCreateTeamButton.setValue(this.playerModel.isLoggedIn() && (!this.teamModel.isTeamSet() || !this.teamModel.getActive()));
+        this.showJoinCreateTeamButton.setValue(this.playerModel.isLoggedIn() && !this.teamIsActive());
         return this.showJoinCreateTeamButton;
     }
 
     public BooleanProperty getShowStartButtonProperty() {
-        this.showStartButton.setValue(this.playerModel.isLoggedIn() && this.teamModel.isTeamSet() && this.teamModel.getActive());
+        this.showStartButton.setValue(this.playerModel.isLoggedIn() && this.teamIsActive());
         return this.showStartButton;
     }
 

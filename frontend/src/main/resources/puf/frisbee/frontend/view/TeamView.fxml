@@ -15,10 +15,10 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.TeamView">
    <children>
-      <StackPane fx:id="gameSuccessDialog">
+      <StackPane>
          <children>
             <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.6" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-            <HBox alignment="CENTER" spacing="80.0">
+            <HBox fx:id="teamForm" alignment="CENTER" spacing="80.0">
                <children>
                   <VBox alignment="TOP_CENTER">
                      <children>
