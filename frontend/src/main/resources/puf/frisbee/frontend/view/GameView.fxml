@@ -56,8 +56,8 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuit" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameContinue" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
                      </children>
                   </HBox>
                </children>
@@ -86,8 +86,8 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinue" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuit" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
                      </children>
                   </HBox>
                </children>
@@ -119,8 +119,8 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleButtonLevelContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonLevelPauseOrGameSucceededClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I need a pause first." />
+                        <Button fx:id="buttonLevelContinue" mnemonicParsing="false" onAction="#handleButtonLevelSuccessContinue" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
+                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonLevelSuccessQuit" styleClass="button-light" stylesheets="@../css/main.css" text="No, I need a pause first." />
                      </children>
                   </HBox>
                </children>
@@ -152,9 +152,7 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button disable="true" mnemonicParsing="false" onAction="#handleButtonGameOverContinueClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" visible="false" />
-                        <Button mnemonicParsing="false" onAction="#handleButtonLevelPauseOrGameSucceededClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
-                        <Button disable="true" mnemonicParsing="false" onAction="#handleButtonQuitGameQuitOrGameOverQuitClicked" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" visible="false" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonGameSuccessQuit" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
                      </children>
                   </HBox>
                </children>

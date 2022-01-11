@@ -51,11 +51,7 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowTeamDataTopPanelProperty() {
-        if (this.playerModel.isLoggedIn() && this.teamModel.getLevel() != 0) {
-            this.showTeamDataTopPanel.setValue(true);
-        } else {
-            this.showTeamDataTopPanel.setValue(false);
-        }
+        this.showTeamDataTopPanel.setValue(this.playerModel.isLoggedIn());
         return this.showTeamDataTopPanel;
     }
 
@@ -100,12 +96,12 @@ public class StartViewModel {
     }
 
     public BooleanProperty getShowJoinCreateTeamButtonProperty() {
-        this.showJoinCreateTeamButton.setValue(this.playerModel.isLoggedIn() && ((this.teamModel.getLives() == 0) || (this.levelModel.getCurrentLevel() > this.gameModel.getMaximumLevel())));
+        this.showJoinCreateTeamButton.setValue(this.playerModel.isLoggedIn() && (!this.teamModel.isTeamSet() || !this.teamModel.getActive()));
         return this.showJoinCreateTeamButton;
     }
 
     public BooleanProperty getShowStartButtonProperty() {
-        this.showStartButton.setValue(this.playerModel.isLoggedIn() && (this.teamModel.getLives() > 0) && (this.levelModel.getCurrentLevel() <= this.gameModel.getMaximumLevel()));
+        this.showStartButton.setValue(this.playerModel.isLoggedIn() && this.teamModel.isTeamSet() && this.teamModel.getActive());
         return this.showStartButton;
     }
 
