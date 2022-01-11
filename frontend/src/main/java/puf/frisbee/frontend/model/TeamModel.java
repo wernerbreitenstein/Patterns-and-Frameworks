@@ -10,6 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class TeamModel implements Team {
 	private final String baseUrl;
@@ -193,7 +194,7 @@ public class TeamModel implements Team {
 	public boolean getTeamForPlayer(Player player) {
 		try {
 			HttpRequest request = HttpRequest.newBuilder()
-					.uri(new URI(this.baseUrl + "/teams/player/" + player.getEmail()))
+					.uri(new URI(this.baseUrl + "/teams/player/" + player.getEmail() + "/active"))
 					.GET()
 					.build();
 
@@ -205,7 +206,8 @@ public class TeamModel implements Team {
 			if (response.statusCode() == 200) {
 				ObjectMapper objectMapper = new ObjectMapper();
 				ArrayList<Team> teams = objectMapper.readValue(response.body(), new TypeReference<>() {});
-				// set data of first found team for this player
+				// set data of first found team for this player after sorting alphabetically
+				teams.sort(Comparator.comparing(Team::getName));
 				setTeamData(teams.get(0));
 				return true;
 			}
