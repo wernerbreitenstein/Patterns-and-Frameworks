@@ -4,12 +4,16 @@ import javafx.animation.*;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
+import puf.frisbee.frontend.core.FrisbeeWebSocketClient;
 import puf.frisbee.frontend.model.*;
 import puf.frisbee.frontend.utils.Calculations;
 
 import java.util.ArrayList;
 
 public class GameViewModel {
+
+	private FrisbeeWebSocketClient frisbeeWebSocketClient;
+
 	private Game gameModel;
 	private Level levelModel;
 	private Team teamModel;
@@ -50,7 +54,9 @@ public class GameViewModel {
 
 	private ArrayList<BooleanProperty> teamLivesHidden;
 
-	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
+	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, FrisbeeWebSocketClient frisbeeWebSocketClient) {
+
+		this.frisbeeWebSocketClient = frisbeeWebSocketClient;
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
@@ -171,6 +177,10 @@ public class GameViewModel {
 					// set frisbee position to character who is next when not jumping (anymore)
 					setFrisbeePositionToRightCharacter();
 				}
+
+				// send character right position to websocket server
+				// String characterRightPositionJSON = "{\"xPosition\":\"" + characterRightXPosition + "\",\"yPosition\":\"" + characterRightYPosition  +"\"}";
+				// frisbeeWebSocketClient.send("Test");
 
 				// frisbee
 				if (isFrisbeeMoving) {

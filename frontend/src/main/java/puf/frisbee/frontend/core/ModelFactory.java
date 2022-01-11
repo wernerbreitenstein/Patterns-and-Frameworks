@@ -1,6 +1,9 @@
 package puf.frisbee.frontend.core;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import puf.frisbee.frontend.model.*;
+
+import java.net.URI;
 
 public class ModelFactory {
 	private Game gameModel;
@@ -8,6 +11,7 @@ public class ModelFactory {
 	private Team teamModel;
 	private Highscore highscoreModel;
 	private Player playerModel;
+	private FrisbeeWebSocketClient frisbeeWebSocketClient;
 
 	/**
 	 * Creates a GameModel instance if it does not exist yet and returns it.
@@ -68,5 +72,22 @@ public class ModelFactory {
 		}
 
 		return playerModel;
+	}
+
+	public FrisbeeWebSocketClient getFrisbeeWebSocketClient(){
+
+		if(frisbeeWebSocketClient == null) {
+
+			Dotenv dotenv = Dotenv.load();
+			String baseUrl = dotenv.get("BACKEND_BASE_URL");
+			try {
+				frisbeeWebSocketClient = new FrisbeeWebSocketClient(new URI(baseUrl));
+				frisbeeWebSocketClient.connectBlocking();
+//				frisbeeWebSocketClient.send("Test");
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		return frisbeeWebSocketClient;
 	}
 }
