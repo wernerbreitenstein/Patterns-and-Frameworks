@@ -38,7 +38,7 @@ public class ViewHandler {
 			Parent root = gameViewLoader.load();
 			GameView gameView = gameViewLoader.getController();
 			gameView.init(viewModelFactory.getGameViewModel(), this);
-			this.stage.setTitle("Frisbee Game");
+			this.stage.setTitle("FRIZZBEE FREAKZ | GAME");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 			root.requestFocus();
@@ -53,8 +53,8 @@ public class ViewHandler {
 		try {
 			Parent root = waitingViewLoader.load();
 			WaitingView waitingView = waitingViewLoader.getController();
-			waitingView.init(viewModelFactory.getGameViewModel(), this);
-			this.stage.setTitle("Frisbee - waiting...");
+			waitingView.init(viewModelFactory.getWaitingViewModel(), this);
+			this.stage.setTitle("FRIZZBEE FREAKZ | WAITING");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
@@ -69,7 +69,7 @@ public class ViewHandler {
 			Parent root = startViewLoader.load();
 			StartView startView = startViewLoader.getController();
 			startView.init(viewModelFactory.getStartViewModel(),this);
-			this.stage.setTitle("Frisbee");
+			this.stage.setTitle("FRIZZBEE FREAKZ | START");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class ViewHandler {
 			Parent root = registrationLoginLoader.load();
 			RegistrationLoginView registrationLoginView = registrationLoginLoader.getController();
 			registrationLoginView.init(viewModelFactory.getRegistrationLoginViewModel(),this);
-			this.stage.setTitle("Frisbee Registration - Login");
+			this.stage.setTitle("FRIZZBEE FREAKZ | LOGIN | REGISTRATION");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
@@ -99,7 +99,7 @@ public class ViewHandler {
 			Parent root = profileLoader.load();
 			ProfileView profileView = profileLoader.getController();
 			profileView.init(viewModelFactory.getProfileViewModel(), this);
-			this.stage.setTitle("Frisbee Registration - Profile");
+			this.stage.setTitle("FRIZZBEE FREAKZ | PROFILE");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
@@ -114,7 +114,7 @@ public class ViewHandler {
 			Parent root = teamViewLoader.load();
 			TeamView teamView = teamViewLoader.getController();
 			teamView.init(viewModelFactory.getTeamViewModel(), this);
-			this.stage.setTitle("Frisbee Team");
+			this.stage.setTitle("FRIZZBEE FREAKZ | TEAM");
 			Scene scene = new Scene(root, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
 			this.stage.setScene(scene);
 		} catch (Exception e) {
