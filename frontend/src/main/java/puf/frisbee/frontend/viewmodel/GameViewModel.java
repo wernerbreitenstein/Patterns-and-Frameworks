@@ -18,6 +18,10 @@ public class GameViewModel {
 	private int remainingLives;
 	private double counter;
 
+	private BooleanProperty showLevel01BackgroundImage;
+	private BooleanProperty showLevel02BackgroundImage;
+	private BooleanProperty showLevel03BackgroundImage;
+
 	private DoubleProperty characterLeftXPosition;
 	private DoubleProperty characterLeftYPosition;
 	private DoubleProperty characterRightXPosition;
@@ -61,6 +65,10 @@ public class GameViewModel {
 			BooleanProperty hidden = new SimpleBooleanProperty(i >= this.remainingLives);
 			this.teamLivesHidden.add(hidden);
 		}
+
+		this.showLevel01BackgroundImage = new SimpleBooleanProperty(false);
+		this.showLevel02BackgroundImage = new SimpleBooleanProperty(false);
+		this.showLevel03BackgroundImage = new SimpleBooleanProperty(false);
 		
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
@@ -104,6 +112,27 @@ public class GameViewModel {
 		this.setTeamData();
 		this.startCountdown();
 		this.startAnimation();
+	}
+
+	public BooleanProperty getShowLevel01BackgroundImageProperty() {
+		if (this.teamModel.getLevel() <= 1) {
+			this.showLevel01BackgroundImage.setValue(true);
+		}
+		return this.showLevel01BackgroundImage;
+	}
+
+	public BooleanProperty getShowLevel02BackgroundImageProperty() {
+		if (this.teamModel.getLevel() == 2) {
+			this.showLevel02BackgroundImage.setValue(true);
+		}
+		return this.showLevel02BackgroundImage;
+	}
+
+	public BooleanProperty getShowLevel03BackgroundImageProperty() {
+		if (this.teamModel.getLevel() >= 3) {
+			this.showLevel03BackgroundImage.setValue(true);
+		}
+		return this.showLevel03BackgroundImage;
 	}
 
 	private void setTeamData() {

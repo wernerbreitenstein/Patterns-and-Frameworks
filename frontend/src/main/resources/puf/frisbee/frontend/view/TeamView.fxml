@@ -101,7 +101,7 @@
                         <Insets top="6.0" />
                      </VBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#handleBackToStartButtonClicked" styleClass="button-dark" text="BACK TO START" translateY="30.0">
+                  <Button mnemonicParsing="false" onAction="#handleBackToStartButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="BACK TO START" translateY="30.0">
                      <VBox.margin>
                         <Insets top="24.0" />
                      </VBox.margin>
@@ -117,8 +117,8 @@
       <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
    </children>
    <stylesheets>
-      <URL value="@../css/main.css" />
       <URL value="@../css/form.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 
 </AnchorPane>

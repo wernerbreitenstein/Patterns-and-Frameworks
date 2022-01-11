@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
@@ -43,12 +44,25 @@ public class GameView {
 	@FXML
 	private FrisbeeView frisbeeController;
 
+	@FXML
+	private ImageView level01BackgroundImage;
+
+	@FXML
+	private ImageView level02BackgroundImage;
+
+	@FXML
+	private ImageView level03BackgroundImage;
+
 	private GameViewModel gameViewModel;
 	private ViewHandler viewHandler;
 
 	public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
 		this.gameViewModel = gameViewModel;
 		this.viewHandler = viewHandler;
+
+		this.level01BackgroundImage.visibleProperty().bind(this.gameViewModel.getShowLevel01BackgroundImageProperty());
+		this.level02BackgroundImage.visibleProperty().bind(this.gameViewModel.getShowLevel02BackgroundImageProperty());
+		this.level03BackgroundImage.visibleProperty().bind(this.gameViewModel.getShowLevel03BackgroundImageProperty());
 
 		this.topPanelController.init(gameViewModel, viewHandler);
 		this.bottomPanelController.init(gameViewModel, viewHandler);
