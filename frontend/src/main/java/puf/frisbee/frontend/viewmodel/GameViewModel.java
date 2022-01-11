@@ -109,7 +109,6 @@ public class GameViewModel {
 		this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
 		this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
 
-		this.setTeamData();
 		this.startCountdown();
 		this.startAnimation();
 	}
@@ -133,10 +132,6 @@ public class GameViewModel {
 			this.showLevel03BackgroundImage.setValue(true);
 		}
 		return this.showLevel03BackgroundImage;
-	}
-
-	private void setTeamData() {
-		if (this.teamModel.getLevel() == 0) {this.teamModel.setLevel(1);}
 	}
 
 	private void setTeamLivesHidden() {
@@ -518,11 +513,11 @@ public class GameViewModel {
 	}
 
 	public void saveAfterGameOver() {
-		// reset everything
-		this.teamModel.setLevel(1);
-		this.teamModel.setScore(0);
-		this.teamModel.setLives(5);
-		this.teamModel.setActive(true);
+		// skip updating the level, we died in the current level
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
+		// no more games for this team because of game over
+		this.teamModel.setActive(false);
 		this.saveGame();
 	}
 	

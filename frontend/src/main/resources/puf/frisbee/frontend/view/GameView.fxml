@@ -78,7 +78,7 @@
                         <String fx:value="dialog-game-over" />
                      </styleClass>
                   </Label>
-                  <Label stylesheets="@../css/main.css" text="Play it again?">
+                  <Label stylesheets="@../css/main.css" text="Sorry... you lost!">
                      <styleClass>
                         <String fx:value="dialog-text" />
                         <String fx:value="dialog-h1" />
@@ -86,8 +86,7 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverContinue" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, I'm totally hooked!" />
-                        <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonGameOverQuit" styleClass="button-light" stylesheets="@../css/main.css" text="No, I'll come back later!" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonGameOverQuit" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
                      </children>
                   </HBox>
                </children>
