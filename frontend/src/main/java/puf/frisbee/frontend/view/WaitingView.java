@@ -17,6 +17,15 @@ public class WaitingView {
     private BottomPanelView bottomPanelController;
 
     @FXML
+    private ImageView level01BackgroundImage;
+
+    @FXML
+    private ImageView level02BackgroundImage;
+
+    @FXML
+    private ImageView level03BackgroundImage;
+
+    @FXML
     private ImageView frisbee;
 
     @FXML
@@ -28,6 +37,10 @@ public class WaitingView {
     public void init(WaitingViewModel waitingViewModel, ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
         this.waitingViewModel = waitingViewModel;
+
+        this.level01BackgroundImage.visibleProperty().bind(this.waitingViewModel.getShowLevel01BackgroundImageProperty());
+        this.level02BackgroundImage.visibleProperty().bind(this.waitingViewModel.getShowLevel02BackgroundImageProperty());
+        this.level03BackgroundImage.visibleProperty().bind(this.waitingViewModel.getShowLevel03BackgroundImageProperty());
 
         this.topPanelController.init(waitingViewModel, viewHandler);
         this.bottomPanelController.init(waitingViewModel, viewHandler);

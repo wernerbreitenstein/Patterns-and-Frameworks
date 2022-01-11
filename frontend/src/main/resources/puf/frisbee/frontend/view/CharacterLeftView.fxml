@@ -15,8 +15,8 @@
                      <Image url="@../images/Character_01.gif" />
                  </image>
              </ImageView>
-             <Circle centerX="35.0" centerY="70.0" fill="#1f93ff80" radius="21.0" strokeType="INSIDE" />
-             <Circle centerX="136.0" centerY="76.0" fill="#1f93ff80" radius="21.0" strokeType="INSIDE" />
+             <Circle centerX="35.0" centerY="70.0" fill="#1f93ff80" radius="21.0" strokeType="INSIDE" visible="false" />
+             <Circle centerX="136.0" centerY="76.0" fill="#1f93ff80" radius="21.0" strokeType="INSIDE" visible="false" />
          </children>
      </Group>
  </children>
