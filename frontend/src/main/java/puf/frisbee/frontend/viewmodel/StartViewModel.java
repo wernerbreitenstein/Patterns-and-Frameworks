@@ -106,11 +106,17 @@ public class StartViewModel {
     }
 
     public void logout() {
+        // set player data
         this.playerModel.setLoginStatus(false);
         this.showTeamDataTopPanel.setValue(false);
         this.labelGreetingProperty.setValue("Hello Stranger");
-        this.showSettingsButton.setValue(false);
+
+        // remove team data
+        this.teamModel.resetTeamData();
+
+        // set button display
         this.showLoginRegisterButton.setValue(true);
+        this.showSettingsButton.setValue(false);
         this.showStartButton.setValue(false);
         this.showJoinCreateTeamButton.setValue(false);
     }

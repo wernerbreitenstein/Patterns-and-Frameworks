@@ -256,6 +256,21 @@ public class TeamModel implements Team {
 	}
 
 	@JsonIgnore
+	@Override
+	public void resetTeamData() {
+		this.id = 0;
+		this.name = "";
+		this.playerLeft = null;
+		this.playerRight = null;
+		this.lives = 0;
+		this.score = 0;
+		this.level = 0;
+		this.active = false;
+
+		this.teamIsSet = false;
+	}
+
+	@JsonIgnore
 	private void setTeamData(Team team) {
 		this.id = team.getId();
 		this.name = team.getName();
