@@ -9,6 +9,9 @@ erreichten Punktzahl.
 Über die Startseite kann sich ein Spieler registrieren oder einloggen, sein Profil ändern, ein Team anlegen 
 oder einem Team beitreten oder ein Spiel starten.
 
+Ist ein Spieler eingeloggt und ist er in einem aktiven Team registriert, 
+so werden im Top Panel der Startseite die aktuellen Teamdaten geladen.
+
 ### Registrierung und Login
 Ist kein Spieler angemeldet, erscheint auf der Startseite oben rechts ein Button "Login/Register". 
 Mit Klick hierauf kommt der Spieler auf eine neue Seite mit zwei alternativen Eingabeformularen. 
@@ -27,13 +30,13 @@ Bei Falscheingaben werden Validierungsfehler angezeigt.
 Eingeloggte Spieler sehen auf der Startsteite rechts oben einen Button "Settings", unter dem sie weitere
 Einstellungen vornehmen können.
 
-#### Profil
+#### Profile
 Unter Profil kann der Name des Spielers geändert werden. Die Änderungen werden in der Datenbank entsprechend
 synchronisiert. Das Ändern des Passworts ist für später vorgesehen, wurde jedoch noch nicht umgesetzt.
 
 Bei Falscheingaben werden Validierungsfehler angezeigt.
 
-#### Teams
+#### Team
 Spieler müssen Teams beitreten, um spielen zu können. Ist ein Spieler noch in keinem aktiven Team, dann findet
 er hier die Möglichkeit, ein Team zu erstellen oder einem bereits bestehenden Team beizutreten. Ist der Spieler 
 schon im eingegebenen Team oder ist das Team bereits voll, dann werden entsprechende Fehlermeldungen angezeigt.
@@ -41,10 +44,15 @@ schon im eingegebenen Team oder ist das Team bereits voll, dann werden entsprech
 Hat der Spieler erfolgreich ein Team erstellt, ist einem Team beigetreten oder wurde nach dem Login bereits ein
 aktives Team für diesen Spieler gefunden, wird hier das aktive Team mit den verbundenen Spielern angezeigt.
 
+#### Logout
+Spieler können sich auch wieder ausloggen. Nach dem Logout werden alle Spieler- und Teamdaten zurückgesetzt und der
+Spieler muss sich erneut einloggen, um wieder spielen zu können.
+
 ### Spiel
 Das Spiel kann über die Startseite gestartet werden. Besitzt der Spieler kein aktives Team, dann wird ein
 entsprechender Button mit der Aufforderung, ein Team zu erstellen oder einem Team beizutreten, angezeigt.
-Ist der Spieler Teil eines aktiven Teams, wird der Startbutton angezeigt.
+Ist der Spieler Teil eines aktiven Teams, werden oben im Top Panel die Teamdaten und unter der 
+Highscore Tabelle der Startbutton angezeigt.
 
 Nach dem Start wird der Spieler auf den Wartebereich geleitet - hier wird auf den zweiten Spieler des Teams gewartet.
 
@@ -94,6 +102,11 @@ Je nachdem, ob mit dem lokalen oder deploytem Backend kommuniziert werden soll, 
 ## Server und Datenbank starten
 Für den Server gibt es ein eigenes Repository mit einer eigenen README:
 https://github.com/D1ANAmic/Patterns-and-Frameworks-Backend
+
+Die Spieldaten werden in einer PostgreSQL Datenbank gespeichert.
+
+Die Anwendung funktioniert nur mit laufendem Backend.
+Ist die Umgebungsvariable auf das Produktivsystem gesetzt, dann muss das Backend nicht lokal gestartet werden.
 
 
 # Architekturentscheidungen
