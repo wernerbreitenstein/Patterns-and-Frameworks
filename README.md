@@ -11,7 +11,7 @@ oder einem Team beitreten oder ein Spiel starten.
 
 ### Registrierung und Login
 Ist kein Spieler angemeldet, erscheint auf der Startseite oben rechts ein Button "Login/Register". 
-Mit Klick hierauf kommt der Spieler auf zwei Eingabeformulare. 
+Mit Klick hierauf kommt der Spieler auf eine neue Seite mit zwei alternativen Eingabeformularen. 
 
 Ist der Spieler bereits registriert, kann er sich hier links mit seiner Emailadresse und seinem Passwort einloggen 
 (die Emailadresse ist einzigartig). Aus dem Backend werden die entsprechenden Spielerdaten inklusive 
