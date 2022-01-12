@@ -109,7 +109,6 @@ public class GameViewModel {
 		this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
 		this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
 
-		this.setTeamData();
 		this.startCountdown();
 		this.startAnimation();
 	}
@@ -133,10 +132,6 @@ public class GameViewModel {
 			this.showLevel03BackgroundImage.setValue(true);
 		}
 		return this.showLevel03BackgroundImage;
-	}
-
-	private void setTeamData() {
-		if (this.teamModel.getLevel() == 0) {this.teamModel.setLevel(1);}
 	}
 
 	private void setTeamLivesHidden() {
@@ -493,16 +488,6 @@ public class GameViewModel {
 	}
 
 	public void saveGame() {
-		if (this.remainingLives == 0) {
-			this.teamModel.setLevel(this.teamModel.getLevel());
-		} else if (this.teamModel.getLevel() < this.gameModel.getMaximumLevel()) {
-			this.teamModel.setLevel(Integer.parseInt(this.labelLevel.getValue()) + 1);
-		} else {
-			this.teamModel.setLevel(this.gameModel.getMaximumLevel());
-		}
-		this.teamModel.setScore(this.labelScore.getValue());
-		this.teamModel.setLives(this.remainingLives);
-		this.teamModel.setActive(true);
 		// save to backend
 		this.teamModel.saveTeamData();
 		// reset countdown
@@ -510,34 +495,37 @@ public class GameViewModel {
 	}
 
 	public void saveAfterLevelSucceeded() {
-		this.levelModel.incrementCurrentLevel();
-		// TODO: save current lives, score and level of team to backend later on
+		// increase level after successful level
+		this.teamModel.setLevel(this.teamModel.getLevel() + 1);
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
+		this.teamModel.setActive(true);
+		this.saveGame();
+	}
+
+	public void saveAfterGameSucceeded() {
+		// skip updating the level, we are at the end
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
+		// no more games for this team after finishing the last level
+		this.teamModel.setActive(false);
+		this.saveGame();
+	}
+
+	public void saveAfterGameOver() {
+		// skip updating the level, we died in the current level
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
+		// no more games for this team because of game over
+		this.teamModel.setActive(false);
 		this.saveGame();
 	}
 	
-	public void continueAfterQuitGame() {
+	public void continueGame() {
 		this.teamModel.setLevel(this.teamModel.getLevel());
 		this.teamModel.setScore(this.labelScore.getValue());
 		this.teamModel.setLives(this.remainingLives);
 		this.showQuitConfirmDialog.setValue(false);
-	}
-
-	public void continueAfterGameOver() {
-		// TODO: save current lives, score and level of team to backend later on
-		this.teamModel.setLevel(1);
-		this.teamModel.setScore(0);
-		this.teamModel.setLives(5);
-		this.teamModel.setLevel(1);
-		this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
-	}
-
-	public void saveAfterQuitGameOrAfterGameOver() {
-		if (this.showGameSuccessDialog.getValue()) { this.levelModel.incrementCurrentLevel(); }
-		// TODO: save current lives, score and level of team to backend later on
-		if (this.showGameOverDialog.getValue()) { this.saveGame(); }
-		if (this.showQuitConfirmDialog.getValue()) {
-			this.gameModel.setCurrentCountdown(this.gameModel.getInitialCountdown());
-		}
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

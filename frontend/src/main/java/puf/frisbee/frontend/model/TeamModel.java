@@ -264,6 +264,7 @@ public class TeamModel implements Team {
 		this.lives = team.getLives();
 		this.score = team.getScore();
 		this.level = team.getLevel();
+		this.active = team.getActive();
 
 		this.teamIsSet = true;
 	}

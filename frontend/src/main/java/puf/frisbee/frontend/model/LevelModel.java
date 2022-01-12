@@ -2,21 +2,11 @@ package puf.frisbee.frontend.model;
 
 import puf.frisbee.frontend.core.Constants;
 
-public class LevelModel implements Level {	
-	private int currentLevel = 1;
-
+public class LevelModel implements Level {
 	private final double sceneBoundaryLeft = 80;
 	private final double sceneBoundaryRight = 80;
 	private final double groundHeight = 150;
 	private final double jumpHeight = 100;
-
-	@Override
-	public int getCurrentLevel() { return this.currentLevel; }
-
-	@Override
-	public void incrementCurrentLevel() {
-		this.currentLevel++;
-	}
 
 	@Override
 	public double getInitialCharacterYPosition() {

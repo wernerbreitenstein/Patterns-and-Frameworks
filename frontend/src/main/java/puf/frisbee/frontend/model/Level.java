@@ -5,18 +5,6 @@ package puf.frisbee.frontend.model;
  */
 public interface Level {
 	/**
-	 * Returns the current level.
-	 *
-	 * @return current level
-	 */
-	int getCurrentLevel();
-
-	/**
-	 * Increments the current level to the next level.
-	 */
-	void incrementCurrentLevel();
-
-	/**
 	 * Returns the initial character y position for the level.
 	 *
 	 * @return position

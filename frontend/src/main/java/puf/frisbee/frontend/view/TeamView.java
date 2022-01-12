@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.TeamViewModel;
 
@@ -13,6 +14,9 @@ public class TeamView {
 
     @FXML
     private BottomPanelView bottomPanelController;
+
+    @FXML
+    private HBox teamForm;
 
     @FXML
     private TextField joinTeamName;
@@ -44,6 +48,8 @@ public class TeamView {
 
         this.topPanelController.init(teamViewModel, viewHandler);
         this.bottomPanelController.init(viewHandler);
+
+        this.teamForm.visibleProperty().bind(this.teamViewModel.getTeamFormVisibilityProperty());
 
         this.currentTeam.textProperty().bind(this.teamViewModel.getCurrentTeamLabel());
         this.playerLeft.textProperty().bind(this.teamViewModel.getPlayerLeftLabel());

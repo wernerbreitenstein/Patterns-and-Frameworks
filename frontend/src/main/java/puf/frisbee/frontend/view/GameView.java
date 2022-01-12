@@ -105,33 +105,43 @@ public class GameView {
 	}
 
 	@FXML
-	private void handleButtonLevelContinueClicked(ActionEvent event) {
+	private void handleButtonLevelSuccessContinue(ActionEvent event) {
 		this.gameViewModel.saveAfterLevelSucceeded();
 		this.viewHandler.openGameView();
 	}
 
 	@FXML
-	private void handleButtonLevelPauseOrGameSucceededClicked(ActionEvent event) {
+	private void handleButtonLevelSuccessQuit(ActionEvent event) {
 		this.gameViewModel.saveAfterLevelSucceeded();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
-	private void handleButtonQuitGameContinueClicked(ActionEvent event) {
-		this.gameViewModel.continueAfterQuitGame();
-		this.viewHandler.openGameView();
-	}
-
-	@FXML
-	private void handleButtonQuitGameQuitOrGameOverQuitClicked(ActionEvent event) {
-		this.gameViewModel.saveAfterQuitGameOrAfterGameOver();
+	private void handleButtonGameSuccessQuit(ActionEvent event) {
+		this.gameViewModel.saveAfterGameSucceeded();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
-	private void handleButtonGameOverContinueClicked(ActionEvent event) {
-		this.gameViewModel.continueAfterGameOver();
+	private void handleButtonGameOverContinue(ActionEvent event) {
+		this.gameViewModel.saveAfterGameOver();
 		this.viewHandler.openGameView();
 	}
 
+	@FXML
+	private void handleButtonGameOverQuit(ActionEvent event) {
+		this.gameViewModel.saveAfterGameOver();
+		this.viewHandler.openStartView();
+	}
+
+	@FXML
+	private void handleButtonQuitGameContinue(ActionEvent event) {
+		this.gameViewModel.continueGame();
+		this.viewHandler.openGameView();
+	}
+
+	@FXML
+	private void handleButtonQuitGameQuit(ActionEvent event) {
+		this.viewHandler.openStartView();
+	}
 }

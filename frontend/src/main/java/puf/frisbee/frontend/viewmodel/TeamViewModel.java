@@ -1,5 +1,7 @@
 package puf.frisbee.frontend.viewmodel;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import puf.frisbee.frontend.model.Player;
@@ -10,6 +12,7 @@ public class TeamViewModel {
     private Team teamModel;
     private final Player playerModel;
 
+    private BooleanProperty teamFormVisibility;
     private StringProperty currentTeamLabel;
     private StringProperty playerLeftLabel;
     private StringProperty playerRightLabel;
@@ -25,11 +28,26 @@ public class TeamViewModel {
         this.joinTeamErrorLabel = new SimpleStringProperty();
         this.createTeamErrorLabel = new SimpleStringProperty();
 
+        // if no team or no active team exists on load, form is visible
+        this.teamFormVisibility = new SimpleBooleanProperty(
+                !this.teamModel.isTeamSet() || !this.teamModel.getActive()
+        );
         this.currentTeamLabel = new SimpleStringProperty();
         this.playerLeftLabel = new SimpleStringProperty();
         this.playerRightLabel = new SimpleStringProperty();
-        // fill values
-        this.refreshTeamLabelValues();
+
+        // fill team values
+        if (!this.teamModel.isTeamSet() || !this.teamModel.getActive()) {
+            this.setEmptyTeamValues();
+        } else {
+            this.refreshTeamLabelValues();
+        }
+    }
+
+    private void setEmptyTeamValues() {
+        this.currentTeamLabel.setValue("You have no active team");
+        this.playerLeftLabel.setValue("");
+        this.playerRightLabel.setValue("");
     }
 
     private void refreshTeamLabelValues() {
@@ -60,6 +78,8 @@ public class TeamViewModel {
 
         // set label values to new team data
         refreshTeamLabelValues();
+        // set form display to false, we already have a team now
+        this.teamFormVisibility.setValue(false);
         return true;
     }
 
@@ -87,25 +107,27 @@ public class TeamViewModel {
 
         // set label values to new team data
         refreshTeamLabelValues();
+        // set form display to false, we already have a team now
+        this.teamFormVisibility.setValue(false);
         return true;
     }
 
     public StringProperty getCurrentTeamLabel() {
         return this.currentTeamLabel;
     }
-
     public StringProperty getPlayerLeftLabel() {
         return this.playerLeftLabel;
     }
     public StringProperty getPlayerRightLabel(){
         return this.playerRightLabel;
     }
-
     public StringProperty getJoinTeamErrorLabelProperty() {
         return this.joinTeamErrorLabel;
     }
-
     public StringProperty getCreateTeamErrorLabelProperty() {
         return this.createTeamErrorLabel;
+    }
+    public BooleanProperty getTeamFormVisibilityProperty() {
+        return this.teamFormVisibility;
     }
 }
