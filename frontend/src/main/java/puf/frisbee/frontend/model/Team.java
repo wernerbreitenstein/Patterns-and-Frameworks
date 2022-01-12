@@ -158,4 +158,9 @@ public interface Team {
 	 * @return true if saving was successful
 	 */
 	boolean saveTeamData();
+
+	/**
+	 * Resets team data in team model.
+	 */
+	void resetTeamData();
 }
