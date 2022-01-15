@@ -11,7 +11,6 @@ public class SocketClient {
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    private PlayerPosition playerPosition;
 
     public SocketClient(){
         Dotenv dotenv = Dotenv.load();
@@ -33,16 +32,10 @@ public class SocketClient {
         }
     }
 
-    public void setPlayerPosition(PlayerPosition playerPosition){
-        this.playerPosition = playerPosition;
-    }
-
     public void sendMessageToServer(String message){
         try {
             this.bufferedWriter.write(message + "\n");
             this.bufferedWriter.flush();
-            // TODO: remove
-            System.out.println("sent");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,17 +44,18 @@ public class SocketClient {
 
     public String readMessageFromServer(){
         try {
-            return this.bufferedReader.readLine();
+            if (this.bufferedReader.ready() && this.bufferedReader.readLine() != null) {
+                // TODO: get this working, readlLine is blocking
+                String message = this.bufferedReader.readLine();
+                return this.bufferedReader.readLine();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+
+        return null;
     }
 
-//    public static void main(String[] args) throws IOException {
-//
-//        SocketClient sc = new SocketClient();
-//        sc.sendMessageToServer("Hello this is a message from the client.\n");
-//        System.out.println(sc.readMessageFromServer());
-//    }
+    // TODO: stop connection - super important!! some tear down or so method
 }

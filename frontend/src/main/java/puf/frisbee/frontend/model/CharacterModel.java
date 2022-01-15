@@ -14,15 +14,24 @@ public class CharacterModel {
     // send message to socket as soon as own position is moved, so the other client knows
     // TODO: use enums and stuff
     public void moveOwnCharacter(String position) {
-        System.out.println("move");
         socketClient.sendMessageToServer(position);
     }
 
     // TODO: use enums and stuff
     public String getOtherCharacterMovement() {
-        return "left";
-        // TODO: right now the character is running left until he is out of the window, we need to fix that with
-        // TODO: getting the response and return that
+        // TODO: return real values with enums and all, right now we are just running in the
+        // TODO: oposite direction of the own character
+        if (socketClient.readMessageFromServer() != null && socketClient.readMessageFromServer().equals("left")) {
+            return "right";
+        }
+
+        if (socketClient.readMessageFromServer() != null && socketClient.readMessageFromServer().equals("right")) {
+            return "left";
+        }
+
+        return null;
+
+        // TODO: see what we can use here
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        String playerMotionJSON;
 //        try {
