@@ -17,6 +17,8 @@ public class GameViewModel {
 	private Game gameModel;
 	private Level levelModel;
 	private Team teamModel;
+	private CharacterModel characterModel;
+
 	private Timeline timeline;
 	private int second;
 	private int remainingLives;
@@ -59,10 +61,12 @@ public class GameViewModel {
 
 	private ArrayList<BooleanProperty> teamLivesHidden;
 
-	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
+	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, CharacterModel characterModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
+		this.characterModel = characterModel;
+
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
 		for (int i = 0; i < 5; i++) {
@@ -177,36 +181,28 @@ public class GameViewModel {
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
 
-				// BEGIN SOCKET COMMUNICATION
-				SocketClientFactory socketClientFactory = new SocketClientFactory();
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				String playerMotionJSON;
-
-
 				// only the character that is not throwing is allowed to move
+				// TODO: change this to isOwnCharacterMovingLeft or so and check before which character the player has
+				// TODO: right now we assume that the player is assigned to the left character
 				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
-
-					try {
-						playerMotionJSON = objectMapper.writeValueAsString(PlayerMotion.LEFT);
-					} catch (JsonProcessingException e) {
-						e.printStackTrace();
-						playerMotionJSON = "";
-					}
-					socketClientFactory.getSocketClient(PlayerPosition.LEFT).sendMessageToServer(playerMotionJSON);
-					String msg = socketClientFactory.getSocketClient().readMessageFromServer();
-					System.out.println(msg);
+					characterModel.moveOwnCharacter("left");
 				}
 				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
-					socketClientFactory.getSocketClient().sendMessageToServer("characterLeft moves to the right");
+					characterModel.moveOwnCharacter("right");
 				}
-				if (isCharacterRightMovingLeft && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
-					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-				if (isCharacterRightMovingRight && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
-					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
 
+				// TODO: We only need characterModel.getOtherCharacterMovement().equals("left")
+				// TODO: because the other client can not send a movement when he is not allowed to move
+				if (characterModel.getOtherCharacterMovement().equals("left")) {
+					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
+				}
+				if (characterModel.getOtherCharacterMovement().equals("right")) {
+					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+				}
+
+				// TODO: do the same with y value
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
 					characterLeftYPosition.setValue(characterLeftYPosition.getValue() + gravity);

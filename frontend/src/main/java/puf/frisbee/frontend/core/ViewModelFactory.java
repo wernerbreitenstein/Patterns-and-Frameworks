@@ -15,7 +15,7 @@ public class ViewModelFactory {
 	 * @return a new instance of GameViewModel
 	 */
 	public GameViewModel getGameViewModel() {
-		return new GameViewModel(modelFactory.getGameModel(), modelFactory.getLevelModel(), modelFactory.getTeamModel());
+		return new GameViewModel(modelFactory.getGameModel(), modelFactory.getLevelModel(), modelFactory.getTeamModel(), modelFactory.getCharacterModel());
 	}
 
 	/**

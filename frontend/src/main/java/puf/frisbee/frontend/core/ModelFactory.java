@@ -1,13 +1,22 @@
 package puf.frisbee.frontend.core;
 
 import puf.frisbee.frontend.model.*;
+import puf.frisbee.frontend.network.SocketClientFactory;
 
 public class ModelFactory {
+	private SocketClientFactory socketClientFactory;
+
 	private Game gameModel;
 	private Level levelModel;
 	private Team teamModel;
 	private Highscore highscoreModel;
 	private Player playerModel;
+	// TODO: exchange type with interface
+	private CharacterModel characterModel;
+
+	public ModelFactory(SocketClientFactory socketClientFactory) {
+		this.socketClientFactory = socketClientFactory;
+	}
 
 	/**
 	 * Creates a GameModel instance if it does not exist yet and returns it.
@@ -68,5 +77,18 @@ public class ModelFactory {
 		}
 
 		return playerModel;
+	}
+
+	/**
+	 * Creates a CharacterModel instance if it does not exist yet and returns it.
+	 *
+	 * @return instance of CharacterModel
+	 */
+	public CharacterModel getCharacterModel() {
+		if (characterModel == null) {
+			characterModel = new CharacterModel(socketClientFactory.getSocketClient());
+		}
+
+		return characterModel;
 	}
 }

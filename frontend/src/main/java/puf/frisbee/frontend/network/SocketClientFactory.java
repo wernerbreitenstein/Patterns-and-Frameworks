@@ -13,9 +13,4 @@ public class SocketClientFactory {
 
         return socketClient;
     }
-
-    public SocketClient getSocketClient(PlayerPosition playerPosition){
-        getSocketClient().setPlayerPosition(playerPosition);
-        return socketClient;
-    }
 }

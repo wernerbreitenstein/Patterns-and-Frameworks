@@ -41,6 +41,8 @@ public class SocketClient {
         try {
             this.bufferedWriter.write(message + "\n");
             this.bufferedWriter.flush();
+            // TODO: remove
+            System.out.println("sent");
         } catch (IOException e) {
             e.printStackTrace();
         }
