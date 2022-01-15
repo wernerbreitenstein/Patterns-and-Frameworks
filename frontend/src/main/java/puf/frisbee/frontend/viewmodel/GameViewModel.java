@@ -1,10 +1,14 @@
 package puf.frisbee.frontend.viewmodel;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.*;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
+import puf.frisbee.frontend.network.SocketClient;
+import puf.frisbee.frontend.network.SocketClientFactory;
 import puf.frisbee.frontend.utils.Calculations;
 
 import java.util.ArrayList;
@@ -173,11 +177,31 @@ public class GameViewModel {
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
 
+				// BEGIN SOCKET COMMUNICATION
+				SocketClientFactory socketClientFactory = new SocketClientFactory();
+
+				ObjectMapper objectMapper = new ObjectMapper();
+				String playerMotionJSON;
+
+
 				// only the character that is not throwing is allowed to move
-				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
-				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+
+					try {
+						playerMotionJSON = objectMapper.writeValueAsString(PlayerMotion.LEFT);
+					} catch (JsonProcessingException e) {
+						e.printStackTrace();
+						playerMotionJSON = "";
+					}
+					socketClientFactory.getSocketClient(PlayerPosition.LEFT).sendMessageToServer(playerMotionJSON);
+					String msg = socketClientFactory.getSocketClient().readMessageFromServer();
+					System.out.println(msg);
+				}
+				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
+					socketClientFactory.getSocketClient().sendMessageToServer("characterLeft moves to the right");
+				}
 				if (isCharacterRightMovingLeft && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
 					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
 				if (isCharacterRightMovingRight && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
