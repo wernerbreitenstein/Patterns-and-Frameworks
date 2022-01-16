@@ -1,61 +1,86 @@
 package puf.frisbee.frontend.network;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import puf.frisbee.frontend.model.PlayerPosition;
+import puf.frisbee.frontend.model.Request;
 
+import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.Socket;
+// TODO: check if we need to use beans or if there is something else
+import java.beans.PropertyChangeSupport;
 
 public class SocketClient {
 
     private Socket socket;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    private ObjectOutputStream outToServer;
+
+    private PropertyChangeSupport support;
 
     public SocketClient(){
+        support = new PropertyChangeSupport(this);
+
         Dotenv dotenv = Dotenv.load();
         String socketIP = dotenv.get("SOCKET_IP");
         int socketPort = Integer.parseInt((dotenv.get("SOCKET_PORT")));
 
         try {
             this.socket = new Socket(socketIP, socketPort);
+            outToServer = new ObjectOutputStream(socket.getOutputStream());
 
-            InputStream input = this.socket.getInputStream();
-            OutputStream output = this.socket.getOutputStream();
-
-            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(output));
-            this.bufferedReader = new BufferedReader(new InputStreamReader(input));
-
-
+            // start connection in new thread to not block anything
+            Thread thread = new Thread(this::listenToServer);
+            thread.setDaemon(true);
+            thread.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendMessageToServer(String message){
+    private void listenToServer() {
         try {
-            this.bufferedWriter.write(message + "\n");
-            this.bufferedWriter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            ObjectInputStream inFromServer = new ObjectInputStream(socket.getInputStream());
 
-    }
-
-    public String readMessageFromServer(){
-        try {
-            if (this.bufferedReader.ready() && this.bufferedReader.readLine() != null) {
-                // TODO: get this working, readlLine is blocking
-                String message = this.bufferedReader.readLine();
-                return this.bufferedReader.readLine();
+            // listen for requests from the server, notify listeners when request came in
+            while(true) {
+                // TODO: we need a shared object between client and server, like the request object
+                String request = (String) inFromServer.readObject();
+                support.firePropertyChange("MOVE", null, request);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
 
-        return null;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    // TODO: stop connection - super important!! some tear down or so method
+
+    public void sendMovementToServer(String direction){
+        // TODO: use enums
+        Request req = new Request("MOVE", direction);
+        sendToServer(req);
+    }
+
+    private void sendToServer(Request req) {
+        try {
+            // TODO: we need a shared object between client and server, like the request object
+            outToServer.writeObject(req.value);
+        } catch (IOException e) {
+            support.firePropertyChange("ERROR", null, "Connection lost, restart program");
+        }
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+
+    // TODO: stop connection somewhere?
+    public void stopConnection() {
+        try {
+            //inFromServer.close();
+            outToServer.close();
+            socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,16 +1,13 @@
 package puf.frisbee.frontend.viewmodel;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.*;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
-import puf.frisbee.frontend.network.SocketClient;
-import puf.frisbee.frontend.network.SocketClientFactory;
 import puf.frisbee.frontend.utils.Calculations;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 public class GameViewModel {
@@ -66,6 +63,9 @@ public class GameViewModel {
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
 		this.characterModel = characterModel;
+		// executeActionsReceivedFromSocket is called when character model has changed
+		// TODO: make generic, right now changes are only triggered for character movement
+		characterModel.addPropertyChangeListener(this::executeActionsReceivedFromSocket);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -171,6 +171,17 @@ public class GameViewModel {
 		timeline.play();
 	}
 
+	private void executeActionsReceivedFromSocket(PropertyChangeEvent event) {
+		String movementDirection = (String) event.getNewValue();
+		if (movementDirection.equals("left")) {
+			characterRightXPosition.setValue(characterRightXPosition.getValue() - gameModel.getCharacterSpeed());
+		}
+
+		if (movementDirection.equals("right")) {
+			characterRightXPosition.setValue(characterRightXPosition.getValue() + gameModel.getCharacterSpeed());
+		}
+	}
+
 	private void startAnimation() {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
@@ -195,12 +206,12 @@ public class GameViewModel {
 
 				// TODO: We only need characterModel.getOtherCharacterMovement().equals("left")
 				// TODO: because the other client can not send a movement when he is not allowed to move
-				if (characterModel.getOtherCharacterMovement() != null && characterModel.getOtherCharacterMovement().equals("left")) {
-					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-				}
-				if (characterModel.getOtherCharacterMovement() != null && characterModel.getOtherCharacterMovement().equals("right")) {
-					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
-				}
+//				if (characterModel.getOtherCharacterMovement() != null && characterModel.getOtherCharacterMovement().equals("left")) {
+//					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
+//				}
+//				if (characterModel.getOtherCharacterMovement() != null && characterModel.getOtherCharacterMovement().equals("right")) {
+//					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+//				}
 
 				// TODO: do the socket stuff with y value
 				// jumps are detected if character is not on its initial position

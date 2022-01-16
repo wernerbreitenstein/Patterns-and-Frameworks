@@ -1,7 +1,5 @@
 package puf.frisbee.frontend.network;
 
-import puf.frisbee.frontend.model.PlayerPosition;
-
 public class SocketClientFactory {
 
     private SocketClient socketClient;
