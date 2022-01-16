@@ -7,7 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 // TODO: create interface
-public class CharacterModel {
+public class CharacterModel implements Character {
     SocketClient socketClient;
     private PropertyChangeSupport support;
 
@@ -21,6 +21,7 @@ public class CharacterModel {
     }
 
     // send message to socket as soon as own position is moved, so the other client knows
+    @Override
     public void moveOwnCharacter(MovementDirection direction) {
         socketClient.sendMovementToServer(direction);
     }
@@ -38,6 +39,7 @@ public class CharacterModel {
     }
 
     // function to add listener to changes in this model, needed e.g. for game view model
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }

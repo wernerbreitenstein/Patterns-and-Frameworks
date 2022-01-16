@@ -1,6 +1,7 @@
 package puf.frisbee.frontend.core;
 
 import puf.frisbee.frontend.model.*;
+import puf.frisbee.frontend.model.Character;
 import puf.frisbee.frontend.network.SocketClientFactory;
 
 public class ModelFactory {
@@ -11,8 +12,7 @@ public class ModelFactory {
 	private Team teamModel;
 	private Highscore highscoreModel;
 	private Player playerModel;
-	// TODO: exchange type with interface
-	private CharacterModel characterModel;
+	private Character characterModel;
 
 	public ModelFactory(SocketClientFactory socketClientFactory) {
 		this.socketClientFactory = socketClientFactory;
@@ -84,7 +84,7 @@ public class ModelFactory {
 	 *
 	 * @return instance of CharacterModel
 	 */
-	public CharacterModel getCharacterModel() {
+	public Character getCharacterModel() {
 		if (characterModel == null) {
 			characterModel = new CharacterModel(socketClientFactory.getSocketClient());
 		}

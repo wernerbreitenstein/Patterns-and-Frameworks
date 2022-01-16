@@ -5,6 +5,7 @@ import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
+import puf.frisbee.frontend.model.Character;
 import puf.frisbee.frontend.utils.Calculations;
 
 import java.beans.PropertyChangeEvent;
@@ -14,7 +15,7 @@ public class GameViewModel {
 	private Game gameModel;
 	private Level levelModel;
 	private Team teamModel;
-	private CharacterModel characterModel;
+	private Character characterModel;
 
 	private Timeline timeline;
 	private int second;
@@ -58,7 +59,7 @@ public class GameViewModel {
 
 	private ArrayList<BooleanProperty> teamLivesHidden;
 
-	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, CharacterModel characterModel) {
+	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, Character characterModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
