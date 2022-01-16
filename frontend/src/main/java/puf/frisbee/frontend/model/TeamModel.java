@@ -16,6 +16,8 @@ public class TeamModel implements Team {
 	private final String baseUrl;
 	@JsonIgnore
 	private boolean teamIsSet;
+	@JsonIgnore
+	private CharacterType ownCharacterType;
 
 	private int id;
 	private String name;
@@ -173,6 +175,9 @@ public class TeamModel implements Team {
 				Team joinedTeam = objectMapper.readValue(response.body(), new TypeReference<>() {});
 				setTeamData(joinedTeam);
 
+				// also set own character type for the game later, depending on the position in the team
+				this.ownCharacterType = joinedTeam.getPlayerLeft().equals(player) ? CharacterType.LEFT : CharacterType.RIGHT;
+
 				return true;
 			}
 
@@ -209,6 +214,10 @@ public class TeamModel implements Team {
 				// set data of first found team for this player after sorting alphabetically
 				teams.sort(Comparator.comparing(Team::getName));
 				setTeamData(teams.get(0));
+
+				// also set own character type for the game later, depending on the position in the team
+				this.ownCharacterType = teams.get(0).getPlayerLeft().equals(player) ? CharacterType.LEFT : CharacterType.RIGHT;
+
 				return true;
 			}
 
@@ -282,5 +291,11 @@ public class TeamModel implements Team {
 		this.active = team.getActive();
 
 		this.teamIsSet = true;
+	}
+
+	@JsonIgnore
+	@Override
+	public CharacterType getOwnCharacterType() {
+		return this.ownCharacterType;
 	}
 }

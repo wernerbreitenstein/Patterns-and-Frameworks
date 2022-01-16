@@ -163,4 +163,11 @@ public interface Team {
 	 * Resets team data in team model.
 	 */
 	void resetTeamData();
+
+	/**
+	 * Returns character type of the player.
+	 *
+	 * @return left or right
+	 */
+	CharacterType getOwnCharacterType();
 }

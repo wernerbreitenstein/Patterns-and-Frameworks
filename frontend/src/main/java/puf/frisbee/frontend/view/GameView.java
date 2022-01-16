@@ -81,26 +81,17 @@ public class GameView {
 	@FXML
 	private void handleKeyPressed(KeyEvent event) {
 		switch (event.getCode()) {
-		case LEFT -> this.gameViewModel.moveCharacterLeft("right");
-		case RIGHT -> this.gameViewModel.moveCharacterRight("right");
-		case UP -> this.gameViewModel.jumpCharacter("right");
-
-		// TODO: this will be removed in the future, the second character position will probably come via websocket
-		case A -> this.gameViewModel.moveCharacterLeft("left");
-		case D -> this.gameViewModel.moveCharacterRight("left");
-		case W -> this.gameViewModel.jumpCharacter("left");
+		case LEFT -> this.gameViewModel.moveCharacterLeft();
+		case RIGHT -> this.gameViewModel.moveCharacterRight();
+		case UP -> this.gameViewModel.jumpCharacter();
 		}
 	}
 
 	@FXML
 	private void handleKeyReleased(KeyEvent event) {
 		switch (event.getCode()) {
-		case LEFT -> this.gameViewModel.stopCharacterMoveLeft("right");
-		case RIGHT -> this.gameViewModel.stopCharacterMoveRight("right");
-
-		// TODO: this will be removed in the future, the second character position will probably come via websocket
-		case A -> this.gameViewModel.stopCharacterMoveLeft("left");
-		case D -> this.gameViewModel.stopCharacterMoveRight("left");
+		case LEFT -> this.gameViewModel.stopCharacterMoveLeft();
+		case RIGHT -> this.gameViewModel.stopCharacterMoveRight();
 		}
 	}
 
@@ -120,12 +111,6 @@ public class GameView {
 	private void handleButtonGameSuccessQuit(ActionEvent event) {
 		this.gameViewModel.saveAfterGameSucceeded();
 		this.viewHandler.openStartView();
-	}
-
-	@FXML
-	private void handleButtonGameOverContinue(ActionEvent event) {
-		this.gameViewModel.saveAfterGameOver();
-		this.viewHandler.openGameView();
 	}
 
 	@FXML

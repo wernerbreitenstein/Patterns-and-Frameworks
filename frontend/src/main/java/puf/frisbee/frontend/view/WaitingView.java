@@ -4,6 +4,7 @@ import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.ViewHandler;
@@ -31,6 +32,9 @@ public class WaitingView {
     @FXML
     private Button buttonStart;
 
+    @FXML
+    private Label playerGreeting;
+
     private WaitingViewModel waitingViewModel;
     private ViewHandler viewHandler;
 
@@ -44,6 +48,8 @@ public class WaitingView {
 
         this.topPanelController.init(waitingViewModel, viewHandler);
         this.bottomPanelController.init(waitingViewModel, viewHandler);
+
+        this.playerGreeting.textProperty().bind(waitingViewModel.getLabelPlayerGreetingProperty());
 
         this.startFrisbeeTransition();
     }
