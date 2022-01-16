@@ -204,16 +204,6 @@ public class GameViewModel {
 					characterModel.moveOwnCharacter("right");
 				}
 
-				// TODO: We only need characterModel.getOtherCharacterMovement().equals("left")
-				// TODO: because the other client can not send a movement when he is not allowed to move
-//				if (characterModel.getOtherCharacterMovement() != null && characterModel.getOtherCharacterMovement().equals("left")) {
-//					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-//				}
-//				if (characterModel.getOtherCharacterMovement() != null && characterModel.getOtherCharacterMovement().equals("right")) {
-//					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
-//				}
-
-				// TODO: do the socket stuff with y value
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
 					characterLeftYPosition.setValue(characterLeftYPosition.getValue() + gravity);
