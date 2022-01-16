@@ -1,6 +1,5 @@
 package puf.frisbee.frontend.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import puf.frisbee.frontend.network.SocketClient;
 
 import java.beans.PropertyChangeEvent;
@@ -15,7 +14,6 @@ public class CharacterModel {
     public CharacterModel(SocketClient socketClient) {
         this.socketClient = socketClient;
         // add listener to socket income changes
-        // TODO: make more generic, right now only for character movement
         socketClient.addPropertyChangeListener(this::getOtherCharacterMovement);
 
         // create own support to notify models
@@ -23,26 +21,23 @@ public class CharacterModel {
     }
 
     // send message to socket as soon as own position is moved, so the other client knows
-    // TODO: use enums and stuff
-    public void moveOwnCharacter(String direction) {
+    public void moveOwnCharacter(MovementDirection direction) {
         socketClient.sendMovementToServer(direction);
     }
 
-    // TODO: use enums and stuff
-    public void getOtherCharacterMovement(PropertyChangeEvent event) {
-        // TODO: return real values with enums and all, right now we are just running in the
-        // TODO: oposite direction of the own character
-        String direction = (String) event.getNewValue();
+    // TODO: add jump
+    // get the movement of other character from server socket
+    private void getOtherCharacterMovement(PropertyChangeEvent event) {
+        String directionString = (String) event.getNewValue();
 
-        if (direction.equals("left")) {
-            support.firePropertyChange("MOVE", null, "right");
-        }
-
-        if (direction.equals("right")) {
-            support.firePropertyChange("MOVE", null, "left");
+        // TODO: remove mapping once we have shared object
+        if (directionString.equals("left") || directionString.equals("right")) {
+            MovementDirection direction = directionString.equals("left") ? MovementDirection.LEFT : MovementDirection.RIGHT;
+            support.firePropertyChange("MOVE", null, direction);
         }
     }
 
+    // function to add listener to changes in this model, needed e.g. for game view model
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }

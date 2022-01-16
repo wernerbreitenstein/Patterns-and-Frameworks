@@ -63,9 +63,8 @@ public class GameViewModel {
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
 		this.characterModel = characterModel;
-		// executeActionsReceivedFromSocket is called when character model has changed
-		// TODO: make generic, right now changes are only triggered for character movement
-		characterModel.addPropertyChangeListener(this::executeActionsReceivedFromSocket);
+		// executeActionsReceivedFromSocket is called when character model triggers change
+		characterModel.addPropertyChangeListener(this::executeCharacterActionsReceivedFromSocket);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -171,13 +170,14 @@ public class GameViewModel {
 		timeline.play();
 	}
 
-	private void executeActionsReceivedFromSocket(PropertyChangeEvent event) {
-		String movementDirection = (String) event.getNewValue();
-		if (movementDirection.equals("left")) {
+	// this function is called when a character action came in from the server
+	private void executeCharacterActionsReceivedFromSocket(PropertyChangeEvent event) {
+		MovementDirection movementDirection = (MovementDirection) event.getNewValue();
+		if (movementDirection == MovementDirection.LEFT) {
 			characterRightXPosition.setValue(characterRightXPosition.getValue() - gameModel.getCharacterSpeed());
 		}
 
-		if (movementDirection.equals("right")) {
+		if (movementDirection == MovementDirection.RIGHT) {
 			characterRightXPosition.setValue(characterRightXPosition.getValue() + gameModel.getCharacterSpeed());
 		}
 	}
@@ -197,11 +197,11 @@ public class GameViewModel {
 				// TODO: right now we assume that the player is assigned to the left character
 				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
-					characterModel.moveOwnCharacter("left");
+					characterModel.moveOwnCharacter(MovementDirection.LEFT);
 				}
 				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
-					characterModel.moveOwnCharacter("right");
+					characterModel.moveOwnCharacter(MovementDirection.RIGHT);
 				}
 
 				// jumps are detected if character is not on its initial position

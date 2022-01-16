@@ -1,7 +1,7 @@
 package puf.frisbee.frontend.network;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import puf.frisbee.frontend.model.Request;
+import puf.frisbee.frontend.model.MovementDirection;
 
 import java.beans.PropertyChangeListener;
 import java.io.*;
@@ -43,7 +43,9 @@ public class SocketClient {
             // listen for requests from the server, notify listeners when request came in
             while(true) {
                 // TODO: we need a shared object between client and server, like the request object
+                // TODO: otherwise we can not differentiate between characters and objects
                 String request = (String) inFromServer.readObject();
+                // TODO: think about property name and maybe only subscribe listener to needed changes
                 support.firePropertyChange("MOVE", null, request);
             }
 
@@ -52,17 +54,17 @@ public class SocketClient {
         }
     }
 
-
-    public void sendMovementToServer(String direction){
-        // TODO: use enums
-        Request req = new Request("MOVE", direction);
-        sendToServer(req);
+    public void sendMovementToServer(MovementDirection direction){
+        // TODO: use real objects with character, team, ... right now only string is working
+        String directionString = direction == MovementDirection.LEFT ? "left" : "right";
+        sendToServer(directionString);
     }
 
-    private void sendToServer(Request req) {
+    private void sendToServer(String request) {
         try {
             // TODO: we need a shared object between client and server, like the request object
-            outToServer.writeObject(req.value);
+            // right now we can only send the direction
+            outToServer.writeObject(request);
         } catch (IOException e) {
             support.firePropertyChange("ERROR", null, "Connection lost, restart program");
         }
