@@ -6,6 +6,7 @@ module puf.frisbee.frontend {
 	requires java.net.http;
 	requires com.fasterxml.jackson.databind;
     requires dotenv.java;
+    requires java.desktop;
 
     opens puf.frisbee.frontend to javafx.fxml;
 	exports puf.frisbee.frontend;

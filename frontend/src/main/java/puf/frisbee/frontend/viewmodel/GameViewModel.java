@@ -1,18 +1,23 @@
 package puf.frisbee.frontend.viewmodel;
 
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
+import puf.frisbee.frontend.model.Character;
 import puf.frisbee.frontend.utils.Calculations;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 public class GameViewModel {
 	private Game gameModel;
 	private Level levelModel;
 	private Team teamModel;
+	private Character characterModel;
+
 	private Timeline timeline;
 	private int second;
 	private int remainingLives;
@@ -55,10 +60,14 @@ public class GameViewModel {
 
 	private ArrayList<BooleanProperty> teamLivesHidden;
 
-	public GameViewModel(Game gameModel, Level levelModel, Team teamModel) {
+	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, Character characterModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
+		this.characterModel = characterModel;
+		// executeActionsReceivedFromSocket is called when character model triggers change
+		characterModel.addPropertyChangeListener(this::executeCharacterActionsReceivedFromSocket);
+
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
 		for (int i = 0; i < 5; i++) {
@@ -163,6 +172,20 @@ public class GameViewModel {
 		timeline.play();
 	}
 
+	// this function is called when a character action came in from the server
+	private void executeCharacterActionsReceivedFromSocket(PropertyChangeEvent event) {
+		MovementDirection movementDirection = (MovementDirection) event.getNewValue();
+		if (movementDirection == MovementDirection.LEFT) {
+			// update in javafx thread
+			Platform.runLater(() -> characterRightXPosition.setValue(characterRightXPosition.getValue() - gameModel.getCharacterSpeed()));
+		}
+
+		if (movementDirection == MovementDirection.RIGHT) {
+			// update in javafx thread
+			Platform.runLater(() ->characterRightXPosition.setValue(characterRightXPosition.getValue() + gameModel.getCharacterSpeed()));
+		}
+	}
+
 	private void startAnimation() {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
@@ -174,14 +197,16 @@ public class GameViewModel {
 				int gravity = gameModel.getGravity();
 
 				// only the character that is not throwing is allowed to move
-				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+				// TODO: change this to isOwnCharacterMovingLeft or so and check before which character the player has
+				// TODO: right now we assume that the player is assigned to the left character
+				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
-				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance())
+					characterModel.moveOwnCharacter(MovementDirection.LEFT);
+				}
+				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
 					characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
-				if (isCharacterRightMovingLeft && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
-					characterRightXPosition.setValue(characterRightXPosition.getValue() - characterSpeed);
-				if (isCharacterRightMovingRight && !hasCharacterRightTheFrisbee() && haveCharactersEnoughDistance())
-					characterRightXPosition.setValue(characterRightXPosition.getValue() + characterSpeed);
+					characterModel.moveOwnCharacter(MovementDirection.RIGHT);
+				}
 
 				// jumps are detected if character is not on its initial position
 				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
