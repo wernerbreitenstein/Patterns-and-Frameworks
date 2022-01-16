@@ -1,6 +1,7 @@
 package puf.frisbee.frontend.viewmodel;
 
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
@@ -175,11 +176,13 @@ public class GameViewModel {
 	private void executeCharacterActionsReceivedFromSocket(PropertyChangeEvent event) {
 		MovementDirection movementDirection = (MovementDirection) event.getNewValue();
 		if (movementDirection == MovementDirection.LEFT) {
-			characterRightXPosition.setValue(characterRightXPosition.getValue() - gameModel.getCharacterSpeed());
+			// update in javafx thread
+			Platform.runLater(() -> characterRightXPosition.setValue(characterRightXPosition.getValue() - gameModel.getCharacterSpeed()));
 		}
 
 		if (movementDirection == MovementDirection.RIGHT) {
-			characterRightXPosition.setValue(characterRightXPosition.getValue() + gameModel.getCharacterSpeed());
+			// update in javafx thread
+			Platform.runLater(() ->characterRightXPosition.setValue(characterRightXPosition.getValue() + gameModel.getCharacterSpeed()));
 		}
 	}
 
