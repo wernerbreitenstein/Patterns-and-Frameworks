@@ -166,4 +166,11 @@ public class PlayerModel implements Player {
         this.password = password;
         return false;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        Player otherPlayer = (Player) o;
+        // Players are the same, if email matches
+        return this.email.equals(otherPlayer.getEmail());
+    }
 }

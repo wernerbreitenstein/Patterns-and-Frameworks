@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class WaitingViewModel {
     private Game gameModel;
-    private Level levelModel;
     private Team teamModel;
 
     private BooleanProperty showLevel01BackgroundImage;
@@ -17,13 +16,12 @@ public class WaitingViewModel {
     private StringProperty labelLevel;
     private IntegerProperty labelScore;
     private StringProperty labelCountdown;
-    private IntegerProperty labelLives;
+    private StringProperty labelPlayerGreeting;
 
     private ArrayList<BooleanProperty> teamLivesHidden;
 
     public WaitingViewModel(Game gameModel, Level levelModel, Team teamModel) {
         this.gameModel = gameModel;
-        this.levelModel = levelModel;
         this.teamModel = teamModel;
         this.teamLivesHidden = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
@@ -39,7 +37,10 @@ public class WaitingViewModel {
         this.labelLevel = new SimpleStringProperty();
         this.labelCountdown = new SimpleStringProperty();
         this.labelScore = new SimpleIntegerProperty();
-        this.labelLives = new SimpleIntegerProperty();
+        String greeting = "Please wait, player " +
+                (teamModel.getOwnCharacterType() == CharacterType.LEFT ? "left" : "right") +
+                ". The second freak will show up soon.";
+        this.labelPlayerGreeting = new SimpleStringProperty(greeting);
     }
 
     public BooleanProperty getShowLevel01BackgroundImageProperty() {
@@ -85,5 +86,9 @@ public class WaitingViewModel {
 
     public BooleanProperty getTeamLivesHiddenProperty(int lifeIndex) {
         return this.teamLivesHidden.get(lifeIndex);
+    }
+
+    public StringProperty getLabelPlayerGreetingProperty() {
+        return this.labelPlayerGreeting;
     }
 }

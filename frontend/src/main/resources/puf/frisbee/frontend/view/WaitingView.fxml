@@ -42,7 +42,7 @@
                         <Insets bottom="40.0" />
                      </VBox.margin>
                   </Label>
-                  <Label stylesheets="@../css/main.css" text="The second freak will show up soon.">
+                  <Label fx:id="playerGreeting" stylesheets="@../css/main.css">
                      <styleClass>
                         <String fx:value="dialog-text" />
                         <String fx:value="dialog-h1" />

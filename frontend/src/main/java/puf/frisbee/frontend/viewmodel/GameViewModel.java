@@ -27,25 +27,36 @@ public class GameViewModel {
 	private BooleanProperty showLevel02BackgroundImage;
 	private BooleanProperty showLevel03BackgroundImage;
 
-	private DoubleProperty characterLeftXPosition;
-	private DoubleProperty characterLeftYPosition;
-	private DoubleProperty characterRightXPosition;
-	private DoubleProperty characterRightYPosition;
+	private CharacterType ownCharacter;
+
+	private DoubleProperty ownCharacterXPosition;
+	private DoubleProperty ownCharacterYPosition;
+	private DoubleProperty otherCharacterXPosition;
+	private DoubleProperty otherCharacterYPosition;
 
 	private DoubleProperty frisbeeXPosition;
 	private DoubleProperty frisbeeYPosition;
 
-	// TODO: only flags for one character will be needed once two characters can not play on one computer anymore
-	private boolean isCharacterLeftMovingLeft;
-	private boolean isCharacterLeftMovingRight;
-	private boolean isCharacterRightMovingLeft;
-	private boolean isCharacterRightMovingRight;
+	private double ownCharacterCatchingZoneRightX;
+	private double ownCharacterCatchingZoneRightY;
+	private double ownCharacterCatchingZoneLeftX;
+	private double ownCharacterCatchingZoneLeftY;
+
+	private double otherCharacterCatchingZoneRightX;
+	private double otherCharacterCatchingZoneRightY;
+	private double otherCharacterCatchingZoneLeftX;
+	private double otherCharacterCatchingZoneLeftY;
+
+
+	private boolean isCharacterMovingLeft;
+	private boolean isCharacterMovingRight;
 
 	private boolean isFrisbeeMoving;
-	private boolean isCharacterLeftThrowing;
+	private boolean isOwnCharacterThrowing;
 	private boolean isHighestFrisbeePointReached;
 	private double frisbeeSpeedX;
 	private double frisbeeSpeedY;
+	private int frisbeeThrowDirection;
 
 	private BooleanProperty showLevelSuccessDialog;
 	private BooleanProperty showGameSuccessDialog;
@@ -90,36 +101,57 @@ public class GameViewModel {
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
-		this.characterLeftXPosition = new SimpleDoubleProperty();
-		this.characterLeftYPosition = new SimpleDoubleProperty();
-		this.characterRightXPosition = new SimpleDoubleProperty();
-		this.characterRightYPosition = new SimpleDoubleProperty();
+		this.ownCharacter = teamModel.getOwnCharacterType();
+		initializeCharacterPositions();
 
-		this.frisbeeXPosition = new SimpleDoubleProperty();
-		this.frisbeeYPosition = new SimpleDoubleProperty();
-
-		// set initial character positions
-		this.characterLeftYPosition.setValue(levelModel.getInitialCharacterYPosition());
-		this.characterRightYPosition.setValue(levelModel.getInitialCharacterYPosition());
-		this.characterLeftXPosition.setValue(levelModel.getInitialCharacterLeftXPosition());
-		this.characterRightXPosition.setValue(levelModel.getInitialCharacterRightXPosition());
-		this.isCharacterLeftMovingLeft = false;
-		this.isCharacterLeftMovingRight = false;
-		this.isCharacterRightMovingLeft = false;
-		this.isCharacterRightMovingRight = false;
+		this.isCharacterMovingLeft = false;
+		this.isCharacterMovingRight = false;
 
 		this.isFrisbeeMoving = false;
 		// for now always the left character starts with the frisbee, this can alternate in the levels later on
-		this.isCharacterLeftThrowing = true;
+		this.isOwnCharacterThrowing = ownCharacter == CharacterType.LEFT;
+
+		this.frisbeeXPosition = new SimpleDoubleProperty(
+				levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS
+		);
+		this.frisbeeYPosition = new SimpleDoubleProperty(
+				levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS
+		);
+
 		// helper for the frisbee y position
 		this.isHighestFrisbeePointReached = false;
 
-		// set initial frisbee position
-		this.frisbeeXPosition.setValue(levelModel.getInitialCharacterLeftXPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
-		this.frisbeeYPosition.setValue(levelModel.getInitialCharacterYPosition() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
-
 		this.startCountdown();
 		this.startAnimation();
+	}
+
+	// set initial positions and catching zones for players, left or right depends on the own character type
+	private void initializeCharacterPositions() {
+		this.ownCharacterXPosition = new SimpleDoubleProperty(this.ownCharacter == CharacterType.LEFT ?
+				levelModel.getInitialCharacterLeftXPosition() : levelModel.getInitialCharacterRightXPosition());
+		this.ownCharacterCatchingZoneLeftX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X : Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X;
+		this.ownCharacterCatchingZoneLeftY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y :  Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y;
+		this.ownCharacterCatchingZoneRightX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X : Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X;
+		this.ownCharacterCatchingZoneRightY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y : Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y;
+
+		this.otherCharacterXPosition = new SimpleDoubleProperty(this.ownCharacter == CharacterType.LEFT ?
+				levelModel.getInitialCharacterRightXPosition() : levelModel.getInitialCharacterLeftXPosition());
+		this.otherCharacterCatchingZoneLeftX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X : Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X;
+		this.otherCharacterCatchingZoneLeftY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y : Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y;
+		this.otherCharacterCatchingZoneRightX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X : Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X;
+		this.otherCharacterCatchingZoneRightY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y : Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y;
+
+		// y position is the same for both characters
+		this.ownCharacterYPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterYPosition());
+		this.otherCharacterYPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterYPosition());
 	}
 
 	public BooleanProperty getShowLevel01BackgroundImageProperty() {
@@ -177,13 +209,36 @@ public class GameViewModel {
 		MovementDirection movementDirection = (MovementDirection) event.getNewValue();
 		if (movementDirection == MovementDirection.LEFT) {
 			// update in javafx thread
-			Platform.runLater(() -> characterRightXPosition.setValue(characterRightXPosition.getValue() - gameModel.getCharacterSpeed()));
+			Platform.runLater(() -> otherCharacterXPosition.setValue(otherCharacterXPosition.getValue() - gameModel.getCharacterSpeed()));
 		}
 
 		if (movementDirection == MovementDirection.RIGHT) {
 			// update in javafx thread
-			Platform.runLater(() ->characterRightXPosition.setValue(characterRightXPosition.getValue() + gameModel.getCharacterSpeed()));
+			Platform.runLater(() -> otherCharacterXPosition.setValue(otherCharacterXPosition.getValue() + gameModel.getCharacterSpeed()));
 		}
+
+		// TODO: implement correctly
+		if (movementDirection == MovementDirection.UP) {
+			// update in javafx thread
+			Platform.runLater(() -> this.otherCharacterYPosition.setValue(this.otherCharacterYPosition.getValue() - this.levelModel.getJumpHeight()));
+		}
+
+		// TODO: get throw data from socket
+		// use functionality from socketDummyFunctionTriggeredByClick then, which is now triggered by click (and because of that external)
+	}
+
+	// TODO: remove later and add function code to executeCharacterActionsReceivedFromSocket
+	private void socketFrisbeeDummyFunctionTriggeredByClick() {
+		this.resetThrowParameter();
+		// get throw data from socket, for now just improvise
+		this.frisbeeSpeedX = Math.random() * 8 + 2;
+		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
+		this.counter = 0;
+		// throw direction is always the opposite of the own character throw direction
+		this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT ? -1 : 1;;
+		// this triggers the animation timer frisbee moving
+		// TODO: check later, if this is really working with sockets or if we need Platform.runLater()
+		this.isFrisbeeMoving = true;
 	}
 
 	private void startAnimation() {
@@ -196,34 +251,33 @@ public class GameViewModel {
 				int characterSpeed = gameModel.getCharacterSpeed();
 				int gravity = gameModel.getGravity();
 
-				// only the character that is not throwing is allowed to move
-				// TODO: change this to isOwnCharacterMovingLeft or so and check before which character the player has
-				// TODO: right now we assume that the player is assigned to the left character
-				if (isCharacterLeftMovingLeft && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
-					characterLeftXPosition.setValue(characterLeftXPosition.getValue() - characterSpeed);
+				// only when character is not throwing and has enough distance to other character, he is allowed to move
+				if (isCharacterMovingLeft && !hasOwnCharacterTheFrisbee() && haveCharactersEnoughDistance()) {
+					ownCharacterXPosition.setValue(ownCharacterXPosition.getValue() - characterSpeed);
 					characterModel.moveOwnCharacter(MovementDirection.LEFT);
 				}
-				if (isCharacterLeftMovingRight && !hasCharacterLeftTheFrisbee() && haveCharactersEnoughDistance()) {
-					characterLeftXPosition.setValue(characterLeftXPosition.getValue() + characterSpeed);
+				if (isCharacterMovingRight && !hasOwnCharacterTheFrisbee() && haveCharactersEnoughDistance()) {
+					ownCharacterXPosition.setValue(ownCharacterXPosition.getValue() + characterSpeed);
 					characterModel.moveOwnCharacter(MovementDirection.RIGHT);
 				}
 
 				// jumps are detected if character is not on its initial position
-				if (characterLeftYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
-					characterLeftYPosition.setValue(characterLeftYPosition.getValue() + gravity);
-				} else if(isCharacterLeftThrowing && !isFrisbeeMoving) {
-					// set frisbee position to character who is next when not jumping (anymore)
-					setFrisbeePositionToLeftCharacter();
+				if (ownCharacterYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
+					ownCharacterYPosition.setValue(ownCharacterYPosition.getValue() + gravity);
+				} else if(isOwnCharacterThrowing && !isFrisbeeMoving) {
+					// set frisbee position to own character, when frisbee is not moving and when not jumping (anymore)
+					setFrisbeePositionToOwnCharacter();
 				}
-				if (characterRightYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
-					characterRightYPosition.setValue(characterRightYPosition.getValue() + gravity);
-				} else if(!isCharacterLeftThrowing && !isFrisbeeMoving) {
-					// set frisbee position to character who is next when not jumping (anymore)
-					setFrisbeePositionToRightCharacter();
+				if (otherCharacterYPosition.getValue() < levelModel.getInitialCharacterYPosition()) {
+					otherCharacterYPosition.setValue(otherCharacterYPosition.getValue() + gravity);
+				} else if(!isOwnCharacterThrowing && !isFrisbeeMoving) {
+					// set frisbee position to other character, when frisbee is not moving and when not jumping (anymore)
+					setFrisbeePositionToOtherCharacter();
 				}
 
 				// frisbee
 				if (isFrisbeeMoving) {
+					// parameters are set when throwing
 					frisbeeMove();
 				}
 			}
@@ -232,23 +286,35 @@ public class GameViewModel {
 	}
 
 	public void throwFrisbee() {
+		// if not the own character has the frisbee, do nothing
+		if(!isOwnCharacterThrowing) {
+			// TODO: remove this function call once we get the click and frisbee parameter from the socket
+			this.socketFrisbeeDummyFunctionTriggeredByClick();
+			return;
+		}
 		// reset curve helper for new frisbee throw
-		this.isHighestFrisbeePointReached = false;
+		this.resetThrowParameter();
+		// TODO: send this to socket later
 		// set frisbee speed random
 		this.frisbeeSpeedX = Math.random() * 8 + 2;
 		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
+		this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT ? 1 : -1;
 		// throw frisbee
 		this.isFrisbeeMoving = true;
+	}
+
+	private void resetThrowParameter() {
+		// reset curve helper for new frisbee throw
+		this.isHighestFrisbeePointReached = false;
 		this.counter = 0;
 	}
 
 	private void frisbeeMove() {
-		double frisbeeXDirection = isCharacterLeftThrowing ? 1 : -1;
 		double frisbeeYDirection;
 		double t;
 
 		double upperLimit = Constants.SCENE_HEIGHT - Constants.CHARACTER_HEIGHT - this.levelModel.getGroundHeight() - this.levelModel.getJumpHeight() - 300;
-		if (this.frisbeeYPosition.getValue() <=  upperLimit) {
+		if (this.frisbeeYPosition.getValue() <= upperLimit) {
 			this.isHighestFrisbeePointReached = true;
 		}
 
@@ -261,53 +327,62 @@ public class GameViewModel {
 			t = ++counter;
 		}
 
-		double frisbeeX = this.frisbeeXPosition.getValue() + (this.frisbeeSpeedX + 60 / t) * frisbeeXDirection;
+		double frisbeeX = this.frisbeeXPosition.getValue() + (this.frisbeeSpeedX + 60 / t) * this.frisbeeThrowDirection;
 		double frisbeeY = this.frisbeeYPosition.getValue() + this.frisbeeSpeedY + ((60 * t) / (t * t) - (t / 30)) * frisbeeYDirection;
 
 		this.frisbeeXPosition.setValue(frisbeeX);
 		this.frisbeeYPosition.setValue(frisbeeY);
 
-		// check only right character collision if left character is throwing
-		if (isCharacterLeftThrowing) {
-			// catching zone is relative to character position
-			double characterRightCatchingZoneLeftX = characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X;
-			double characterRightCatchingZoneLeftY = characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y;
-			double characterRightCatchingZoneRightX = characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X;
-			double characterRightCatchingZoneRightY = characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y;
-
+		// check only other character collision if own character is throwing
+		if (isOwnCharacterThrowing) {
 			// frisbee is an image view, for the center we need to substract half of the size
 			boolean collisionWithCharacterRightCatchingZoneLeft = Calculations.circlesIntersect(
-					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
-					characterRightCatchingZoneLeftX, characterRightCatchingZoneLeftY, Constants.CHARACTER_RIGHT_CATCHING_RADIUS);
+					frisbeeX + Constants.FRISBEE_RADIUS,
+					frisbeeY + Constants.FRISBEE_RADIUS,
+					Constants.FRISBEE_RADIUS,
+					// catching zone is relative to character position
+					this.otherCharacterXPosition.getValue() + this.otherCharacterCatchingZoneLeftX,
+					this.otherCharacterYPosition.getValue() + this.otherCharacterCatchingZoneLeftY,
+					Constants.CHARACTER_CATCHING_RADIUS);
 			boolean collisionWithCharacterRightCatchingZoneRight = Calculations.circlesIntersect(
-					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
-					characterRightCatchingZoneRightX, characterRightCatchingZoneRightY, Constants.CHARACTER_RIGHT_CATCHING_RADIUS);
+					frisbeeX + Constants.FRISBEE_RADIUS,
+					frisbeeY + Constants.FRISBEE_RADIUS,
+					Constants.FRISBEE_RADIUS,
+					// catching zone is relative to character position
+					this.otherCharacterXPosition.getValue() + otherCharacterCatchingZoneRightX,
+					this.otherCharacterYPosition.getValue() + otherCharacterCatchingZoneRightY,
+					Constants.CHARACTER_CATCHING_RADIUS);
 
 			if (collisionWithCharacterRightCatchingZoneLeft || collisionWithCharacterRightCatchingZoneRight) {
 				incrementScore();
 				this.isFrisbeeMoving = false;
-				this.isCharacterLeftThrowing = false;
+				this.isOwnCharacterThrowing = false;
 				return;
 			}
 		} else {
-			// check only left character collision if right character is throwing
+			// check only own character collision if other character is throwing
 			// catching zone is relative to character position
-			double characterLeftCatchingZoneLeftX = characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X;
-			double characterLeftCatchingZoneLeftY = characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y;
-			double characterLeftCatchingZoneRightX = characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X;
-			double characterLeftCatchingZoneRightY = characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y;
-
 			boolean collisionWithCharacterLeftCatchingZoneLeft = Calculations.circlesIntersect(
-					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
-					characterLeftCatchingZoneLeftX, characterLeftCatchingZoneLeftY, Constants.CHARACTER_LEFT_CATCHING_RADIUS);
+					frisbeeX + Constants.FRISBEE_RADIUS,
+					frisbeeY + Constants.FRISBEE_RADIUS,
+					Constants.FRISBEE_RADIUS,
+					// catching zone is relative to character position
+					this.ownCharacterXPosition.getValue() + this.ownCharacterCatchingZoneLeftX,
+					this.ownCharacterYPosition.getValue() + this.ownCharacterCatchingZoneLeftY,
+					Constants.CHARACTER_CATCHING_RADIUS);
 			boolean collisionWithCharacterLeftCatchingZoneRight = Calculations.circlesIntersect(
-					frisbeeX + Constants.FRISBEE_RADIUS, frisbeeY + Constants.FRISBEE_RADIUS, Constants.FRISBEE_RADIUS,
-					characterLeftCatchingZoneRightX, characterLeftCatchingZoneRightY, Constants.CHARACTER_LEFT_CATCHING_RADIUS);
+					frisbeeX + Constants.FRISBEE_RADIUS,
+					frisbeeY + Constants.FRISBEE_RADIUS,
+					Constants.FRISBEE_RADIUS,
+					// catching zone is relative to character position
+					this.ownCharacterXPosition.getValue() + this.ownCharacterCatchingZoneRightX,
+					this.ownCharacterYPosition.getValue() + this.ownCharacterCatchingZoneRightY,
+					Constants.CHARACTER_CATCHING_RADIUS);
 
 			if (collisionWithCharacterLeftCatchingZoneLeft || collisionWithCharacterLeftCatchingZoneRight) {
 				incrementScore();
 				this.isFrisbeeMoving = false;
-				this.isCharacterLeftThrowing = true;
+				this.isOwnCharacterThrowing = true;
 				return;
 			}
 		}
@@ -323,7 +398,7 @@ public class GameViewModel {
 			setFrisbeeTimeout();
 
 			// set frisbee throwing turn to player who did not catch the frisbee
-			this.isCharacterLeftThrowing = !this.isCharacterLeftThrowing;
+			this.isOwnCharacterThrowing = !this.isOwnCharacterThrowing;
 		}
 	}
 
@@ -335,109 +410,71 @@ public class GameViewModel {
 		}
 	}
 
-	private boolean hasCharacterLeftTheFrisbee() {
-		return this.isCharacterLeftThrowing && !this.isFrisbeeMoving;
+	private boolean hasOwnCharacterTheFrisbee() {
+		return this.isOwnCharacterThrowing && !this.isFrisbeeMoving;
 	}
 
-	private boolean hasCharacterRightTheFrisbee() {
-		return !this.isCharacterLeftThrowing && !this.isFrisbeeMoving;
+	private void setFrisbeePositionToOwnCharacter() {
+		this.frisbeeXPosition.setValue(this.ownCharacterXPosition.getValue() + ownCharacterCatchingZoneRightX - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(this.ownCharacterYPosition.getValue() + ownCharacterCatchingZoneRightY - Constants.FRISBEE_RADIUS);
 	}
 
-	private void setFrisbeePositionToLeftCharacter() {
-		this.frisbeeXPosition.setValue(this.characterLeftXPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X - Constants.FRISBEE_RADIUS);
-		this.frisbeeYPosition.setValue(this.characterLeftYPosition.getValue() + Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y - Constants.FRISBEE_RADIUS);
+	private void setFrisbeePositionToOtherCharacter() {
+		this.frisbeeXPosition.setValue(this.otherCharacterXPosition.getValue() + otherCharacterCatchingZoneRightX - Constants.FRISBEE_RADIUS);
+		this.frisbeeYPosition.setValue(this.otherCharacterYPosition.getValue() + otherCharacterCatchingZoneRightY - Constants.FRISBEE_RADIUS);
 	}
 
-	private void setFrisbeePositionToRightCharacter() {
-		this.frisbeeXPosition.setValue(this.characterRightXPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X - Constants.FRISBEE_RADIUS);
-		this.frisbeeYPosition.setValue(this.characterRightYPosition.getValue() + Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y - Constants.FRISBEE_RADIUS);
+	// returns false if character reaches left border
+	private boolean isLeftBorderReachedByCharacter() {
+		return this.ownCharacterXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
 	}
 
-	// TODO: checks only needed for one character once two characters can not play on one computer anymore
-	private boolean isLeftBorderReachedByCharacterLeft() {
-		return this.characterLeftXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
+	// returns false if character reaches right border
+	private boolean isRightBorderReachedByCharacter() {
+		return this.ownCharacterXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
 	}
-	private boolean isLeftBorderReachedByCharacterRight() {
-		return this.characterRightXPosition.getValue() <= this.levelModel.getSceneBoundaryLeft();
-	}
-	private boolean isRightBorderReachedByCharacterLeft() {
-		return this.characterLeftXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
-	}
-	private boolean isRightBorderReachedByCharacterRight() {
-		return this.characterRightXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
-	}
+
 	// return true if characters have at least a distance of 350
 	private boolean haveCharactersEnoughDistance() {
-		return Math.abs(this.characterRightXPosition.getValue() - this.characterLeftXPosition.getValue()) > 350;
+		return Math.abs(this.otherCharacterXPosition.getValue() - this.ownCharacterXPosition.getValue()) > 350;
 	}
 
-	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
-	public void moveCharacterLeft(String character) {
-		if (character.equals("left")) {
-			this.isCharacterLeftMovingLeft = !this.isLeftBorderReachedByCharacterLeft();
-		}
-		if (character.equals("right")) {
-			this.isCharacterRightMovingLeft = !this.isLeftBorderReachedByCharacterRight();
-		}
+	// true as long as the left border is not reached
+	public void moveCharacterLeft() {
+		this.isCharacterMovingLeft = !this.isLeftBorderReachedByCharacter();
 	}
 
-	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
-	public void moveCharacterRight(String character) {
-		if (character.equals("left")) {
-			this.isCharacterLeftMovingRight = !isRightBorderReachedByCharacterLeft();
-		}
-		if (character.equals("right")) {
-			this.isCharacterRightMovingRight = !isRightBorderReachedByCharacterRight();
-		}
+	// true as long as the right border is not reached
+	public void moveCharacterRight() {
+		this.isCharacterMovingRight = !isRightBorderReachedByCharacter();
 	}
 
-	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
-	public void stopCharacterMoveLeft(String character) {
-		if (character.equals("left")) {
-			this.isCharacterLeftMovingLeft = false;
-		} else {
-			this.isCharacterRightMovingLeft = false;
-		}
+	// set the moving variable to false, so it is recognized by the animation timer
+	public void stopCharacterMoveLeft() {
+		this.isCharacterMovingLeft = false;
 	}
 
-	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
-	public void stopCharacterMoveRight(String character) {
-		if (character.equals("left")) {
-			this.isCharacterLeftMovingRight = false;
-		} else {
-			this.isCharacterRightMovingRight = false;
-		}
+	// set the moving variable to false, so it is recognized by the animation timer
+	public void stopCharacterMoveRight() {
+		this.isCharacterMovingRight = false;
 	}
 
-	private boolean isCharacterLeftAllowedToJump() {
-		return this.characterLeftYPosition.getValue() == levelModel.getInitialCharacterYPosition()
-				&& !this.isCharacterLeftMovingLeft
-				&& !this.isCharacterLeftMovingRight
+	// conditions when a character is allowed to jump, since the jump is not handled in the animation timer
+	private boolean isCharacterAllowedToJump() {
+		return this.ownCharacterYPosition.getValue() == levelModel.getInitialCharacterYPosition()
+				&& !this.isCharacterMovingLeft
+				&& !this.isCharacterMovingRight
 				// no jump if the character still needs to throw the frisbee
-				&& !this.isCharacterLeftThrowing
+				&& !this.isOwnCharacterThrowing
 				&& !showQuitConfirmDialog.getValue()
 				&& !showGameOverDialog.getValue()
 				&& !showLevelSuccessDialog.getValue();
 	}
 
-	private boolean isCharacterRightAllowedToJump() {
-		return this.characterRightYPosition.getValue() == levelModel.getInitialCharacterYPosition()
-				&& !this.isCharacterRightMovingLeft
-				&& !this.isCharacterRightMovingRight
-				// no jump if the character still needs to throw the frisbee
-				&& !this.hasCharacterRightTheFrisbee()
-				&& !showQuitConfirmDialog.getValue()
-				&& !showGameOverDialog.getValue()
-				&& !showLevelSuccessDialog.getValue();
-	}
-
-	// TODO: character parameter will not be needed anymore once two characters can not play on one computer anymore
-	public void jumpCharacter(String character) {
-		if (character.equals("left") && isCharacterLeftAllowedToJump()) {
-			this.characterLeftYPosition.setValue(this.characterLeftYPosition.getValue() - this.levelModel.getJumpHeight());
-		}
-		if (character.equals("right") && isCharacterRightAllowedToJump()) {
-			this.characterRightYPosition.setValue(this.characterRightYPosition.getValue() - this.levelModel.getJumpHeight());
+	// jump only if character is allowed to - depends on open dialogs, if the character holds the frisbee, ...
+	public void jumpCharacter() {
+		if (isCharacterAllowedToJump()) {
+			this.ownCharacterYPosition.setValue(this.ownCharacterYPosition.getValue() - this.levelModel.getJumpHeight());
 		}
 	}
 	
@@ -554,19 +591,23 @@ public class GameViewModel {
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
-		return this.characterLeftXPosition;
+		// return own character position, if own character is left, otherwise other character position
+		return this.ownCharacter == CharacterType.LEFT ? this.ownCharacterXPosition : this.otherCharacterXPosition;
 	}
 	
 	public DoubleProperty getCharacterLeftYPositionProperty() {
-		return this.characterLeftYPosition;
+		// return own character position, if own character is left, otherwise other character position
+		return this.ownCharacter == CharacterType.LEFT ? this.ownCharacterYPosition : this.otherCharacterYPosition;
 	}
 	
 	public DoubleProperty getCharacterRightXPositionProperty() {
-		return this.characterRightXPosition;
+		// return own character position, if own character is right, otherwise other character position
+		return this.ownCharacter == CharacterType.RIGHT ? this.ownCharacterXPosition : this.otherCharacterXPosition;
 	}
 	
 	public DoubleProperty getCharacterRightYPositionProperty() {
-		return this.characterRightYPosition;
+		// return own character position, if own character is right, otherwise other character position
+		return this.ownCharacter == CharacterType.RIGHT ? this.ownCharacterYPosition : this.otherCharacterYPosition;
 	}
 
 	public DoubleProperty getFrisbeeXPositionProperty() {

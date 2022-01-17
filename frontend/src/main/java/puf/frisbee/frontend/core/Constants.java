@@ -12,11 +12,11 @@ public final class Constants {
     public static final double CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y = 106;
     public static final double CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X = 157;
     public static final double CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y = 97;
-    public static final double CHARACTER_RIGHT_CATCHING_RADIUS = 21;
 
     public static final double CHARACTER_LEFT_CATCHING_ZONE_LEFT_X = 35;
     public static final double CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y = 70;
     public static final double CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X = 136;
     public static final double CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y = 76;
-    public static final double CHARACTER_LEFT_CATCHING_RADIUS = 21;
+
+    public static final double CHARACTER_CATCHING_RADIUS = 21;
 }
