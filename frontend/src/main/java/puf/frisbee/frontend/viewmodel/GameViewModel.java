@@ -102,7 +102,7 @@ public class GameViewModel {
 		this.labelScore = new SimpleIntegerProperty();
 
 		this.ownCharacter = teamModel.getOwnCharacterType();
-		initializeCharacterData();
+		initializeCharacterPositions();
 
 		this.isCharacterMovingLeft = false;
 		this.isCharacterMovingRight = false;
@@ -126,35 +126,28 @@ public class GameViewModel {
 	}
 
 	// set initial positions and catching zones for players, left or right depends on the own character type
-	private void initializeCharacterData() {
-		// for better readability, code is duplicated
-		if (this.ownCharacter == CharacterType.LEFT) {
-			// own character is left
-			this.ownCharacterXPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterLeftXPosition());
-			this.ownCharacterCatchingZoneLeftX = Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X;
-			this.ownCharacterCatchingZoneLeftY = Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y;
-			this.ownCharacterCatchingZoneRightX = Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X;
-			this.ownCharacterCatchingZoneRightY = Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y;
-			// so other character is right
-			this.otherCharacterXPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterRightXPosition());
-			this.otherCharacterCatchingZoneLeftX = Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X;
-			this.otherCharacterCatchingZoneLeftY = Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y;
-			this.otherCharacterCatchingZoneRightX = Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X;
-			this.otherCharacterCatchingZoneRightY = Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y;
-		} else {
-			// own character is right
-			this.ownCharacterXPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterRightXPosition());
-			this.ownCharacterCatchingZoneLeftX = Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X;
-			this.ownCharacterCatchingZoneLeftY = Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y;
-			this.ownCharacterCatchingZoneRightX = Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X;
-			this.ownCharacterCatchingZoneRightY = Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y;
-			// so other character is left
-			this.otherCharacterXPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterLeftXPosition());
-			this.otherCharacterCatchingZoneLeftX = Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X;
-			this.otherCharacterCatchingZoneLeftY = Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y;
-			this.otherCharacterCatchingZoneRightX = Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X;
-			this.otherCharacterCatchingZoneRightY = Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y;
-		}
+	private void initializeCharacterPositions() {
+		this.ownCharacterXPosition = new SimpleDoubleProperty(this.ownCharacter == CharacterType.LEFT ?
+				levelModel.getInitialCharacterLeftXPosition() : levelModel.getInitialCharacterRightXPosition());
+		this.ownCharacterCatchingZoneLeftX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X : Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X;
+		this.ownCharacterCatchingZoneLeftY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y :  Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y;
+		this.ownCharacterCatchingZoneRightX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X : Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X;
+		this.ownCharacterCatchingZoneRightY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y : Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y;
+
+		this.otherCharacterXPosition = new SimpleDoubleProperty(this.ownCharacter == CharacterType.LEFT ?
+				levelModel.getInitialCharacterRightXPosition() : levelModel.getInitialCharacterLeftXPosition());
+		this.otherCharacterCatchingZoneLeftX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_X : Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_X;
+		this.otherCharacterCatchingZoneLeftY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_LEFT_Y : Constants.CHARACTER_LEFT_CATCHING_ZONE_LEFT_Y;
+		this.otherCharacterCatchingZoneRightX = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_X : Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_X;
+		this.otherCharacterCatchingZoneRightY = this.ownCharacter == CharacterType.LEFT ?
+				Constants.CHARACTER_RIGHT_CATCHING_ZONE_RIGHT_Y : Constants.CHARACTER_LEFT_CATCHING_ZONE_RIGHT_Y;
 
 		// y position is the same for both characters
 		this.ownCharacterYPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterYPosition());
