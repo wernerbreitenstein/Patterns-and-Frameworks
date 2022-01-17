@@ -51,15 +51,6 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Label stylesheets="@../css/main.css" text="The second freak will show up soon.">
-                     <styleClass>
-                        <String fx:value="dialog-text" />
-                        <String fx:value="dialog-h1" />
-                     </styleClass>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                  </Label>
                   <VBox alignment="CENTER">
                      <children>
                         <ImageView fx:id="frisbee" fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">

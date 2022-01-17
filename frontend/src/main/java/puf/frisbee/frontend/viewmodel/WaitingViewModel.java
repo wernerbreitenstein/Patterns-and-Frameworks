@@ -37,9 +37,10 @@ public class WaitingViewModel {
         this.labelLevel = new SimpleStringProperty();
         this.labelCountdown = new SimpleStringProperty();
         this.labelScore = new SimpleIntegerProperty();
-        this.labelPlayerGreeting = new SimpleStringProperty(
-                teamModel.getOwnCharacterType() == CharacterType.LEFT ? "PLEASE WAIT PLAYER LEFT." : "PLEASE WAIT PLAYER RIGHT."
-        );
+        String greeting = "Please wait, player " +
+                (teamModel.getOwnCharacterType() == CharacterType.LEFT ? "left" : "right") +
+                ". The second freak will show up soon.";
+        this.labelPlayerGreeting = new SimpleStringProperty(greeting);
     }
 
     public BooleanProperty getShowLevel01BackgroundImageProperty() {
