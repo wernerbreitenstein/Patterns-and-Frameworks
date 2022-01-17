@@ -309,9 +309,7 @@ public class GameViewModel {
 		this.counter = 0;
 	}
 
-	// this function will be used when own and when other character throws frisbee and takes different parameters
 	private void frisbeeMove() {
-		// frisbee
 		double frisbeeYDirection;
 		double t;
 
