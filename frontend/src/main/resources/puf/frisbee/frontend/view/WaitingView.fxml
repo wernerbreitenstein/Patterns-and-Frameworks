@@ -61,7 +61,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Button fx:id="buttonStart" mnemonicParsing="false" onAction="#handleButtonStartClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Let's get it started!" />
+                        <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleButtonStartClicked" styleClass="button-light" stylesheets="@../css/main.css" text="Let's get it started!" />
                      </children>
                   </VBox>
                </children>

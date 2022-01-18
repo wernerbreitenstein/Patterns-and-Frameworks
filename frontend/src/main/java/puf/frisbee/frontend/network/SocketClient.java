@@ -59,6 +59,7 @@ public class SocketClient {
             System.out.println("Thread stopped.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost, restart program");
         }
     }
 
@@ -79,7 +80,7 @@ public class SocketClient {
             outToServer.writeObject(jsonString);
         } catch (Exception e) {
             e.printStackTrace();
-            support.firePropertyChange("ERROR", null, "Connection lost, restart program");
+            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost, restart program");
         }
     }
 

@@ -17,6 +17,8 @@ public class CharacterModel implements Character {
         this.teamModel = teamModel;
         // add listener to socket income changes for movement
         socketClient.addPropertyChangeListener(SocketRequestType.MOVE, this::getOtherCharacterMovement);
+        // add listener to init status
+        socketClient.addPropertyChangeListener(SocketRequestType.READY, this::getReadyStatus);
 
         // create own support to notify models
         support = new PropertyChangeSupport(this);
@@ -28,13 +30,19 @@ public class CharacterModel implements Character {
         this.socketClient.sendInitToServer(this.teamModel.getName());
     }
 
+    // listen to ready status changes and notify listener, if ready is true
+    private void getReadyStatus(PropertyChangeEvent event) {
+        if((boolean) event.getNewValue()) {
+            support.firePropertyChange(SocketRequestType.READY.name(), null, true);
+        }
+    }
+
     // send message to socket as soon as own position is moved, so the other client knows
     @Override
     public void moveOwnCharacter(MovementDirection direction) {
         socketClient.sendMovementToServer(direction);
     }
 
-    // TODO: add jump
     // get the movement of other character from server socket
     private void getOtherCharacterMovement(PropertyChangeEvent event) {
         String directionString = (String) event.getNewValue();

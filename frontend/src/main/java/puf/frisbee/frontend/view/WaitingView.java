@@ -30,7 +30,7 @@ public class WaitingView {
     private ImageView frisbee;
 
     @FXML
-    private Button buttonStart;
+    private Button startButton;
 
     @FXML
     private Label playerGreeting;
@@ -50,6 +50,7 @@ public class WaitingView {
         this.bottomPanelController.init(waitingViewModel, viewHandler);
 
         this.playerGreeting.textProperty().bind(waitingViewModel.getLabelPlayerGreetingProperty());
+        this.startButton.disableProperty().bind(waitingViewModel.getStartButtonDisabledProperty());
 
         this.startFrisbeeTransition();
     }
