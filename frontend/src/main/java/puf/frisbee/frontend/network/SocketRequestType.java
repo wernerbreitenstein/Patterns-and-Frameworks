@@ -7,6 +7,8 @@ public enum SocketRequestType {
     INIT,
     @JsonProperty("READY")
     READY,
+    @JsonProperty("GAME_RUNNING")
+    GAME_RUNNING,
     @JsonProperty("MOVE")
     MOVE,
     @JsonProperty("THROW")

@@ -30,9 +30,15 @@ public class CharacterModel implements Character {
         this.socketClient.sendInitToServer(this.teamModel.getName());
     }
 
+    // tell the other client the game has started
+    @Override
+    public void startGame() {
+        //TODO: implement
+    }
+
     // listen to ready status changes and notify listener, if ready is true
     private void getReadyStatus(PropertyChangeEvent event) {
-        if((boolean) event.getNewValue()) {
+        if(event.getNewValue().equals("true")) {
             support.firePropertyChange(SocketRequestType.READY.name(), null, true);
         }
     }
