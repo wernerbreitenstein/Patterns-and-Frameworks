@@ -22,6 +22,12 @@ public interface Character {
     void moveOwnCharacter(MovementDirection direction);
 
     /**
+     * Send a message with the frisbee parameter to socket, so the other client can calculate the curve itself.
+     * @param parameter parameter needed for the frisbee curve calculation
+     */
+    void throwFrisbee(FrisbeeParameter parameter);
+
+    /**
      * Add listener that can be used to notify subscribers when e.g. a character should be moved.
      * @param type type of event that should be listened to
      * @param listener listener that should be added to Character

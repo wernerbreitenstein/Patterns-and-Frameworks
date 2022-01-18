@@ -15,12 +15,14 @@ public class CharacterModel implements Character {
     public CharacterModel(SocketClient socketClient, Team teamModel) {
         this.socketClient = socketClient;
         this.teamModel = teamModel;
-        // add listener to socket income changes for movement
-        socketClient.addPropertyChangeListener(SocketRequestType.MOVE, this::getOtherCharacterMovement);
         // add listener to init status
-        socketClient.addPropertyChangeListener(SocketRequestType.READY, this::getReadyStatus);
+        socketClient.addPropertyChangeListener(SocketRequestType.READY, this::forwardReadyStatus);
         // add listener to game status
-        socketClient.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::getGameStatus);
+        socketClient.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::forwardGameStatus);
+        // add listener to socket income changes for movement
+        socketClient.addPropertyChangeListener(SocketRequestType.MOVE, this::forwardNotification);
+        // add listener to socket income changes for frisbee throw
+        socketClient.addPropertyChangeListener(SocketRequestType.THROW, this::forwardNotification);
 
         // create own support to notify models
         support = new PropertyChangeSupport(this);
@@ -39,14 +41,14 @@ public class CharacterModel implements Character {
     }
 
     // listen to ready status changes and notify listener, if ready is true
-    private void getReadyStatus(PropertyChangeEvent event) {
+    private void forwardReadyStatus(PropertyChangeEvent event) {
         if(event.getNewValue().equals("true")) {
             support.firePropertyChange(SocketRequestType.READY.name(), null, true);
         }
     }
 
     // listen to current game status from server and notify own listeners
-    private void getGameStatus(PropertyChangeEvent event) {
+    private void forwardGameStatus(PropertyChangeEvent event) {
         boolean gameStatus = event.getNewValue().equals("true");
         support.firePropertyChange(SocketRequestType.GAME_RUNNING.name(), null, gameStatus);
     }
@@ -57,22 +59,15 @@ public class CharacterModel implements Character {
         socketClient.sendMovementToServer(direction);
     }
 
-    // get the movement of other character from server socket
-    private void getOtherCharacterMovement(PropertyChangeEvent event) {
-        String directionString = (String) event.getNewValue();
+    @Override
+    public void throwFrisbee(FrisbeeParameter parameter) {
+        socketClient.sendFrisbeeThrowToServer(parameter);
+    }
 
-        // map received direction strint to enum
-        // jump as default
-        MovementDirection direction = MovementDirection.UP;
-        if (directionString.equals(MovementDirection.RIGHT.name())) {
-            direction = MovementDirection.RIGHT;
-        }
-        if (directionString.equals(MovementDirection.LEFT.name())) {
-            direction = MovementDirection.LEFT;
-        }
-
+    // get the movement or frisbee throw of other character from server socket
+    private void forwardNotification(PropertyChangeEvent event) {
         // notify other subscribers like GameViewModel
-        support.firePropertyChange(SocketRequestType.MOVE.name(), null, direction);
+        support.firePropertyChange(event.getPropertyName(), null, event.getNewValue());
     }
 
     // function to add listener to changes in this model, filtered by type, needed e.g. for GameViewModel

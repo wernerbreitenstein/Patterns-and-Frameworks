@@ -77,8 +77,9 @@ public class GameViewModel {
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
 		this.characterModel = characterModel;
-		// executeActionsReceivedFromSocket is called when character model triggers change
+		// these are called when character model triggers change
 		characterModel.addPropertyChangeListener(SocketRequestType.MOVE, this::executeOtherCharacterMovement);
+		characterModel.addPropertyChangeListener(SocketRequestType.THROW, this::executeOtherCharacterFrisbeeThrow);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -224,16 +225,21 @@ public class GameViewModel {
 		}
 	}
 
-	// TODO: remove later and add function code to listener function of character throw property change event
-	// use functionality from socketDummyFunctionTriggeredByClick then, which is now triggered by click (and because of that external)
-	private void socketFrisbeeDummyFunctionTriggeredByClick() {
+	// this function is called, when a frisbee throw comes from the server
+	private void executeOtherCharacterFrisbeeThrow(PropertyChangeEvent event) {
 		this.resetThrowParameter();
-		// TODO: get throw data from socket, for now just improvise
-		this.frisbeeSpeedX = Math.random() * 8 + 2;
-		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
+
+		try {
+			// we get the parameter from the socket and calculate the curve here
+			FrisbeeParameter parameter = (FrisbeeParameter) event.getNewValue();
+			this.frisbeeSpeedX = parameter.getFrisbeeSpeedX();
+			this.frisbeeSpeedY = parameter.getFrisbeeSpeedY();
+		} catch (IllegalArgumentException exception) {
+			exception.printStackTrace();
+		}
 		this.counter = 0;
 		// throw direction is always the opposite of the own character throw direction
-		this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT ? -1 : 1;;
+		this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT ? -1 : 1;
 		// this triggers the animation timer frisbee moving
 		// TODO: check later, if this is really working with sockets or if we need Platform.runLater()
 		this.isFrisbeeMoving = true;
@@ -286,16 +292,16 @@ public class GameViewModel {
 	public void throwFrisbee() {
 		// if not the own character has the frisbee, do nothing
 		if(!isOwnCharacterThrowing) {
-			// TODO: remove this function call once we get the click and frisbee parameter from the socket
-			this.socketFrisbeeDummyFunctionTriggeredByClick();
 			return;
 		}
 		// reset curve helper for new frisbee throw
 		this.resetThrowParameter();
-		// TODO: send this to socket later
 		// set frisbee speed random
 		this.frisbeeSpeedX = Math.random() * 8 + 2;
 		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
+		// send to socket
+		this.characterModel.throwFrisbee(new FrisbeeParameter(frisbeeSpeedX, frisbeeSpeedY));
+
 		this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT ? 1 : -1;
 		// throw frisbee
 		this.isFrisbeeMoving = true;
