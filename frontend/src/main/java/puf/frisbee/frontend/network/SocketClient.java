@@ -51,7 +51,7 @@ public class SocketClient {
                 ObjectMapper objectMapper = new ObjectMapper();
                 SocketRequest response = objectMapper.readValue(receivedJsonString, new TypeReference<>() {
                 });
-                // TODO: think about property name and maybe only subscribe listener to needed changes
+                // add request type as name so the character model knows how to react on what
                 support.firePropertyChange(response.getRequestType().name(), null, response.getValue());
             }
 
@@ -68,8 +68,7 @@ public class SocketClient {
     }
 
     public void sendMovementToServer(MovementDirection direction){
-        String directionString = direction == MovementDirection.LEFT ? "left" : "right";
-        SocketRequest request = new SocketRequest(SocketRequestType.MOVE, directionString);
+        SocketRequest request = new SocketRequest(SocketRequestType.MOVE, direction.name());
         sendToServer(request);
     }
 
@@ -84,8 +83,9 @@ public class SocketClient {
         }
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
+    // add listener for defined types
+    public void addPropertyChangeListener(SocketRequestType type, PropertyChangeListener listener) {
+        support.addPropertyChangeListener(type.name(), listener);
     }
 
 

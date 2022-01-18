@@ -1,5 +1,7 @@
 package puf.frisbee.frontend.model;
 
+import puf.frisbee.frontend.network.SocketRequestType;
+
 import java.beans.PropertyChangeListener;
 
 public interface Character {
@@ -15,7 +17,8 @@ public interface Character {
 
     /**
      * Add listener that can be used to notify subscribers when e.g. a character should be moved.
+     * @param type type of event that should be listened to
      * @param listener listener that should be added to Character
      */
-    void addPropertyChangeListener(PropertyChangeListener listener);
+    void addPropertyChangeListener(SocketRequestType type, PropertyChangeListener listener);
 }
