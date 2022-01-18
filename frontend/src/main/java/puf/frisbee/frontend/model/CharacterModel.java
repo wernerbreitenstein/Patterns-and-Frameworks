@@ -6,18 +6,25 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-// TODO: create interface
 public class CharacterModel implements Character {
     SocketClient socketClient;
+    Team teamModel;
     private PropertyChangeSupport support;
 
-    public CharacterModel(SocketClient socketClient) {
+    public CharacterModel(SocketClient socketClient, Team teamModel) {
         this.socketClient = socketClient;
+        this.teamModel = teamModel;
         // add listener to socket income changes
         socketClient.addPropertyChangeListener(this::getOtherCharacterMovement);
 
         // create own support to notify models
         support = new PropertyChangeSupport(this);
+    }
+
+    // tell the server we are connected with our team
+    @Override
+    public void init() {
+        this.socketClient.sendInitToServer(this.teamModel.getName());
     }
 
     // send message to socket as soon as own position is moved, so the other client knows

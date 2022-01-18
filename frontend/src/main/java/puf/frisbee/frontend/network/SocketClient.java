@@ -62,6 +62,11 @@ public class SocketClient {
         }
     }
 
+    public void sendInitToServer(String teamName) {
+        SocketRequest request = new SocketRequest(SocketRequestType.INIT, teamName);
+        sendToServer(request);
+    }
+
     public void sendMovementToServer(MovementDirection direction){
         String directionString = direction == MovementDirection.LEFT ? "left" : "right";
         SocketRequest request = new SocketRequest(SocketRequestType.MOVE, directionString);

@@ -121,6 +121,9 @@ public class GameViewModel {
 		// helper for the frisbee y position
 		this.isHighestFrisbeePointReached = false;
 
+		// TODO: move this to waiting view in the future
+		this.characterModel.init();
+
 		this.startCountdown();
 		this.startAnimation();
 	}
