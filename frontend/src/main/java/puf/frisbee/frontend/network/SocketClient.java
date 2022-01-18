@@ -68,6 +68,11 @@ public class SocketClient {
         sendToServer(request);
     }
 
+    public void sendStartGameToServer() {
+        SocketRequest request = new SocketRequest(SocketRequestType.GAME_RUNNING, "true");
+        sendToServer(request);
+    }
+
     public void sendMovementToServer(MovementDirection direction){
         SocketRequest request = new SocketRequest(SocketRequestType.MOVE, direction.name());
         sendToServer(request);

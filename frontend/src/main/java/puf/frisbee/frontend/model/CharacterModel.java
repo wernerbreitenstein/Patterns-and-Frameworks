@@ -19,6 +19,8 @@ public class CharacterModel implements Character {
         socketClient.addPropertyChangeListener(SocketRequestType.MOVE, this::getOtherCharacterMovement);
         // add listener to init status
         socketClient.addPropertyChangeListener(SocketRequestType.READY, this::getReadyStatus);
+        // add listener to game status
+        socketClient.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::getGameStatus);
 
         // create own support to notify models
         support = new PropertyChangeSupport(this);
@@ -33,7 +35,7 @@ public class CharacterModel implements Character {
     // tell the other client the game has started
     @Override
     public void startGame() {
-        //TODO: implement
+        this.socketClient.sendStartGameToServer();
     }
 
     // listen to ready status changes and notify listener, if ready is true
@@ -41,6 +43,12 @@ public class CharacterModel implements Character {
         if(event.getNewValue().equals("true")) {
             support.firePropertyChange(SocketRequestType.READY.name(), null, true);
         }
+    }
+
+    // listen to current game status from server and notify own listeners
+    private void getGameStatus(PropertyChangeEvent event) {
+        boolean gameStatus = event.getNewValue().equals("true");
+        support.firePropertyChange(SocketRequestType.GAME_RUNNING.name(), null, gameStatus);
     }
 
     // send message to socket as soon as own position is moved, so the other client knows
