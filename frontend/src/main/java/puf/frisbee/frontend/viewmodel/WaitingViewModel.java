@@ -68,7 +68,7 @@ public class WaitingViewModel {
     private void changeStartButtonEnabledProperty(PropertyChangeEvent event) {
         // when status is ready (= both players of a team connected) enable start button
         this.startButtonDisabled.setValue(false);
-        this.labelPlayerGreeting.setValue("Ready to go! The game begins as soon one player clicks the button.");
+        this.labelPlayerGreeting.setValue("Ready to go! The game begins as soon as one player clicks the button.");
     }
 
     private void changeRedirectToGameProperty(PropertyChangeEvent event) {
