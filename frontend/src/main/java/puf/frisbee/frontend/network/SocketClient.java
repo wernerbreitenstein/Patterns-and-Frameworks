@@ -1,5 +1,7 @@
 package puf.frisbee.frontend.network;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import puf.frisbee.frontend.model.MovementDirection;
 
@@ -45,11 +47,12 @@ public class SocketClient {
 
             // listen for requests from the server, notify listeners when request came in
             while(threadIsRunning) {
-                // TODO: we need a shared object between client and server, like the request object
-                // TODO: otherwise we can not differentiate between characters and objects
-                String request = (String) inFromServer.readObject();
-                // TODO: think about property name and maybe only subscribe listener to needed changes
-                support.firePropertyChange("MOVE", null, request);
+                String receivedJsonString = (String) inFromServer.readObject();
+                ObjectMapper objectMapper = new ObjectMapper();
+                SocketRequest response = objectMapper.readValue(receivedJsonString, new TypeReference<>() {
+                });
+                // add request type as name so the character model knows how to react on what
+                support.firePropertyChange(response.getRequestType().name(), null, response.getValue());
             }
 
             inFromServer.close();
@@ -59,24 +62,30 @@ public class SocketClient {
         }
     }
 
-    public void sendMovementToServer(MovementDirection direction){
-        // TODO: use real objects with character, team, ... right now only string is working
-        String directionString = direction == MovementDirection.LEFT ? "left" : "right";
-        sendToServer(directionString);
+    public void sendInitToServer(String teamName) {
+        SocketRequest request = new SocketRequest(SocketRequestType.INIT, teamName);
+        sendToServer(request);
     }
 
-    private void sendToServer(String request) {
+    public void sendMovementToServer(MovementDirection direction){
+        SocketRequest request = new SocketRequest(SocketRequestType.MOVE, direction.name());
+        sendToServer(request);
+    }
+
+    private void sendToServer(SocketRequest request) {
         try {
-            // TODO: we need a shared object between client and server, like the request object
-            // right now we can only send the direction
-            outToServer.writeObject(request);
-        } catch (IOException e) {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonString = mapper.writeValueAsString(request);
+            outToServer.writeObject(jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
             support.firePropertyChange("ERROR", null, "Connection lost, restart program");
         }
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
+    // add listener for defined types
+    public void addPropertyChangeListener(SocketRequestType type, PropertyChangeListener listener) {
+        support.addPropertyChangeListener(type.name(), listener);
     }
 
 

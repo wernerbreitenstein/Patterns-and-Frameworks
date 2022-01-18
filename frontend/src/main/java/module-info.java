@@ -22,4 +22,7 @@ module puf.frisbee.frontend {
 
 	opens puf.frisbee.frontend.view to javafx.fxml;
 	exports puf.frisbee.frontend.view;
+
+	// needed for jackson databind
+	exports puf.frisbee.frontend.network;
 }

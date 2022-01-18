@@ -7,6 +7,7 @@ import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
 import puf.frisbee.frontend.model.Character;
+import puf.frisbee.frontend.network.SocketRequestType;
 import puf.frisbee.frontend.utils.Calculations;
 
 import java.beans.PropertyChangeEvent;
@@ -77,7 +78,7 @@ public class GameViewModel {
 		this.teamModel = teamModel;
 		this.characterModel = characterModel;
 		// executeActionsReceivedFromSocket is called when character model triggers change
-		characterModel.addPropertyChangeListener(this::executeCharacterActionsReceivedFromSocket);
+		characterModel.addPropertyChangeListener(SocketRequestType.MOVE, this::executeOtherCharacterMovement);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -120,6 +121,9 @@ public class GameViewModel {
 
 		// helper for the frisbee y position
 		this.isHighestFrisbeePointReached = false;
+
+		// TODO: move this to waiting view in the future
+		this.characterModel.init();
 
 		this.startCountdown();
 		this.startAnimation();
@@ -205,7 +209,7 @@ public class GameViewModel {
 	}
 
 	// this function is called when a character action came in from the server
-	private void executeCharacterActionsReceivedFromSocket(PropertyChangeEvent event) {
+	private void executeOtherCharacterMovement(PropertyChangeEvent event) {
 		MovementDirection movementDirection = (MovementDirection) event.getNewValue();
 		if (movementDirection == MovementDirection.LEFT) {
 			// update in javafx thread
@@ -217,20 +221,17 @@ public class GameViewModel {
 			Platform.runLater(() -> otherCharacterXPosition.setValue(otherCharacterXPosition.getValue() + gameModel.getCharacterSpeed()));
 		}
 
-		// TODO: implement correctly
 		if (movementDirection == MovementDirection.UP) {
 			// update in javafx thread
 			Platform.runLater(() -> this.otherCharacterYPosition.setValue(this.otherCharacterYPosition.getValue() - this.levelModel.getJumpHeight()));
 		}
-
-		// TODO: get throw data from socket
-		// use functionality from socketDummyFunctionTriggeredByClick then, which is now triggered by click (and because of that external)
 	}
 
-	// TODO: remove later and add function code to executeCharacterActionsReceivedFromSocket
+	// TODO: remove later and add function code to listener function of character throw property change event
+	// use functionality from socketDummyFunctionTriggeredByClick then, which is now triggered by click (and because of that external)
 	private void socketFrisbeeDummyFunctionTriggeredByClick() {
 		this.resetThrowParameter();
-		// get throw data from socket, for now just improvise
+		// TODO: get throw data from socket, for now just improvise
 		this.frisbeeSpeedX = Math.random() * 8 + 2;
 		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
 		this.counter = 0;
@@ -475,6 +476,7 @@ public class GameViewModel {
 	public void jumpCharacter() {
 		if (isCharacterAllowedToJump()) {
 			this.ownCharacterYPosition.setValue(this.ownCharacterYPosition.getValue() - this.levelModel.getJumpHeight());
+			this.characterModel.moveOwnCharacter(MovementDirection.UP);
 		}
 	}
 	

@@ -86,7 +86,7 @@ public class ModelFactory {
 	 */
 	public Character getCharacterModel() {
 		if (characterModel == null) {
-			characterModel = new CharacterModel(socketClientFactory.getSocketClient());
+			characterModel = new CharacterModel(socketClientFactory.getSocketClient(), this.getTeamModel());
 		}
 
 		return characterModel;
