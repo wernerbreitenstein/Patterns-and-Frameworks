@@ -1,6 +1,7 @@
 package puf.frisbee.frontend.view;
 
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.WaitingViewModel;
+
+import java.beans.PropertyChangeEvent;
 
 public class WaitingView {
     @FXML
@@ -30,7 +33,7 @@ public class WaitingView {
     private ImageView frisbee;
 
     @FXML
-    private Button buttonStart;
+    private Button startButton;
 
     @FXML
     private Label playerGreeting;
@@ -50,8 +53,18 @@ public class WaitingView {
         this.bottomPanelController.init(waitingViewModel, viewHandler);
 
         this.playerGreeting.textProperty().bind(waitingViewModel.getLabelPlayerGreetingProperty());
+        this.startButton.disableProperty().bind(waitingViewModel.getStartButtonDisabledProperty());
+
+        // subscribe also to changes of the "game running status"
+        this.waitingViewModel.addPropertyChangeListener(this::redirectToGame);
 
         this.startFrisbeeTransition();
+    }
+
+    // redirect opens game view
+    private void redirectToGame(PropertyChangeEvent event) {
+        // add execution to javafx application
+        Platform.runLater(() -> this.viewHandler.openGameView());
     }
 
     @FXML
@@ -76,6 +89,7 @@ public class WaitingView {
 
     @FXML
     private void handleButtonStartClicked(ActionEvent event) {
+        this.waitingViewModel.startGame();
         this.viewHandler.openGameView();
     }
 }

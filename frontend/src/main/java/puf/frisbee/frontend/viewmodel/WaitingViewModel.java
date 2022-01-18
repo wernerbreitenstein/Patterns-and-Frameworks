@@ -2,12 +2,18 @@ package puf.frisbee.frontend.viewmodel;
 
 import javafx.beans.property.*;
 import puf.frisbee.frontend.model.*;
+import puf.frisbee.frontend.model.Character;
+import puf.frisbee.frontend.network.SocketRequestType;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class WaitingViewModel {
     private Game gameModel;
     private Team teamModel;
+    private Character characterModel;
 
     private BooleanProperty showLevel01BackgroundImage;
     private BooleanProperty showLevel02BackgroundImage;
@@ -17,12 +23,23 @@ public class WaitingViewModel {
     private IntegerProperty labelScore;
     private StringProperty labelCountdown;
     private StringProperty labelPlayerGreeting;
+    private BooleanProperty startButtonDisabled;
 
     private ArrayList<BooleanProperty> teamLivesHidden;
 
-    public WaitingViewModel(Game gameModel, Level levelModel, Team teamModel) {
+    PropertyChangeSupport support;
+
+    public WaitingViewModel(Game gameModel, Team teamModel, Character characterModel) {
         this.gameModel = gameModel;
         this.teamModel = teamModel;
+        this.characterModel = characterModel;
+
+        this.support = new PropertyChangeSupport(this);
+
+        // add listener to ready event
+        this.characterModel.addPropertyChangeListener(SocketRequestType.READY, this::changeStartButtonEnabledProperty);
+        this.characterModel.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::changeRedirectToGameProperty);
+
         this.teamLivesHidden = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             BooleanProperty hidden = new SimpleBooleanProperty(i >= this.teamModel.getLives());
@@ -41,6 +58,28 @@ public class WaitingViewModel {
                 (teamModel.getOwnCharacterType() == CharacterType.LEFT ? "left" : "right") +
                 ". The second freak will show up soon.";
         this.labelPlayerGreeting = new SimpleStringProperty(greeting);
+        // start button is disabled in the beginning
+        this.startButtonDisabled = new SimpleBooleanProperty(true);
+
+        // as soon as we are in the waiting view, tell the socket we are here
+        this.characterModel.init();
+    }
+
+    private void changeStartButtonEnabledProperty(PropertyChangeEvent event) {
+        // when status is ready (= both players of a team connected) enable start button
+        this.startButtonDisabled.setValue(false);
+        this.labelPlayerGreeting.setValue("Ready to go! The game begins as soon as one player clicks the button.");
+    }
+
+    private void changeRedirectToGameProperty(PropertyChangeEvent event) {
+        if((boolean) event.getNewValue()) {
+            // notify view like this, since the redirect is not an element
+            this.support.firePropertyChange("running", null, true);
+        }
+    }
+
+    public void startGame() {
+        this.characterModel.startGame();
     }
 
     public BooleanProperty getShowLevel01BackgroundImageProperty() {
@@ -90,5 +129,13 @@ public class WaitingViewModel {
 
     public StringProperty getLabelPlayerGreetingProperty() {
         return this.labelPlayerGreeting;
+    }
+
+    public BooleanProperty getStartButtonDisabledProperty() {
+        return this.startButtonDisabled;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
     }
 }

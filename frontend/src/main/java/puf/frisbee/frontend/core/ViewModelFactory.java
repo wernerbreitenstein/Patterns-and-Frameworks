@@ -60,6 +60,6 @@ public class ViewModelFactory {
 	 * @return a new instance of WaitingViewModel
 	 */
 	public WaitingViewModel getWaitingViewModel() {
-		return new WaitingViewModel(modelFactory.getGameModel(), modelFactory.getLevelModel(), modelFactory.getTeamModel());
+		return new WaitingViewModel(modelFactory.getGameModel(),  modelFactory.getTeamModel(), modelFactory.getCharacterModel());
 	}
 }

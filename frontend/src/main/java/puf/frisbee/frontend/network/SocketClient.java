@@ -59,11 +59,17 @@ public class SocketClient {
             System.out.println("Thread stopped.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost, restart program");
         }
     }
 
     public void sendInitToServer(String teamName) {
         SocketRequest request = new SocketRequest(SocketRequestType.INIT, teamName);
+        sendToServer(request);
+    }
+
+    public void sendStartGameToServer() {
+        SocketRequest request = new SocketRequest(SocketRequestType.GAME_RUNNING, "true");
         sendToServer(request);
     }
 
@@ -79,7 +85,7 @@ public class SocketClient {
             outToServer.writeObject(jsonString);
         } catch (Exception e) {
             e.printStackTrace();
-            support.firePropertyChange("ERROR", null, "Connection lost, restart program");
+            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost, restart program");
         }
     }
 
