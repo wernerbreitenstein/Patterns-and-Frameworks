@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import puf.frisbee.frontend.model.*;
 import puf.frisbee.frontend.model.Character;
@@ -67,8 +68,8 @@ public class WaitingViewModel {
 
     private void changeStartButtonEnabledProperty(PropertyChangeEvent event) {
         // when status is ready (= both players of a team connected) enable start button
-        this.startButtonDisabled.setValue(false);
-        this.labelPlayerGreeting.setValue("Ready to go! The game begins as soon as one player clicks the button.");
+        Platform.runLater(() ->this.labelPlayerGreeting.setValue("Ready to go! The game begins as soon as one player clicks the button."));
+        Platform.runLater(() ->this.startButtonDisabled.setValue(false));
     }
 
     private void changeRedirectToGameProperty(PropertyChangeEvent event) {
