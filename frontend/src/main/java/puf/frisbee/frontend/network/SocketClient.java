@@ -3,6 +3,7 @@ package puf.frisbee.frontend.network;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
+import puf.frisbee.frontend.model.FrisbeeParameter;
 import puf.frisbee.frontend.model.MovementDirection;
 
 import java.beans.PropertyChangeListener;
@@ -51,8 +52,18 @@ public class SocketClient {
                 ObjectMapper objectMapper = new ObjectMapper();
                 SocketRequest response = objectMapper.readValue(receivedJsonString, new TypeReference<>() {
                 });
+
+                // default is we are just passing the value through
+                Object propertyValue = response.getValue();
+
+                // for some types, we need to convert
+                switch(response.getRequestType()) {
+                    case MOVE -> propertyValue = mapMovementStringToDirection(response.getValue());
+                    case THROW -> propertyValue = FrisbeeParameter.stringToObject(response.getValue());
+                }
+
                 // add request type as name so the character model knows how to react on what
-                support.firePropertyChange(response.getRequestType().name(), null, response.getValue());
+                support.firePropertyChange(response.getRequestType().name(), null, propertyValue);
             }
 
             inFromServer.close();
@@ -61,6 +72,20 @@ public class SocketClient {
             e.printStackTrace();
             support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost, restart program");
         }
+    }
+
+    private MovementDirection mapMovementStringToDirection(String movement) {
+        if(movement.equals(MovementDirection.UP.name())) {
+            return MovementDirection.UP;
+        }
+        if(movement.equals(MovementDirection.LEFT.name())) {
+            return MovementDirection.LEFT;
+        }
+        if(movement.equals(MovementDirection.RIGHT.name())) {
+            return MovementDirection.RIGHT;
+        }
+
+        return null;
     }
 
     public void sendInitToServer(String teamName) {
@@ -75,6 +100,11 @@ public class SocketClient {
 
     public void sendMovementToServer(MovementDirection direction){
         SocketRequest request = new SocketRequest(SocketRequestType.MOVE, direction.name());
+        sendToServer(request);
+    }
+
+    public void sendFrisbeeThrowToServer(FrisbeeParameter frisbeeParameter){
+        SocketRequest request = new SocketRequest(SocketRequestType.THROW, frisbeeParameter.toString());
         sendToServer(request);
     }
 
