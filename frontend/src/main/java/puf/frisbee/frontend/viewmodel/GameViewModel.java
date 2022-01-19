@@ -241,7 +241,6 @@ public class GameViewModel {
 		// throw direction is always the opposite of the own character throw direction
 		this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT ? -1 : 1;
 		// this triggers the animation timer frisbee moving
-		// TODO: check later, if this is really working with sockets or if we need Platform.runLater()
 		this.isFrisbeeMoving = true;
 	}
 
