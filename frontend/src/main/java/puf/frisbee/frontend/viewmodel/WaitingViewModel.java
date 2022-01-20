@@ -28,6 +28,8 @@ public class WaitingViewModel {
 
     private ArrayList<BooleanProperty> teamLivesHidden;
 
+    private String waitingMessage;
+
     PropertyChangeSupport support;
 
     public WaitingViewModel(Game gameModel, Team teamModel, Character characterModel) {
@@ -55,10 +57,10 @@ public class WaitingViewModel {
         this.labelLevel = new SimpleStringProperty();
         this.labelCountdown = new SimpleStringProperty();
         this.labelScore = new SimpleIntegerProperty();
-        String greeting = "Please wait, player " +
+        this.waitingMessage = "Please wait, player " +
                 (teamModel.getOwnCharacterType() == CharacterType.LEFT ? "left" : "right") +
                 ". The second freak will show up soon.";
-        this.labelPlayerGreeting = new SimpleStringProperty(greeting);
+        this.labelPlayerGreeting = new SimpleStringProperty(waitingMessage);
         // start button is disabled in the beginning
         this.startButtonDisabled = new SimpleBooleanProperty(true);
 
@@ -67,9 +69,14 @@ public class WaitingViewModel {
     }
 
     private void changeStartButtonEnabledProperty(PropertyChangeEvent event) {
+        boolean readyStatus = (boolean) event.getNewValue();
+
+        String message = readyStatus ? "Ready to go! The game begins as soon as one player clicks the button." : waitingMessage;
+        Platform.runLater(() ->this.labelPlayerGreeting.setValue(message));
+
         // when status is ready (= both players of a team connected) enable start button
-        Platform.runLater(() ->this.labelPlayerGreeting.setValue("Ready to go! The game begins as soon as one player clicks the button."));
-        Platform.runLater(() ->this.startButtonDisabled.setValue(false));
+        // when ready is true, disabled should be false and the other way round
+        Platform.runLater(() ->this.startButtonDisabled.setValue(!readyStatus));
     }
 
     private void changeRedirectToGameProperty(PropertyChangeEvent event) {
@@ -81,6 +88,10 @@ public class WaitingViewModel {
 
     public void startGame() {
         this.characterModel.startGame();
+    }
+
+    public void quitWaiting() {
+        this.characterModel.stop();
     }
 
     public BooleanProperty getShowLevel01BackgroundImageProperty() {

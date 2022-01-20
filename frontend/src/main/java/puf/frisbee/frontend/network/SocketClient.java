@@ -20,10 +20,11 @@ public class SocketClient {
 
     public SocketClient(){
         support = new PropertyChangeSupport(this);
-        this.start();
     }
 
-    // TODO: call this e.g. in waiting view, because here we want to start the connection?
+    /**
+     * Starts a socket connection with the server.
+     */
     public void start() {
         Dotenv dotenv = Dotenv.load();
         String socketIP = dotenv.get("SOCKET_IP");
@@ -38,6 +39,19 @@ public class SocketClient {
             thread.setDaemon(true);
             thread.start();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Stop a socket connection with the server.
+     */
+    public void stopConnection() {
+        try {
+            threadIsRunning = false;
+            outToServer.close();
+            socket.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -88,21 +102,44 @@ public class SocketClient {
         return null;
     }
 
+    /**
+     * Transfers the team name to the server.
+     * @param teamName name of the team
+     */
     public void sendInitToServer(String teamName) {
         SocketRequest request = new SocketRequest(SocketRequestType.INIT, teamName);
         sendToServer(request);
     }
 
+    /**
+     * Sends DISCONNECT true to the server.
+     */
+    public void sendDisconnectToServer() {
+        SocketRequest request = new SocketRequest(SocketRequestType.DISCONNECT, "true");
+        sendToServer(request);
+    }
+
+    /**
+     * Sends GAME_RUNNING true to the server.
+     */
     public void sendStartGameToServer() {
         SocketRequest request = new SocketRequest(SocketRequestType.GAME_RUNNING, "true");
         sendToServer(request);
     }
 
+    /**
+     * Transfers character movement to the server.
+     * @param direction the direction the character moves to
+     */
     public void sendMovementToServer(MovementDirection direction){
         SocketRequest request = new SocketRequest(SocketRequestType.MOVE, direction.name());
         sendToServer(request);
     }
 
+    /**
+     * Transfers paramaters for a frisbee throw to the server.
+     * @param frisbeeParameter the needed parameters to calculate a throw
+     */
     public void sendFrisbeeThrowToServer(FrisbeeParameter frisbeeParameter){
         SocketRequest request = new SocketRequest(SocketRequestType.THROW, frisbeeParameter.toString());
         sendToServer(request);
@@ -119,20 +156,12 @@ public class SocketClient {
         }
     }
 
-    // add listener for defined types
+    /**
+     * Method to subscribe listeners to socket events
+     * @param type request type that should be listend to
+     * @param listener the function that should be executed on changes
+     */
     public void addPropertyChangeListener(SocketRequestType type, PropertyChangeListener listener) {
         support.addPropertyChangeListener(type.name(), listener);
-    }
-
-
-    // TODO: stop thread somewhere? probably when leaving the game view
-    public void stopConnection() {
-        try {
-            threadIsRunning = false;
-            outToServer.close();
-            socket.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
