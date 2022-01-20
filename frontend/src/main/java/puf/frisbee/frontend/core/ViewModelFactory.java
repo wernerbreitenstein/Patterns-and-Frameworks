@@ -1,12 +1,15 @@
 package puf.frisbee.frontend.core;
 
+import puf.frisbee.frontend.network.SocketClientFactory;
 import puf.frisbee.frontend.viewmodel.*;
 
 public class ViewModelFactory {
 	private ModelFactory modelFactory;
+	private SocketClientFactory socketClientFactory;
 
-	public ViewModelFactory(ModelFactory modelFactory) {
+	public ViewModelFactory(ModelFactory modelFactory, SocketClientFactory socketClientFactory) {
 		this.modelFactory = modelFactory;
+		this.socketClientFactory = socketClientFactory;
 	}
 
 	/**
@@ -15,7 +18,7 @@ public class ViewModelFactory {
 	 * @return a new instance of GameViewModel
 	 */
 	public GameViewModel getGameViewModel() {
-		return new GameViewModel(modelFactory.getGameModel(), modelFactory.getLevelModel(), modelFactory.getTeamModel(), modelFactory.getCharacterModel());
+		return new GameViewModel(modelFactory.getGameModel(), modelFactory.getLevelModel(), modelFactory.getTeamModel(), socketClientFactory.getSocketClient());
 	}
 
 	/**
@@ -60,6 +63,6 @@ public class ViewModelFactory {
 	 * @return a new instance of WaitingViewModel
 	 */
 	public WaitingViewModel getWaitingViewModel() {
-		return new WaitingViewModel(modelFactory.getGameModel(),  modelFactory.getTeamModel(), modelFactory.getCharacterModel());
+		return new WaitingViewModel(modelFactory.getGameModel(),  modelFactory.getTeamModel(), socketClientFactory.getSocketClient());
 	}
 }

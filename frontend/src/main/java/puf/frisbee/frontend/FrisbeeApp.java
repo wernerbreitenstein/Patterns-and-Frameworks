@@ -11,8 +11,8 @@ public class FrisbeeApp extends Application {
 	@Override
 	public void start(Stage stage) {
 		SocketClientFactory socketClientFactory = new SocketClientFactory();
-		ModelFactory modelFactory = new ModelFactory(socketClientFactory);
-		ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
+		ModelFactory modelFactory = new ModelFactory();
+		ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory, socketClientFactory);
 		ViewHandler viewHandler = new ViewHandler(viewModelFactory);
 
 		viewHandler.start();

@@ -6,7 +6,7 @@ import javafx.beans.property.*;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
-import puf.frisbee.frontend.model.Character;
+import puf.frisbee.frontend.network.SocketClient;
 import puf.frisbee.frontend.network.SocketRequestType;
 import puf.frisbee.frontend.utils.Calculations;
 
@@ -17,7 +17,7 @@ public class GameViewModel {
 	private Game gameModel;
 	private Level levelModel;
 	private Team teamModel;
-	private Character characterModel;
+	private SocketClient socketClient;
 
 	private Timeline timeline;
 	private int second;
@@ -72,14 +72,14 @@ public class GameViewModel {
 
 	private ArrayList<BooleanProperty> teamLivesHidden;
 
-	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, Character characterModel) {
+	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, SocketClient socketClient) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
-		this.characterModel = characterModel;
+		this.socketClient = socketClient;
 		// these are called when character model triggers change
-		characterModel.addPropertyChangeListener(SocketRequestType.MOVE, this::executeOtherCharacterMovement);
-		characterModel.addPropertyChangeListener(SocketRequestType.THROW, this::executeOtherCharacterFrisbeeThrow);
+		this.socketClient.addPropertyChangeListener(SocketRequestType.MOVE, this::executeOtherCharacterMovement);
+		this.socketClient.addPropertyChangeListener(SocketRequestType.THROW, this::executeOtherCharacterFrisbeeThrow);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -257,11 +257,11 @@ public class GameViewModel {
 				// only when character is not throwing and has enough distance to other character, he is allowed to move
 				if (isCharacterMovingLeft && !hasOwnCharacterTheFrisbee() && haveCharactersEnoughDistance()) {
 					ownCharacterXPosition.setValue(ownCharacterXPosition.getValue() - characterSpeed);
-					characterModel.moveOwnCharacter(MovementDirection.LEFT);
+					socketClient.sendMovementToServer(MovementDirection.LEFT);
 				}
 				if (isCharacterMovingRight && !hasOwnCharacterTheFrisbee() && haveCharactersEnoughDistance()) {
 					ownCharacterXPosition.setValue(ownCharacterXPosition.getValue() + characterSpeed);
-					characterModel.moveOwnCharacter(MovementDirection.RIGHT);
+					socketClient.sendMovementToServer(MovementDirection.RIGHT);
 				}
 
 				// jumps are detected if character is not on its initial position
@@ -299,7 +299,7 @@ public class GameViewModel {
 		this.frisbeeSpeedX = Math.random() * 8 + 2;
 		this.frisbeeSpeedY = Math.random() * 2 + 0.2;
 		// send to socket
-		this.characterModel.throwFrisbee(new FrisbeeParameter(frisbeeSpeedX, frisbeeSpeedY));
+		this.socketClient.sendFrisbeeThrowToServer(new FrisbeeParameter(frisbeeSpeedX, frisbeeSpeedY));
 
 		this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT ? 1 : -1;
 		// throw frisbee
@@ -478,7 +478,7 @@ public class GameViewModel {
 	public void jumpCharacter() {
 		if (isCharacterAllowedToJump()) {
 			this.ownCharacterYPosition.setValue(this.ownCharacterYPosition.getValue() - this.levelModel.getJumpHeight());
-			this.characterModel.moveOwnCharacter(MovementDirection.UP);
+			this.socketClient.sendMovementToServer(MovementDirection.UP);
 		}
 	}
 	

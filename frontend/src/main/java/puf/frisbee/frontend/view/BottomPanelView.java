@@ -30,7 +30,7 @@ public class BottomPanelView {
 		if (gameViewModel != null) {
 			this.gameViewModel.showQuitConfirmDialog();
 		} else if (waitingViewModel != null) {
-			this.waitingViewModel.quitWaiting();
+			this.waitingViewModel.quit();
 			this.viewHandler.openStartView();
 		} else {
 			this.viewHandler.end();
