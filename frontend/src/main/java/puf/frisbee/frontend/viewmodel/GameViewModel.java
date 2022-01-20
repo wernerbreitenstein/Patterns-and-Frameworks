@@ -80,6 +80,7 @@ public class GameViewModel {
 		// these are called when character model triggers change
 		characterModel.addPropertyChangeListener(SocketRequestType.MOVE, this::executeOtherCharacterMovement);
 		characterModel.addPropertyChangeListener(SocketRequestType.THROW, this::executeOtherCharacterFrisbeeThrow);
+		characterModel.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::updateOtherCharacterPauseStatus);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -546,12 +547,42 @@ public class GameViewModel {
 	}
 	
 	public void showQuitConfirmDialog() {
+		// notify other client to also pause
+		this.characterModel.stopGame();
+		// trigger all actions
+		this.triggerQuitConfirmDialogActions();
+	}
+
+	private void triggerQuitConfirmDialogActions() {
 		if (!this.showGameOverDialog.getValue()) {
 			this.timeline.pause();
 			this.gameModel.setCurrentCountdown(this.second);
 			this.showQuitConfirmDialog.setValue(true);
 		}
 	}
+
+	public void continueGame() {
+		// notify other client to also continue
+		this.characterModel.startGame();
+		this.triggerContinueGameActions();
+	}
+
+	private void triggerContinueGameActions() {
+		this.teamModel.setLevel(this.teamModel.getLevel());
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
+		this.showQuitConfirmDialog.setValue(false);
+	}
+
+	private void updateOtherCharacterPauseStatus(PropertyChangeEvent event) {
+		boolean gameRunning = (boolean) event.getNewValue();
+		if (gameRunning) {
+			this.triggerContinueGameActions();
+		} else {
+			triggerQuitConfirmDialogActions();
+		}
+	}
+
 
 	public void saveGame() {
 		// save to backend
@@ -585,13 +616,6 @@ public class GameViewModel {
 		// no more games for this team because of game over
 		this.teamModel.setActive(false);
 		this.saveGame();
-	}
-	
-	public void continueGame() {
-		this.teamModel.setLevel(this.teamModel.getLevel());
-		this.teamModel.setScore(this.labelScore.getValue());
-		this.teamModel.setLives(this.remainingLives);
-		this.showQuitConfirmDialog.setValue(false);
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {

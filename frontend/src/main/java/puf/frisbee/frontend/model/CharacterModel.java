@@ -44,7 +44,13 @@ public class CharacterModel implements Character {
     // tell the other client the game has started
     @Override
     public void startGame() {
-        this.socketClient.sendStartGameToServer();
+        this.socketClient.sendGameRunningToServer(true);
+    }
+
+    // tell the other client the game has stopped
+    @Override
+    public void stopGame() {
+        this.socketClient.sendGameRunningToServer(false);
     }
 
     // listen to ready and current game status changes and notify listener, if ready is true

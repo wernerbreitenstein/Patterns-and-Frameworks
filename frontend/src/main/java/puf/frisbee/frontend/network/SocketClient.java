@@ -122,10 +122,11 @@ public class SocketClient {
     }
 
     /**
-     * Sends GAME_RUNNING true to the server.
+     * Sends GAME_RUNNING to the server.
      */
-    public void sendStartGameToServer() {
-        SocketRequest request = new SocketRequest(SocketRequestType.GAME_RUNNING, "true");
+    public void sendGameRunningToServer(boolean value) {
+        String status = value ? "true" : "false";
+        SocketRequest request = new SocketRequest(SocketRequestType.GAME_RUNNING, status);
         sendToServer(request);
     }
 
