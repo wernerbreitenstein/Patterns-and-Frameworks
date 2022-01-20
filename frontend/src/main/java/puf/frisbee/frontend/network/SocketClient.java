@@ -16,6 +16,7 @@ public class SocketClient {
     private Socket socket;
     private ObjectOutputStream outToServer;
     private PropertyChangeSupport support;
+    Thread thread;
     private boolean threadIsRunning;
 
     public SocketClient(){
@@ -35,11 +36,12 @@ public class SocketClient {
 
             // start connection in new thread to not block anything
             this.threadIsRunning = true;
-            Thread thread = new Thread(this::listenToServer);
+            thread = new Thread(this::listenToServer);
             thread.setDaemon(true);
             thread.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            this.stopConnection();
+            System.out.println("Connection stopped.");
         }
     }
 
@@ -51,6 +53,7 @@ public class SocketClient {
             threadIsRunning = false;
             outToServer.close();
             socket.close();
+            thread.interrupt();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,10 +84,9 @@ public class SocketClient {
             }
 
             inFromServer.close();
-            System.out.println("Thread stopped.");
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost, restart program");
+            this.stopConnection();
+            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost.");
         }
     }
 
@@ -151,8 +153,8 @@ public class SocketClient {
             String jsonString = mapper.writeValueAsString(request);
             outToServer.writeObject(jsonString);
         } catch (Exception e) {
-            e.printStackTrace();
-            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost, restart program");
+            this.stopConnection();
+            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost.");
         }
     }
 
