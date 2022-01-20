@@ -53,6 +53,7 @@ public class SocketClient {
             threadIsRunning = false;
             outToServer.close();
             socket.close();
+            thread.interrupt();
         } catch (Exception e) {
             e.printStackTrace();
         }
