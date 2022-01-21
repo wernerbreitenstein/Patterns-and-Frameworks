@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.view;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +10,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
+
+import java.beans.PropertyChangeEvent;
 
 public class GameView {
 	@FXML
@@ -80,6 +83,15 @@ public class GameView {
 		this.quitConfirmDialog.visibleProperty().bind(this.gameViewModel.getQuitConfirmDialogProperty());
 		this.gameSuccessDialog.visibleProperty().bind(this.gameViewModel.getGameSuccessDialogProperty());
 		this.disconnectDialog.visibleProperty().bind(this.gameViewModel.getDisconnectDialogProperty());
+
+		// subscribe also to changes of the "game running status", triggered when true (e.g. the other character continues the next level)
+		this.gameViewModel.addPropertyChangeListener(this::redirectToGame);
+	}
+
+	// redirect opens game view
+	private void redirectToGame(PropertyChangeEvent event) {
+		// add execution to javafx application
+		Platform.runLater(() -> this.viewHandler.openGameView());
 	}
 
 	@FXML
@@ -102,6 +114,7 @@ public class GameView {
 	@FXML
 	private void handleButtonLevelSuccessContinue(ActionEvent event) {
 		this.gameViewModel.saveAfterLevelSucceeded();
+		this.gameViewModel.continueGame();
 		this.viewHandler.openGameView();
 	}
 
