@@ -24,6 +24,9 @@ public class GameView {
 	private StackPane gameSuccessDialog;
 
 	@FXML
+	private StackPane disconnectDialog;
+
+	@FXML
 	private Label labelLevelSuccess;
 
 	@FXML
@@ -76,6 +79,7 @@ public class GameView {
 		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogProperty());
 		this.quitConfirmDialog.visibleProperty().bind(this.gameViewModel.getQuitConfirmDialogProperty());
 		this.gameSuccessDialog.visibleProperty().bind(this.gameViewModel.getGameSuccessDialogProperty());
+		this.disconnectDialog.visibleProperty().bind(this.gameViewModel.getDisconnectDialogProperty());
 	}
 
 	@FXML
@@ -104,17 +108,20 @@ public class GameView {
 	@FXML
 	private void handleButtonLevelSuccessQuit(ActionEvent event) {
 		this.gameViewModel.saveAfterLevelSucceeded();
+		this.gameViewModel.disconnect();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
 	private void handleButtonGameSuccessQuit(ActionEvent event) {
+		// the game ends here
 		this.gameViewModel.saveAfterGameSucceeded();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
 	private void handleButtonGameOverQuit(ActionEvent event) {
+		// the game ends here
 		this.gameViewModel.saveAfterGameOver();
 		this.viewHandler.openStartView();
 	}
@@ -126,7 +133,8 @@ public class GameView {
 	}
 
 	@FXML
-	private void handleButtonQuitGameQuit(ActionEvent event) {
+	private void handleButtonQuitGame(ActionEvent event) {
+		this.gameViewModel.disconnect();
 		this.viewHandler.openStartView();
 	}
 }

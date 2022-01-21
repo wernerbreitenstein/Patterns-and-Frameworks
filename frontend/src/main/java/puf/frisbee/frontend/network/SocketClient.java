@@ -86,7 +86,7 @@ public class SocketClient {
             inFromServer.close();
         } catch (IOException | ClassNotFoundException e) {
             this.stopConnection();
-            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost.");
+            support.firePropertyChange(SocketRequestType.READY.name(), null, false);
         }
     }
 
@@ -155,7 +155,7 @@ public class SocketClient {
             outToServer.writeObject(jsonString);
         } catch (Exception e) {
             this.stopConnection();
-            support.firePropertyChange(SocketRequestType.ERROR.name(), null, "Connection lost.");
+            support.firePropertyChange(SocketRequestType.READY.name(), null, false);
         }
     }
 

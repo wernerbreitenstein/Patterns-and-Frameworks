@@ -63,6 +63,7 @@ public class GameViewModel {
 	private BooleanProperty showGameSuccessDialog;
 	private BooleanProperty showGameOverDialog;
 	private BooleanProperty showQuitConfirmDialog;
+	private BooleanProperty showDisconnectDialog;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
@@ -80,7 +81,8 @@ public class GameViewModel {
 		// these are called when character model triggers change
 		characterModel.addPropertyChangeListener(SocketRequestType.MOVE, this::executeOtherCharacterMovement);
 		characterModel.addPropertyChangeListener(SocketRequestType.THROW, this::executeOtherCharacterFrisbeeThrow);
-		characterModel.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::updateOtherCharacterPauseStatus);
+		characterModel.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::updateOtherCharacterGameRunningStatus);
+		characterModel.addPropertyChangeListener(SocketRequestType.READY, this::updateOtherCharacterOnDisconnect);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -101,6 +103,7 @@ public class GameViewModel {
 		this.showGameSuccessDialog = new SimpleBooleanProperty(false);
 		this.showGameOverDialog = new SimpleBooleanProperty(false);
 		this.showQuitConfirmDialog = new SimpleBooleanProperty(false);
+		this.showDisconnectDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
@@ -545,7 +548,17 @@ public class GameViewModel {
 	public BooleanProperty getQuitConfirmDialogProperty() {
 		return this.showQuitConfirmDialog;
 	}
-	
+
+	/**
+	 * Triggers a disconnect, so the other client can react.
+	 */
+	public void disconnect() {
+		this.characterModel.stop();
+	}
+
+	/**
+	 * Triggers the "Pause" Dialog and sends GAME_RUNNING=false to the other client.
+	 */
 	public void showQuitConfirmDialog() {
 		// notify other client to also pause
 		this.characterModel.stopGame();
@@ -561,6 +574,9 @@ public class GameViewModel {
 		}
 	}
 
+	/**
+	 * Continues the game after pause and sends GAME_RUNNING=true to the other client.
+	 */
 	public void continueGame() {
 		// notify other client to also continue
 		this.characterModel.startGame();
@@ -574,11 +590,14 @@ public class GameViewModel {
 		this.showQuitConfirmDialog.setValue(false);
 	}
 
-	private void updateOtherCharacterPauseStatus(PropertyChangeEvent event) {
+	private void updateOtherCharacterGameRunningStatus(PropertyChangeEvent event) {
 		boolean gameRunning = (boolean) event.getNewValue();
-		if (gameRunning) {
+
+		if (gameRunning && this.showQuitConfirmDialog.getValue()) {
+			// we got the trigger GAME_RUNNING=true and the pause dialog was open, so close it
 			Platform.runLater(this::triggerContinueGameActions);
-		} else {
+		} else if (!gameRunning && !this.showQuitConfirmDialog.getValue()) {
+			// we got the trigger GAME_RUNNING=false and the pause dialog was not, so open it
 			Platform.runLater(this::triggerQuitConfirmDialogActions);
 		}
 	}
@@ -616,6 +635,23 @@ public class GameViewModel {
 		// no more games for this team because of game over
 		this.teamModel.setActive(false);
 		this.saveGame();
+	}
+
+	private void updateOtherCharacterOnDisconnect(PropertyChangeEvent event) {
+		boolean ready = (boolean) event.getNewValue();
+		if(!ready && !this.showDisconnectDialog.getValue()) {
+			// we got not ready from the server, which means, the other character probably disconnected
+			// show a dialog (if not already there) and close others
+			Platform.runLater(() -> {
+				showLevelSuccessDialog.setValue(false);
+				showQuitConfirmDialog.setValue(false);
+				showDisconnectDialog.setValue(true);
+			});
+		}
+	}
+
+	public BooleanProperty getDisconnectDialogProperty() {
+		return this.showDisconnectDialog;
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
