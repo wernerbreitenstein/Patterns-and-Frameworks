@@ -6,9 +6,15 @@ import java.beans.PropertyChangeListener;
 
 public interface Character {
     /**
-     * Sends a message to the server to initialize a socket session for the team of this character.
+     * Starts socket connection and
+     * sends a message to the server to initialize a socket session for the team of this character.
      */
     void init();
+
+    /**
+     * Sends a message to the server, that the game has stopped and closes the socket connection.
+     */
+    void stop();
 
     /**
      * Sends a message to the server to notify the other client to start the game.
