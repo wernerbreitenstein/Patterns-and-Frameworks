@@ -14,6 +14,5 @@ public enum SocketRequestType {
     @JsonProperty("MOVE")
     MOVE,
     @JsonProperty("THROW")
-    THROW,
-    ERROR;
+    THROW
 }

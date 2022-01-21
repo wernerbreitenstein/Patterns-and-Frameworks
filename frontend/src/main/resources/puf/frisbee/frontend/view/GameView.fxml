@@ -56,7 +56,7 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGameQuit" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGame" styleClass="button-light" stylesheets="@../css/main.css" text="Yes, take me to the start." />
                         <Button layoutX="609.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonQuitGameContinue" styleClass="button-light" stylesheets="@../css/main.css" text="No, I rather continue here." />
                      </children>
                   </HBox>
@@ -152,6 +152,38 @@
                   <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#handleButtonGameSuccessQuit" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="40.0" top="80.0" />
+         </padding>
+      </StackPane>
+      <StackPane fx:id="disconnectDialog">
+         <children>
+            <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.6" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label stylesheets="@../css/main.css" text="OH NO">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-game-over" />
+                     </styleClass>
+                  </Label>
+                  <Label stylesheets="@../css/main.css" text="You got disconnected :(! Did the other player leave the game?">
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-h1" />
+                     </styleClass>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="40.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleButtonQuitGame" styleClass="button-light" stylesheets="@../css/main.css" text="Take me back to the start." />
                      </children>
                   </HBox>
                </children>

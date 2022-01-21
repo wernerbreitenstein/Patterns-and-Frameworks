@@ -2,7 +2,7 @@ package puf.frisbee.frontend.model;
 
 public class GameModel implements Game {
     private final int maximumLevel = 3;
-    private final int initialCountdown = 100;
+    private final int initialCountdown = 30;
     private int currentCountdown;
     private final int gravity = 1;
     private final int characterSpeed = 3;
