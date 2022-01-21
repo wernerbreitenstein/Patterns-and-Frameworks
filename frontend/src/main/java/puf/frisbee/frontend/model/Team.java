@@ -165,6 +165,11 @@ public interface Team {
 	void resetTeamData();
 
 	/**
+	 * Reloads team data in team model with the newest backend data.
+	 */
+	void reloadTeamData();
+
+	/**
 	 * Returns character type of the player.
 	 *
 	 * @return left or right

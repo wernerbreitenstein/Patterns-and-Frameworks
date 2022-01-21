@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.view;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +10,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
+
+import java.beans.PropertyChangeEvent;
 
 public class GameView {
 	@FXML
@@ -22,6 +25,9 @@ public class GameView {
 
 	@FXML
 	private StackPane gameSuccessDialog;
+
+	@FXML
+	private StackPane disconnectDialog;
 
 	@FXML
 	private Label labelLevelSuccess;
@@ -76,6 +82,16 @@ public class GameView {
 		this.gameOverDialog.visibleProperty().bind(this.gameViewModel.getGameOverDialogProperty());
 		this.quitConfirmDialog.visibleProperty().bind(this.gameViewModel.getQuitConfirmDialogProperty());
 		this.gameSuccessDialog.visibleProperty().bind(this.gameViewModel.getGameSuccessDialogProperty());
+		this.disconnectDialog.visibleProperty().bind(this.gameViewModel.getDisconnectDialogProperty());
+
+		// subscribe also to changes of the "game running status", triggered when true (e.g. the other character continues the next level)
+		this.gameViewModel.addPropertyChangeListener(this::redirectToGame);
+	}
+
+	// redirect opens game view
+	private void redirectToGame(PropertyChangeEvent event) {
+		// add execution to javafx application
+		Platform.runLater(() -> this.viewHandler.openGameView());
 	}
 
 	@FXML
@@ -98,23 +114,27 @@ public class GameView {
 	@FXML
 	private void handleButtonLevelSuccessContinue(ActionEvent event) {
 		this.gameViewModel.saveAfterLevelSucceeded();
+		this.gameViewModel.continueGame();
 		this.viewHandler.openGameView();
 	}
 
 	@FXML
 	private void handleButtonLevelSuccessQuit(ActionEvent event) {
 		this.gameViewModel.saveAfterLevelSucceeded();
+		this.gameViewModel.disconnect();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
 	private void handleButtonGameSuccessQuit(ActionEvent event) {
+		// the game ends here
 		this.gameViewModel.saveAfterGameSucceeded();
 		this.viewHandler.openStartView();
 	}
 
 	@FXML
 	private void handleButtonGameOverQuit(ActionEvent event) {
+		// the game ends here
 		this.gameViewModel.saveAfterGameOver();
 		this.viewHandler.openStartView();
 	}
@@ -126,7 +146,8 @@ public class GameView {
 	}
 
 	@FXML
-	private void handleButtonQuitGameQuit(ActionEvent event) {
+	private void handleButtonQuitGame(ActionEvent event) {
+		this.gameViewModel.disconnect();
 		this.viewHandler.openStartView();
 	}
 }

@@ -280,6 +280,31 @@ public class TeamModel implements Team {
 	}
 
 	@JsonIgnore
+	@Override
+	public void reloadTeamData() {
+		try {
+			HttpRequest request = HttpRequest.newBuilder()
+					.uri(new URI(this.baseUrl + "/teams/" + this.name))
+					.GET()
+					.build();
+
+			HttpResponse<String> response = HttpClient
+					.newBuilder()
+					.build()
+					.send(request, HttpResponse.BodyHandlers.ofString());
+
+			if (response.statusCode() == 200) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				Team team = objectMapper.readValue(response.body(), new TypeReference<>() {});
+				setTeamData(team);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@JsonIgnore
 	private void setTeamData(Team team) {
 		this.id = team.getId();
 		this.name = team.getName();

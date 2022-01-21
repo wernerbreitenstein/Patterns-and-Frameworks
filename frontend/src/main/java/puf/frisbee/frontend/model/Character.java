@@ -22,6 +22,11 @@ public interface Character {
     void startGame();
 
     /**
+     * Sends a message to the server to notify the other client to stop the game.
+     */
+    void stopGame();
+
+    /**
      * Send a message to socket as soon as own position is moved, so the other client knows.
      * @param direction in which the character is moved
      */

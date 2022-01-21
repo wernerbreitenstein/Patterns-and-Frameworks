@@ -11,6 +11,8 @@ import puf.frisbee.frontend.network.SocketRequestType;
 import puf.frisbee.frontend.utils.Calculations;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class GameViewModel {
@@ -63,6 +65,7 @@ public class GameViewModel {
 	private BooleanProperty showGameSuccessDialog;
 	private BooleanProperty showGameOverDialog;
 	private BooleanProperty showQuitConfirmDialog;
+	private BooleanProperty showDisconnectDialog;
 	private StringProperty buttonLevelContinueText;
 	private StringProperty labelCountdown;
 	private StringProperty labelLevel;
@@ -72,14 +75,24 @@ public class GameViewModel {
 
 	private ArrayList<BooleanProperty> teamLivesHidden;
 
+	PropertyChangeSupport support;
+
 	public GameViewModel(Game gameModel, Level levelModel, Team teamModel, Character characterModel) {
 		this.gameModel = gameModel;
 		this.levelModel = levelModel;
 		this.teamModel = teamModel;
+		// reload team data from backend to be sure to have the newest data to display
+		this.teamModel.reloadTeamData();
 		this.characterModel = characterModel;
+
+		// own property change support to trigger redirects in the view
+		this.support = new PropertyChangeSupport(this);
+
 		// these are called when character model triggers change
 		characterModel.addPropertyChangeListener(SocketRequestType.MOVE, this::executeOtherCharacterMovement);
 		characterModel.addPropertyChangeListener(SocketRequestType.THROW, this::executeOtherCharacterFrisbeeThrow);
+		characterModel.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::updateOtherCharacterGameRunningStatus);
+		characterModel.addPropertyChangeListener(SocketRequestType.READY, this::updateOtherCharacterOnDisconnect);
 
 		this.remainingLives = teamModel.getLives();
 		this.teamLivesHidden = new ArrayList<>(5);
@@ -100,6 +113,7 @@ public class GameViewModel {
 		this.showGameSuccessDialog = new SimpleBooleanProperty(false);
 		this.showGameOverDialog = new SimpleBooleanProperty(false);
 		this.showQuitConfirmDialog = new SimpleBooleanProperty(false);
+		this.showDisconnectDialog = new SimpleBooleanProperty(false);
 		this.labelTeamName = new SimpleStringProperty();
 		this.labelScore = new SimpleIntegerProperty();
 
@@ -545,14 +559,70 @@ public class GameViewModel {
 	public BooleanProperty getQuitConfirmDialogProperty() {
 		return this.showQuitConfirmDialog;
 	}
-	
+
+	/**
+	 * Triggers a disconnect, so the other client can react.
+	 */
+	public void disconnect() {
+		this.characterModel.stop();
+	}
+
+	/**
+	 * Triggers the "Pause" Dialog and sends GAME_RUNNING=false to the other client.
+	 */
 	public void showQuitConfirmDialog() {
+		// notify other client to also pause
+		this.characterModel.stopGame();
+		// trigger all actions
+		this.triggerQuitConfirmDialogActions();
+	}
+
+	private void triggerQuitConfirmDialogActions() {
 		if (!this.showGameOverDialog.getValue()) {
 			this.timeline.pause();
 			this.gameModel.setCurrentCountdown(this.second);
 			this.showQuitConfirmDialog.setValue(true);
 		}
 	}
+
+	/**
+	 * Continues the game after pause or level success and sends GAME_RUNNING=true to the other client.
+	 */
+	public void continueGame() {
+		// notify other client to also continue
+		this.characterModel.startGame();
+		// if we are in pause, close the dialog
+		if(this.showQuitConfirmDialog.getValue()) {
+			this.triggerContinueGameActions();
+		}
+	}
+
+	private void triggerContinueGameActions() {
+		this.teamModel.setLevel(this.teamModel.getLevel());
+		this.teamModel.setScore(this.labelScore.getValue());
+		this.teamModel.setLives(this.remainingLives);
+		this.showQuitConfirmDialog.setValue(false);
+	}
+
+	private void updateOtherCharacterGameRunningStatus(PropertyChangeEvent event) {
+		boolean gameRunning = (boolean) event.getNewValue();
+
+		if (gameRunning && this.showQuitConfirmDialog.getValue()) {
+			// we got the trigger GAME_RUNNING=true and the pause dialog was open, so close it
+			Platform.runLater(this::triggerContinueGameActions);
+		} else if (!gameRunning && !this.showQuitConfirmDialog.getValue()) {
+			// we got the trigger GAME_RUNNING=false and the pause dialog was not, so open it
+			Platform.runLater(this::triggerQuitConfirmDialogActions);
+		} else if (gameRunning && this.showLevelSuccessDialog.getValue()) {
+			// we got the trigger GAME_RUNNING=true and the level success dialog was open, trigger a redirect
+			// notify view like this, since the redirect is not an element on the view
+			Platform.runLater(() -> {
+				this.showLevelSuccessDialog.setValue(false);
+				this.support.firePropertyChange("running", null, true);
+			});
+		}
+	}
+
 
 	public void saveGame() {
 		// save to backend
@@ -587,12 +657,22 @@ public class GameViewModel {
 		this.teamModel.setActive(false);
 		this.saveGame();
 	}
-	
-	public void continueGame() {
-		this.teamModel.setLevel(this.teamModel.getLevel());
-		this.teamModel.setScore(this.labelScore.getValue());
-		this.teamModel.setLives(this.remainingLives);
-		this.showQuitConfirmDialog.setValue(false);
+
+	private void updateOtherCharacterOnDisconnect(PropertyChangeEvent event) {
+		boolean ready = (boolean) event.getNewValue();
+		if(!ready && !this.showDisconnectDialog.getValue()) {
+			// we got not ready from the server, which means, the other character probably disconnected
+			// show a dialog (if not already there) and close others
+			Platform.runLater(() -> {
+				showLevelSuccessDialog.setValue(false);
+				showQuitConfirmDialog.setValue(false);
+				showDisconnectDialog.setValue(true);
+			});
+		}
+	}
+
+	public BooleanProperty getDisconnectDialogProperty() {
+		return this.showDisconnectDialog;
 	}
 
 	public DoubleProperty getCharacterLeftXPositionProperty() {
@@ -621,5 +701,9 @@ public class GameViewModel {
 
 	public DoubleProperty getFrisbeeYPositionProperty() {
 		return this.frisbeeYPosition;
+	}
+
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		support.addPropertyChangeListener(listener);
 	}
 }
