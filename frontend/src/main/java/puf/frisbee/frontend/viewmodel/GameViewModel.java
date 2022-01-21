@@ -577,9 +577,9 @@ public class GameViewModel {
 	private void updateOtherCharacterPauseStatus(PropertyChangeEvent event) {
 		boolean gameRunning = (boolean) event.getNewValue();
 		if (gameRunning) {
-			this.triggerContinueGameActions();
+			Platform.runLater(this::triggerContinueGameActions);
 		} else {
-			triggerQuitConfirmDialogActions();
+			Platform.runLater(this::triggerQuitConfirmDialogActions);
 		}
 	}
 
