@@ -256,11 +256,11 @@ public class GameViewModel {
 				int gravity = gameModel.getGravity();
 
 				// only when character is not throwing and has enough distance to other character, he is allowed to move
-				if (isCharacterMovingLeft && !hasOwnCharacterTheFrisbee() && haveCharactersEnoughDistance()) {
+				if (isCharacterMovingLeft && !hasOwnCharacterTheFrisbee()) {
 					ownCharacterXPosition.setValue(ownCharacterXPosition.getValue() - characterSpeed);
 					characterModel.moveOwnCharacter(MovementDirection.LEFT);
 				}
-				if (isCharacterMovingRight && !hasOwnCharacterTheFrisbee() && haveCharactersEnoughDistance()) {
+				if (isCharacterMovingRight && !hasOwnCharacterTheFrisbee()) {
 					ownCharacterXPosition.setValue(ownCharacterXPosition.getValue() + characterSpeed);
 					characterModel.moveOwnCharacter(MovementDirection.RIGHT);
 				}
@@ -438,19 +438,20 @@ public class GameViewModel {
 		return this.ownCharacterXPosition.getValue() >= this.levelModel.getSceneBoundaryRight();
 	}
 
-	// return true if characters have at least a distance of 350
-	private boolean haveCharactersEnoughDistance() {
-		return Math.abs(this.otherCharacterXPosition.getValue() - this.ownCharacterXPosition.getValue()) > 350;
-	}
-
-	// true as long as the left border is not reached
+	// true as long as the left border is not reached or the character's distance is too close
 	public void moveCharacterLeft() {
-		this.isCharacterMovingLeft = !this.isLeftBorderReachedByCharacter();
+		this.isCharacterMovingLeft = !this.isLeftBorderReachedByCharacter() &&
+				(this.ownCharacterXPosition.getValue() - otherCharacterXPosition.getValue() > 350 ||
+						// this check is needed so the character can still move right, when not allowed to move left anymore
+						this.ownCharacterXPosition.getValue() - otherCharacterXPosition.getValue() < 0);
 	}
 
-	// true as long as the right border is not reached
+	// true as long as the right border is not reached or the character's distance is too close
 	public void moveCharacterRight() {
-		this.isCharacterMovingRight = !isRightBorderReachedByCharacter();
+		this.isCharacterMovingRight = !this.isRightBorderReachedByCharacter() &&
+				(this.otherCharacterXPosition.getValue() - ownCharacterXPosition.getValue() > 350 ||
+						// this check is needed so the character can still move left, when not allowed to move right anymore
+						this.otherCharacterXPosition.getValue() - ownCharacterXPosition.getValue() < 0);
 	}
 
 	// set the moving variable to false, so it is recognized by the animation timer
