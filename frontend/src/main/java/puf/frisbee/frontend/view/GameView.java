@@ -86,7 +86,7 @@ public class GameView {
     private CharacterRightView characterRightController;
 
     /**
-     * The frisbeeelement in fxml.
+     * The frisbee element in fxml.
      */
     @FXML
     private FrisbeeView frisbeeController;
@@ -155,7 +155,7 @@ public class GameView {
 
     /**
      * This method is executed when a key is pressed in the game view.
-     * Triggeres the character movements in the game view model.
+     * Triggers the character movements in the game view model.
      *
      * @param event key event
      */
@@ -169,7 +169,7 @@ public class GameView {
     }
 
     /**
-     * This methid is executed when a pressed key is released in the game view.
+     * This method is executed when a pressed key is released in the game view.
      * Stops the character movements in the game model view.
      *
      * @param event key event
@@ -186,7 +186,7 @@ public class GameView {
      * This method is triggered, when continue is clicked in the level
      * success dialog.
      * Triggers all needed level success continue actions in the game view
-     * model and re-opens the game view.
+     * model and reopens the game view.
      *
      * @param event action event
      */
@@ -243,7 +243,7 @@ public class GameView {
     /**
      * This method is triggered, when continue is clicked in the pause
      * dialog.
-     * Triggers the corresponding method in the game view model and re-opens
+     * Triggers the corresponding method in the game view model and reopens
      * the game view.
      *
      * @param event action event
