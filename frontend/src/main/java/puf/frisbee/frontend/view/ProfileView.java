@@ -45,7 +45,7 @@ public class ProfileView {
     private Label profileError;
 
     /**
-     * The profile view instance.
+     * The profile view model instance.
      */
     private ProfileViewModel profileViewModel;
 
