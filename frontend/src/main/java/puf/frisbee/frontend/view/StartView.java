@@ -57,8 +57,8 @@ public class StartView {
     /**
      * Init method. Sets the start view model instance and the view handler
      * instance.
-     * Also initializes the top and bottom panel, and all the bindings of the
-     * fxml elements with the start view model.
+     * Also initializes the top panel and bottom panel, and all the bindings of
+     * the fxml elements with the start view model.
      * Fills and sorts the highscore table by score.
      *
      * @param startViewModel start view model instance
