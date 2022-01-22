@@ -128,7 +128,7 @@ public class WaitingView {
     }
 
     /**
-     * This method is executed, when the start button is clicked.
+     * This method is executed when the start button is clicked.
      * Triggers the corresponding method in the waiting view model and
      * redirects to the game view.
      *
