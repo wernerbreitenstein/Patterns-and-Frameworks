@@ -106,6 +106,15 @@ public interface Team {
 	void setScore(int score);
 
 	/**
+	 * Returns the path to the background image for the current level.
+	 *
+	 * @param Level the current level
+	 *
+	 * @return path to background images for the current level
+	 */
+	String getBackgroundImageForLevel(int level);
+
+	/**
 	 * Returns the active status of the team.
 	 *
 	 * @return true if team is active

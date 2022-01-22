@@ -4,8 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -14,21 +12,7 @@
 
 <AnchorPane onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puf.frisbee.frontend.view.GameView">
    <children>
-      <ImageView fx:id="level03BackgroundImage" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/level03_bg.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="level02BackgroundImage" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/level02_bg.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="level01BackgroundImage" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/level01_bg.png" />
-         </image>
-      </ImageView>
+      <fx:include fx:id="backgroundImage" source="BackgroundImageView.fxml" />
       <fx:include fx:id="characterLeft" source="CharacterLeftView.fxml" />
       <fx:include fx:id="characterRight" source="CharacterRightView.fxml" />
       <fx:include fx:id="frisbee" source="FrisbeeView.fxml" />
@@ -175,7 +159,7 @@
                         <String fx:value="dialog-game-over" />
                      </styleClass>
                   </Label>
-                  <Label stylesheets="@../css/main.css" text="You got disconnected :(! Did the other player leave the game?">
+                  <Label stylesheets="@../css/main.css" text="You got disconnected … : ( … did the other player leave the game?">
                      <styleClass>
                         <String fx:value="dialog-text" />
                         <String fx:value="dialog-h1" />

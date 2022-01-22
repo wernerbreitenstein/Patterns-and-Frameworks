@@ -3,6 +3,7 @@ package puf.frisbee.frontend.viewmodel;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
@@ -26,9 +27,7 @@ public class GameViewModel {
 	private int remainingLives;
 	private double counter;
 
-	private BooleanProperty showLevel01BackgroundImage;
-	private BooleanProperty showLevel02BackgroundImage;
-	private BooleanProperty showLevel03BackgroundImage;
+	private ObjectProperty<Image> backgroundImage;
 
 	private CharacterType ownCharacter;
 
@@ -101,9 +100,7 @@ public class GameViewModel {
 			this.teamLivesHidden.add(hidden);
 		}
 
-		this.showLevel01BackgroundImage = new SimpleBooleanProperty(false);
-		this.showLevel02BackgroundImage = new SimpleBooleanProperty(false);
-		this.showLevel03BackgroundImage = new SimpleBooleanProperty(false);
+		this.backgroundImage = new SimpleObjectProperty();
 		
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
@@ -170,25 +167,9 @@ public class GameViewModel {
 		this.otherCharacterYPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterYPosition());
 	}
 
-	public BooleanProperty getShowLevel01BackgroundImageProperty() {
-		if (this.teamModel.getLevel() <= 1) {
-			this.showLevel01BackgroundImage.setValue(true);
-		}
-		return this.showLevel01BackgroundImage;
-	}
-
-	public BooleanProperty getShowLevel02BackgroundImageProperty() {
-		if (this.teamModel.getLevel() == 2) {
-			this.showLevel02BackgroundImage.setValue(true);
-		}
-		return this.showLevel02BackgroundImage;
-	}
-
-	public BooleanProperty getShowLevel03BackgroundImageProperty() {
-		if (this.teamModel.getLevel() >= 3) {
-			this.showLevel03BackgroundImage.setValue(true);
-		}
-		return this.showLevel03BackgroundImage;
+	public ObjectProperty<Image> getBackgroundImageProperty() {
+		this.backgroundImage.setValue(new Image(getClass().getResource(this.teamModel.getBackgroundImageForLevel(this.teamModel.getLevel())).toString()));
+		return this.backgroundImage;
 	}
 
 	private void setTeamLivesHidden() {
