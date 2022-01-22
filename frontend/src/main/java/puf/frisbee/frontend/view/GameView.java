@@ -59,7 +59,7 @@ public class GameView {
 		this.gameViewModel = gameViewModel;
 		this.viewHandler = viewHandler;
 
-		this.backgroundImageController.init(gameViewModel, viewHandler);
+		this.backgroundImageController.init(gameViewModel);
 
 		this.topPanelController.init(gameViewModel, viewHandler);
 		this.bottomPanelController.init(gameViewModel, viewHandler);

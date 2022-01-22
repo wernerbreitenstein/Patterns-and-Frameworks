@@ -105,6 +105,9 @@ public class TeamModel implements Team {
 	}
 
 	@Override
+	public String getBackgroundImageForLevel(int level) { return "/puf/frisbee/frontend/images/level" + level + "_bg.png"; }
+
+	@Override
 	public boolean getActive() {
 		return active;
 	}

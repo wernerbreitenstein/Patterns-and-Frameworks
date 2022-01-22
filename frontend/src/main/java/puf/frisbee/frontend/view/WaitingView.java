@@ -39,7 +39,7 @@ public class WaitingView {
         this.viewHandler = viewHandler;
         this.waitingViewModel = waitingViewModel;
 
-        this.backgroundImageController.init(waitingViewModel, viewHandler);
+        this.backgroundImageController.init(waitingViewModel);
         this.topPanelController.init(waitingViewModel, viewHandler);
         this.bottomPanelController.init(waitingViewModel, viewHandler);
 

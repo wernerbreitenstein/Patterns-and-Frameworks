@@ -91,15 +91,7 @@ public class WaitingViewModel {
     }
 
     public ObjectProperty<Image> getBackgroundImageProperty() {
-        if (this.teamModel.getLevel() <= 1) {
-            this.backgroundImage.setValue(new Image(getClass().getResource("/puf/frisbee/frontend/images/level01_bg.png").toString()));
-        }
-        if (this.teamModel.getLevel() == 2) {
-            this.backgroundImage.setValue(new Image(getClass().getResource("/puf/frisbee/frontend/images/level02_bg.png").toString()));
-        }
-        if (this.teamModel.getLevel() >= 3) {
-            this.backgroundImage.setValue(new Image(getClass().getResource("/puf/frisbee/frontend/images/level03_bg.png").toString()));
-        }
+        this.backgroundImage.setValue(new Image(getClass().getResource(this.teamModel.getBackgroundImageForLevel(this.teamModel.getLevel())).toString()));
         return this.backgroundImage;
     }
 
