@@ -11,8 +11,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class HighscoreModel implements Highscore {
-    String baseUrl;
+    /**
+     * Base url used for requests to the server.
+     */
+    private String baseUrl;
 
+    /**
+     * Constructs the highscore model and sets the base url as defined in the
+     * .env file.
+     */
     public HighscoreModel() {
         // initialize base url for requests
         Dotenv dotenv = Dotenv.load();
@@ -35,8 +42,9 @@ public class HighscoreModel implements Highscore {
             if (response.statusCode() == 200) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 // create team objects on the fly and return them
-                return objectMapper.readValue(response.body(), new TypeReference<>() {
-                });
+                return objectMapper.readValue(response.body(),
+                        new TypeReference<>() {
+                        });
             }
 
         } catch (Exception e) {
