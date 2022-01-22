@@ -55,7 +55,7 @@ public class ProfileView {
     private ViewHandler viewHandler;
 
     /**
-     * Init method, sets profile view model and view handler instance.
+     * Init method, sets profile view model instance and view handler instance.
      * Also initializes the top panel, the bottom panel view and the binding
      * of the text fields and labels with the profile view model.
      *
