@@ -14,10 +14,12 @@ public class ProfileViewModel {
      * The value of the player name label.
      */
     private final String profileNameLabel;
+
     /**
      * The value of the player email label.
      */
     private final String profileEmailLabel;
+
     /**
      * The value of the profile error label.
      */
@@ -68,11 +70,11 @@ public class ProfileViewModel {
     /**
      * Saves changes in the profile to the database.
      * Validates the given name and password and triggers the update
-     * functions in the player model, if the validation was successful.
+     * functions in the player model if the validation was successful.
      *
      * @param name name of the player
      * @param password password of the player
-     * @return true if the saving was successful, otherwise false
+     * @return true if the saving was successful otherwise false
      */
     public boolean saveChanges(String name, String password) {
         if (name.length() < 1) {
@@ -88,7 +90,7 @@ public class ProfileViewModel {
             }
         }
 
-        // only overwrite password, if a new one was submitted
+        // only overwrite password if a new one was submitted
         if (password.length() > 0) {
             boolean updatePasswordSuccessful = this.playerModel.updatePassword(
                     name);
