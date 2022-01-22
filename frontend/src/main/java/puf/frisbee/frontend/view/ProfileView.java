@@ -78,7 +78,8 @@ public class ProfileView {
     }
 
     /**
-     * This method is called when the cancel button in the profile is clicked.
+     * This method is called when the cancel button in the profile view is
+     * clicked.
      * It triggers the redirect to the start view.
      *
      * @param event action event
