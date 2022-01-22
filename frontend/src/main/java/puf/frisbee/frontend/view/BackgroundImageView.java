@@ -23,7 +23,7 @@ public class BackgroundImageView {
     private GameViewModel gameViewModel;
 
     /**
-     * Init method used in waiting view, sets waiting view model.
+     * Init method used in waiting view, sets waiting view model and background image.
      *
      * @param waitingViewModel the waiting view model instance
      */
@@ -34,7 +34,7 @@ public class BackgroundImageView {
     }
 
     /**
-     * Init method used in game view, sets game view model.
+     * Init method used in game view, sets game view model and background image.
      *
      * @param gameViewModel the game view model instance
      */
