@@ -6,12 +6,12 @@ import puf.frisbee.frontend.model.Team;
 
 import java.util.regex.Pattern;
 
-
 public class RegistrationLoginViewModel {
     /**
      * The player model instance.
      */
     private final Player playerModel;
+
     /**
      * The team model instance.
      */
@@ -21,6 +21,7 @@ public class RegistrationLoginViewModel {
      * The value of the login error label.
      */
     private final StringProperty loginErrorLabel;
+
     /**
      * The value of the registration error label.
      */
@@ -36,7 +37,7 @@ public class RegistrationLoginViewModel {
     /**
      * Constructs the registration login view model and sets the player model
      * instance and team model instance.
-     * Also, intializes the error labels.
+     * Also initializes the error labels.
      *
      * @param playerModel player model instance
      * @param teamModel   team model instance
@@ -51,12 +52,12 @@ public class RegistrationLoginViewModel {
 
     /**
      * Validates the given email and password and triggers a login in the
-     * player model, if the validation was successful.
+     * player model if the validation was successful.
      * Loads the team for the given player.
      *
      * @param email    email of the player
      * @param password password of the player
-     * @return true if the login was successful, otherwise false
+     * @return true if the login was successful otherwise false
      */
     public boolean login(String email, String password) {
         if (email.length() < 1 || password.length() < 1) {
@@ -84,13 +85,13 @@ public class RegistrationLoginViewModel {
     }
 
     /**
-     * Validates the given name,  email and password and triggers a registration
-     * in the player model, if the validation was successful.
+     * Validates the given name, email and password and triggers a registration
+     * in the player model if the validation was successful.
      *
      * @param name     name of the player
      * @param email    email of the player
      * @param password password of the player
-     * @return true if the registration was successful, otherwise false
+     * @return true if the registration was successful otherwise false
      */
     public boolean register(String name, String email, String password) {
         if (name.length() < 1 || email.length() < 1 || password.length() < 1) {
@@ -121,7 +122,7 @@ public class RegistrationLoginViewModel {
      * Validates a given email against the email regex.
      *
      * @param email email of the player
-     * @return true if valid, otherwise false
+     * @return true if valid otherwise false
      */
     private boolean isEmailValid(String email) {
         return this.VALID_EMAIL_REGEX.matcher(email).find();
