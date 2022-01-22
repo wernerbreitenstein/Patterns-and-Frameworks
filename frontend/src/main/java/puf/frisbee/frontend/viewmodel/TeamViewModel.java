@@ -13,6 +13,7 @@ public class TeamViewModel {
     private final Player playerModel;
 
     private BooleanProperty teamFormVisibility;
+    private BooleanProperty readyToGoLabel;
     private StringProperty currentTeamLabel;
     private StringProperty playerLeftLabel;
     private StringProperty playerRightLabel;
@@ -32,6 +33,12 @@ public class TeamViewModel {
         this.teamFormVisibility = new SimpleBooleanProperty(
                 !this.teamModel.isTeamSet() || !this.teamModel.getActive()
         );
+
+        // if a team or an active team exists on load, headline is visible
+        this.readyToGoLabel = new SimpleBooleanProperty(
+                this.teamModel.isTeamSet() || this.teamModel.getActive()
+        );
+
         this.currentTeamLabel = new SimpleStringProperty();
         this.playerLeftLabel = new SimpleStringProperty();
         this.playerRightLabel = new SimpleStringProperty();
@@ -45,18 +52,18 @@ public class TeamViewModel {
     }
 
     private void setEmptyTeamValues() {
-        this.currentTeamLabel.setValue("You have no active team");
+        this.currentTeamLabel.setValue("Right now, you have no active team.");
         this.playerLeftLabel.setValue("");
         this.playerRightLabel.setValue("");
     }
 
     private void refreshTeamLabelValues() {
-        String nameTeam = this.teamModel.getName() != null ? this.teamModel.getName() : "no team";
-        this.currentTeamLabel.setValue("Current team: " + nameTeam);
-        String namePlayerLeft = this.teamModel.getPlayerLeft() != null ? this.teamModel.getPlayerLeft().getName() : "no player";
-        this.playerLeftLabel.setValue("Player left: " + namePlayerLeft);
-        String namePlayerRight = this.teamModel.getPlayerRight() != null ? this.teamModel.getPlayerRight().getName() : "no player";
-        this.playerRightLabel.setValue("Player right: "+ namePlayerRight);
+        String nameTeam = this.teamModel.getName() != null ? this.teamModel.getName() : " – –";
+        this.currentTeamLabel.setValue("YOUR CURRENT TEAM: " + nameTeam);
+        String namePlayerLeft = this.teamModel.getPlayerLeft() != null ? this.teamModel.getPlayerLeft().getName() : " – –";
+        this.playerLeftLabel.setValue("PLAYER LEFT: " + namePlayerLeft);
+        String namePlayerRight = this.teamModel.getPlayerRight() != null ? this.teamModel.getPlayerRight().getName() : " – –";
+        this.playerRightLabel.setValue("PLAYER RIGHT: "+ namePlayerRight);
     }
 
     public boolean joinTeam(String teamName) {
@@ -80,6 +87,7 @@ public class TeamViewModel {
         refreshTeamLabelValues();
         // set form display to false, we already have a team now
         this.teamFormVisibility.setValue(false);
+        this.readyToGoLabel.setValue(true);
         return true;
     }
 
@@ -109,6 +117,7 @@ public class TeamViewModel {
         refreshTeamLabelValues();
         // set form display to false, we already have a team now
         this.teamFormVisibility.setValue(false);
+        this.readyToGoLabel.setValue(true);
         return true;
     }
 
@@ -126,6 +135,9 @@ public class TeamViewModel {
     }
     public StringProperty getCreateTeamErrorLabelProperty() {
         return this.createTeamErrorLabel;
+    }
+    public BooleanProperty getReadyToGoVisibilityProperty() {
+        return this.readyToGoLabel;
     }
     public BooleanProperty getTeamFormVisibilityProperty() {
         return this.teamFormVisibility;
