@@ -86,7 +86,7 @@ public class TeamView {
     private ViewHandler viewHandler;
 
     /**
-     * Init method to set the team view model instance and the view hanlder
+     * Init method to set the team view model instance and the view handler
      * instance.
      * Also initializes all the needed bindings between fxml and team view
      * model.
@@ -122,7 +122,7 @@ public class TeamView {
     /**
      * This method is executed when the join team button is clicked.
      * It triggers the corresponding method in the team view model and clears
-     * the team name input field, if the join was successful.
+     * the team name input field if the join was successful.
      *
      * @param event action event
      */
@@ -139,7 +139,7 @@ public class TeamView {
     /**
      * This method is executed when the create team button is clicked.
      * It triggers the corresponding method in the team view model and clears
-     * the team name input field, if the creation was successful.
+     * the team name input field if the creation was successful.
      *
      * @param event action event
      */
