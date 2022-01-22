@@ -15,19 +15,13 @@ import java.beans.PropertyChangeEvent;
 
 public class WaitingView {
     @FXML
+    private BackgroundImageView backgroundImageController;
+
+    @FXML
     private TopPanelView topPanelController;
 
     @FXML
     private BottomPanelView bottomPanelController;
-
-    @FXML
-    private ImageView level01BackgroundImage;
-
-    @FXML
-    private ImageView level02BackgroundImage;
-
-    @FXML
-    private ImageView level03BackgroundImage;
 
     @FXML
     private ImageView frisbee;
@@ -45,10 +39,7 @@ public class WaitingView {
         this.viewHandler = viewHandler;
         this.waitingViewModel = waitingViewModel;
 
-        this.level01BackgroundImage.visibleProperty().bind(this.waitingViewModel.getShowLevel01BackgroundImageProperty());
-        this.level02BackgroundImage.visibleProperty().bind(this.waitingViewModel.getShowLevel02BackgroundImageProperty());
-        this.level03BackgroundImage.visibleProperty().bind(this.waitingViewModel.getShowLevel03BackgroundImageProperty());
-
+        this.backgroundImageController.init(waitingViewModel, viewHandler);
         this.topPanelController.init(waitingViewModel, viewHandler);
         this.bottomPanelController.init(waitingViewModel, viewHandler);
 
