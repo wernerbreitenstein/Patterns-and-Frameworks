@@ -17,10 +17,12 @@ public class WaitingViewModel {
      * The game model instance.
      */
     private final Game gameModel;
+
     /**
      * The team model instance.
      */
     private final Team teamModel;
+
     /**
      * The character model instance.
      */
@@ -30,38 +32,47 @@ public class WaitingViewModel {
      * The value of the background image.
      */
     private final ObjectProperty<Image> backgroundImage;
+
     /**
      * The value of the team name label.
      */
     private final StringProperty labelTeamName;
+
     /**
      * The value of the level label.
      */
     private final StringProperty labelLevel;
+
     /**
      * The value of the score label.
      */
     private final IntegerProperty labelScore;
+
     /**
      * The value of the countdown label.
      */
     private final StringProperty labelCountdown;
+
     /**
      * The value of the player greeting label.
      */
     private final StringProperty labelPlayerGreeting;
+
     /**
-     * The value of flag that indicates, if the start button is shown.
+     * The value of flag that indicates if the start button is shown.
      */
     private final BooleanProperty startButtonDisabled;
+
     /**
      * The hidden team lives as an observable array list.
      */
     private final ArrayList<BooleanProperty> teamLivesHidden;
+
     /**
      * The waiting message.
      */
     private final String waitingMessage;
+
     /**
      * Manages the listeners to changes in the waiting view model due to socket
      * connection.
@@ -125,7 +136,7 @@ public class WaitingViewModel {
     /**
      * This method is called when the ready status in the character model
      * changes.
-     * It sets the player greeting value and enables or disables the start
+     * It sets the players greeting value and enables or disables the start
      * button.
      *
      * @param event property change event
@@ -137,8 +148,7 @@ public class WaitingViewModel {
                 + "as one player clicks the button." : waitingMessage;
         Platform.runLater(() -> this.labelPlayerGreeting.setValue(message));
 
-        // when status is ready (= both players of a team connected) enable
-        // start button
+        // when status is ready (= both players of a team connected) enable start button
         // when ready is true, disabled should be false and the other way round
         Platform.runLater(
                 () -> this.startButtonDisabled.setValue(!readyStatus));
@@ -153,7 +163,7 @@ public class WaitingViewModel {
      */
     private void changeRedirectToGameProperty(PropertyChangeEvent event) {
         if ((boolean) event.getNewValue()) {
-            // notify view like this, since the redirect is not an element
+            // notify view like this since the redirect is not an element
             this.support.firePropertyChange("running", null, true);
         }
     }
