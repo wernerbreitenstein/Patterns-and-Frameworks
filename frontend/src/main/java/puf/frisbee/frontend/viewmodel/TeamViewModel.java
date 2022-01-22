@@ -36,7 +36,7 @@ public class TeamViewModel {
 
         // if a team or an active team exists on load, headline is visible
         this.readyToGoLabel = new SimpleBooleanProperty(
-                this.teamModel.isTeamSet() || this.teamModel.getActive()
+                this.teamModel.isTeamSet() && this.teamModel.getActive()
         );
 
         this.currentTeamLabel = new SimpleStringProperty();
