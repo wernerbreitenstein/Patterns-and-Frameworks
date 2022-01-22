@@ -34,7 +34,7 @@ public class BottomPanelView {
     }
 
     /**
-     * Init method used in game view, sets waiting view model and view
+     * Init method used in game view, sets game view model and view
      * handler.
      *
      * @param gameViewModel the game view model instance
