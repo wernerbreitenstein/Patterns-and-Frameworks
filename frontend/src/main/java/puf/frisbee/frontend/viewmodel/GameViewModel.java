@@ -211,8 +211,8 @@ public class GameViewModel {
 			if (!this.showGameOverDialog.getValue() && (second < 0)) {
 				timeline.stop();
 				labelCountdown.setValue("Time over");
-				showLevelSuccessDialog.setValue(this.teamModel.getLevel() < 3);
-				showGameSuccessDialog.setValue(this.teamModel.getLevel() >= 3);
+				showLevelSuccessDialog.setValue(this.teamModel.getLevel() < gameModel.getMaximumLevel());
+				showGameSuccessDialog.setValue(this.teamModel.getLevel() >= gameModel.getMaximumLevel());
 			}
 			
 		}));
