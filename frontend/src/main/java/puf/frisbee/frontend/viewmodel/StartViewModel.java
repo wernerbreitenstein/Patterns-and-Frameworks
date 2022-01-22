@@ -11,14 +11,17 @@ public class StartViewModel {
      * The game model instance.
      */
     private final Game gameModel;
+
     /**
      * The team model instance.
      */
     private final Team teamModel;
+
     /**
      * The highscore model instance.
      */
     private final Highscore highscoreModel;
+
     /**
      * The player model instance.
      */
@@ -28,46 +31,55 @@ public class StartViewModel {
      * The value of the team name label.
      */
     private final StringProperty labelTeamName;
+
     /**
      * The value of the team level label.
      */
     private final StringProperty labelLevel;
+
     /**
      * The value of the team score label.
      */
     private final IntegerProperty labelScore;
+
     /**
      * The value of the team lives label.
      */
     private final IntegerProperty labelLives;
+
     /**
      * The value of the greeting label.
      */
     private final StringProperty labelGreetingProperty;
+
     /**
-     * The value of flag that indicates, if the team data top panel is shown.
+     * The value of the flag that indicates if the team data top panel is shown.
      */
     private final BooleanProperty showTeamDataTopPanel;
+
     /**
-     * The value of flag that indicates, if the settings button is shown.
+     * The value of the flag that indicates if the settings button is shown.
      */
     private final BooleanProperty showSettingsButton;
+
     /**
-     * The value of flag that indicates, if the login/register button is shown.
+     * The value of the flag that indicates if the login/register button is shown.
      */
     private final BooleanProperty showLoginRegisterButton;
+
     /**
-     * The value of flag that indicates, if the start button is shown.
+     * The value of the flag that indicates if the start button is shown.
      */
     private final BooleanProperty showStartButton;
+
     /**
-     * The value of flag that indicates, if the join/create team button is
+     * The value of the flag that indicates if the join/create team button is
      * shown.
      */
     private final BooleanProperty showJoinCreateTeamButton;
 
     /**
-     * The values of the highscore table, a list of teams.
+     * The values of the highscore table as a list of teams.
      */
     private final ObservableList<Team> highscoreTableProperty;
 
@@ -112,7 +124,7 @@ public class StartViewModel {
     /**
      * Checks if a team is active.
      *
-     * @return true if the team is active, otherwise false
+     * @return true if the team is active otherwise false
      */
     private boolean teamIsActive() {
         return teamModel.isTeamSet() && teamModel.getActive();
@@ -138,7 +150,7 @@ public class StartViewModel {
     }
 
     /**
-     * Reset the timer of game.
+     * Reset the timer of the game.
      */
     public void resetCountdown() {
         this.gameModel.setCurrentCountdown(
@@ -205,7 +217,7 @@ public class StartViewModel {
     }
 
     /**
-     * Method for the binding of greeting label value with an element in the
+     * Method for the binding of the greeting label value with an element in the
      * view.
      *
      * @return greeting label value
@@ -256,10 +268,10 @@ public class StartViewModel {
 
 
     /**
-     * Method for binding the team data with an element in the view.
+     * Method for the binding of the team data with an element in the view.
      * Returns the available highscore data of all teams.
      *
-     * @return an obersable list of teams with name, level and score
+     * @return an observable list of all teams with name, level and score
      */
     public ObservableList<Team> getHighscoreTableItems() {
         this.refreshData();
