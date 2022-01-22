@@ -18,8 +18,8 @@ public class FrisbeeView {
     private GameViewModel gameViewModel;
 
     /**
-     * Init method, sets the game view model instance and the initial frisbee
-     * position in the game.
+     * Init method, sets the game view model instance and binds the frisbee
+     * position in the game to the position in the game view model.
      *
      * @param gameViewModel the game view model instance
      */
@@ -32,7 +32,7 @@ public class FrisbeeView {
     }
 
     /**
-     * This method is executed on click at the frisbee. It triggeres the
+     * This method is executed on click at the frisbee. It triggers the
      * throw functionality in the game view model.
      *
      * @param event mouse event
