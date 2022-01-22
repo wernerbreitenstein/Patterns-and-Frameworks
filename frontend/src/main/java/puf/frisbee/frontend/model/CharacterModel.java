@@ -8,29 +8,51 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class CharacterModel implements Character {
-    SocketClient socketClient;
-    Team teamModel;
-    private PropertyChangeSupport support;
+    /**
+     * The instance of the socket client needed for socket communication.
+     */
+    private final SocketClient socketClient;
+    /**
+     * The instance of the team model.
+     */
+    private final Team teamModel;
+    /**
+     * Manages the listeners to changes in the character model due to socket
+     * connection.
+     */
+    private final PropertyChangeSupport support;
 
+    /**
+     * Constructs the character model and sets the socket client and team
+     * model instance.
+     *
+     * @param socketClient the socket client
+     * @param teamModel    the team model
+     */
     public CharacterModel(SocketClient socketClient, Team teamModel) {
         this.socketClient = socketClient;
         this.teamModel = teamModel;
         // add listener to init status
-        socketClient.addPropertyChangeListener(SocketRequestType.READY, this::forwardNotificationAsBoolean);
+        socketClient.addPropertyChangeListener(SocketRequestType.READY,
+                this::forwardNotificationAsBoolean);
         // add listener to game status
-        socketClient.addPropertyChangeListener(SocketRequestType.GAME_RUNNING, this::forwardNotificationAsBoolean);
+        socketClient.addPropertyChangeListener(SocketRequestType.GAME_RUNNING,
+                this::forwardNotificationAsBoolean);
         // add listener to socket income changes for movement
-        socketClient.addPropertyChangeListener(SocketRequestType.MOVE, this::forwardNotification);
+        socketClient.addPropertyChangeListener(SocketRequestType.MOVE,
+                this::forwardNotification);
         // add listener to socket income changes for frisbee throw
-        socketClient.addPropertyChangeListener(SocketRequestType.THROW, this::forwardNotification);
+        socketClient.addPropertyChangeListener(SocketRequestType.THROW,
+                this::forwardNotification);
 
         // create own support to notify models
         support = new PropertyChangeSupport(this);
     }
 
-    // start socket connection and tell the server we are connected with our team
     @Override
     public void init() {
+        // start socket connection and tell the server we are connected with our
+        // team
         this.socketClient.start();
         this.socketClient.sendInitToServer(this.teamModel.getName());
     }
@@ -41,25 +63,18 @@ public class CharacterModel implements Character {
         this.socketClient.stopConnection();
     }
 
-    // tell the other client the game has started
     @Override
     public void startGame() {
+        // tell the other client the game has started
         this.socketClient.sendGameRunningToServer(true);
     }
 
-    // tell the other client the game has stopped
     @Override
     public void stopGame() {
+        // tell the other client the game has stopped
         this.socketClient.sendGameRunningToServer(false);
     }
 
-    // listen to ready and current game status changes and notify listener, if ready is true
-    private void forwardNotificationAsBoolean(PropertyChangeEvent event) {
-        boolean status = event.getNewValue().equals("true");
-        support.firePropertyChange(event.getPropertyName(), null, status);
-    }
-
-    // send message to socket as soon as own position is moved, so the other client knows
     @Override
     public void moveOwnCharacter(MovementDirection direction) {
         socketClient.sendMovementToServer(direction);
@@ -70,15 +85,32 @@ public class CharacterModel implements Character {
         socketClient.sendFrisbeeThrowToServer(parameter);
     }
 
-    // get the movement or frisbee throw of other character from server socket
-    private void forwardNotification(PropertyChangeEvent event) {
-        // notify other subscribers like GameViewModel
-        support.firePropertyChange(event.getPropertyName(), null, event.getNewValue());
+    /**
+     * Forwards notifications as boolean from the socket to all listeners.
+     *
+     * @param event the event the listener is subsribed to
+     */
+    private void forwardNotificationAsBoolean(PropertyChangeEvent event) {
+        boolean status = event.getNewValue().equals("true");
+        support.firePropertyChange(event.getPropertyName(), null, status);
     }
 
-    // function to add listener to changes in this model, filtered by type, needed e.g. for GameViewModel
+    /**
+     * Forwards notifications from the socket to all listeners.
+     *
+     * @param event the event the listener is subsribed to
+     */
+    private void forwardNotification(PropertyChangeEvent event) {
+        // notify other subscribers like GameViewModel
+        support.firePropertyChange(event.getPropertyName(), null,
+                event.getNewValue());
+    }
+
     @Override
-    public void addPropertyChangeListener(SocketRequestType type, PropertyChangeListener listener) {
+    public void addPropertyChangeListener(SocketRequestType type,
+                                          PropertyChangeListener listener) {
+        // function to add listener to changes in this model, filtered by type,
+        // needed e.g. for GameViewModel
         support.addPropertyChangeListener(type.name(), listener);
     }
 }

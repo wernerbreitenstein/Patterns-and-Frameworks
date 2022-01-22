@@ -31,6 +31,9 @@ public class TeamView {
     private Label createTeamError;
 
     @FXML
+    private Label readyToGo;
+
+    @FXML
     private Label currentTeam;
 
     @FXML
@@ -51,6 +54,7 @@ public class TeamView {
 
         this.teamForm.visibleProperty().bind(this.teamViewModel.getTeamFormVisibilityProperty());
 
+        this.readyToGo.visibleProperty().bind(this.teamViewModel.getReadyToGoVisibilityProperty());
         this.currentTeam.textProperty().bind(this.teamViewModel.getCurrentTeamLabel());
         this.playerLeft.textProperty().bind(this.teamViewModel.getPlayerLeftLabel());
         this.playerRight.textProperty().bind(this.teamViewModel.getPlayerRightLabel());

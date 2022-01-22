@@ -18,6 +18,42 @@
       <StackPane>
          <children>
             <Rectangle blendMode="MULTIPLY" height="600.0" opacity="0.6" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label fx:id="readyToGo" stylesheets="@../css/main.css" text="READY TO GO">
+                     <styleClass>
+                        <String fx:value="dialog-text" />
+                        <String fx:value="dialog-game-over" />
+                     </styleClass>
+                     <VBox.margin>
+                        <Insets bottom="140.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="TOP_CENTER" prefWidth="1280.0" translateY="-60.0">
+                     <children>
+                        <VBox alignment="CENTER" minWidth="500.0" styleClass="bg-dark">
+                           <children>
+                              <Label fx:id="currentTeam" stylesheets="@../css/main.css">
+                                 <styleClass>
+                                    <String fx:value="dialog-text" />
+                                    <String fx:value="dialog-h1" />
+                                 </styleClass>
+                                 <VBox.margin>
+                                    <Insets top="12.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="playerLeft" styleClass="form-label" />
+                              <Label fx:id="playerRight" styleClass="form-label">
+                                 <VBox.margin>
+                                    <Insets top="6.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
             <HBox fx:id="teamForm" alignment="CENTER" spacing="80.0">
                <children>
                   <VBox alignment="TOP_CENTER">
@@ -27,7 +63,7 @@
                               <String fx:value="form-label" />
                               <String fx:value="form-label-top" />
                            </styleClass></Label>
-                        <Label stylesheets="@../css/form.css" text="JOIN A TEAM">
+                        <Label stylesheets="@../css/form.css" text="JOIN TEAM">
                            <styleClass>
                               <String fx:value="form-label" />
                               <String fx:value="form-heading" />
@@ -80,39 +116,12 @@
                   <Insets top="40.0" />
                </padding>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#handleBackToStartButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="BACK TO START" translateY="210.0" />
          </children>
          <padding>
             <Insets bottom="40.0" top="80.0" />
          </padding>
       </StackPane>
-      <HBox alignment="TOP_CENTER" layoutX="540.0" layoutY="420.0" prefWidth="200.0">
-         <children>
-            <VBox alignment="CENTER" minWidth="500.0" styleClass="bg-dark" translateX="-150.0">
-               <children>
-                  <Label fx:id="currentTeam" stylesheets="@../css/form.css">
-                     <styleClass>
-                        <String fx:value="form-label" />
-                        <String fx:value="form-heading" />
-                     </styleClass>
-                  </Label>
-                  <Label fx:id="playerLeft" styleClass="form-label" />
-                  <Label fx:id="playerRight" styleClass="form-label">
-                     <VBox.margin>
-                        <Insets top="6.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Button mnemonicParsing="false" onAction="#handleBackToStartButtonClicked" styleClass="button-light" stylesheets="@../css/main.css" text="BACK TO START" translateY="30.0">
-                     <VBox.margin>
-                        <Insets top="24.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </VBox>
-         </children>
-      </HBox>
       <fx:include fx:id="topPanel" source="TopPanel.fxml" />
       <fx:include fx:id="bottomPanel" layoutY="680.0" source="BottomPanel.fxml" />
    </children>

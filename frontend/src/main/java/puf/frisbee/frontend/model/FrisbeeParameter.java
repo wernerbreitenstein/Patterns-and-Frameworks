@@ -1,9 +1,21 @@
 package puf.frisbee.frontend.model;
 
 public class FrisbeeParameter {
+    /**
+     * The frisbee speed in x direction.
+     */
     private double frisbeeSpeedX;
+    /**
+     * The frisbee speed in y direction.
+     */
     private double frisbeeSpeedY;
 
+    /**
+     * Constructs the frisbee parameters and sets x and y speed of the frisbee.
+     *
+     * @param frisbeeSpeedX the frisbee speed in x direction
+     * @param frisbeeSpeedY the frisbee speed in y direction
+     */
     public FrisbeeParameter(double frisbeeSpeedX, double frisbeeSpeedY) {
         this.frisbeeSpeedX = frisbeeSpeedX;
         this.frisbeeSpeedY = frisbeeSpeedY;
@@ -11,6 +23,7 @@ public class FrisbeeParameter {
 
     /**
      * Gets the frisbee speed x value.
+     *
      * @return the frisbee speed x value
      */
     public double getFrisbeeSpeedX() {
@@ -19,6 +32,7 @@ public class FrisbeeParameter {
 
     /**
      * Sets the frisbee speed x value.
+     *
      * @param frisbeeSpeedX the frisbee speed x value
      */
     public void setFrisbeeSpeedX(double frisbeeSpeedX) {
@@ -27,6 +41,7 @@ public class FrisbeeParameter {
 
     /**
      * Gets the frisbee speed y value.
+     *
      * @return the frisbee speed y value
      */
     public double getFrisbeeSpeedY() {
@@ -35,6 +50,7 @@ public class FrisbeeParameter {
 
     /**
      * Sets the frisbee speed y value.
+     *
      * @param frisbeeSpeedY the frisbee speed y value
      */
     public void setFrisbeeSpeedY(double frisbeeSpeedY) {
@@ -47,17 +63,23 @@ public class FrisbeeParameter {
     }
 
     /**
-     * Takes a string and converts it to a FrisbeeParameterObject if possible
-     * @param frisbeeParameter String that should be converted to a frisbee parameter object
+     * Takes a string and converts it to a FrisbeeParameterObject if possible.
+     *
+     * @param frisbeeParameter String that should be converted to a frisbee
+     *                         parameter object
      * @return FrisbeeParameter object if string could be converted
      * @throws IllegalArgumentException if string can not be converted
      */
-    public static FrisbeeParameter stringToObject(String frisbeeParameter) throws IllegalArgumentException {
+    public static FrisbeeParameter stringToObject(
+            String frisbeeParameter) throws IllegalArgumentException {
         String[] parameter = frisbeeParameter.split("-");
-        if(parameter.length != 2) {
-            throw new IllegalArgumentException("This string can not be converted to a frisbee parameter object.");
+        if (parameter.length != 2) {
+            throw new IllegalArgumentException(
+                    "This string can not be converted to a frisbee parameter "
+                            + "object.");
         }
 
-        return new FrisbeeParameter(Double.parseDouble(parameter[0]), Double.parseDouble(parameter[1]));
+        return new FrisbeeParameter(Double.parseDouble(parameter[0]),
+                Double.parseDouble(parameter[1]));
     }
 }

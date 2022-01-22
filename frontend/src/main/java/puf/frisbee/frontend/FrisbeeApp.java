@@ -8,13 +8,13 @@ import puf.frisbee.frontend.core.ViewModelFactory;
 import puf.frisbee.frontend.network.SocketClientFactory;
 
 public class FrisbeeApp extends Application {
-	@Override
-	public void start(Stage stage) {
-		SocketClientFactory socketClientFactory = new SocketClientFactory();
-		ModelFactory modelFactory = new ModelFactory(socketClientFactory);
-		ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
-		ViewHandler viewHandler = new ViewHandler(viewModelFactory);
+    @Override
+    public void start(Stage stage) {
+        SocketClientFactory socketClientFactory = new SocketClientFactory();
+        ModelFactory modelFactory = new ModelFactory(socketClientFactory);
+        ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
+        ViewHandler viewHandler = new ViewHandler(viewModelFactory);
 
-		viewHandler.start();
-	}
+        viewHandler.start();
+    }
 }
