@@ -63,7 +63,7 @@ public class RegistrationLoginView {
     private Label registrationError;
 
     /**
-     * tThe registration login view model instance.
+     * The registration login view model instance.
      */
     private RegistrationLoginViewModel registrationLoginViewModel;
 
@@ -75,8 +75,9 @@ public class RegistrationLoginView {
     /**
      * Init method, sets the registration login view model instance and the
      * view handler instance.
-     * Also initializes the top panel, the bottom panel view and the binding
-     * of the text fields and labels with the login registration view model.
+     * Also initializes the top panel view, the bottom panel view and the
+     * binding of the text fields and labels with the login registration view
+     * model.
      *
      * @param registrationLoginViewModel registration login view model instance
      * @param viewHandler                view handler instance
