@@ -12,14 +12,36 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 
 public class PlayerModel implements Player {
+    /**
+     * Base url used for requests to the server.
+     */
     private final String baseUrl;
 
+    /**
+     * The player's id as stored in the database.
+     */
     private int id;
+    /**
+     * The player's name.
+     */
     private String name;
+    /**
+     * The player's email.
+     */
     private String email;
+    /**
+     * The player's password.
+     */
     private String password;
+    /**
+     * The player's log in status. Defaults to false;
+     */
     private boolean isLoggedIn = false;
 
+    /**
+     * Constructs the player model and  sets the base url as defined in the
+     * .env file.
+     */
     public PlayerModel() {
         // initialize base url for requests
         Dotenv dotenv = Dotenv.load();
@@ -68,7 +90,9 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public boolean isLoggedIn() { return this.isLoggedIn; }
+    public boolean isLoggedIn() {
+        return this.isLoggedIn;
+    }
 
     @Override
     public void setLoginStatus(boolean status) {
@@ -76,7 +100,7 @@ public class PlayerModel implements Player {
     }
 
     @Override
-    public boolean register(String name, String email, String password){
+    public boolean register(String name, String email, String password) {
         try {
             this.name = name;
             this.email = email;
@@ -98,7 +122,7 @@ public class PlayerModel implements Player {
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
             return response.statusCode() == 201;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -107,7 +131,8 @@ public class PlayerModel implements Player {
     public boolean login(String email, String password) {
 
         try {
-            String loginCredentials = "{\"email\":\"" + email + "\",\"password\":\"" + password  +"\"}";
+            String loginCredentials = "{\"email\":\"" + email + "\","
+                   + "\"password\":\"" + password + "\"}";
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(this.baseUrl + "/players/login"))
@@ -120,10 +145,12 @@ public class PlayerModel implements Player {
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200){
+            if (response.statusCode() == 200) {
 
                 ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, String> map = objectMapper.readValue(response.body(), new TypeReference<>() {});
+                Map<String, String> map = objectMapper.readValue(
+                        response.body(), new TypeReference<>() {
+                        });
 
                 this.name = map.get("name");
                 this.email = map.get("email");
@@ -132,7 +159,7 @@ public class PlayerModel implements Player {
             } else {
                 return false;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -141,7 +168,8 @@ public class PlayerModel implements Player {
     public boolean updateName(String name) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(this.baseUrl + "/players/update-player-name/" + this.email))
+                    .uri(new URI(this.baseUrl + "/players/update-player-name/"
+                            + this.email))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(name))
                     .build();

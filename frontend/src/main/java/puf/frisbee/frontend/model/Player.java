@@ -80,10 +80,9 @@ public interface Player {
     /**
      * Registers player in the database and sets data in the player model.
      *
-     * @param name name of the player
-     * @param email email of the player
+     * @param name     name of the player
+     * @param email    email of the player
      * @param password password of the player
-     *
      * @return boolean true if registration was successful
      */
     boolean register(String name, String email, String password);
@@ -91,9 +90,8 @@ public interface Player {
     /**
      * Logs player in and sets data in the player model.
      *
-     * @param email email of the player
+     * @param email    email of the player
      * @param password password of the player
-     *
      * @return boolean true if login was successful
      */
     boolean login(String email, String password);
