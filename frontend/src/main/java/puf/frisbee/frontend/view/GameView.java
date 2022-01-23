@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import puf.frisbee.frontend.core.ViewHandler;
+import puf.frisbee.frontend.viewmodel.BackgroundImageViewModel;
 import puf.frisbee.frontend.viewmodel.GameViewModel;
 
 import java.beans.PropertyChangeEvent;
@@ -108,13 +109,16 @@ public class GameView {
      * Subscribes as listener to the game view model to trigger redirects.
      *
      * @param gameViewModel game view model instance
+     * @param backgroundImageViewModel background image view model instance
      * @param viewHandler   view handler instance
      */
-    public void init(GameViewModel gameViewModel, ViewHandler viewHandler) {
+    public void init(GameViewModel gameViewModel,
+                     BackgroundImageViewModel backgroundImageViewModel,
+                     ViewHandler viewHandler) {
         this.gameViewModel = gameViewModel;
         this.viewHandler = viewHandler;
 
-        this.backgroundImageController.init(gameViewModel);
+        this.backgroundImageController.init(backgroundImageViewModel);
 
         this.topPanelController.init(gameViewModel, viewHandler);
         this.bottomPanelController.init(gameViewModel, viewHandler);

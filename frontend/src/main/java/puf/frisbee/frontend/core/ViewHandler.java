@@ -51,7 +51,8 @@ public class ViewHandler {
         try {
             Parent root = gameViewLoader.load();
             GameView gameView = gameViewLoader.getController();
-            gameView.init(viewModelFactory.getGameViewModel(), this);
+            gameView.init(viewModelFactory.getGameViewModel(),
+                    viewModelFactory.getBackgroundImageViewModel(), this);
             this.stage.setTitle("FRIZZBEE FREAKZ | GAME");
             Scene scene = new Scene(root, Constants.SCENE_WIDTH,
                     Constants.SCENE_HEIGHT);
@@ -72,7 +73,8 @@ public class ViewHandler {
         try {
             Parent root = waitingViewLoader.load();
             WaitingView waitingView = waitingViewLoader.getController();
-            waitingView.init(viewModelFactory.getWaitingViewModel(), this);
+            waitingView.init(viewModelFactory.getWaitingViewModel(),
+                    viewModelFactory.getBackgroundImageViewModel(), this);
             this.stage.setTitle("FRIZZBEE FREAKZ | WAITING");
             Scene scene = new Scene(root, Constants.SCENE_WIDTH,
                     Constants.SCENE_HEIGHT);
