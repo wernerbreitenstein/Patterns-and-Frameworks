@@ -20,14 +20,17 @@ public class GameViewModel {
      * Instance of the game model.
      */
     private final Game gameModel;
+
     /**
      * Instance of the level model.
      */
     private final Level levelModel;
+
     /**
      * Instance of the team model.
      */
     private final Team teamModel;
+
     /**
      * Instance of the character model.
      */
@@ -43,6 +46,7 @@ public class GameViewModel {
      * The timeline of the countdown.
      */
     private Timeline timeline;
+
     /**
      * The current second the countdown is at.
      */
@@ -52,6 +56,7 @@ public class GameViewModel {
      * The remaining lives in the current game.
      */
     private int remainingLives;
+
     /**
      * The hidden team lives as an observable array list.
      */
@@ -61,21 +66,25 @@ public class GameViewModel {
      * The character type of the own character. Left or right.
      */
     private CharacterType ownCharacter;
+
     /**
      * The value of the own character's x position.
      * Will be updated during the game.
      */
     private DoubleProperty ownCharacterXPosition;
+
     /**
      * The value of the own character's y position.
      * Will be updated during the game.
      */
     private DoubleProperty ownCharacterYPosition;
+
     /**
      * The value of the other character's x position.
      * Will be updated during the game.
      */
     private DoubleProperty otherCharacterXPosition;
+
     /**
      * The value of the other character's y position.
      * Will be updated during the game.
@@ -86,45 +95,54 @@ public class GameViewModel {
      * The own character's right hand x position.
      */
     private double ownCharacterCatchingZoneRightX;
+
     /**
      * The own character's right hand y position.
      */
     private double ownCharacterCatchingZoneRightY;
+
     /**
      * The own character's left hand x position.
      */
     private double ownCharacterCatchingZoneLeftX;
+
     /**
      * The own character's left hand y position.
      */
     private double ownCharacterCatchingZoneLeftY;
+
     /**
      * The other character's right hand x position.
      */
     private double otherCharacterCatchingZoneRightX;
+
     /**
      * The other character's right hand y position.
      */
     private double otherCharacterCatchingZoneRightY;
+
     /**
      * The other character's left hand x position.
      */
     private double otherCharacterCatchingZoneLeftX;
+
     /**
      * The other character's left hand y position.
      */
     private double otherCharacterCatchingZoneLeftY;
 
     /**
-     * Flag that indicates, if own character is moving left.
+     * Flag that indicates if own character is moving left.
      */
     private boolean isOwnCharacterMovingLeft;
+
     /**
-     * Flag that indicates, if own character is moving right.
+     * Flag that indicates if own character is moving right.
      */
     private boolean isOwnCharacterMovingRight;
+
     /**
-     * Flag that indicates, if own character is throwing the frisbee.
+     * Flag that indicates if own character is throwing the frisbee.
      */
     private boolean isOwnCharacterThrowing;
 
@@ -133,55 +151,66 @@ public class GameViewModel {
      * Will be updated during the game.
      */
     private DoubleProperty frisbeeXPosition;
+
     /**
      * The value of the other frisbee's y position.
      * Will be updated during the game.
      */
     private DoubleProperty frisbeeYPosition;
+
     /**
-     * Flag that indicates, if frisbee is moving right now.
+     * Flag that indicates if the frisbee is moving right now.
      */
     private boolean isFrisbeeMoving;
+
     /**
-     * Helper property for frisbee movement calculation.
+     * Helper property for the frisbee movement calculation.
      * Indicates if the highest point, the frisbee is allowed to be, is reached.
      */
     private boolean isHighestFrisbeePointReached;
+
     /**
-     * The frisbee speed in x direction.
+     * The frisbee's speed in x direction.
      */
     private double frisbeeSpeedX;
+
     /**
-     * The frisbee speed in y direction.
+     * The frisbee's speed in y direction.
      */
     private double frisbeeSpeedY;
+
     /**
-     * The current frisbee throw direction.
+     * The frisbee's throw direction.
      */
     private int frisbeeThrowDirection;
+
     /**
-     * The frisbee timeline counter, needed for frisbee movement calculation.
+     * The frisbee's timeline counter, needed for frisbee movement calculation.
      */
     private double frisbeeTimelineCounter;
 
     /**
-     * The value of flag that indicates if the level success dialog is shown.
+     * The value of the flag that indicates if the level success dialog is shown.
      */
     private final BooleanProperty showLevelSuccessDialog;
+
     /**
-     * The value of flag that indicates if the game success dialog is shown.
+     * The value of the flag that indicates if the game success dialog is shown.
      */
     private final BooleanProperty showGameSuccessDialog;
+
     /**
-     * The value of flag that indicates if the game over dialog is shown.
+     * The value of the flag that indicates if the game over dialog is shown.
      */
     private final BooleanProperty showGameOverDialog;
+
     /**
-     * The value of flag that indicates if the pause dialog is shown.
+     * The value of the flag that indicates if the pause dialog is shown.
      */
     private final BooleanProperty showQuitConfirmDialog;
+
     /**
-     * The value of flag that indicates if the disconnect dialog is shown.
+     * The value of the flag that indicates if the disconnect dialog is shown.
      */
     private final BooleanProperty showDisconnectDialog;
 
@@ -190,24 +219,29 @@ public class GameViewModel {
      * success dialog.
      */
     private final StringProperty buttonLevelContinueText;
+
     /**
      * The value of the text displayed as headline in the level
      * success dialog.
      */
     private final StringProperty labelLevelSuccess;
+
     /**
      * The value of the countdown label in the top panel.
      * Will be updated during the game.
      */
     private final StringProperty labelCountdown;
+
     /**
      * The value of the team name label in the top panel.
      */
     private final StringProperty labelTeamName;
+
     /**
      * The value of the level label in the top panel.
      */
     private final StringProperty labelLevel;
+
     /**
      * The value of the score label in the top panel.
      * Will be updated during the game.
@@ -377,7 +411,7 @@ public class GameViewModel {
     /**
      * This method is the heart of the game.
      * Starts the animation timer, detects (own) character movement and
-     * executes the frisbee throw.
+     * executes the frisbee's throw.
      */
     private void startAnimation() {
         AnimationTimer timer = new AnimationTimer() {
@@ -434,7 +468,7 @@ public class GameViewModel {
 
     /**
      * Starts the countdown in the top panel, counts down 1 each second.
-     * On game over, the timeline stops.
+     * On game over the timeline stops.
      * When the countdown reaches 0, either the level success or the game
      * success dialog visibility flag is set to true.
      */
@@ -488,7 +522,7 @@ public class GameViewModel {
 
     /**
      * This method is called when the other character moves.
-     * Moves the other character, depending on the values received from the
+     * Moves the other character depending on the values received from the
      * socket connection.
      *
      * @param event property change event
@@ -517,8 +551,8 @@ public class GameViewModel {
 
     /**
      * This method is called when the other character throws.
-     * Sets the frisbee throw parameter as received from the socket
-     * connection and triggers a frisbee throw from the other character.
+     * Sets the frisbee's throw parameter as received from the socket
+     * connection and triggers a frisbee's throw from the other character.
      *
      * @param event property change event
      */
@@ -544,9 +578,9 @@ public class GameViewModel {
 
     /**
      * This method is called when the other character changes the game
-     * running status, e.g. by continueing the level or stopping the game.
+     * running status, e.g. by continuing the level or stopping the game.
      * It either opens or closes dialogs or notifies the view to continue the
-     * game, so the game of both players is synced.
+     * game, so the game of both players is synchronized.
      *
      * @param event property change event
      */
@@ -726,7 +760,7 @@ public class GameViewModel {
     }
 
     /**
-     * Helper function to reset the throw parameter for a frisbee throw.
+     * Helper function to reset the throw parameter for a frisbee's throw.
      */
     private void resetThrowParameter() {
         // reset curve helper for new frisbee throw
@@ -735,7 +769,7 @@ public class GameViewModel {
     }
 
     /**
-     * Sets a timeout. Can be used after a frisbee throw was done.
+     * Sets a timeout. Can be used after a frisbee's throw was done.
      */
     private void setFrisbeeTimeout() {
         try {
@@ -755,7 +789,7 @@ public class GameViewModel {
     }
 
     /**
-     * Updates the frisbee position to the right hand of the own character.
+     * Updates the frisbee's position to the right hand of the own character.
      */
     private void setFrisbeePositionToOwnCharacter() {
         this.frisbeeXPosition.setValue(
@@ -765,7 +799,7 @@ public class GameViewModel {
     }
 
     /**
-     * Updates the frisbee position to the right hand of the other character.
+     * Updates the frisbee's position to the right hand of the other character.
      */
     private void setFrisbeePositionToOtherCharacter() {
         this.frisbeeXPosition.setValue(
@@ -812,11 +846,11 @@ public class GameViewModel {
 
     /**
      * This method is called when the own character throws the frisbee.
-     * It sets the frisbee throw parameter and triggers the throw in the
+     * It sets the frisbee's throw parameter and triggers the throw in the
      * animation timer.
      */
     public void throwFrisbee() {
-        // if not the own character has the frisbee, do nothing
+        // if the own character does not have the frisbee then do nothing
         if (!isOwnCharacterThrowing) {
             return;
         }
@@ -837,7 +871,7 @@ public class GameViewModel {
 
     /**
      * This method is called when the player presses the arrow key left.
-     * It sets the flag for the own left movement, if the character is
+     * It sets the flag for the own left movement if the character is
      * allowed to move left.
      */
     public void moveCharacterLeft() {
@@ -852,7 +886,7 @@ public class GameViewModel {
 
     /**
      * This method is called when the player presses the arrow key right.
-     * It sets the flag for the own right movement, if the character is
+     * It sets the flag for the own right movement if the character is
      * allowed to move right.
      */
     public void moveCharacterRight() {
@@ -894,7 +928,7 @@ public class GameViewModel {
     }
 
     /**
-     * Triggers a disconnect, so the other client can react.
+     * Triggers a disconnect so the other client can react.
      */
     public void disconnect() {
         this.characterModel.stop();
@@ -993,7 +1027,7 @@ public class GameViewModel {
      * @return left character's x position value
      */
     public DoubleProperty getCharacterLeftXPositionProperty() {
-        // return own character position, if own character is left, otherwise
+        // return own character position if own character is left, otherwise
         // other character position
         return this.ownCharacter == CharacterType.LEFT
                 ? this.ownCharacterXPosition : this.otherCharacterXPosition;
@@ -1007,7 +1041,7 @@ public class GameViewModel {
      * @return left character's y position value
      */
     public DoubleProperty getCharacterLeftYPositionProperty() {
-        // return own character position, if own character is left, otherwise
+        // return own character position if own character is left, otherwise
         // other character position
         return this.ownCharacter == CharacterType.LEFT
                 ? this.ownCharacterYPosition : this.otherCharacterYPosition;
@@ -1035,7 +1069,7 @@ public class GameViewModel {
      * @return right character's y position value
      */
     public DoubleProperty getCharacterRightYPositionProperty() {
-        // return own character position, if own character is right,
+        // return own character position if own character is right,
         // otherwise other character position
         return this.ownCharacter == CharacterType.RIGHT
                 ? this.ownCharacterYPosition : this.otherCharacterYPosition;
