@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.ViewHandler;
+import puf.frisbee.frontend.viewmodel.BackgroundImageViewModel;
 import puf.frisbee.frontend.viewmodel.WaitingViewModel;
 
 import java.beans.PropertyChangeEvent;
@@ -68,14 +69,16 @@ public class WaitingView {
      * Subscribes as listener to the waiting view model to trigger redirects.
      *
      * @param waitingViewModel waiting view model instance
+     * @param backgroundImageViewModel background image view model instance
      * @param viewHandler      view handler instance
      */
     public void init(WaitingViewModel waitingViewModel,
+                     BackgroundImageViewModel backgroundImageViewModel,
                      ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
         this.waitingViewModel = waitingViewModel;
 
-        this.backgroundImageController.init(waitingViewModel);
+        this.backgroundImageController.init(backgroundImageViewModel);
         this.topPanelController.init(waitingViewModel, viewHandler);
         this.bottomPanelController.init(waitingViewModel, viewHandler);
 

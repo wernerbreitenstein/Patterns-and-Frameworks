@@ -2,7 +2,6 @@ package puf.frisbee.frontend.viewmodel;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
-import javafx.scene.image.Image;
 import puf.frisbee.frontend.model.*;
 import puf.frisbee.frontend.model.Character;
 import puf.frisbee.frontend.network.SocketRequestType;
@@ -27,11 +26,6 @@ public class WaitingViewModel {
      * The character model instance.
      */
     private final Character characterModel;
-
-    /**
-     * The value of the background image.
-     */
-    private final ObjectProperty<Image> backgroundImage;
 
     /**
      * The value of the team name label.
@@ -111,10 +105,6 @@ public class WaitingViewModel {
             this.teamLivesHidden.add(hidden);
         }
 
-        this.backgroundImage = new SimpleObjectProperty(
-                new Image(getClass().getResource(
-                        this.teamModel.getBackgroundImageForLevel(
-                                this.teamModel.getLevel())).toString()));
         this.labelTeamName = new SimpleStringProperty(this.teamModel.getName());
         this.labelLevel = new SimpleStringProperty(
                 String.valueOf(this.teamModel.getLevel()));
@@ -148,7 +138,8 @@ public class WaitingViewModel {
                 + "as one player clicks the button." : waitingMessage;
         Platform.runLater(() -> this.labelPlayerGreeting.setValue(message));
 
-        // when status is ready (= both players of a team connected) enable start button
+        // when status is ready (= both players of a team connected) enable
+        // start button
         // when ready is true, disabled should be false and the other way round
         Platform.runLater(
                 () -> this.startButtonDisabled.setValue(!readyStatus));
@@ -180,16 +171,6 @@ public class WaitingViewModel {
      */
     public void quitWaiting() {
         this.characterModel.stop();
-    }
-
-    /**
-     * Method for the binding of the background image value with an element in
-     * the view.
-     *
-     * @return background image value
-     */
-    public ObjectProperty<Image> getBackgroundImageProperty() {
-        return this.backgroundImage;
     }
 
     /**

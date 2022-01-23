@@ -3,7 +3,6 @@ package puf.frisbee.frontend.viewmodel;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.*;
-import javafx.scene.image.Image;
 import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
@@ -27,7 +26,6 @@ public class GameViewModel {
 	private int remainingLives;
 	private double counter;
 
-	private ObjectProperty<Image> backgroundImage;
 
 	private CharacterType ownCharacter;
 
@@ -99,8 +97,6 @@ public class GameViewModel {
 			BooleanProperty hidden = new SimpleBooleanProperty(i >= this.remainingLives);
 			this.teamLivesHidden.add(hidden);
 		}
-
-		this.backgroundImage = new SimpleObjectProperty();
 		
 		this.labelLevel = new SimpleStringProperty();
 		this.labelCountdown = new SimpleStringProperty();
@@ -165,11 +161,6 @@ public class GameViewModel {
 		// y position is the same for both characters
 		this.ownCharacterYPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterYPosition());
 		this.otherCharacterYPosition = new SimpleDoubleProperty(levelModel.getInitialCharacterYPosition());
-	}
-
-	public ObjectProperty<Image> getBackgroundImageProperty() {
-		this.backgroundImage.setValue(new Image(getClass().getResource(this.teamModel.getBackgroundImageForLevel(this.teamModel.getLevel())).toString()));
-		return this.backgroundImage;
 	}
 
 	private void setTeamLivesHidden() {
