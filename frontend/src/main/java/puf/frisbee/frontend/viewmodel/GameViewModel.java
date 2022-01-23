@@ -297,8 +297,8 @@ public class GameViewModel {
         this.showDisconnectDialog = new SimpleBooleanProperty(false);
 
         this.buttonLevelContinueText = new SimpleStringProperty(
-                "Yes, take me to level " + this.teamModel.getLevel()
-                        + 1 + ".");
+                "Yes, take me to level " + (this.teamModel.getLevel()
+                        + 1) + ".");
         this.labelLevelSuccess = new SimpleStringProperty(
                 "Hey, you finished level " + this.teamModel.getLevel()
                         + " … " + "go ahead?");
