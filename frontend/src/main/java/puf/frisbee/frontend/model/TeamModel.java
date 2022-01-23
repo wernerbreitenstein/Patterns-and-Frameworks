@@ -15,324 +15,383 @@ import java.util.Comparator;
 import java.nio.charset.StandardCharsets;
 
 public class TeamModel implements Team {
-	private final String baseUrl;
-	@JsonIgnore
-	private boolean teamIsSet;
-	@JsonIgnore
-	private CharacterType ownCharacterType;
+    /**
+     * The base url used for the requests.
+     */
+    private final String baseUrl;
+    /**
+     * Flag if the team for the current player is set.
+     */
+    @JsonIgnore
+    private boolean teamIsSet;
+    /**
+     * The character type of the current player, left or right.
+     */
+    @JsonIgnore
+    private CharacterType ownCharacterType;
 
-	private int id;
-	private String name;
-	private Player playerLeft;
-	private Player playerRight;
-	private int lives;
-	private int level;
-	private int score;
-	private boolean active;
+    /**
+     * The team id as stored in the database.
+     */
+    private int id;
+    /**
+     * The team name.
+     */
+    private String name;
+    /**
+     * The left player of the team as player object.
+     */
+    private Player playerLeft;
+    /**
+     * The right player of the team as player object.
+     */
+    private Player playerRight;
+    /**
+     * The lives the team has left.
+     */
+    private int lives;
+    /**
+     * The level the team is in.
+     */
+    private int level;
+    /**
+     * The score of the team.
+     */
+    private int score;
+    /**
+     * Flag that indicates if team is active.
+     */
+    private boolean active;
 
-	public TeamModel() {
-		// initialize base url for requests
-		Dotenv dotenv = Dotenv.load();
-		this.baseUrl = dotenv.get("BACKEND_BASE_URL");
-	}
+    /**
+     * Constructs the team model and sets the base url for the backend requests.
+     */
+    public TeamModel() {
+        // initialize base url for requests
+        Dotenv dotenv = Dotenv.load();
+        this.baseUrl = dotenv.get("BACKEND_BASE_URL");
+    }
 
-	@Override
-	public int getId() {
-		return id;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	@Override
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public Player getPlayerLeft() {
-		return playerLeft;
-	}
+    @Override
+    public Player getPlayerLeft() {
+        return playerLeft;
+    }
 
-	@Override
-	public void setPlayerLeft(Player playerLeft) {
-		this.playerLeft = playerLeft;
-	}
+    @Override
+    public void setPlayerLeft(Player playerLeft) {
+        this.playerLeft = playerLeft;
+    }
 
-	@Override
-	public Player getPlayerRight() {
-		return playerRight;
-	}
+    @Override
+    public Player getPlayerRight() {
+        return playerRight;
+    }
 
-	@Override
-	public void setPlayerRight(Player playerRight) {
-		this.playerRight = playerRight;
-	}
+    @Override
+    public void setPlayerRight(Player playerRight) {
+        this.playerRight = playerRight;
+    }
 
-	@Override
-	public int getLives() {
-		return this.lives;
-	}
+    @Override
+    public int getLives() {
+        return this.lives;
+    }
 
-	@Override
-	public void setLives(int lives) {
-		this.lives = lives;
-	}
+    @Override
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
 
-	@Override
-	public int getLevel() {
-		return this.level;
-	}
+    @Override
+    public int getLevel() {
+        return this.level;
+    }
 
-	@Override
-	public void setLevel(int level) {
-		this.level = level;
-	}
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-	@Override
-	public int getScore() {
-		return this.score;
-	}
+    @Override
+    public int getScore() {
+        return this.score;
+    }
 
-	@Override
-	public void setScore(int score) {
-		this.score = score;
-	}
+    @Override
+    public void setScore(int score) {
+        this.score = score;
+    }
 
-	@Override
-	public String getBackgroundImageForLevel(int level) { return "/puf/frisbee/frontend/images/level" + level + "_bg.png"; }
+    @Override
+    public String getBackgroundImageForLevel(int level) {
+        return "/puf/frisbee/frontend/images/level" + level + "_bg.png";
+    }
 
-	@Override
-	public boolean getActive() {
-		return active;
-	}
+    @Override
+    public boolean getActive() {
+        return active;
+    }
 
-	@Override
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-	@Override
-	public boolean isTeamSet() {
-		return this.teamIsSet;
-	}
+    @Override
+    public boolean isTeamSet() {
+        return this.teamIsSet;
+    }
 
-	@Override
-	public boolean createTeam(String teamName) throws IllegalArgumentException {
-		// create team in backend
-		try {
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(new URI(this.baseUrl + "/teams/create"))
-					.header("Content-Type", "application/json")
-					.POST(HttpRequest.BodyPublishers.ofString(teamName))
-					.build();
+    @Override
+    public boolean createTeam(String teamName) throws IllegalArgumentException {
+        // create team in backend
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(this.baseUrl + "/teams/create"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(teamName))
+                    .build();
 
-			HttpResponse<String> response = HttpClient
-					.newBuilder()
-					.build()
-					.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-			if (response.statusCode() == 201) {
-				return true;
-			}
+            if (response.statusCode() == 201) {
+                return true;
+            }
 
-			if (response.statusCode() == 400) {
-				throw new IllegalArgumentException(response.body().toString());
-			}
-		} catch(IllegalArgumentException e) {
-			this.teamIsSet = false;
-			// forward because we need the message for the error label
-			throw e;
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
+            if (response.statusCode() == 400) {
+                throw new IllegalArgumentException(response.body().toString());
+            }
+        } catch (IllegalArgumentException e) {
+            this.teamIsSet = false;
+            // forward because we need the message for the error label
+            throw e;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-		this.teamIsSet = false;
-		return false;
-	}
+        this.teamIsSet = false;
+        return false;
+    }
 
-	@Override
-	public boolean joinTeam(Player player, String teamName) {
-		// join team in backend
-		try {
-			String requestBody = "{\"teamName\":\"" + teamName + "\",\"playerEmail\":\"" + player.getEmail()  +"\"}";
+    @Override
+    public boolean joinTeam(Player player, String teamName) {
+        // join team in backend
+        try {
+            String requestBody = "{\"teamName\":\"" + teamName + "\"," +
+                    "\"playerEmail\":\"" + player.getEmail() + "\"}";
 
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(new URI(this.baseUrl + "/teams/join"))
-					.header("Content-Type", "application/json")
-					.POST(HttpRequest.BodyPublishers.ofString(requestBody))
-					.build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(this.baseUrl + "/teams/join"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
 
-			HttpResponse<String> response = HttpClient
-					.newBuilder()
-					.build()
-					.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-			if (response.statusCode() == 201) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				Team joinedTeam = objectMapper.readValue(response.body(), new TypeReference<>() {});
-				setTeamData(joinedTeam);
+            if (response.statusCode() == 201) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                Team joinedTeam = objectMapper.readValue(response.body(),
+                        new TypeReference<>() {
+                        });
+                setTeamData(joinedTeam);
 
-				// also set own character type for the game later, depending on the position in the team
-				this.ownCharacterType = joinedTeam.getPlayerLeft().equals(player) ? CharacterType.LEFT : CharacterType.RIGHT;
+                // also set own character type for the game later, depending
+                // on the position in the team
+                this.ownCharacterType = joinedTeam.getPlayerLeft().equals(
+                        player) ? CharacterType.LEFT : CharacterType.RIGHT;
 
-				return true;
-			}
+                return true;
+            }
 
-			if (response.statusCode() == 400) {
-				throw new IllegalArgumentException(response.body().toString());
-			}
-		} catch(IllegalArgumentException e) {
-			this.teamIsSet = false;
-			// forward because we need the message for the error label
-			throw e;
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
+            if (response.statusCode() == 400) {
+                throw new IllegalArgumentException(response.body().toString());
+            }
+        } catch (IllegalArgumentException e) {
+            this.teamIsSet = false;
+            // forward because we need the message for the error label
+            throw e;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-		this.teamIsSet = false;
-		return false;
-	}
+        this.teamIsSet = false;
+        return false;
+    }
 
-	@JsonIgnore
-	@Override
-	public boolean getTeamForPlayer(Player player) {
-		try {
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(new URI(this.baseUrl + "/teams/player/" + player.getEmail() + "/active"))
-					.GET()
-					.build();
+    @JsonIgnore
+    @Override
+    public boolean getTeamForPlayer(Player player) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(
+                            this.baseUrl + "/teams/player/" + player.getEmail() + "/active"))
+                    .GET()
+                    .build();
 
-			HttpResponse<String> response = HttpClient
-					.newBuilder()
-					.build()
-					.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-			if (response.statusCode() == 200) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				ArrayList<Team> teams = objectMapper.readValue(response.body(), new TypeReference<>() {});
-				// set data of first found team for this player after sorting alphabetically
-				teams.sort(Comparator.comparing(Team::getName));
-				setTeamData(teams.get(0));
+            if (response.statusCode() == 200) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                ArrayList<Team> teams = objectMapper.readValue(response.body(),
+                        new TypeReference<>() {
+                        });
+                // set data of first found team for this player after sorting
+                // alphabetically
+                teams.sort(Comparator.comparing(Team::getName));
+                setTeamData(teams.get(0));
 
-				// also set own character type for the game later, depending on the position in the team
-				this.ownCharacterType = teams.get(0).getPlayerLeft().equals(player) ? CharacterType.LEFT : CharacterType.RIGHT;
+                // also set own character type for the game later, depending
+                // on the position in the team
+                this.ownCharacterType = teams.get(0).getPlayerLeft().equals(
+                        player) ? CharacterType.LEFT : CharacterType.RIGHT;
 
-				return true;
-			}
+                return true;
+            }
 
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-		this.teamIsSet = false;
-		return false;
-	}
+        this.teamIsSet = false;
+        return false;
+    }
 
-	@JsonIgnore
-	@Override
-	public boolean saveTeamData() {
-		try {
-			String requestBody = "{\"name\":\"" + this.name
-					+ "\",\"level\":" + this.level
-					+ ", \"score\":" + this.score
-					+ ", \"lives\":" + this.lives
-					+ ", \"active\":" + this.active  + "}";
+    @JsonIgnore
+    @Override
+    public boolean saveTeamData() {
+        try {
+            String requestBody = "{\"name\":\"" + this.name
+                    + "\",\"level\":" + this.level
+                    + ", \"score\":" + this.score
+                    + ", \"lives\":" + this.lives
+                    + ", \"active\":" + this.active + "}";
 
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(new URI(this.baseUrl + "/teams/update"))
-					.header("Content-Type", "application/json")
-					.PUT(HttpRequest.BodyPublishers.ofString(requestBody))
-					.build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(this.baseUrl + "/teams/update"))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
 
-			HttpResponse<String> response = HttpClient
-					.newBuilder()
-					.build()
-					.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-			if (response.statusCode() == 201) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				Team updatedTeam = objectMapper.readValue(response.body(), new TypeReference<>() {});
-				// set data to be sure to have the right data
-				setTeamData(updatedTeam);
-				return true;
-			}
+            if (response.statusCode() == 201) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                Team updatedTeam = objectMapper.readValue(response.body(),
+                        new TypeReference<>() {
+                        });
+                // set data to be sure to have the right data
+                setTeamData(updatedTeam);
+                return true;
+            }
 
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	@JsonIgnore
-	@Override
-	public void resetTeamData() {
-		this.id = 0;
-		this.name = "";
-		this.playerLeft = null;
-		this.playerRight = null;
-		this.lives = 0;
-		this.score = 0;
-		this.level = 0;
-		this.active = false;
+    @JsonIgnore
+    @Override
+    public void resetTeamData() {
+        this.id = 0;
+        this.name = "";
+        this.playerLeft = null;
+        this.playerRight = null;
+        this.lives = 0;
+        this.score = 0;
+        this.level = 0;
+        this.active = false;
 
-		this.teamIsSet = false;
-	}
+        this.teamIsSet = false;
+    }
 
-	@JsonIgnore
-	@Override
-	public void reloadTeamData() {
-		if (this.name == null) {
-			return;
-		}
+    @JsonIgnore
+    @Override
+    public void reloadTeamData() {
+        if (this.name == null) {
+            return;
+        }
 
-		try {
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(new URI(this.baseUrl + "/teams/" + URLEncoder.encode(this.name, StandardCharsets.UTF_8.toString())))
-					.GET()
-					.build();
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(this.baseUrl + "/teams/" + URLEncoder.encode(
+                            this.name, StandardCharsets.UTF_8.toString())))
+                    .GET()
+                    .build();
 
-			HttpResponse<String> response = HttpClient
-					.newBuilder()
-					.build()
-					.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient
+                    .newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-			if (response.statusCode() == 200) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				Team team = objectMapper.readValue(response.body(), new TypeReference<>() {});
-				setTeamData(team);
-			}
+            if (response.statusCode() == 200) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                Team team = objectMapper.readValue(response.body(),
+                        new TypeReference<>() {
+                        });
+                setTeamData(team);
+            }
 
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-	@JsonIgnore
-	private void setTeamData(Team team) {
-		this.id = team.getId();
-		this.name = team.getName();
-		this.playerLeft = team.getPlayerLeft();
-		this.playerRight = team.getPlayerRight();
-		this.lives = team.getLives();
-		this.score = team.getScore();
-		this.level = team.getLevel();
-		this.active = team.getActive();
+    /**
+     * Updates the team model data with given data.
+     *
+     * @param team the team data
+     */
+    @JsonIgnore
+    private void setTeamData(Team team) {
+        this.id = team.getId();
+        this.name = team.getName();
+        this.playerLeft = team.getPlayerLeft();
+        this.playerRight = team.getPlayerRight();
+        this.lives = team.getLives();
+        this.score = team.getScore();
+        this.level = team.getLevel();
+        this.active = team.getActive();
 
-		this.teamIsSet = true;
-	}
+        this.teamIsSet = true;
+    }
 
-	@JsonIgnore
-	@Override
-	public CharacterType getOwnCharacterType() {
-		return this.ownCharacterType;
-	}
+    @JsonIgnore
+    @Override
+    public CharacterType getOwnCharacterType() {
+        return this.ownCharacterType;
+    }
 }
