@@ -40,9 +40,9 @@ public class ViewModelFactory {
     }
 
     /**
-     * Creates and returns an instance of RegistrationViewModel.
+     * Creates and returns an instance of RegistrationLoginViewModel.
      *
-     * @return a new instance of RegistrationViewModel
+     * @return a new instance of RegistrationLoginViewModel
      */
     public RegistrationLoginViewModel getRegistrationLoginViewModel() {
         return new RegistrationLoginViewModel(modelFactory.getPlayerModel(),
