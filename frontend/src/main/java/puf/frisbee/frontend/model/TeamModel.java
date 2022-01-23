@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.nio.charset.StandardCharsets;
 
 public class TeamModel implements Team {
 	private final String baseUrl;
@@ -199,6 +201,8 @@ public class TeamModel implements Team {
 		return false;
 	}
 
+	@JsonIgnore
+	@Override
 	public boolean getTeamForPlayer(Player player) {
 		try {
 			HttpRequest request = HttpRequest.newBuilder()
@@ -232,6 +236,7 @@ public class TeamModel implements Team {
 		return false;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean saveTeamData() {
 		try {
@@ -285,9 +290,13 @@ public class TeamModel implements Team {
 	@JsonIgnore
 	@Override
 	public void reloadTeamData() {
+		if (this.name == null) {
+			return;
+		}
+
 		try {
 			HttpRequest request = HttpRequest.newBuilder()
-					.uri(new URI(this.baseUrl + "/teams/" + this.name))
+					.uri(new URI(this.baseUrl + "/teams/" + URLEncoder.encode(this.name, StandardCharsets.UTF_8.toString())))
 					.GET()
 					.build();
 
