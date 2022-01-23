@@ -96,6 +96,8 @@ public class StartViewModel {
                           Highscore highscoreModel, Player playerModel) {
         this.gameModel = gameModel;
         this.teamModel = teamModel;
+        // reload team data from backend to be sure to have the newest data to display
+        this.teamModel.reloadTeamData();
         this.highscoreModel = highscoreModel;
         this.playerModel = playerModel;
 
