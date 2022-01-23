@@ -12,10 +12,10 @@ public class BackgroundImageView {
     private ImageView backgroundImage;
 
     /**
-     * Init method used in other views, sets waiting view model and background
-     * image.
+     * Init method used in other views, sets background image view model and
+     * background image.
      *
-     * @param backgroundImageViewModel the waiting view model instance
+     * @param backgroundImageViewModel the background image view model instance
      */
     public void init(BackgroundImageViewModel backgroundImageViewModel) {
         this.backgroundImage.imageProperty().bind(
