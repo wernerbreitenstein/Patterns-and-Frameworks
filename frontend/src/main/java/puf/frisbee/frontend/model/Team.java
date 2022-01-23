@@ -108,7 +108,7 @@ public interface Team {
 	/**
 	 * Returns the path to the background image for the current level.
 	 *
-	 * @param Level the current level
+	 * @param level the current level
 	 *
 	 * @return path to background images for the current level
 	 */
