@@ -1,5 +1,6 @@
 package puf.frisbee.frontend.model;
 
+import puf.frisbee.frontend.network.GameRunningStatus;
 import puf.frisbee.frontend.network.SocketClient;
 import puf.frisbee.frontend.network.SocketRequestType;
 
@@ -37,7 +38,7 @@ public class CharacterModel implements Character {
                 this::forwardNotificationAsBoolean);
         // add listener to game status
         socketClient.addPropertyChangeListener(SocketRequestType.GAME_RUNNING,
-                this::forwardNotificationAsBoolean);
+                this::forwardNotification);
         // add listener to socket income changes for movement
         socketClient.addPropertyChangeListener(SocketRequestType.MOVE,
                 this::forwardNotification);
@@ -65,14 +66,22 @@ public class CharacterModel implements Character {
 
     @Override
     public void startGame() {
-        // tell the other client the game has started
-        this.socketClient.sendGameRunningToServer(true);
+        this.socketClient.sendGameRunningStatusToServer(GameRunningStatus.START);
     }
 
     @Override
-    public void stopGame() {
-        // tell the other client the game has stopped
-        this.socketClient.sendGameRunningToServer(false);
+    public void pauseGame() {
+        this.socketClient.sendGameRunningStatusToServer(GameRunningStatus.PAUSE);
+    }
+
+    @Override
+    public void continueGame() {
+        this.socketClient.sendGameRunningStatusToServer(GameRunningStatus.CONTINUE);
+    }
+
+    @Override
+    public void resumeGame() {
+        this.socketClient.sendGameRunningStatusToServer(GameRunningStatus.RESUME);
     }
 
     @Override

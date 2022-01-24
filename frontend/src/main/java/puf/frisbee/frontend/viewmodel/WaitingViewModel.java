@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import puf.frisbee.frontend.model.*;
 import puf.frisbee.frontend.model.Character;
+import puf.frisbee.frontend.network.GameRunningStatus;
 import puf.frisbee.frontend.network.SocketRequestType;
 
 import java.beans.PropertyChangeEvent;
@@ -147,13 +148,13 @@ public class WaitingViewModel {
 
     /**
      * This method is called when the game running status in the character model
-     * is true.
+     * is set to start.
      * It notifies all subscribers of the waiting view model support.
      *
      * @param event property change event
      */
     private void changeRedirectToGameProperty(PropertyChangeEvent event) {
-        if ((boolean) event.getNewValue()) {
+        if (event.getNewValue() == GameRunningStatus.START) {
             // notify view like this since the redirect is not an element
             this.support.firePropertyChange("running", null, true);
         }

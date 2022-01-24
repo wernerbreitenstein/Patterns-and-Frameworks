@@ -24,10 +24,22 @@ public interface Character {
     void startGame();
 
     /**
-     * Sends a message to the server to notify the other client to stop the
+     * Sends a message to the server to notify the other client to pause the
      * game.
      */
-    void stopGame();
+    void pauseGame();
+
+    /**
+     * Sends a message to the server to notify the other client to resume the
+     * game.
+     */
+    void resumeGame();
+
+    /**
+     * Sends a message to the server to notify the other client to continue the
+     * game, e.g. after a level success dialog.
+     */
+    void continueGame();
 
     /**
      * Send a message to socket as soon as own position is moved, so the
