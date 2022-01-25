@@ -7,6 +7,7 @@ import javafx.util.Duration;
 import puf.frisbee.frontend.core.Constants;
 import puf.frisbee.frontend.model.*;
 import puf.frisbee.frontend.model.Character;
+import puf.frisbee.frontend.network.GameRunningStatus;
 import puf.frisbee.frontend.network.SocketRequestType;
 import puf.frisbee.frontend.utils.Calculations;
 
@@ -265,9 +266,6 @@ public class GameViewModel {
         this.gameModel = gameModel;
         this.levelModel = levelModel;
         this.teamModel = teamModel;
-        // reload team data from backend to be sure to have the newest data
-        // to display
-        this.teamModel.reloadTeamData();
         this.characterModel = characterModel;
 
         // own property change support to trigger redirects in the view
@@ -499,25 +497,21 @@ public class GameViewModel {
     }
 
     /**
+     * Updates the team model with current data.
      * Pauses the timer in the top panel and sets the showQuitConfirmDialog
      * visibility to true.
      */
     private void pauseCountdown() {
-        if (!this.showGameOverDialog.getValue()) {
-            this.timeline.pause();
-            this.gameModel.setCurrentCountdown(this.second);
-            this.showQuitConfirmDialog.setValue(true);
-        }
-    }
-
-    /**
-     * Continues the game with the previous values.
-     */
-    private void continueGameAfterPause() {
-        this.teamModel.setLevel(this.teamModel.getLevel());
+        // save all values to the models, because on resume the view
+        // model is re-initialized
+        this.gameModel.setCurrentCountdown(this.second);
         this.teamModel.setScore(this.labelScore.getValue());
         this.teamModel.setLives(this.remainingLives);
-        this.showQuitConfirmDialog.setValue(false);
+
+        if (!this.showGameOverDialog.getValue()) {
+            this.timeline.pause();
+            this.showQuitConfirmDialog.setValue(true);
+        }
     }
 
     /**
@@ -586,20 +580,29 @@ public class GameViewModel {
      */
     private void updateOtherCharacterGameRunningStatus(
             PropertyChangeEvent event) {
-        boolean gameRunning = (boolean) event.getNewValue();
+        GameRunningStatus gameRunningStatus = (GameRunningStatus) event.getNewValue();
 
-        if (gameRunning && this.showQuitConfirmDialog.getValue()) {
-            // we got the trigger GAME_RUNNING=true and the pause dialog was
-            // open, so close it
-            Platform.runLater(this::continueGameAfterPause);
-        } else if (!gameRunning && !this.showQuitConfirmDialog.getValue()) {
-            // we got the trigger GAME_RUNNING=false and the pause dialog was
-            // not, so open it
+        if (gameRunningStatus == GameRunningStatus.PAUSE) {
             Platform.runLater(this::pauseCountdown);
-        } else if (gameRunning && this.showLevelSuccessDialog.getValue()) {
-            // we got the trigger GAME_RUNNING=true and the level success
-            // dialog was open, trigger a redirect notify view like this,
-            // since the redirect is not an element on the view
+        }
+
+        if (gameRunningStatus == GameRunningStatus.RESUME) {
+            // trigger a redirect to notify view like this, since the
+            // redirect is not an element on the view
+            Platform.runLater(() -> {
+                this.support.firePropertyChange("running", null, true);
+            });
+        }
+
+        if (gameRunningStatus == GameRunningStatus.CONTINUE) {
+            // reload team data from backend to be sure to have the newest data
+            // to display
+            this.teamModel.reloadTeamData();
+            // reset countdown
+            this.gameModel.setCurrentCountdown(
+                    this.gameModel.getInitialCountdown());
+            // trigger a redirect to notify view like this, since the
+            // redirect is not an element on the view
             Platform.runLater(() -> {
                 this.showLevelSuccessDialog.setValue(false);
                 this.support.firePropertyChange("running", null, true);
@@ -620,6 +623,7 @@ public class GameViewModel {
             // character probably disconnected show a dialog (if not already
             // there) and close others
             Platform.runLater(() -> {
+                showGameSuccessDialog.setValue(false);
                 showLevelSuccessDialog.setValue(false);
                 showQuitConfirmDialog.setValue(false);
                 showDisconnectDialog.setValue(true);
@@ -940,46 +944,54 @@ public class GameViewModel {
      */
     public void showQuitConfirmDialog() {
         // notify other client to also pause
-        this.characterModel.stopGame();
+        this.characterModel.pauseGame();
         // trigger all actions
         this.pauseCountdown();
     }
 
     /**
-     * Continues the game after pause or level success and sends
-     * GAME_RUNNING=true to the other client.
+     * Continues the game after level success and sends a message to the other
+     * client.
      */
     public void continueGame() {
         // notify other client to also continue
-        this.characterModel.startGame();
-        // if we are in pause, close the dialog
-        if (this.showQuitConfirmDialog.getValue()) {
-            this.continueGameAfterPause();
-        }
+        this.characterModel.continueGame();
+    }
+
+    /**
+     * Continues the game after pause and sends a message to the other
+     * client.
+     */
+    public void resumeGame() {
+        this.characterModel.resumeGame();
     }
 
     /**
      * Save the game data from the team model to the backend.
+     *
+     * @return true if saving was successful
      */
-    private void saveGame() {
-        // save to backend
-        this.teamModel.saveTeamData();
+    private boolean saveGame() {
         // reset countdown
         this.gameModel.setCurrentCountdown(
                 this.gameModel.getInitialCountdown());
+        // save to backend
+        return this.teamModel.saveTeamData();
     }
 
     /**
      * This method is called when a level has been finished successfully.
      * It increases the level and triggers a save to the backend.
+     *
+     * @return true if saving was successful
      */
-    public void saveAfterLevelSucceeded() {
+    public boolean saveAfterLevelSucceeded() {
         // increase level after successful level
         this.teamModel.setLevel(this.teamModel.getLevel() + 1);
         this.teamModel.setScore(this.labelScore.getValue());
         this.teamModel.setLives(this.remainingLives);
         this.teamModel.setActive(true);
-        this.saveGame();
+        return this.saveGame();
     }
 
     /**
@@ -1069,7 +1081,7 @@ public class GameViewModel {
      * @return right character's y position value
      */
     public DoubleProperty getCharacterRightYPositionProperty() {
-        // return own character position if own character is right,
+        // return own character position if own character is right,—
         // otherwise other character position
         return this.ownCharacter == CharacterType.RIGHT
                 ? this.ownCharacterYPosition : this.otherCharacterYPosition;

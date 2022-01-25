@@ -104,6 +104,9 @@ public class SocketClient {
                     case THROW -> propertyValue =
                             FrisbeeParameter.stringToObject(
                                     response.getValue());
+                    case GAME_RUNNING -> propertyValue =
+                            mapGameRunningStringToGameRunningStatus(
+                            response.getValue());
                     // default is we are just passing the value through
                     default -> propertyValue = response.getValue();
                 }
@@ -144,6 +147,30 @@ public class SocketClient {
     }
 
     /**
+     * Helper method to convert game running strings from the socket to enums.
+     *
+     * @param gameRunning status as string
+     * @return status as enum
+     */
+    private GameRunningStatus mapGameRunningStringToGameRunningStatus(
+            String gameRunning) {
+        if (gameRunning.equals(GameRunningStatus.START.name())) {
+            return GameRunningStatus.START;
+        }
+        if (gameRunning.equals(GameRunningStatus.PAUSE.name())) {
+            return GameRunningStatus.PAUSE;
+        }
+        if (gameRunning.equals(GameRunningStatus.RESUME.name())) {
+            return GameRunningStatus.RESUME;
+        }
+        if (gameRunning.equals(GameRunningStatus.CONTINUE.name())) {
+            return GameRunningStatus.CONTINUE;
+        }
+
+        return null;
+    }
+
+    /**
      * Transfers the team name to the server.
      *
      * @param teamName name of the team
@@ -164,14 +191,13 @@ public class SocketClient {
     }
 
     /**
-     * Sends GAME_RUNNING to the server.
+     * Sends GAME_RUNNING with a value to the server.
      *
-     * @param value true if game is running, false if not
+     * @param value the value of game running
      */
-    public void sendGameRunningToServer(boolean value) {
-        String status = value ? "true" : "false";
+    public void sendGameRunningStatusToServer(GameRunningStatus value) {
         SocketRequest request = new SocketRequest(
-                SocketRequestType.GAME_RUNNING, status);
+                SocketRequestType.GAME_RUNNING, value.name());
         sendToServer(request);
     }
 

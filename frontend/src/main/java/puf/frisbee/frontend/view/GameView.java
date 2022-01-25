@@ -196,9 +196,13 @@ public class GameView {
      */
     @FXML
     private void handleButtonLevelSuccessContinue(ActionEvent event) {
-        this.gameViewModel.saveAfterLevelSucceeded();
-        this.gameViewModel.continueGame();
-        this.viewHandler.openGameView();
+        boolean saveSuccessful = this.gameViewModel.saveAfterLevelSucceeded();
+        // wait for save before doing anything else, so the other player can
+        // sync
+        if (saveSuccessful) {
+            this.gameViewModel.continueGame();
+            this.viewHandler.openGameView();
+        }
     }
 
     /**
@@ -254,7 +258,7 @@ public class GameView {
      */
     @FXML
     private void handleButtonQuitGameContinue(ActionEvent event) {
-        this.gameViewModel.continueGame();
+        this.gameViewModel.resumeGame();
         this.viewHandler.openGameView();
     }
 
