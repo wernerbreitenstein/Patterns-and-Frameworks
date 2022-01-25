@@ -524,6 +524,7 @@ public class GameViewModel {
     private void executeOtherCharacterMovement(PropertyChangeEvent event) {
         MovementDirection movementDirection =
                 (MovementDirection) event.getNewValue();
+
         if (movementDirection == MovementDirection.LEFT) {
             // update in javafx thread
             Platform.runLater(() -> otherCharacterXPosition.setValue(
@@ -567,7 +568,7 @@ public class GameViewModel {
         this.frisbeeThrowDirection = this.ownCharacter == CharacterType.LEFT
                 ? -1 : 1;
         // this triggers the animation timer frisbee moving
-        Platform.runLater(() -> isFrisbeeMoving = true);
+        this.isFrisbeeMoving = true;
     }
 
     /**
@@ -589,9 +590,7 @@ public class GameViewModel {
         if (gameRunningStatus == GameRunningStatus.RESUME) {
             // trigger a redirect to notify view like this, since the
             // redirect is not an element on the view
-            Platform.runLater(() -> {
-                this.support.firePropertyChange("running", null, true);
-            });
+            this.support.firePropertyChange("running", null, true);
         }
 
         if (gameRunningStatus == GameRunningStatus.CONTINUE) {
@@ -605,8 +604,8 @@ public class GameViewModel {
             // redirect is not an element on the view
             Platform.runLater(() -> {
                 this.showLevelSuccessDialog.setValue(false);
-                this.support.firePropertyChange("running", null, true);
             });
+            this.support.firePropertyChange("running", null, true);
         }
     }
 
