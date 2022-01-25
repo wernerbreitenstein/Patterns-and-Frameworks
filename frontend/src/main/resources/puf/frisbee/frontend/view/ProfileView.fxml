@@ -36,7 +36,11 @@
                      </styleClass>
                   </TextField>
                   <Label styleClass="form-label" stylesheets="@../css/form.css" text="PASSWORD" />
-                  <PasswordField fx:id="profilePassword" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" styleClass="form-inputfield" stylesheets="@../css/form.css" />
+                  <PasswordField fx:id="profilePassword" editable="false" maxWidth="-Infinity" prefHeight="26.0" prefWidth="200.0" stylesheets="@../css/form.css">
+                     <styleClass>
+                        <String fx:value="form-inputfield" />
+                        <String fx:value="form-inputfield-disabled" />
+                     </styleClass></PasswordField>
                    <Label fx:id="profileError" stylesheets="@../css/form.css" text="This is an errormessage.">
                      <styleClass>
                         <String fx:value="form-label" />
