@@ -1,0 +1,7 @@
+module:puf.frisbee.frontend
+puf.frisbee.frontend
+puf.frisbee.frontend.core
+puf.frisbee.frontend.model
+puf.frisbee.frontend.network
+puf.frisbee.frontend.view
+puf.frisbee.frontend.viewmodel

@@ -197,6 +197,11 @@ public class SocketClient {
         sendToServer(request);
     }
 
+    /**
+     * Sends the request as string to the server.
+     *
+     * @param request socket request
+     */
     private void sendToServer(SocketRequest request) {
         try {
             ObjectMapper mapper = new ObjectMapper();

@@ -108,6 +108,10 @@ Die Spieldaten werden in einer PostgreSQL Datenbank gespeichert.
 Die Anwendung funktioniert nur mit laufendem Backend.
 Ist die Umgebungsvariable auf das Produktivsystem gesetzt, dann muss das Backend nicht lokal gestartet werden.
 
+## Dokumentation
+Die Dokumentation wird mit `mvn javadoc:javadoc` erstellt. Sie kann dann 
+unter `frontend/documentation/apidocs/index.html` aufgerufen werden.
+
 
 # Architekturentscheidungen
 Wir benutzen das MVVM-Pattern ohne Framework.
