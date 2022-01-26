@@ -1,19 +1,18 @@
 # Beschreibung Patterns-and-Frameworks
 
-Semesterprojekt zur Entwicklung eines auf Java/JavaFX basierenden
-Computerspiels.
+Semesterprojekt zur Entwicklung eines auf Java/JavaFX basierenden Computerspiels.
 
 # Spielablauf
 
 ### Startseite und Highscore
 
-Auf der Startseite befindet sich eine Highscore Tabelle mit allen Teams und den
+Auf der Startseite befindet sich eine Highscore Tabelle mit allen Teams, den
 jeweiligen Leveln und der erreichten Punktzahl. Über die Startseite kann sich
-ein Spieler registrieren oder einloggen, sein Profil ändern, ein Team anlegen
-oder einem Team beitreten oder ein Spiel starten.
+ein Spieler registrieren oder einloggen, sein Profil ändern, ein Team anlegen, 
+einem Team beitreten oder ein Spiel starten.
 
-Ist ein Spieler eingeloggt und ist er in einem aktiven Team registriert, so
-werden im Top Panel der Startseite die aktuellen Teamdaten geladen.
+Ist ein Spieler eingeloggt und ist er in einem aktiven Team registriert, 
+so werden im Top Panel der Startseite die aktuellen Teamdaten geladen.
 
 ### Registrierung und Login
 
@@ -22,10 +21,9 @@ Button "Login/Register". Mit Klick hierauf kommt der Spieler auf eine neue Seite
 mit zwei alternativen Eingabeformularen.
 
 Ist der Spieler bereits registriert, kann er sich hier links mit seiner
-Emailadresse und seinem Passwort einloggen
-(die Emailadresse ist einzigartig). Aus dem Backend werden die entsprechenden
-Spielerdaten inklusive eventuell bereits bestehender Teams geladen und der
-Spieler wird auf die Startseite zurückgeleitet.
+Emailadresse und seinem Passwort einloggen (die Emailadresse ist einzigartig). 
+Aus dem Backend werden die entsprechenden Spielerdaten inklusive eventuell bereits 
+bestehender Teams geladen und der Spieler wird auf die Startseite zurückgeleitet.
 
 Ist der Spieler noch nicht registriert, kann er das rechts mit seinem Namen,
 seiner Emailadresse und einem Passwort tun. Der Spieler wird dann entsprechend
@@ -36,14 +34,14 @@ Bei Falscheingaben werden Validierungsfehler angezeigt.
 
 ### Settings
 
-Eingeloggte Spieler sehen auf der Startsteite rechts oben einen Button "
-Settings", unter dem sie weitere Einstellungen vornehmen können.
+Eingeloggte Spieler sehen auf der Startsteite rechts oben einen Button "Settings", 
+unter dem sie weitere Einstellungen vornehmen können.
 
 #### Profile
 
 Unter Profil kann der Name des Spielers geändert werden. Die Änderungen werden
 in der Datenbank entsprechend synchronisiert. Das Ändern des Passworts ist für
-später vorgesehen, wurde jedoch noch nicht umgesetzt.
+später vorgesehen, wurde also noch nicht umgesetzt.
 
 Bei Falscheingaben werden Validierungsfehler angezeigt.
 
@@ -73,10 +71,10 @@ zu erstellen oder einem Team beizutreten, angezeigt. Ist der Spieler Teil eines
 aktiven Teams, werden oben im Top Panel die Teamdaten und unter der Highscore
 Tabelle der Startbutton angezeigt.
 
-Nach dem Start wird der Spieler auf den Wartebereich geleitet - hier wird auf
+Nach dem Start wird der Spieler auf den Wartebereich geleitet, hier wird auf
 den zweiten Spieler des Teams gewartet. Wenn sich beide Spieler im Wartebereich
-befinden, wird der Start-Button aktiv geschaltet und sobald einer der Spieler
-auf den diesen klickt, beginnt das Spiel. Verlässt einer der Spieler den
+befinden, wird der Start-Button aktiv geschaltet. Sobald einer der Spieler
+auf seinen Button klickt, beginnt das Spiel. Verlässt einer der Spieler den
 Wartebereich vorzeitig, dann ist der Start-Button wieder inaktiv.
 
 Das Spiel startet bei einem neuen Team mit Level 1. Bei einem bestehenden Team
@@ -87,14 +85,14 @@ Das Spiel wird gespielt, indem auf den Frisbee geklickt wird. Jeder Spieler kann
 nur auf den Frisbee klicken, der bei seinem eigenen Character ist. Der Frisbee
 fliegt dann mit einem ermittelten Zufallswert zum anderen Spieler, der diesen
 fangen muss. Spieler können mit den Pfeiltasten den eigenen Character nach
-rechts und links bewegt werden, sowie hüpfen. Die Spieler dürfen sich außerdem
+rechts und links bewegen, sowie hüpfen. Die Spieler dürfen sich außerdem
 nur bis auf einen festgelegten Mindestabstand nähern. Wird der Frisbee gefangen,
-gibt es einen Punkt. Wird der Frisbee nicht gefangen, dann wird ein Leben (
-Frisbee) abgezogen. Nach einem festgelegten Countdown ist ein Level beendet.
+gibt es einen Punkt. Wird der Frisbee nicht gefangen, dann wird ein Leben (Frisbee) 
+abgezogen. Nach einem festgelegten Countdown ist ein Level beendet.
 
 Sind alle Leben verloren, dann ist das Spiel beendet und es wird ein
 entsprechender Dialog angezeigt. Die erreichten Punkte werden in der Datenbank
-gespeichert und der Spieler kann zurück auf die Startsteite. Hier muss er ein
+gespeichert und der Spieler kann zurück auf die Startseite. Hier muss er ein
 neues Team anlegen, um weiterzuspielen.
 
 Wurde ein Level erfolgreich beendet, dann wird ein entsprechender Dialog
@@ -103,10 +101,10 @@ und Leben in der Datenbank gespeichert und der Spieler kann entweder direkt
 weiterspielen oder zurück zur Startseite. Sobald ein Spieler auf den
 Weiter-Button klickt, beginnt das nächste Level für beide Spieler.
 
-Wurde das letzte Level (momentan Levle 3) beendet, so ist das Spiel gewonnen.
-Dem Spieler wird ein entsprechender Dialog angezeigt, die erreichten Punkte und
-Leben werden in der Datenbank gespeichert und der Spieler kann zurück auf die
-Startseite navigieren. Möchte er weiterspielen, muss ein neues Team angelegt
+Wurde das letzte Level (momentan Level 3) beendet, so ist das Spiel gewonnen.
+Den Spielern wird ein entsprechender Dialog angezeigt, die erreichten Punkte und
+Leben werden in der Datenbank gespeichert und jeder Spieler kann zurück auf die
+Startseite navigieren. Möchte ein Spieler weiterspielen, muss ein neues Team angelegt
 werden und ein zweiter Spieler muss diesem Team beitreten.
 
 Während dem Spiel kann unten rechts mit "Quit" jederzeit unterbrochen werden. In
@@ -141,7 +139,7 @@ ist `puf.frisbee.frontend.StartApplication`.
 ### Umgebungsvariablen
 
 Für die Kommunikation mit dem Backend muss `.env.example` in ein neues
-File `.env` kopiert werden. Je nachdem, ob mit dem lokalen oder deploytem
+File `.env` kopiert werden. Je nachdem, ob mit dem lokalen oder deployten
 Backend kommuniziert werden soll, müssen die Environment Variablen angepasst
 werden.
 
@@ -157,8 +155,8 @@ produktiv geschalteten Backend kommunizieren, muss ein Tunnel aufgebaut werden.
 
 # Architekturentscheidungen
 
-Wir benutzen das MVVM-Pattern ohne Framework. Die Instancen der verschiedenen
-Models, Views und ViewModels werden über Factories verwaltet.
+Wir benutzen das MVVM-Pattern ohne Framework. Die Instanzen der verschiedenen
+Models, Views und ViewModels werden über Factories erzeugt.
 
 Die Umsetzung des Spiels als Multi-Player-Game erfolgt mithilfe von Sockets. Die
 Bewegungsanweisungen der Spieler, sowie die Parameter der Flugbahn des Frisbees
