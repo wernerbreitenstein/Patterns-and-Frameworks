@@ -153,6 +153,10 @@ Die Spieldaten werden in einer PostgreSQL Datenbank gespeichert.
 Die Anwendung funktioniert nur mit laufendem Backend. Soll die Anwendung mit dem
 produktiv geschalteten Backend kommunizieren, muss ein Tunnel aufgebaut werden.
 
+## Dokumentation
+Die Dokumentation wird mit `mvn javadoc:javadoc` erstellt. Sie kann dann
+unter `frontend/documentation/apidocs/index.html` aufgerufen werden.
+
 # Architekturentscheidungen
 
 Wir benutzen das MVVM-Pattern ohne Framework. Die Instanzen der verschiedenen
