@@ -159,7 +159,17 @@ unter `frontend/documentation/apidocs/index.html` aufgerufen werden.
 
 # Architekturentscheidungen
 
-Wir benutzen das MVVM-Pattern ohne Framework. Die Instanzen der verschiedenen
+Für das Frontend haben wir uns aufgrund des komplexen Datenflusses für das 
+MVVM Framework entschieden. Durch dieses Framework sind die Zuständigkeiten 
+der einzelnen Komponenten und Klassen klar geregelt. Die View Models 
+beziehen ihre Daten von den Models und beinhalten die gesamte Businesslogik. 
+Die Views wiederum holen sich durch (einseitiges) Databinding die Daten von 
+den View Models, um diese anzuzeigen. Da die Views die UI kontrollieren,
+stellen die View Models diesen auch Methoden zur Auslösung von Ereignissen 
+zur Verfügung.
+
+Wir benutzen das MVVM-Pattern ohne Framework, da existierende Frameworks 
+schon seit längerem nicht mehr gepflegt werden. Die Instanzen der verschiedenen
 Models, Views und ViewModels werden über Factories erzeugt.
 
 Die Umsetzung des Spiels als Multi-Player-Game erfolgt mithilfe von Sockets. Die
@@ -168,6 +178,16 @@ werden durch Requests an das Backend gesendet und dort (nachdem zwei Spieler
 durch ihren Teamnamen gematched wurden) weitergeleitet. Die Berechnung der
 Bewegungen und der Flugbahn geschieht dann im jeweiligen Client. So wird die
 Datenübertragung minimal gehalten.
+
+Um unbefugten Zugriff von Views und View Models auf die Socket Klassen zu 
+vermeiden, nutzen wir hier ebenfalls wie bei dem MVVM Framework das Observer 
+Pattern. Der Socket Client benachrichtigt das Character Model über 
+eingehende Ereignisse, das Character Model wiederum benachrichtigt das 
+Waiting View Model und das Game View Model. Diese leiten die Ereignisse 
+entweder über Databinding oder ebenfalls über Benachrichtigungen an die 
+jeweiligen Views weiter. 
+
+Der Datenfluss in der Applikation ist immer von oben nach unten gerichtet. 
 
 ## Frameworks und libraries
 
