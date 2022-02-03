@@ -231,6 +231,7 @@ public class GameView {
     private void handleButtonGameSuccessQuit(ActionEvent event) {
         // the game ends here
         this.gameViewModel.saveAfterGameSucceeded();
+        this.gameViewModel.disconnect();
         this.viewHandler.openStartView();
     }
 
@@ -245,6 +246,7 @@ public class GameView {
     private void handleButtonGameOverQuit(ActionEvent event) {
         // the game ends here
         this.gameViewModel.saveAfterGameOver();
+        this.gameViewModel.disconnect();
         this.viewHandler.openStartView();
     }
 
